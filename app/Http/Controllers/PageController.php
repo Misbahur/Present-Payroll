@@ -44,10 +44,7 @@ class PageController extends Controller
 
             // dd($users);
             // dd($att);
-<<<<<<< HEAD
-=======
-            echo 'tes';
->>>>>>> db723c58cc87e157567cd71644ef033330334c51
+            echo 'tes commit';
 
             // foreach ($users as $x) {
             //     $uid = $x['userid'];
