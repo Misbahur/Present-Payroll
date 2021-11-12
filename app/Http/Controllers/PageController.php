@@ -43,7 +43,8 @@ class PageController extends Controller
         $temp_id = 0;
 
             // dd($users);
-            dd($att);
+            // dd($att);
+            echo 'tes';
 
             // foreach ($users as $x) {
             //     $uid = $x['userid'];
