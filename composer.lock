@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "825f9a7995b425187a22087ec1bf8358",
+    "content-hash": "6076a89c4a011bc86f21e5b52f0e54be",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2698,6 +2698,43 @@
                 }
             ],
             "time": "2021-08-11T01:06:55+00:00"
+        },
+        {
+            "name": "rats/zkteco",
+            "version": "V001",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/raihanafroz/zkteco.git",
+                "reference": "1295a795dcd1bead7e277161dacfa9419eced72f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/raihanafroz/zkteco/zipball/1295a795dcd1bead7e277161dacfa9419eced72f",
+                "reference": "1295a795dcd1bead7e277161dacfa9419eced72f",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Rats\\Zkteco\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Raihan Afroz",
+                    "email": "raihanafroz9@gmail.com"
+                }
+            ],
+            "description": "ZKTeco Laravel Library",
+            "support": {
+                "issues": "https://github.com/raihanafroz/zkteco/issues",
+                "source": "https://github.com/raihanafroz/zkteco/tree/master"
+            },
+            "time": "2020-08-19T15:19:26+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

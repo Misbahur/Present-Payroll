@@ -3,6 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Rats\Zkteco\Lib\ZKTeco;
+use App\Models\tgl;
+
+
+//  1 s't parameter is string $ip Device IP Address
+//  2 nd  parameter is integer $port Default: 4370
+  
+    
+    
+
+    
+  
+    
+
 
 class PageController extends Controller
 {
@@ -12,6 +26,142 @@ class PageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        
+    }
+
+    public function kehadiran()
+    {
+        // $zk = new ZKTeco('192.168.1.201', 4370);
+        // $zk->connect();
+        // $zk->disableDevice();
+        // $users = $zk->getUser();
+        // $att = $zk->getAttendance();
+        // $fp = $zk->getFingerprint(4);
+        // $temp_id = 0;
+
+            // dd($users);
+            // dd($att);
+
+            // foreach ($users as $x) {
+            //     $uid = $x['userid'];
+            //     $uname = $x['name'];
+            // }
+
+            // foreach ($att as $x):
+            //     if( $temp_id != $x['id']):
+            //         foreach ($users as $p):
+            //             if($p['userid'] == $x['id']):
+            //             $tgl = tgl::create([
+            //                 'id_user'     => $x['id'],
+            //                 'nama'     => $p['name'],
+            //                 'tgl'   => $x['timestamp']
+            //             ]);
+            //             // echo $x['id'] . '</br>';
+            //             // echo $x['timestamp'] . '</br>';
+            //             // echo $p['name'] . '</br>';
+            //             endif;
+            //         endforeach;
+            //     endif;
+            //     $temp_id = $x['id'];
+            // endforeach; 
+
+            $data = tgl::all();
+            return view('gocay/kehadiran', compact('data'));
+
+            // $tgl = tgl::create([
+            //     'id_user'     => $request->title,
+            //     'tgl'   => $request->content
+            // ]);
+
+            // if($tgl){
+            //     //redirect dengan pesan sukses
+            //     // return redirect()->route('blog.index')->with(['success' => 'Data Berhasil Disimpan!']);
+            //     return view('gocay/kehadiran', []);
+            // }else{
+            //     //redirect dengan pesan error
+            //     // return redirect()->route('blog.index')->with(['error' => 'Data Gagal Disimpan!']);
+            //     return view('gocay/kehadiran', []);
+            // }
+        
+    }
+
+    public function karyawan()
+    {
+        return view('gocay/karyawan', [
+            
+        ]);
+    }
+
+    public function jabatan()
+    {
+        return view('gocay/jabatan', [
+            
+        ]);
+    }
+
+    publIc function departemen()
+    {
+        return view('gocay/departemen', [
+            
+        ]);
+    }
+    
+    public function kelompokKaryawan()
+    {
+        return view('gocay/kelompok-karyawan', [
+            
+        ]);
+    }
+
+    public function kalender()
+    {
+        return view('gocay/kalender', [
+            
+        ]);
+    }
+
+    public function gaji()
+    {
+        return view('gocay/gaji', [
+            
+        ]);
+    }
+
+    public function komponenGaji()
+    {
+        return view('gocay/komponen-gaji', [
+            
+        ]);
+    }
+
+    public function lembur()
+    {
+        return view('gocay/lembur', [
+            
+        ]);
+    }
+
+    public function polaKerja()
+    {
+        return view('gocay/pola-kerja', [
+            
+        ]);
+    }
+
+    public function settingPerusahaan()
+    {
+        return view('gocay/setting-perusahaan', [
+            
+        ]);
+    }
+
+
+
+
+
     public function dashboardOverview1()
     {
         return view('pages/dashboard-overview-1', [

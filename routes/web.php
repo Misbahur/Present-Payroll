@@ -85,4 +85,20 @@ Route::middleware('auth')->group(function() {
     Route::get('chart-page', [PageController::class, 'chart'])->name('chart');
     Route::get('slider-page', [PageController::class, 'slider'])->name('slider');
     Route::get('image-zoom-page', [PageController::class, 'imageZoom'])->name('image-zoom');
+    // Gocay Routing
+    Route::get('/', [PageController::class, 'kehadiran'])->name('kehadiran');
+    Route::get('kehadiran', [PageController::class, 'kehadiran'])->name('kehadiran');
+    Route::get('karyawan', [PageController::class, 'karyawan'])->name('karyawan');
+    Route::get('kelompok-karyawan', [PageController::class, 'kelompokKaryawan'])->name('kelompok-karyawan');
+    Route::get('jabatan', [PageController::class, 'jabatan'])->name('jabatan');
+    Route::get('departemen', [PageController::class, 'departemen'])->name('departemen');
+    Route::get('pola-kerja', [PageController::class, 'polaKerja'])->name('pola-kerja');
+    Route::get('kalender', [PageController::class, 'kalender'])->name('kalender');
+    Route::get('gaji', [PageController::class, 'gaji'])->name('gaji');
+    Route::get('komponen-gaji', [PageController::class, 'komponenGaji'])->name('komponen-gaji');
+    Route::get('lembur', [PageController::class, 'lembur'])->name('lembur');
+
+    Route::get('setting-perusahaan', [PageController::class, 'settingPerusahaan'])->name('setting-perusahaan');
+
+
 });
