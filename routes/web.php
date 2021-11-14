@@ -3,7 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\DarkModeController;
+
+use App\Models\Pegawai;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -86,9 +90,10 @@ Route::middleware('auth')->group(function() {
     Route::get('slider-page', [PageController::class, 'slider'])->name('slider');
     Route::get('image-zoom-page', [PageController::class, 'imageZoom'])->name('image-zoom');
     // Gocay Routing
-    Route::get('/', [PageController::class, 'kehadiran'])->name('kehadiran');
+    // Route::get('/', [PageController::class, 'kehadiran'])->name('kehadiran');
+    Route::get('karyawan', [PegawaiController::class, 'index'])->name('karyawan');
     Route::get('kehadiran', [PageController::class, 'kehadiran'])->name('kehadiran');
-    Route::get('karyawan', [PageController::class, 'karyawan'])->name('karyawan');
+    // Route::get('karyawan', [PageController::class, 'karyawan'])->name('karyawan');
     Route::get('kelompok-karyawan', [PageController::class, 'kelompokKaryawan'])->name('kelompok-karyawan');
     Route::get('jabatan', [PageController::class, 'jabatan'])->name('jabatan');
     Route::get('departemen', [PageController::class, 'departemen'])->name('departemen');
@@ -99,6 +104,9 @@ Route::middleware('auth')->group(function() {
     Route::get('lembur', [PageController::class, 'lembur'])->name('lembur');
 
     Route::get('setting-perusahaan', [PageController::class, 'settingPerusahaan'])->name('setting-perusahaan');
+
+    
+
 
 
 });

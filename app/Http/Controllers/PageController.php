@@ -7,17 +7,6 @@ use Rats\Zkteco\Lib\ZKTeco;
 use App\Models\tgl;
 
 
-//  1 s't parameter is string $ip Device IP Address
-//  2 nd  parameter is integer $port Default: 4370
-  
-    
-    
-
-    
-  
-    
-
-
 class PageController extends Controller
 {
     /**
@@ -40,11 +29,14 @@ class PageController extends Controller
         // $users = $zk->getUser();
         // $att = $zk->getAttendance();
         // $fp = $zk->getFingerprint(4);
+        // $dn = $zk->deviceName();
         // $temp_id = 0;
 
             // dd($users);
             // dd($att);
-            echo 'tes commit';
+            // dd($att);
+            // dd($dn);
+            // echo 'tes commit';
 
             // foreach ($users as $x) {
             //     $uid = $x['userid'];

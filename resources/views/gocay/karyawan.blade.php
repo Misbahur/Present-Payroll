@@ -28,7 +28,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-3xl font-bold leading-8 mt-6">4.710</div>
+                                    <div class="text-3xl font-bold leading-8 mt-6">{{$data->count()}}</div>
                                     <div class="text-base text-gray-600 mt-1">Item Sales</div>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-3xl font-bold leading-8 mt-6">3.721</div>
+                                    <div class="text-3xl font-bold leading-8 mt-6">{{ $jumlahJabatan->count() }}</div>
                                     <div class="text-base text-gray-600 mt-1">New Orders</div>
                                 </div>
                             </div>
@@ -105,30 +105,26 @@
                                     <th class="whitespace-nowrap">ID</th>
                                     <th class="whitespace-nowrap">Nama</th>
                                     <th class="text-center whitespace-nowrap">Jabatan</th>
-                                    <th class="text-center whitespace-nowrap">Status</th>
+                                    <!-- <th class="text-center whitespace-nowrap">Status</th> -->
                                     <th class="text-center whitespace-nowrap">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (array_slice($fakers, 0, 4) as $faker)
+                            @foreach ($data as $d)
                                     <tr class="intro-x">
                                         <td class="w-40">
-                                        {{ $faker['stocks'][0] }}
+                                        {{ $d->id }}
                                         </td>
                                         <td>
-                                            <a href="" class="font-medium whitespace-nowrap">{{ $faker['products'][0]['name'] }}</a>
-                                            <div class="text-gray-600 text-xs whitespace-nowrap mt-0.5">{{ $faker['products'][0]['category'] }}</div>
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $d->nama }}</a>
                                         </td>
                                         <td class="text-center">
-                                            <a href="" class="font-medium whitespace-nowrap">{{ $faker['products'][0]['name'] }}</a>
-                                            <div class="text-gray-600 text-xs whitespace-nowrap mt-0.5">{{ $faker['products'][0]['category'] }}</div>
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $d->jabatan->nama }}</a>
                                         </td>
-                                        <!-- <td class="text-center">{{ $faker['stocks'][0] }}</td> -->
-                                        <td class="w-40">
-                                            <div class="flex items-center justify-center {{ $faker['true_false'][0] ? 'text-theme-9' : 'text-theme-6' }}">
-                                                <i data-feather="check-square" class="w-4 h-4 mr-2"></i> {{ $faker['true_false'][0] ? 'Active' : 'Inactive' }}
-                                            </div>
-                                        </td>
+                                        <!-- <td class="text-center">
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $d['tgl'] }}</a>
+                                        </td> -->
+                                     
                                         <td class="table-report__action w-56">
                                             <div class="flex justify-center items-center">
                                                 <a class="flex items-center mr-3" href="">
@@ -191,8 +187,11 @@
                     </div>
                 </div>
                 <!-- END: Weekly Top Products -->
+                
             </div>
         </div>
         
     </div>
+
+    
 @endsection
