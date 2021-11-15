@@ -11,7 +11,7 @@
                 <!-- BEGIN: General Report -->
                 <div class="col-span-12 mt-8">
                     <div class="intro-y flex items-center h-10">
-                        <h2 class="text-lg font-medium truncate mr-5">General Report</h2>
+                        <h2 class="text-lg font-medium truncate mr-5">Data Kehadiran</h2>
                         <a href="" class="ml-auto flex items-center text-theme-1 dark:text-theme-10">
                             <i data-feather="refresh-ccw" class="w-4 h-4 mr-3"></i> Reload Data
                         </a>
@@ -21,15 +21,16 @@
                             <div class="report-box zoom-in">
                                 <div class="box p-5">
                                     <div class="flex">
-                                        <i data-feather="shopping-cart" class="report-box__icon text-theme-10"></i>
+                                        <i data-feather="users" class="report-box__icon text-theme-10"></i>
                                         <div class="ml-auto">
                                             <div class="report-box__indicator bg-theme-9 tooltip cursor-pointer" title="33% Higher than last month">
-                                                33% <i data-feather="chevron-up" class="w-4 h-4 ml-0.5"></i>
+                                                
+                                                <i data-feather="chevron-up" class="w-4 h-4 ml-0.5"></i>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-3xl font-bold leading-8 mt-6">4.710</div>
-                                    <div class="text-base text-gray-600 mt-1">Item Sales</div>
+                                    <div class="text-3xl font-bold leading-8 mt-6">{{$data->count()}}</div>
+                                    <div class="text-base text-gray-600 mt-1">Jumlah Pegawai</div>
                                 </div>
                             </div>
                         </div>
@@ -37,15 +38,18 @@
                             <div class="report-box zoom-in">
                                 <div class="box p-5">
                                     <div class="flex">
-                                        <i data-feather="credit-card" class="report-box__icon text-theme-11"></i>
+                                        <i data-feather="shopping-cart" class="report-box__icon text-theme-11"></i>
                                         <div class="ml-auto">
                                             <div class="report-box__indicator bg-theme-6 tooltip cursor-pointer" title="2% Lower than last month">
-                                                2% <i data-feather="chevron-down" class="w-4 h-4 ml-0.5"></i>
+                                               
+                                                <i data-feather="chevron-down" class="w-4 h-4 ml-0.5"></i>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-3xl font-bold leading-8 mt-6">3.721</div>
-                                    <div class="text-base text-gray-600 mt-1">New Orders</div>
+                                    <div class="text-3xl font-bold leading-8 mt-6">
+                                        
+                                    </div>
+                                    <div class="text-base text-gray-600 mt-1">Total Pegawai Kasir</div>
                                 </div>
                             </div>
                         </div>
@@ -53,15 +57,18 @@
                             <div class="report-box zoom-in">
                                 <div class="box p-5">
                                     <div class="flex">
-                                        <i data-feather="monitor" class="report-box__icon text-theme-12"></i>
+                                        <i data-feather="codesandbox" class="report-box__icon text-theme-12"></i>
                                         <div class="ml-auto">
                                             <div class="report-box__indicator bg-theme-9 tooltip cursor-pointer" title="12% Higher than last month">
-                                                12% <i data-feather="chevron-up" class="w-4 h-4 ml-0.5"></i>
+                                                
+                                                <i data-feather="chevron-up" class="w-4 h-4 ml-0.5"></i>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-3xl font-bold leading-8 mt-6">2.149</div>
-                                    <div class="text-base text-gray-600 mt-1">Total Products</div>
+                                    <div class="text-3xl font-bold leading-8 mt-6">
+                                        
+                                    </div>
+                                    <div class="text-base text-gray-600 mt-1">Total Pegawai Gudang </div>
                                 </div>
                             </div>
                         </div>
@@ -69,15 +76,18 @@
                             <div class="report-box zoom-in">
                                 <div class="box p-5">
                                     <div class="flex">
-                                        <i data-feather="user" class="report-box__icon text-theme-9"></i>
+                                        <i data-feather="monitor" class="report-box__icon text-theme-9"></i>
                                         <div class="ml-auto">
                                             <div class="report-box__indicator bg-theme-9 tooltip cursor-pointer" title="22% Higher than last month">
-                                                22% <i data-feather="chevron-up" class="w-4 h-4 ml-0.5"></i>
+                                                
+                                                <i data-feather="chevron-up" class="w-4 h-4 ml-0.5"></i>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-3xl font-bold leading-8 mt-6">152.040</div>
-                                    <div class="text-base text-gray-600 mt-1">Unique Visitor</div>
+                                    <div class="text-3xl font-bold leading-8 mt-6">
+                                        
+                                    </div>
+                                    <div class="text-base text-gray-600 mt-1">Total Pegawai Kantor</div>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +98,7 @@
                 <!-- BEGIN: Weekly Top Products -->
                 <div class="col-span-12 mt-6">
                     <div class="intro-y block sm:flex items-center h-10">
-                        <h2 class="text-lg font-medium truncate mr-5">Daftar Kehadiran</h2>
+                        <h2 class="text-lg font-medium truncate mr-5">Daftar Karyawan</h2>
                         <div class="flex items-center sm:ml-auto mt-3 sm:mt-0">
                             <button class="btn box flex items-center text-gray-700 dark:text-gray-300">
                                 <i data-feather="file-text" class="hidden sm:block w-4 h-4 mr-2"></i> Export to Excel
@@ -102,28 +112,28 @@
                         <table class="table table-report sm:mt-2">
                             <thead>
                                 <tr>
-                                    <th class="whitespace-nowrap">No</th>
                                     <th class="whitespace-nowrap">ID</th>
-                                    <th class="text-center whitespace-nowrap">Nama</th>
-                                    <th class="text-center whitespace-nowrap">Jam</th>
+                                    <th class="whitespace-nowrap">Nama</th>
+                                    <th class="text-center whitespace-nowrap">Jabatan</th>
+                                    <!-- <th class="text-center whitespace-nowrap">Status</th> -->
                                     <th class="text-center whitespace-nowrap">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data as $d)
+                            @foreach ($data as $d)
                                     <tr class="intro-x">
                                         <td class="w-40">
-                                        {{ $d['id'] }}
+                                        {{ $d->id }}
                                         </td>
                                         <td>
-                                            <a href="" class="font-medium whitespace-nowrap">{{ $d['id_user'] }}</a>
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $d->nama }}</a>
                                         </td>
                                         <td class="text-center">
-                                            <a href="" class="font-medium whitespace-nowrap">{{ $d['nama'] }}</a>
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $d->jabatan->nama }}</a>
                                         </td>
-                                        <td class="text-center">
+                                        <!-- <td class="text-center">
                                             <a href="" class="font-medium whitespace-nowrap">{{ $d['tgl'] }}</a>
-                                        </td>
+                                        </td> -->
                                      
                                         <td class="table-report__action w-56">
                                             <div class="flex justify-center items-center">
@@ -187,8 +197,11 @@
                     </div>
                 </div>
                 <!-- END: Weekly Top Products -->
+                
             </div>
         </div>
         
     </div>
+
+    
 @endsection
