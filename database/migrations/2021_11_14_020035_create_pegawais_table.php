@@ -16,7 +16,7 @@ class CreatePegawaisTable extends Migration
         Schema::create('pegawais', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->foreignId('id_jabatan');
+            $table->unsignedBigInteger('jabatan_id');
             $table->timestamps();
         });
     }

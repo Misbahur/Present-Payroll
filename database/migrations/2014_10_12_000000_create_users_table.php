@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('photo')->nullable();
             $table->string('gender');
+            $table->enum('role', ['su', 'koordinator', 'admin']);
             $table->integer('active');
             $table->softDeletes();
             $table->rememberToken();

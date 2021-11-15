@@ -20,9 +20,9 @@ class CreatePenggajiansTable extends Migration
             $table->integer('nominal');
             $table->enum('status', ['in', 'out']);
             $table->string('keterangan');
-            $table->foreignId('id_pegawai');
-            $table->foreignId('id_jabatan');
-            $table->foreignId('id_komponen_gaji');
+            $table->unsignedBigInteger('pegawai_id');
+            $table->unsignedBigInteger('jabatan_id');
+            $table->unsignedBigInteger('komponen_gaji_id');
             $table->timestamps();
         });
     }

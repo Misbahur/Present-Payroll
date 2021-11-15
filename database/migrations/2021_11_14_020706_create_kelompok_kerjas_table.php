@@ -16,9 +16,8 @@ class CreateKelompokKerjasTable extends Migration
         Schema::create('kelompok_kerjas', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->foreignId('id_pola_kerja');
-            $table->foreignId('id_pegawai');
-            $table->foreignId('id_jabatan');
+            $table->unsignedBigInteger('pola_kerja_id');
+            $table->unsignedBigInteger('pegawai_id');
             $table->timestamps();
         });
     }

@@ -19,8 +19,8 @@ class CreateBonKasTable extends Migration
             $table->integer('nominal');
             $table->string('keterangan');
             $table->date('tanggal');
-            $table->foreignId('id_pegawai');
-            $table->foreignId('id_jabatan');
+            $table->unsignedBigInteger('pegawai_id');
+            $table->unsignedBigInteger('jabatan_id');
             $table->timestamps();
         });
     }

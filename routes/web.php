@@ -5,6 +5,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\DarkModeController;
+use App\Http\Controllers\{
+    PolaController,
+
+};
 
 use App\Models\Pegawai;
 
@@ -97,7 +101,10 @@ Route::middleware('auth')->group(function() {
     Route::get('kelompok-karyawan', [PageController::class, 'kelompokKaryawan'])->name('kelompok-karyawan');
     Route::get('jabatan', [PageController::class, 'jabatan'])->name('jabatan');
     Route::get('departemen', [PageController::class, 'departemen'])->name('departemen');
-    Route::get('pola-kerja', [PageController::class, 'polaKerja'])->name('pola-kerja');
+    // Pola Kerja Manag
+    Route::get('pola-kerja', [PolaController::class, 'index'])->name('pola-kerja');
+    Route::post('polakerjaadd', [PolaController::class, 'store'])->name('polakerjaadd');
+
     Route::get('kalender', [PageController::class, 'kalender'])->name('kalender');
     Route::get('gaji', [PageController::class, 'gaji'])->name('gaji');
     Route::get('komponen-gaji', [PageController::class, 'komponenGaji'])->name('komponen-gaji');

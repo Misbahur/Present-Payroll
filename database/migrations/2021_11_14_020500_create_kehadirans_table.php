@@ -20,8 +20,8 @@ class CreateKehadiransTable extends Migration
             $table->timestamp('jam_istirahat')->nullable();
             $table->timestamp('jam_masuk_istirahat')->nullable();
             $table->timestamp('jam_pulang')->nullable();
-            $table->foreignId('id_pegawai');
-            $table->foreignId('id_jabatan');
+            $table->unsignedBigInteger('pegawai_id');
+            $table->unsignedBigInteger('jabatan_id');
             // $table->foreignId('id_pola_kerja');
             $table->timestamps();
         });

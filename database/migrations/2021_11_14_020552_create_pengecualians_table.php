@@ -18,8 +18,8 @@ class CreatePengecualiansTable extends Migration
             $table->date('tanggal');
             $table->string('keterangan');
             $table->string('dokumen');
-            $table->foreignId('id_pegawai');
-            $table->foreignId('id_jabatan');
+            $table->unsignedBigInteger('pegawai_id');
+            $table->unsignedBigInteger('jabatan_id');
             $table->timestamps();
         });
     }

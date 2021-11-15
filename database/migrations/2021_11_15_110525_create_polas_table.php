@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePolaKerjasTable extends Migration
+class CreatePolasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreatePolaKerjasTable extends Migration
      */
     public function up()
     {
-        Schema::create('pola_kerjas', function (Blueprint $table) {
+        Schema::create('polas', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->timestamp('jam_masuk')->nullable();
-            $table->timestamp('jam_istirahat')->nullable();
-            $table->timestamp('jam_masuk_istirahat')->nullable();
-            $table->timestamp('jam_pulang')->nullable();
+            $table->time('jam_masuk')->nullable();
+            $table->time('jam_istirahat')->nullable();
+            $table->time('jam_istirahat_masuk')->nullable();
+            $table->time('jam_pulang')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class CreatePolaKerjasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pola_kerjas');
+        Schema::dropIfExists('polas');
     }
 }
