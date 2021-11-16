@@ -70,7 +70,6 @@ class Bon_kasController extends Controller
          
         ]);
 
-        // dd($request);
         $Bon_kas = new Bon_kas;
         $Bon_kas->nama = $request->nama;
         $Bon_kas->pegawai_id = $request->pegawai_id;
