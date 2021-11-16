@@ -13,7 +13,7 @@
                     <div class="intro-y block sm:flex items-center h-10">
                         <h2 class="text-lg font-medium truncate mr-5">Daftar item</h2>
                         <a href="javascript:;" data-toggle="modal" data-target="#header-footer-modal-preview"
-                        class="btn btn-primary shadow-md mr-2">Tambah Pegawai</a>
+                        class="btn btn-primary shadow-md mr-2">Tambah bon-kas</a>
                         <div class="flex items-center sm:ml-auto mt-3 sm:mt-0">
                             <button class="btn box flex items-center text-gray-700 dark:text-gray-300">
                                 <i data-feather="file-text" class="hidden sm:block w-4 h-4 mr-2"></i> Export to Excel
@@ -28,22 +28,38 @@
                             <thead>
                                 <tr>
                                     <th class="whitespace-nowrap">ID</th>
+                                    <th class="text-center whitespace-nowrap">Tanggal</th>
+                                    <th class="text-center whitespace-nowrap">Nama Bon-Kas</th>
                                     <th class="text-center whitespace-nowrap">Nama Pegawai</th>
                                     <th class="text-center whitespace-nowrap">Jabatan</th>
+                                    <th class="text-center whitespace-nowrap">Nominal</th>
+                                    <th class="text-center whitespace-nowrap">Keterangan</th>
                                     <th class="text-center whitespace-nowrap">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($pegawais as $item)
+                                @foreach ($bon_kas as $item)
                                     <tr class="intro-x">
                                         <td class="w-40">
                                         {{ $item->id }}
                                         </td>
                                         <td class="text-center">
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->tanggal }}</a>
+                                        </td>
+                                        <td class="text-center">
                                             <a href="" class="font-medium whitespace-nowrap">{{ $item->nama }}</a>
                                         </td>
                                         <td class="text-center">
-                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->jabatan->nama }}</a>
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->pegawai->nama }}</a>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->pegawai->jabatan_id }}</a>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->nominal }}</a>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->keterangan }}</a>
                                         </td>
                                         <td class="table-report__action w-56">
                                             <div class="flex justify-center items-center">
@@ -133,21 +149,41 @@
                     </div>
                     <!-- END: Modal Header -->
                     <!-- BEGIN: Modal Body -->
-                    <form method="POST" action="{{ route('pegawaiadd') }}">
+                    <form method="POST" action="{{ route('bon-kasadd') }}">
                         @csrf
                     <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
                         <div class="col-span-12 sm:col-span-12">
-                            <label for="modal-form-1" class="form-label">Nama Pegawai</label>
-                            <input id="modal-form-1" name="nama" type="text" class="form-control" placeholder="Nama Pegawai">
+                            <label for="modal-form-1" class="form-label">Nama</label>
+                            <input id="modal-form-1" name="nama" type="text" class="form-control" placeholder="Bon-kasnya apa">
                         </div>
-                    <div class="col-span-12 sm:col-span-12">
-                        <label for="modal-form-2" class="form-label">Jabatan</label>
-                        <select id="modal-form-2" class="form-select" name="jabatan_id">
-                        @foreach ($jabatans as $item)
-                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                        @endforeach
-                        </select>
-                    </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-2" class="form-label">Tanggal</label>
+                            <input id="modal-form-2" name="tanggal" type="date" class="form-control" placeholder="Tanggal berapa">
+                        </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-3" class="form-label">Nama Pegawai</label>
+                            <select id="modal-form-3" class="form-select" name="pegawai_id">
+                            @foreach ($pegawais as $item)
+                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                            @endforeach
+                            </select>
+                        </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-4" class="form-label">Jabatan</label>
+                            <select id="modal-form-4" class="form-select" name="jabatan_id">
+                            @foreach ($jabatans as $item)
+                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                            @endforeach
+                            </select>
+                        </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-2" class="form-label">Nominal</label>
+                            <input id="modal-form-2" name="nominal" type="number" class="form-control" placeholder="Nominal berapa">
+                        </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-2" class="form-label">keterangan</label>
+                            <textarea name="keterangan" id="modal-form-2" class="form-control" cols="30" rows="10" placeholder="Buat apa"></textarea>
+                        </div>
                     </div>
                     <!-- END: Modal Body -->
                     <!-- BEGIN: Modal Footer -->

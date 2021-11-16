@@ -21,15 +21,15 @@ class SideMenu
                     'layout' => 'side-menu'
                 ],
             ],
-            'Modul Karyawan' => [
+            'Modul Pegawai' => [
                 'icon' => 'user-plus',
                 'route_name' => 'pegawai',
                 'params' => [
                     'layout' => 'side-menu'
                 ],
-                'title' => 'Modul Karyawan'
+                'title' => 'Modul Pegawai'
             ],
-            'Modul Kelompok Karyawan' => [
+            'Modul Kelompok Kerja' => [
                 'icon' => 'users',
                 'route_name' => 'kelompok-kerja',
                 'params' => [
@@ -38,21 +38,21 @@ class SideMenu
                 'title' => 'Modul Kelompok Kerja'
             ],
             'Modul Jabatan' => [
-                'icon' => 'trending-up',
+                'icon' => 'award',
                 'route_name' => 'jabatan',
                 'params' => [
                     'layout' => 'side-menu'
                 ],
                 'title' => 'Modul Jabatan'
             ],
-            // 'Modul Departemen' => [
-            //     'icon' => 'bar-chart-2',
-            //     'route_name' => 'departemen',
-            //     'params' => [
-            //         'layout' => 'side-menu'
-            //     ],
-            //     'title' => 'Modul Departemen'
-            // ],
+            'Modul Bon-Kas' => [
+                'icon' => 'trending-down',
+                'route_name' => 'bon-kas',
+                'params' => [
+                    'layout' => 'side-menu'
+                ],
+                'title' => 'Modul Bon-Kas'
+            ],
             'Modul Pola Kerja' => [
                 'icon' => 'clock',
                 'route_name' => 'pola-kerja',

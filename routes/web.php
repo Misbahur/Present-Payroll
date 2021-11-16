@@ -3,12 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PageController;
-use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\DarkModeController;
 use App\Http\Controllers\{
     PolaController,
     JabatanController,
     Kelompok_kerjaController,
+    Bon_kasController,
+    PegawaiController,
 
 
 };
@@ -104,23 +105,25 @@ Route::middleware('auth')->group(function() {
     //Kehadian Manage
     Route::get('kehadiran', [PageController::class, 'kehadiran'])->name('kehadiran');
 
+    
     //Pegawai Manage
     Route::get('pegawai', [PegawaiController::class, 'index'])->name('pegawai');
     Route::post('pegawaiadd', [PegawaiController::class, 'store'])->name('pegawaiadd');
-
-
+    
+    
     //Kelompok Kerja Manage
     Route::get('kelompok-kerja', [Kelompok_kerjaController::class, 'index'])->name('kelompok-kerja');
     Route::post('kelompok-kerjaadd', [Kelompok_kerjaController::class, 'store'])->name('kelompok-kerjaadd');
-
+    
     
     //Jabatan Manage
     Route::get('jabatan', [JabatanController::class, 'index'])->name('jabatan');
     Route::post('jabatanadd', [JabatanController::class, 'store'])->name('jabatanadd');
-
-
-    Route::get('departemen', [PageController::class, 'departemen'])->name('departemen');
-
+    
+    //Bon-Kas Manage
+    Route::get('bon-kas', [Bon_kasController::class, 'index'])->name('bon-kas');
+    Route::post('bon-kasadd', [Bon_kasController::class, 'store'])->name('bon-kasadd');
+    
     // Pola Kerja Manage
     Route::get('pola-kerja', [PolaController::class, 'index'])->name('pola-kerja');
     Route::post('polakerjaadd', [PolaController::class, 'store'])->name('polakerjaadd');
