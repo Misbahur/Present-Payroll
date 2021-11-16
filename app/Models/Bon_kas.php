@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Bon_kas extends Model
 {
     use HasFactory;
-
-    use HasFactory;
     protected $fillable = ['nama', 'pegawai_id', 'jabatan_id','tanggal', 'nominal', 'keterangan'];
 
     public function pegawai()

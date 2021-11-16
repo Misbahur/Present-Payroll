@@ -9,24 +9,7 @@ use Illuminate\Http\Request;
 
 class Bon_kasController extends Controller
 {
-    public function index2()
-    {
-        $data = Bon_kas::all();
-        $jumlahBon_kas = Bon_kas::all()->groupBy('id_Bon_kas');
-        $jumlahKasir = Bon_kas::all()->where('id_Bon_kas', '1');
-        $jumlahGudang = Bon_kas::all()->where('id_Bon_kas', '2');
-        $jumlahKantor = Bon_kas::all()->where('id_Bon_kas', '3');
-        return view('gocay/karyawan', 
-        compact(
-            'data', 
-            'jumlahBon_kas',
-            'jumlahKasir', 
-            'jumlahGudang',
-            'jumlahKantor'
-        ));
-    }
 
-    //
     /**
      * Display a listing of the resource.
      *

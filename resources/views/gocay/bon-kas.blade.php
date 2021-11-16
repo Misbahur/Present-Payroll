@@ -132,7 +132,7 @@
                 <div class="modal-content">
                     <!-- BEGIN: Modal Header -->
                     <div class="modal-header">
-                        <h2 class="font-medium text-base mr-auto">Tambah item</h2>
+                        <h2 class="font-medium text-base mr-auto">Tambah Bon Kas</h2>
                         <div class="dropdown sm:hidden">
                             <a class="dropdown-toggle w-5 h-5 block" href="javascript:;" aria-expanded="false">
                                 <i data-feather="more-horizontal" class="w-5 h-5 text-gray-600 dark:text-gray-600"></i>
