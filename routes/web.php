@@ -7,6 +7,9 @@ use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\DarkModeController;
 use App\Http\Controllers\{
     PolaController,
+    JabatanController,
+    Kelompok_kerjaController,
+
 
 };
 
@@ -93,15 +96,32 @@ Route::middleware('auth')->group(function() {
     Route::get('chart-page', [PageController::class, 'chart'])->name('chart');
     Route::get('slider-page', [PageController::class, 'slider'])->name('slider');
     Route::get('image-zoom-page', [PageController::class, 'imageZoom'])->name('image-zoom');
+    
+    
     // Gocay Routing
-    // Route::get('/', [PageController::class, 'kehadiran'])->name('kehadiran');
-    Route::get('karyawan', [PegawaiController::class, 'index'])->name('karyawan');
+    Route::get('/', [PageController::class, 'kehadiran'])->name('kehadiran');
+    
+    //Kehadian Manage
     Route::get('kehadiran', [PageController::class, 'kehadiran'])->name('kehadiran');
-    // Route::get('karyawan', [PageController::class, 'karyawan'])->name('karyawan');
-    Route::get('kelompok-karyawan', [PageController::class, 'kelompokKaryawan'])->name('kelompok-karyawan');
-    Route::get('jabatan', [PageController::class, 'jabatan'])->name('jabatan');
+
+    //Pegawai Manage
+    Route::get('pegawai', [PegawaiController::class, 'index'])->name('pegawai');
+    Route::post('pegawaiadd', [PegawaiController::class, 'store'])->name('pegawaiadd');
+
+
+    //Kelompok Kerja Manage
+    Route::get('kelompok-kerja', [Kelompok_kerjaController::class, 'index'])->name('kelompok-kerja');
+    Route::post('kelompok-kerjaadd', [Kelompok_kerjaController::class, 'store'])->name('kelompok-kerjaadd');
+
+    
+    //Jabatan Manage
+    Route::get('jabatan', [JabatanController::class, 'index'])->name('jabatan');
+    Route::post('jabatanadd', [JabatanController::class, 'store'])->name('jabatanadd');
+
+
     Route::get('departemen', [PageController::class, 'departemen'])->name('departemen');
-    // Pola Kerja Manag
+
+    // Pola Kerja Manage
     Route::get('pola-kerja', [PolaController::class, 'index'])->name('pola-kerja');
     Route::post('polakerjaadd', [PolaController::class, 'store'])->name('polakerjaadd');
 

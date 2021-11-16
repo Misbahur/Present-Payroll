@@ -35,50 +35,33 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach(array_slice($fakers, 0, 4) as $faker)
-                                <tr class="intro-x">
-                                    <td class="w-40">
-                                        {{ $faker['stocks'][0] }}
-                                    </td>
-                                    <td>
-                                        <a href=""
-                                            class="font-medium whitespace-nowrap">{{ $faker['products'][0]['name'] }}</a>
-                                        <div class="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                                            {{ $faker['products'][0]['category'] }}
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href=""
-                                            class="font-medium whitespace-nowrap">{{ $faker['products'][0]['name'] }}</a>
-                                        <div class="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                                            {{ $faker['products'][0]['category'] }}
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href=""
-                                            class="font-medium whitespace-nowrap">{{ $faker['products'][0]['name'] }}</a>
-                                        <div class="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                                            {{ $faker['products'][0]['category'] }}
-                                        </div>
-                                    </td>
-                                    <!-- <td class="w-40">
-                                            <div class="flex items-center justify-center {{ $faker['true_false'][0] ? 'text-theme-9' : 'text-theme-6' }}">
-                                                <i data-feather="check-square" class="w-4 h-4 mr-2"></i> {{ $faker['true_false'][0] ? 'Active' : 'Inactive' }}
+                                @foreach ($kelompok_kerja as $item)
+                                    <tr class="intro-x">
+                                        <td class="w-40">
+                                        {{ $item->id }}
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->nama }}</a>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->pola->nama }}</a>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->pegawai->name }}</a>
+                                        </td>
+                                        <td class="table-report__action w-56">
+                                            <div class="flex justify-center items-center">
+                                                <a class="flex items-center mr-3" href="">
+                                                    <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
+                                                </a>
+                                                <a class="flex items-center text-theme-6" href="">
+                                                    <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
+                                                </a>
                                             </div>
-                                        </td> -->
-                                    <td class="table-report__action w-56">
-                                        <div class="flex justify-center items-center">
-                                            <a class="flex items-center mr-3" href="">
-                                                <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
-                                            </a>
-                                            <a class="flex items-center text-theme-6" href="">
-                                                <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
                     </table>
                 </div>
                 <div class="intro-y flex flex-wrap sm:flex-row sm:flex-nowrap items-center mt-3">
@@ -153,27 +136,28 @@
                 </div>
                 <!-- END: Modal Header -->
                 <!-- BEGIN: Modal Body -->
+                <form method="POST" action="{{ route('kelompok-kerjaadd') }}">
+                        @csrf
                 <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
                     <div class="col-span-12 sm:col-span-12">
                         <label for="modal-form-1" class="form-label">Nama Kelempok</label>
-                        <input id="modal-form-1" type="text" class="form-control" placeholder="Kelompok Hore.,...">
+                        <input id="modal-form-1" name="nama" type="text" class="form-control" placeholder="Kelompok Hore.,...">
                     </div>
                     <div class="col-span-12 sm:col-span-12">
                         <label for="modal-form-2" class="form-label">Pola Kerja</label>
-                        <select id="modal-form-2" class="form-select">
-                            <option value="">Pagi</option>
-                            <option value="">Siang</option>
-                            <option value="">PS</option>
-                            <option value="">Lembur</option>
+                        <select id="modal-form-2" class="form-select" name="pola_kerja_id">
+                        @foreach ($pola as $item)
+                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                        @endforeach
                         </select>
                     </div>
+                    
                     <div class="col-span-12 sm:col-span-12">
                         <label for="modal-form-3" class="form-label">Pegawai</label>
-                        <select data-placeholder="Select your favorite actors" class="tail-select w-full" id="modal-form-3" multiple>
-                            <option value="1" selected>Sport & Outdoor</option>
-                            <option value="2">PC & Laptop</option>
-                            <option value="3" selected>Smartphone & Tablet</option>
-                            <option value="4">Photography</option>
+                        <select name="pegawai_id[]" data-placeholder="Select your favorite actors" class="tail-select w-full" id="modal-form-3" multiple>
+                        @foreach ($pegawai as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
                         </select>
                     </div>
                 </div>
@@ -182,12 +166,15 @@
                 <div class="modal-footer text-right">
                     <button type="button" data-dismiss="modal"
                         class="btn btn-outline-secondary w-20 mr-1">Cancel</button>
-                    <button type="button" class="btn btn-primary w-20">Send</button>
+                    <button type="submit" class="btn btn-primary w-20">Send</button>
                 </div>
+                </form>
                 <!-- END: Modal Footer -->
             </div>
         </div>
     </div>
+    
+
     <!-- END: Modal Content -->
 
 </div>

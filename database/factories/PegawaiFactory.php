@@ -23,7 +23,7 @@ class PegawaiFactory extends Factory
     {
         return [
             'nama' => $this->faker->name,
-            'id_jabatan' => 1,
+            'jabatan_id' => rand(1, 3),
         ];
     }
 }

@@ -3,24 +3,125 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pegawai;
+use App\Models\Jabatan;
 use Illuminate\Http\Request;
 
 class PegawaiController extends Controller
 {
-    public function index()
+    public function index2()
     {
         $data = Pegawai::all();
-        $jumlahJabatan = Pegawai::all()->groupBy('id_jabatan');
-        $jumlahKasir = Pegawai::all()->where('id_jabatan', '1');
-        $jumlahGudang = Pegawai::all()->where('id_jabatan', '2');
-        $jumlahKantor = Pegawai::all()->where('id_jabatan', '3');
+        $jumlahPegawai = Pegawai::all()->groupBy('id_Pegawai');
+        $jumlahKasir = Pegawai::all()->where('id_Pegawai', '1');
+        $jumlahGudang = Pegawai::all()->where('id_Pegawai', '2');
+        $jumlahKantor = Pegawai::all()->where('id_Pegawai', '3');
         return view('gocay/karyawan', 
         compact(
             'data', 
-            'jumlahJabatan',
+            'jumlahPegawai',
             'jumlahKasir', 
             'jumlahGudang',
             'jumlahKantor'
         ));
+    }
+
+    //
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+        $pegawais = Pegawai::all();
+        $jabatans = Jabatan::all();
+        return view('gocay.pegawai', [
+            'pegawais' => $pegawais,
+            'jabatans' => $jabatans
+        ]);
+        
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nama' => 'required',
+            'jabatan_id' => 'required',
+         
+        ]);
+
+        // dd($request);
+        $pegawai = new Pegawai;
+        $pegawai->nama = $request->nama;
+        $pegawai->jabatan_id = $request->jabatan_id;
+        $pegawai->save();
+
+         if($pegawai){
+            return redirect()->route('pegawai')->with(['success' => 'Data Pegawai'.$request->input('nama').'berhasil disimpan']);
+        }else{
+            return redirect()->route('pegawai')->with(['danger' => 'Data Tidak Terekam!']);
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Pegawai  $Pegawai
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Pegawai $Pegawai)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Pegawai  $Pegawai
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Pegawai $Pegawai)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Pegawai  $Pegawai
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Pegawai $Pegawai)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Pegawai  $Pegawai
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Pegawai $Pegawai)
+    {
+        //
     }
 }

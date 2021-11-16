@@ -15,12 +15,12 @@ class Pegawai extends Model
      * @var array
      */
     protected $fillable = [
-        'nama',
+        'nama', 'jabatan_id'
     ];
 
     public function jabatan()
     {
-        return $this->belongsTo('App\Models\Jabatan', 'id_jabatan');
+        return $this->belongsTo('App\Models\Jabatan', 'jabatan_id');
     }
     
 }

@@ -13,7 +13,7 @@
                     <div class="intro-y block sm:flex items-center h-10">
                         <h2 class="text-lg font-medium truncate mr-5">Daftar item</h2>
                         <a href="javascript:;" data-toggle="modal" data-target="#header-footer-modal-preview"
-                        class="btn btn-primary shadow-md mr-2">Tambah Jabatan</a>
+                        class="btn btn-primary shadow-md mr-2">Tambah Pegawai</a>
                         <div class="flex items-center sm:ml-auto mt-3 sm:mt-0">
                             <button class="btn box flex items-center text-gray-700 dark:text-gray-300">
                                 <i data-feather="file-text" class="hidden sm:block w-4 h-4 mr-2"></i> Export to Excel
@@ -28,13 +28,13 @@
                             <thead>
                                 <tr>
                                     <th class="whitespace-nowrap">ID</th>
-                                    <th class="text-center whitespace-nowrap">item</th>
-                                    <th class="text-center whitespace-nowrap">Deskripsi</th>
+                                    <th class="text-center whitespace-nowrap">Nama Pegawai</th>
+                                    <th class="text-center whitespace-nowrap">Jabatan</th>
                                     <th class="text-center whitespace-nowrap">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($jabatans as $item)
+                                @foreach ($pegawais as $item)
                                     <tr class="intro-x">
                                         <td class="w-40">
                                         {{ $item->id }}
@@ -43,7 +43,7 @@
                                             <a href="" class="font-medium whitespace-nowrap">{{ $item->nama }}</a>
                                         </td>
                                         <td class="text-center">
-                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->deskripsi }}</a>
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->jabatan->nama }}</a>
                                         </td>
                                         <td class="table-report__action w-56">
                                             <div class="flex justify-center items-center">
@@ -133,18 +133,21 @@
                     </div>
                     <!-- END: Modal Header -->
                     <!-- BEGIN: Modal Body -->
-                    <form method="POST" action="{{ route('jabatanadd') }}">
+                    <form method="POST" action="{{ route('pegawaiadd') }}">
                         @csrf
                     <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
                         <div class="col-span-12 sm:col-span-12">
-                            <label for="modal-form-1" class="form-label">Nama Jadwal</label>
-                            <input id="modal-form-1" name="nama" type="text" class="form-control" placeholder="jabatannya apa">
+                            <label for="modal-form-1" class="form-label">Nama Pegawai</label>
+                            <input id="modal-form-1" name="nama" type="text" class="form-control" placeholder="Nama Pegawai">
                         </div>
                         <div class="col-span-12 sm:col-span-12">
-                            <label for="modal-form-2" class="form-label">Deskripsi</label>
-                            <textarea name="deskripsi" id="modal-form-2" class="form-control" cols="30" rows="10" placeholder="jabatannya ngapain"></textarea>
-                        </div>
-                        
+                        <label for="modal-form-2" class="form-label">Jabatan</label>
+                        <select id="modal-form-2" class="form-select" name="jabatan_id">
+                        @foreach ($jabatans as $item)
+                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                        @endforeach
+                        </select>
+                    </div>
                     </div>
                     <!-- END: Modal Body -->
                     <!-- BEGIN: Modal Footer -->

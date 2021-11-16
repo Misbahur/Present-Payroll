@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Jabatan extends Model
 {
     use HasFactory;
+    protected $fillable = ['nama', 'deskripsi'];
 
     public function pegawai()
     {

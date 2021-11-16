@@ -12,6 +12,12 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, SoftDeletes;
 
+    public function Kelompok_kerja()
+    {
+        return $this->belongsTo('App\Models\Kelompok_kerja', 'pegawai_id');
+    }
+    
+
     /**
      * The attributes that are mass assignable.
      *

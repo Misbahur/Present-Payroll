@@ -23,7 +23,7 @@ class SideMenu
             ],
             'Modul Karyawan' => [
                 'icon' => 'user-plus',
-                'route_name' => 'karyawan',
+                'route_name' => 'pegawai',
                 'params' => [
                     'layout' => 'side-menu'
                 ],
@@ -31,11 +31,11 @@ class SideMenu
             ],
             'Modul Kelompok Karyawan' => [
                 'icon' => 'users',
-                'route_name' => 'kelompok-karyawan',
+                'route_name' => 'kelompok-kerja',
                 'params' => [
                     'layout' => 'side-menu'
                 ],
-                'title' => 'Modul Kelompok Karyawan'
+                'title' => 'Modul Kelompok Kerja'
             ],
             'Modul Jabatan' => [
                 'icon' => 'trending-up',
@@ -45,14 +45,14 @@ class SideMenu
                 ],
                 'title' => 'Modul Jabatan'
             ],
-            'Modul Departemen' => [
-                'icon' => 'bar-chart-2',
-                'route_name' => 'departemen',
-                'params' => [
-                    'layout' => 'side-menu'
-                ],
-                'title' => 'Modul Departemen'
-            ],
+            // 'Modul Departemen' => [
+            //     'icon' => 'bar-chart-2',
+            //     'route_name' => 'departemen',
+            //     'params' => [
+            //         'layout' => 'side-menu'
+            //     ],
+            //     'title' => 'Modul Departemen'
+            // ],
             'Modul Pola Kerja' => [
                 'icon' => 'clock',
                 'route_name' => 'pola-kerja',

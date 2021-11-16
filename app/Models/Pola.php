@@ -9,4 +9,10 @@ class Pola extends Model
 {
     use HasFactory;
     protected $fillable = ['nama', 'jam_masuk', 'jam_istirahat', 'jam_istirahat_masuk', 'jam_pulang'];
+
+    //  public function Kelompok_kerja()
+    //  {
+    //      return $this->hasMany(Kelompok_kerja::class);
+
+    //  }
 }
