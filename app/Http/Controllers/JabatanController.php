@@ -51,7 +51,7 @@ class JabatanController extends Controller
         $jabatan->deskripsi = $request->deskripsi;
         $jabatan->save();
 
-         if($jabatan){
+        if($jabatan){
             return redirect()->route('jabatan')->with(['success' => 'Data Jabatan'.$request->input('nama').'berhasil disimpan']);
         }else{
             return redirect()->route('jabatan')->with(['danger' => 'Data Tidak Terekam!']);
@@ -75,9 +75,10 @@ class JabatanController extends Controller
      * @param  \App\Models\Jabatan  $Jabatan
      * @return \Illuminate\Http\Response
      */
-    public function edit(Jabatan $Jabatan)
+    public function edit(Request $Request)
     {
-        //
+        $jabatans = Jabatan::findOrFail($Request->get('id'));
+        echo json_encode($jabatans);
     }
 
     /**
@@ -87,9 +88,21 @@ class JabatanController extends Controller
      * @param  \App\Models\Jabatan  $Jabatan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Jabatan $Jabatan)
+    public function update(Request $request, Jabatan $jabatans)
     {
-        //
+        $this->validate($request, [
+            'nama' => 'required',
+            'deskripsi' => 'required',
+            ]);
+   
+            $jabatans = Jabatan::find($request->id);
+            $jabatans->update($request->all());
+
+            if($jabatans){
+                return redirect()->route('jabatan')->with(['success' => 'Data Jabatan'.$request->input('nama').'berhasil disimpan']);
+            }else{
+                return redirect()->route('jabatan')->with(['danger' => 'Data Tidak Terekam!']);
+            }
     }
 
     /**
@@ -98,8 +111,13 @@ class JabatanController extends Controller
      * @param  \App\Models\Jabatan  $Jabatan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Jabatan $Jabatan)
+    public function destroy($id)
     {
-        //
+        // $jabatans = Jabatan::find($id);
+        // $jabatans->delete();
+        $jabatans = Jabatan::where('id', $id)
+              ->delete();
+        return redirect()->route('jabatan')
+                        ->with('success','Post deleted successfully');
     }
 }

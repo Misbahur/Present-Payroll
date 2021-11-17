@@ -119,6 +119,9 @@ Route::middleware('auth')->group(function() {
     //Jabatan Manage
     Route::get('jabatan', [JabatanController::class, 'index'])->name('jabatan');
     Route::post('jabatanadd', [JabatanController::class, 'store'])->name('jabatanadd');
+    Route::get('jabatanedit', [JabatanController::class, 'edit'])->name('jabatanedit');
+    Route::POST('jabatanupdate', [JabatanController::class, 'update'])->name('jabatanupdate');
+    Route::get('jabatandelete/{id}', [JabatanController::class, 'destroy'])->name('jabatandelete');
     
     //Bon-Kas Manage
     Route::get('bon-kas', [Bon_kasController::class, 'index'])->name('bon-kas');
