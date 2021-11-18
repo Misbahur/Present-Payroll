@@ -97,9 +97,10 @@ class PegawaiController extends Controller
      * @param  \App\Models\Pegawai  $Pegawai
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pegawai $Pegawai)
+    public function edit(Request $Request)
     {
-        //
+        $pegawais = Pegawai::findOrFail($Request->get('id'));
+        echo json_encode($pegawais);
     }
 
     /**
@@ -109,9 +110,21 @@ class PegawaiController extends Controller
      * @param  \App\Models\Pegawai  $Pegawai
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pegawai $Pegawai)
+    public function update(Request $request, Pegawai $pegawais)
     {
-        //
+        $this->validate($request, [
+            'nama' => 'required',
+            'jabatan_id' => 'required',
+            ]);
+   
+        $pegawais = Pegawai::find($request->id);
+        $pegawais->update($request->all());
+
+        if($pegawais){
+            return redirect()->route('pegawai')->with(['success' => 'Data Pegawai'.$request->input('nama').'berhasil disimpan']);
+        }else{
+            return redirect()->route('pegawai')->with(['danger' => 'Data Tidak Terekam!']);
+        }
     }
 
     /**
@@ -120,8 +133,11 @@ class PegawaiController extends Controller
      * @param  \App\Models\Pegawai  $Pegawai
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pegawai $Pegawai)
+    public function destroy($id)
     {
-        //
+        $pegawais = Pegawai::where('id', $id)
+              ->delete();
+        return redirect()->route('pegawai')
+                        ->with('success','Post deleted successfully');
     }
 }

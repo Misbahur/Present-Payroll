@@ -28,17 +28,18 @@
                             <thead>
                                 <tr>
                                 
-                                    <th class="whitespace-nowrap">ID</th>
+                                    <th class="whitespace-nowrap">No</th>
                                     <th class="text-center whitespace-nowrap">item</th>
                                     <th class="text-center whitespace-nowrap">Deskripsi</th>
                                     <th class="text-center whitespace-nowrap">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
+                            <?php $no = 1; ?>
                                 @foreach ($jabatans as $item)
                                     <tr class="intro-x">
                                         <td class="w-40">
-                                        {{ $item->id }}
+                                        {{ $no++ }}
                                         </td>
                                         <td class="text-center">
                                             <a href="" class="font-medium whitespace-nowrap">{{ $item->nama }}</a>

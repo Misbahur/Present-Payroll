@@ -95,14 +95,14 @@ class JabatanController extends Controller
             'deskripsi' => 'required',
             ]);
    
-            $jabatans = Jabatan::find($request->id);
-            $jabatans->update($request->all());
+        $jabatans = Jabatan::find($request->id);
+        $jabatans->update($request->all());
 
-            if($jabatans){
-                return redirect()->route('jabatan')->with(['success' => 'Data Jabatan'.$request->input('nama').'berhasil disimpan']);
-            }else{
-                return redirect()->route('jabatan')->with(['danger' => 'Data Tidak Terekam!']);
-            }
+        if($jabatans){
+            return redirect()->route('jabatan')->with(['success' => 'Data Jabatan'.$request->input('nama').'berhasil disimpan']);
+        }else{
+            return redirect()->route('jabatan')->with(['danger' => 'Data Tidak Terekam!']);
+        }
     }
 
     /**

@@ -27,7 +27,7 @@
                     <table class="table table-report sm:mt-2">
                         <thead>
                             <tr>
-                                <th class="whitespace-nowrap">ID</th>
+                                <th class="whitespace-nowrap">No</th>
                                 <th class="whitespace-nowrap">Nama Kelompok</th>
                                 <th class="text-center whitespace-nowrap">Shift</th>
                                 <th class="text-center whitespace-nowrap">Nama Pegawai</th>
@@ -35,33 +35,34 @@
                             </tr>
                         </thead>
                         <tbody>
-                                @foreach ($kelompok_kerja as $item)
-                                    <tr class="intro-x">
-                                        <td class="w-40">
-                                        {{ $item->id }}
-                                        </td>
-                                        <td class="text-center">
-                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->nama }}</a>
-                                        </td>
-                                        <td class="text-center">
-                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->pola->nama }}</a>
-                                        </td>
-                                        <td class="text-center">
-                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->pegawai->name }}</a>
-                                        </td>
-                                        <td class="table-report__action w-56">
-                                            <div class="flex justify-center items-center">
-                                                <a class="flex items-center mr-3" href="">
-                                                    <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
-                                                </a>
-                                                <a class="flex items-center text-theme-6" href="">
-                                                    <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
+                            <?php $no = 1; ?>
+                            @foreach ($kelompok_kerja as $item)
+                                <tr class="intro-x">
+                                    <td class="w-40">
+                                    {{ $no++ }}
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="" class="font-medium whitespace-nowrap">{{ $item->nama }}</a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="" class="font-medium whitespace-nowrap">{{ $item->pola->nama }}</a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="" class="font-medium whitespace-nowrap">{{ $item->pegawai->name }}</a>
+                                    </td>
+                                    <td class="table-report__action w-56">
+                                        <div class="flex justify-center items-center">
+                                            <a class="flex items-center mr-3" href="">
+                                                <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
+                                            </a>
+                                            <a class="flex items-center text-theme-6" href="">
+                                                <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
                 <div class="intro-y flex flex-wrap sm:flex-row sm:flex-nowrap items-center mt-3">

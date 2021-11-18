@@ -109,6 +109,9 @@ Route::middleware('auth')->group(function() {
     //Pegawai Manage
     Route::get('pegawai', [PegawaiController::class, 'index'])->name('pegawai');
     Route::post('pegawaiadd', [PegawaiController::class, 'store'])->name('pegawaiadd');
+    Route::get('pegawaiedit', [PegawaiController::class, 'edit'])->name('pegawaiedit');
+    Route::POST('pegawaiupdate', [PegawaiController::class, 'update'])->name('pegawaiupdate');
+    Route::get('pegawaidelete/{id}', [PegawaiController::class, 'destroy'])->name('pegawaidelete');
     
     
     //Kelompok Kerja Manage
