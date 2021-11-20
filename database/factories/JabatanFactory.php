@@ -22,7 +22,7 @@ class JabatanFactory extends Factory
     public function definition()
     {
         return [
-            'nama' => $this->faker->name,
+            'nama' => ['kasir', 'satpam', 'admin', 'os'][rand(0, 3)],
             'deskripsi' => $this->faker->word,
         ];
     }
