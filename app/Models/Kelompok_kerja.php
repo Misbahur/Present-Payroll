@@ -13,9 +13,7 @@ class Kelompok_kerja extends Model
 
     public function pegawai()
     {
-        // return $this->hasMany(Pegawai::class);
-        // return $this->hasMany(User::class);
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Pegawai::class, 'pegawai_id');
     }
 
     public function pola()

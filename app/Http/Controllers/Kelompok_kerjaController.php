@@ -21,12 +21,12 @@ class Kelompok_kerjaController extends Controller
         //
         $kelompok_kerja = Kelompok_kerja::all();
         $pola = Pola::all();
-        $pegawai = User::all();
+        $pegawais = Pegawai::all();
 
         return view('gocay.kelompok-kerja', [
             'kelompok_kerja' => $kelompok_kerja,
             'pola' => $pola,
-            'pegawai' => $pegawai
+            'pegawais' => $pegawais
         ]);
         
     }
@@ -92,12 +92,13 @@ class Kelompok_kerjaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Kelompok_kerja  $Kelompok_kerja
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function edit(Kelompok_kerja $Kelompok_kerja)
+    public function edit(Request $Request)
     {
-        //
+        $kelompok_kerja = Kelompok_kerja::findOrFail($Request->get('id'));
+        echo json_encode($kelompok_kerja);
     }
 
     /**

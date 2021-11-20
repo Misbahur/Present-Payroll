@@ -16,9 +16,23 @@ class SideMenu
             'Modul Kehadiran' => [
                 'icon' => 'monitor',
                 'title' => 'Modul Kehadiran',
-                'route_name' => 'kehadiran',
-                'params' => [
-                    'layout' => 'side-menu'
+                'sub_menu' => [
+                    'Data Kehadiran' => [
+                        'icon' => 'minus',
+                        'title' => 'Data Kehadiran',
+                        'route_name' => 'kehadiran',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                    ],
+                    'Data Kehadiran 2' => [
+                        'icon' => 'minus',
+                        'title' => 'Data Kehadiran',
+                        // 'route_name' => 'kehadiran',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                    ],
                 ],
             ],
             'Modul Pegawai' => [

@@ -29,7 +29,7 @@
             height: 50px;
             @apply flex items-center pl-5 text-white mb-1 relative rounded-full;
             .side-menu__title {
-                @apply w-full ml-3 flex items-center;
+                @apply w-full ml-5 flex items-center;
                 .side-menu__sub-icon {
                     @apply transition ease-in duration-100 ml-auto mr-5;
                     svg {

@@ -20,11 +20,11 @@ class Bon_kasController extends Controller
         //
         $bon_kas = Bon_kas::all();
         $pegawais = Pegawai::all();
-        $jabatans = Jabatan::all();
+        // $jabatans = Jabatan::all();
         return view('gocay.bon-kas', [
             'bon_kas' => $bon_kas,
             'pegawais' => $pegawais,
-            'jabatans' => $jabatans
+            // 'jabatans' => $jabatans
         ]);
         
     }
@@ -49,20 +49,23 @@ class Bon_kasController extends Controller
     {
         $request->validate([
             'nama' => 'required',
+            'tanggal' => 'required',
+            'pegawai_id' => 'required',
             'jabatan_id' => 'required',
-         
+            'nominal' => 'required',
+            'keterangan' => 'required',
         ]);
 
         $Bon_kas = new Bon_kas;
         $Bon_kas->nama = $request->nama;
+        $Bon_kas->tanggal = $request->tanggal;
         $Bon_kas->pegawai_id = $request->pegawai_id;
         $Bon_kas->jabatan_id = $request->jabatan_id;
-        $Bon_kas->tanggal = $request->tanggal;
         $Bon_kas->nominal = $request->nominal;
         $Bon_kas->keterangan = $request->keterangan;
         $Bon_kas->save();
 
-         if($Bon_kas){
+        if($Bon_kas){
             return redirect()->route('bon-kas')->with(['success' => 'Data Bon_kas'.$request->input('nama').'berhasil disimpan']);
         }else{
             return redirect()->route('bon-kas')->with(['danger' => 'Data Tidak Terekam!']);
@@ -80,15 +83,24 @@ class Bon_kasController extends Controller
         //
     }
 
+    public function dropdown_jabatan(Request $request)
+    {
+        $pegawais = Pegawai::find($request->get('id'));
+        // $jabatans = Jabatan::select('nama','id')->where('id',$pegawais['jabatan_id'])->first();
+        $jabatans = Jabatan::where("id",$pegawais['jabatan_id'])->pluck("nama","id");
+        return response()->json($jabatans);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Bon_kas  $Bon_kas
      * @return \Illuminate\Http\Response
      */
-    public function edit(Bon_kas $Bon_kas)
+    public function edit(Request $Request)
     {
-        //
+        $bon_kas = Bon_kas::findOrFail($Request->get('id'));
+        echo json_encode($bon_kas);
     }
 
     /**
@@ -100,7 +112,23 @@ class Bon_kasController extends Controller
      */
     public function update(Request $request, Bon_kas $Bon_kas)
     {
-        //
+        $request->validate([
+            'nama' => 'required',
+            'tanggal' => 'required',
+            'pegawai_id' => 'required',
+            'jabatan_id' => 'required',
+            'nominal' => 'required',
+            'keterangan' => 'required',
+        ]);
+
+        $bon_kas = Bon_kas::find($request->id);
+        $bon_kas->update($request->all());
+
+        if($Bon_kas){
+            return redirect()->route('bon-kas')->with(['success' => 'Data Bon_kas'.$request->input('nama').'berhasil disimpan']);
+        }else{
+            return redirect()->route('bon-kas')->with(['danger' => 'Data Tidak Terekam!']);
+        }
     }
 
     /**
@@ -109,8 +137,11 @@ class Bon_kasController extends Controller
      * @param  \App\Models\Bon_kas  $Bon_kas
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Bon_kas $Bon_kas)
+    public function destroy($id)
     {
-        //
+        $bon_kas = Bon_kas::where('id', $id)
+              ->delete();
+        return redirect()->route('bon-kas')
+                        ->with('success','Post deleted successfully');
     }
 }

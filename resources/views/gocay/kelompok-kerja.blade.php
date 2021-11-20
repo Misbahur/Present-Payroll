@@ -48,18 +48,19 @@
                                         <a href="" class="font-medium whitespace-nowrap">{{ $item->pola->nama }}</a>
                                     </td>
                                     <td class="text-center">
-                                        <a href="" class="font-medium whitespace-nowrap">{{ $item->pegawai->name }}</a>
+                                        <a href="" class="font-medium whitespace-nowrap">{{ $item->pegawai->nama }}</a>
                                     </td>
                                     <td class="table-report__action w-56">
-                                        <div class="flex justify-center items-center">
-                                            <a class="flex items-center mr-3" href="">
-                                                <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
-                                            </a>
-                                            <a class="flex items-center text-theme-6" href="">
-                                                <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
-                                            </a>
-                                        </div>
-                                    </td>
+                                            <div class="flex justify-center items-center">
+                                                <a class="flex items-center mr-3 kelompok-kerja-edit" href="javascript:void(0)" data-toggle="modal" 
+                                                id="{{ $item->id }}" data-target="#header-footer-modal-preview-edit" data-id="{{ $item->id }}">
+                                                    <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit 
+                                                </a>
+                                                <a class="flex items-center text-theme-6" href="/kelompok-kerjadelete/{{$item->id}}" onclick="return confirm('Apakah Anda Yakin Menghapus Data?');">
+                                                    <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
+                                                </a>
+                                            </div>
+                                        </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -156,8 +157,8 @@
                     <div class="col-span-12 sm:col-span-12">
                         <label for="modal-form-3" class="form-label">Pegawai</label>
                         <select name="pegawai_id[]" data-placeholder="Select your favorite actors" class="tail-select w-full" id="modal-form-3" multiple>
-                        @foreach ($pegawai as $item)
-                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @foreach ($pegawais as $item)
+                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
                         @endforeach
                         </select>
                     </div>
@@ -177,6 +178,98 @@
     
 
     <!-- END: Modal Content -->
+
+    <!-- BEGIN: Modal Content -->
+    <div id="header-footer-modal-preview-edit" class="modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- BEGIN: Modal Header -->
+                <div class="modal-header">
+                    <h2 class="font-medium text-base mr-auto">Update Kelompok Kerja</h2>
+                    <div class="dropdown sm:hidden">
+                        <a class="dropdown-toggle w-5 h-5 block" href="javascript:;" aria-expanded="false">
+                            <i data-feather="more-horizontal" class="w-5 h-5 text-gray-600 dark:text-gray-600"></i>
+                        </a>
+                        <div class="dropdown-menu w-40">
+                            <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
+                                <a href="javascript:;"
+                                    class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                                    <i data-feather="file" class="w-4 h-4 mr-2"></i> Download Docs
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END: Modal Header -->
+                <!-- BEGIN: Modal Body -->
+                <form method="POST" action="{{ route('kelompok-kerjaupdate') }}">
+                <input type="hidden" name="id" id="modal-update-id">
+                        @csrf
+                <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
+                    <div class="col-span-12 sm:col-span-12">
+                        <label for="modal-form-1-edit" class="form-label">Nama Kelempok</label>
+                        <input id="modal-form-1-edit" name="nama" type="text" class="form-control" placeholder="Kelompok Hore.,...">
+                    </div>
+                    <div class="col-span-12 sm:col-span-12">
+                        <label for="modal-form-2-edit" class="form-label">Pola Kerja</label>
+                        <select id="modal-form-2-edit" class="form-select" name="pola_kerja_id">
+                        @foreach ($pola as $item)
+                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                        @endforeach
+                        </select>
+                    </div>
+                    
+                    <div class="col-span-12 sm:col-span-12">
+                        <label for="modal-form-3-edit" class="form-label">Pegawai</label>
+                        <select name="pegawai_id" class="form-select" id="modal-form-3-edit">
+                        @foreach ($pegawais as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
+                        </select>
+                    </div>
+                </div>
+                <!-- END: Modal Body -->
+                <!-- BEGIN: Modal Footer -->
+                <div class="modal-footer text-right">
+                    <button type="button" data-dismiss="modal"
+                        class="btn btn-outline-secondary w-20 mr-1">Cancel</button>
+                    <button type="submit" class="btn btn-primary w-20">Send</button>
+                </div>
+                </form>
+                <!-- END: Modal Footer -->
+            </div>
+        </div>
+    </div>
+    <!-- END: Modal Content -->
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                //edit data
+                
+                $('.kelompok-kerja-edit').on('click',function() {
+                    var id = $(this).attr('data-id');
+
+
+                    $.ajax({
+                        url : "{{route('kelompok-kerjaedit')}}?id="+id,
+                        type: "GET",
+                        dataType: "JSON",
+                        success: function(data)
+                        {
+                             console.log(data);
+
+                            $('#modal-update-id').val(data.id);
+                            $('#modal-form-1-edit').val(data.nama);
+                            $('#modal-form-2-edit').val(data.pola_kerja_id);
+                            $('#modal-form-3-edit').val(data.pegawai_id);
+
+                        }
+                    });
+                });
+            });
+        </script>
+
 
 </div>
 @endsection

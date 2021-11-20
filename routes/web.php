@@ -117,6 +117,9 @@ Route::middleware('auth')->group(function() {
     //Kelompok Kerja Manage
     Route::get('kelompok-kerja', [Kelompok_kerjaController::class, 'index'])->name('kelompok-kerja');
     Route::post('kelompok-kerjaadd', [Kelompok_kerjaController::class, 'store'])->name('kelompok-kerjaadd');
+    Route::get('kelompok-kerjaedit', [Kelompok_kerjaController::class, 'edit'])->name('kelompok-kerjaedit');
+    Route::POST('kelompok-kerjaupdate', [Kelompok_kerjaController::class, 'update'])->name('kelompok-kerjaupdate');
+    Route::get('kelompok-kerjadelete/{id}', [Kelompok_kerjaController::class, 'destroy'])->name('kelompok-kerjadelete');
     
     
     //Jabatan Manage
@@ -129,6 +132,10 @@ Route::middleware('auth')->group(function() {
     //Bon-Kas Manage
     Route::get('bon-kas', [Bon_kasController::class, 'index'])->name('bon-kas');
     Route::post('bon-kasadd', [Bon_kasController::class, 'store'])->name('bon-kasadd');
+    Route::get('bon-kasedit', [Bon_kasController::class, 'edit'])->name('bon-kasedit');
+    Route::POST('bon-kasupdate', [Bon_kasController::class, 'update'])->name('bon-kasupdate');
+    Route::get('bon-kasdelete/{id}', [Bon_kasController::class, 'destroy'])->name('bon-kasdelete');
+    Route::get('dropdown_jabatan', [Bon_kasController::class, 'dropdown_jabatan'])->name('dropdown_jabatan');
     
     // Pola Kerja Manage
     Route::get('pola-kerja', [PolaController::class, 'index'])->name('pola-kerja');

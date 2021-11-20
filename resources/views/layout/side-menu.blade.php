@@ -6,6 +6,12 @@
 
 @section('content')
     @include('../layout/components/mobile-menu')
+
+    <style>
+        .side-nav > ul ul {
+            background: none;
+        }
+    </style>
     <div class="flex">
         <!-- BEGIN: Side Menu -->
         <nav class="side-nav">
@@ -38,10 +44,10 @@
                             @if (isset($menu['sub_menu']))
                                 <ul class="{{ $first_level_active_index == $menuKey ? 'side-menu__sub-open' : '' }}">
                                     @foreach ($menu['sub_menu'] as $subMenuKey => $subMenu)
-                                        <li>
+                                        <li class="ml-5">
                                             <a href="{{ isset($subMenu['route_name']) ? route($subMenu['route_name'], $subMenu['params']) : 'javascript:;' }}" class="{{ $second_level_active_index == $subMenuKey ? 'side-menu side-menu--active' : 'side-menu' }}">
                                                 <div class="side-menu__icon">
-                                                    <i data-feather="activity"></i>
+                                                    <i data-feather="{{ $subMenu['icon'] }}"></i>
                                                 </div>
                                                 <div class="side-menu__title">
                                                     {{ $subMenu['title'] }}
