@@ -22,5 +22,10 @@ class Pegawai extends Model
     {
         return $this->belongsTo('App\Models\Jabatan', 'jabatan_id');
     }
+
+    // public function kelompok_kerja()
+    // {
+    //     return $this->hasMany('App\Models\Kelompok_kerja', 'id');
+    // }
     
 }

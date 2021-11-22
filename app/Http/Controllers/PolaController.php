@@ -39,18 +39,18 @@ class PolaController extends Controller
     {
         $request->validate([
             'nama' => 'required',
-            'jm' => 'required',
-            'ji' => 'required',
-            'jim' => 'required',
-            'jp' => 'required'
+            'jam_masuk' => 'required',
+            'jam_istirahat' => 'required',
+            'jam_istirahat_masuk' => 'required',
+            'jam_pulang' => 'required',
         ]);
 
         $pola = new Pola;
         $pola->nama = $request->nama;
-        $pola->jam_masuk = $request->jm;
-        $pola->jam_istirahat = $request->ji;
-        $pola->jam_istirahat_masuk = $request->jim;
-        $pola->jam_pulang = $request->jp;
+        $pola->jam_masuk = $request->jam_masuk;
+        $pola->jam_istirahat = $request->jam_istirahat;
+        $pola->jam_istirahat_masuk = $request->jam_istirahat_masuk;
+        $pola->jam_pulang = $request->jam_pulang;
         $pola->save();
 
          if($pola){
@@ -77,9 +77,10 @@ class PolaController extends Controller
      * @param  \App\Models\Pola  $pola
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pola $pola)
+    public function edit(Request $Request)
     {
-        //
+        $pola = Pola::findOrFail($Request->get('id'));
+        echo json_encode($pola);
     }
 
     /**
@@ -91,7 +92,22 @@ class PolaController extends Controller
      */
     public function update(Request $request, Pola $pola)
     {
-        //
+        $this->validate($request, [
+            'nama' => 'required',
+            'jam_masuk' => 'required',
+            'jam_istirahat' => 'required',
+            'jam_istirahat_masuk' => 'required',
+            'jam_pulang' => 'required',
+            ]);
+   
+        $pola = Pola::find($request->id);
+        $pola->update($request->all());
+
+        if($pola){
+            return redirect()->route('pola-kerja')->with(['success' => 'Data Pola Kerja Pegawai'.$request->input('nama').'berhasil disimpan']);
+        }else{
+            return redirect()->route('pola-kerja')->with(['danger' => 'Data Tidak Terekam!']);
+        }
     }
 
     /**
@@ -100,8 +116,11 @@ class PolaController extends Controller
      * @param  \App\Models\Pola  $pola
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pola $pola)
+    public function destroy($id)
     {
-        //
+        $pola = Pola::where('id', $id)
+              ->delete();
+        return redirect()->route('pola-kerja')
+                        ->with('success','Post deleted successfully');
     }
 }

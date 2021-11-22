@@ -140,6 +140,12 @@ Route::middleware('auth')->group(function() {
     // Pola Kerja Manage
     Route::get('pola-kerja', [PolaController::class, 'index'])->name('pola-kerja');
     Route::post('polakerjaadd', [PolaController::class, 'store'])->name('polakerjaadd');
+    Route::get('polakerjaedit', [PolaController::class, 'edit'])->name('polakerjaedit');
+    Route::POST('polakerjaupdate', [PolaController::class, 'update'])->name('polakerjaupdate');
+    Route::get('polakerjadelete/{id}', [PolaController::class, 'destroy'])->name('polakerjadelete');
+
+    //Kehadian Manage
+    Route::get('pengecualian', [PageController::class, 'pengecualian'])->name('pengecualian');
 
     Route::get('kalender', [PageController::class, 'kalender'])->name('kalender');
     Route::get('gaji', [PageController::class, 'gaji'])->name('gaji');

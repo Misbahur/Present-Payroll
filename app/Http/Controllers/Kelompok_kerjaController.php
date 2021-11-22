@@ -22,6 +22,7 @@ class Kelompok_kerjaController extends Controller
         $kelompok_kerja = Kelompok_kerja::all();
         $pola = Pola::all();
         $pegawais = Pegawai::all();
+        
 
         return view('gocay.kelompok-kerja', [
             'kelompok_kerja' => $kelompok_kerja,

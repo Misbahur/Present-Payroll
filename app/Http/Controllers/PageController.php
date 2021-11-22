@@ -95,9 +95,9 @@ class PageController extends Controller
         ]);
     }
 
-    publIc function departemen()
+    publIc function pengecualian()
     {
-        return view('gocay/departemen', [
+        return view('gocay/pengecualian', [
             
         ]);
     }

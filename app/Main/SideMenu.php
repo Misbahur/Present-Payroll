@@ -131,6 +131,15 @@ class SideMenu
                     
                 ],
             ],
+
+            'Pengecualian' => [
+                'icon' => 'user-check',
+                'route_name' => 'pengecualian',
+                'params' => [
+                    'layout' => 'side-menu'
+                ],
+                'title' => 'Pengecualian'
+            ],
             
             'devider',
             'Setting' => [
