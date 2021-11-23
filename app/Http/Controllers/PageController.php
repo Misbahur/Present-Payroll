@@ -144,12 +144,10 @@ class PageController extends Controller
         ]);
     }
 
-    public function settingPerusahaan()
-    {
-        return view('gocay/setting-perusahaan', [
-            
-        ]);
-    }
+    // public function settingPerusahaan()
+    // {
+
+    // }
 
 
 

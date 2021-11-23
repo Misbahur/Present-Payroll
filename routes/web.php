@@ -10,6 +10,7 @@ use App\Http\Controllers\{
     Kelompok_kerjaController,
     Bon_kasController,
     PegawaiController,
+    SettingController,
 
 
 };
@@ -152,10 +153,8 @@ Route::middleware('auth')->group(function() {
     Route::get('komponen-gaji', [PageController::class, 'komponenGaji'])->name('komponen-gaji');
     Route::get('lembur', [PageController::class, 'lembur'])->name('lembur');
 
-    Route::get('setting-perusahaan', [PageController::class, 'settingPerusahaan'])->name('setting-perusahaan');
-
-    
-
-
+    Route::get('setting-perusahaan', [SettingController::class, 'index'])->name('setting-perusahaan');
+    Route::get('setting-perusahaan/edit/{id}', [SettingController::class, 'edit'])->name('setting-edit');
+    Route::post('setting-perusahaan/update/{id}', [SettingController::class, 'update'])->name('setting-update');
 
 });
