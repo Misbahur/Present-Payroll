@@ -86,7 +86,6 @@ class Bon_kasController extends Controller
     public function dropdown_jabatan(Request $request)
     {
         $pegawais = Pegawai::find($request->get('id'));
-        // $jabatans = Jabatan::select('nama','id')->where('id',$pegawais['jabatan_id'])->first();
         $jabatans = Jabatan::where("id",$pegawais['jabatan_id'])->pluck("nama","id");
         return response()->json($jabatans);
     }

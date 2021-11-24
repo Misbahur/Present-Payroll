@@ -11,6 +11,7 @@ use App\Http\Controllers\{
     Bon_kasController,
     PegawaiController,
     SettingController,
+    PengecualianController,
 
 
 };
@@ -146,7 +147,13 @@ Route::middleware('auth')->group(function() {
     Route::get('polakerjadelete/{id}', [PolaController::class, 'destroy'])->name('polakerjadelete');
 
     //Kehadian Manage
-    Route::get('pengecualian', [PageController::class, 'pengecualian'])->name('pengecualian');
+    Route::get('pengecualian', [PengecualianController::class, 'index'])->name('pengecualian');
+    Route::post('pengecualianadd', [PengecualianController::class, 'store'])->name('pengecualianadd');
+    Route::get('pengecualianedit', [PengecualianController::class, 'edit'])->name('pengecualianedit');
+    Route::POST('pengecualianupdate', [PengecualianController::class, 'update'])->name('pengecualianupdate');
+    Route::get('pengecualiandelete/{id}', [PengecualianController::class, 'destroy'])->name('pengecualiandelete');
+    Route::get('dropdown_jabatan', [PengecualianController::class, 'dropdown_jabatan'])->name('dropdown_jabatan');
+
 
     Route::get('kalender', [PageController::class, 'kalender'])->name('kalender');
     Route::get('gaji', [PageController::class, 'gaji'])->name('gaji');
