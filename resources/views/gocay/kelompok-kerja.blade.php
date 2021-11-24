@@ -48,7 +48,18 @@
                                         <a href="" class="font-medium whitespace-nowrap">{{ $item->pola->nama }}</a>
                                     </td>
                                     <td class="text-center">
-                                        <a href="" class="font-medium whitespace-nowrap">{{ $item->pegawai->nama }}</a>
+                                        <a href="" class="font-medium whitespace-nowrap">
+                                            <?php 
+                                                $pegawai_id = explode ('|', $item->pegawai_id);
+                                            ?>
+                                            @foreach ($pegawai_id as $id)
+                                                @php 
+                                                    $p = App\Http\Controllers\Kelompok_kerjaController::pegawai_name($id);
+                                                    $pegawai_name = preg_replace("/[^a-zA-Z]/", "", $p);
+                                                @endphp
+                                                {{ $pegawai_name }} ,
+                                            @endforeach
+                                        </a>
                                     </td>
                                     <td class="table-report__action w-56">
                                             <div class="flex justify-center items-center">
@@ -157,9 +168,9 @@
                     <div class="col-span-12 sm:col-span-12">
                         <label for="modal-form-3" class="form-label">Pegawai</label>
                         <select name="pegawai_id[]" data-placeholder="Select your favorite actors" class="tail-select w-full" id="modal-form-3" multiple>
-                        @foreach ($pegawais as $item)
-                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                        @endforeach
+                            @foreach ($pegawais as $item)
+                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -221,10 +232,10 @@
                     
                     <div class="col-span-12 sm:col-span-12">
                         <label for="modal-form-3-edit" class="form-label">Pegawai</label>
-                        <select name="pegawai_id" class="form-select" id="modal-form-3-edit">
-                        @foreach ($pegawais as $item)
-                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                        @endforeach
+                        <select name="pegawai_id_edit[]" data-placeholder="Select your favorite actors" class="tail-select w-full" id="modal-form-3-edit" multiple required>
+                            @foreach ($pegawais as $item)
+                                <option value="{{$item->id}}">{{$item->nama}}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -257,12 +268,14 @@
                         dataType: "JSON",
                         success: function(data)
                         {
-                             console.log(data);
 
                             $('#modal-update-id').val(data.id);
                             $('#modal-form-1-edit').val(data.nama);
                             $('#modal-form-2-edit').val(data.pola_kerja_id);
                             $('#modal-form-3-edit').val(data.pegawai_id);
+                            
+                            var pegawai_id = data.pegawai_id;
+                            console.log(pegawai_id.split('|'));
 
                         }
                     });

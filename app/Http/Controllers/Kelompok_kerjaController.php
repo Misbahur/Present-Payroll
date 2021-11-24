@@ -16,20 +16,25 @@ class Kelompok_kerjaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
         $kelompok_kerja = Kelompok_kerja::all();
         $pola = Pola::all();
         $pegawais = Pegawai::all();
         
-
         return view('gocay.kelompok-kerja', [
             'kelompok_kerja' => $kelompok_kerja,
             'pola' => $pola,
-            'pegawais' => $pegawais
+            'pegawais' => $pegawais,
         ]);
         
+    }
+
+    public static function pegawai_name($id)
+    {
+        $pegawais = Pegawai::where('id',$id)->pluck('nama');
+        return $pegawais;
     }
 
     /**
@@ -57,20 +62,20 @@ class Kelompok_kerjaController extends Controller
          
         ]);
 
-        $jumlahPegawai = sizeof($request->pegawai_id);
-        for ($i=0; $i < $jumlahPegawai; $i++) { 
-            $Kelompok_kerja = new Kelompok_kerja;
-            $Kelompok_kerja->nama = $request->nama;
-            $Kelompok_kerja->pola_kerja_id = $request->pola_kerja_id;
-            $Kelompok_kerja->pegawai_id = $request->pegawai_id[$i];
-            $Kelompok_kerja->save();
-        }
-        // $pegawai_ids = implode(', ', $pegawai_id);
-        // $Kelompok_kerja = new Kelompok_kerja;
-        // $Kelompok_kerja->nama = $request->nama;
-        // $Kelompok_kerja->pola_kerja_id = $request->pola_kerja_id;
-        // $Kelompok_kerja->pegawai_id = $pegawai_ids;
-        // $Kelompok_kerja->save();
+        // $jumlahPegawai = sizeof($request->pegawai_id);
+        // for ($i=0; $i < $jumlahPegawai; $i++) { 
+        //     $Kelompok_kerja = new Kelompok_kerja;
+        //     $Kelompok_kerja->nama = $request->nama;
+        //     $Kelompok_kerja->pola_kerja_id = $request->pola_kerja_id;
+        //     $Kelompok_kerja->pegawai_id = $request->pegawai_id[$i];
+        //     $Kelompok_kerja->save();
+        // }
+        $pegawai_ids = implode('|', $request->pegawai_id);
+        $Kelompok_kerja = new Kelompok_kerja;
+        $Kelompok_kerja->nama = $request->nama;
+        $Kelompok_kerja->pola_kerja_id = $request->pola_kerja_id;
+        $Kelompok_kerja->pegawai_id = $pegawai_ids;
+        $Kelompok_kerja->save();
 
          if($Kelompok_kerja){
             return redirect()->route('kelompok-kerja')->with(['success' => 'Data Kelompok_kerja'.$request->input('nama').'berhasil disimpan']);
@@ -106,12 +111,29 @@ class Kelompok_kerjaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Kelompok_kerja  $Kelompok_kerja
+     * @param  \App\Models\Kelompok_kerja  $kelompok_kerja
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Kelompok_kerja $Kelompok_kerja)
+    public function update(Request $request, Kelompok_kerja $kelompok_kerja)
     {
-        //
+        $request->validate([
+            'nama' => 'required',
+            'pola_kerja_id' => 'required',
+            'pegawai_id_edit' => 'required',
+        ]);
+   
+        $pegawai_ids = implode('|', $request->pegawai_id_edit);
+        $kelompok_kerja = Kelompok_kerja::find($request->id);
+        $kelompok_kerja->nama = $request->nama;
+        $kelompok_kerja->pola_kerja_id = $request->pola_kerja_id;
+        $kelompok_kerja->pegawai_id = $pegawai_ids;
+        $kelompok_kerja->update();
+
+        if($kelompok_kerja){
+            return redirect()->route('kelompok-kerja')->with(['success' => 'Data Kelompok Keja'.$request->input('nama').'berhasil disimpan']);
+        }else{
+            return redirect()->route('kelompok-kerja')->with(['danger' => 'Data Tidak Terekam!']);
+        }
     }
 
     /**
