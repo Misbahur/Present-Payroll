@@ -157,6 +157,8 @@ Route::middleware('auth')->group(function() {
 
     //Management User 
     Route::get('user', [UserController::class, 'index'])->name('user');
+    Route::post('useradd', [UserController::class, 'store'])->name('useradd');
+
 
 
     Route::get('kalender', [PageController::class, 'kalender'])->name('kalender');

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+
 
 class UserController extends Controller
 {
@@ -38,6 +41,47 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'gender' => 'required',
+            'role' => 'required',
+            'password' => 'required',
+        ]);
+
+         if ($request->hasFile('photo')) {
+        $filenameWithExt = $request->file('photo')->getClientOriginalName ();
+        // Get Filename
+        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        // Get just Extension
+        $extension = $request->file('photo')->getClientOriginalExtension();
+        // Filename To store
+        $fileNameToStore = $filename.'_'. 'user'.'.'.$extension;
+        $path = $request->file('photo')->storeAs('user', $fileNameToStore, 'public');
+        }
+        // Else add a dummy photo
+        else {
+        $path = 'Nophoto.jpg';
+        }
+
+
+        $user = new User;
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->gender = $request->gender;
+        $user->role = $request->role;
+        $user->active = 1;
+        $user->password =  Hash::make($request->input('password'));
+        $user->remember_token = Str::random(10);
+        $user->photo = $path;
+        $user->save();
+
+
+         if($user){
+            return redirect()->route('user')->with(['success' => 'Data Berhasil Terekam!']);
+        }else{
+            return redirect()->route('user')->with(['danger' => 'Data Tidak Terekam!']);
+        }
     }
 
     /**
