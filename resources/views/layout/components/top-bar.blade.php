@@ -1,10 +1,22 @@
 <!-- BEGIN: Top Bar -->
 <div class="top-bar">
     <!-- BEGIN: Breadcrumb -->
-    <div class="-intro-x breadcrumb mr-auto hidden sm:flex">
+    <!-- <div class="-intro-x breadcrumb mr-auto hidden sm:flex">
         <a href="">Application</a>
         <i data-feather="chevron-right" class="breadcrumb__icon"></i>
         <a href="" class="breadcrumb--active">Dashboard</a>
+    </div> -->
+    <div class="-intro-x breadcrumb mr-auto hidden sm:flex">
+        <a href="">Application</a>
+        <i data-feather="chevron-right" class="breadcrumb__icon"></i>
+        @if (Request::segments())
+            @foreach (Request::segments() as $segment)
+                <a href="" class="breadcrumb--active">{{ucwords(str_replace('-',' ',$segment))}}</a>
+            @endforeach
+        @else
+            <a href="" class="breadcrumb--active">Beranda</a>
+        @endif
+        
     </div>
     <!-- END: Breadcrumb -->
     <!-- BEGIN: Search -->

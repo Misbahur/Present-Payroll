@@ -13,6 +13,7 @@ use App\Http\Controllers\{
     SettingController,
     PengecualianController,
     UserController,
+    Komponen_gajiController,
 
 };
 
@@ -160,7 +161,15 @@ Route::middleware('auth')->group(function() {
 
     Route::get('kalender', [PageController::class, 'kalender'])->name('kalender');
     Route::get('gaji', [PageController::class, 'gaji'])->name('gaji');
-    Route::get('komponen-gaji', [PageController::class, 'komponenGaji'])->name('komponen-gaji');
+
+
+    Route::get('komponen-gaji', [Komponen_gajiController::class, 'index'])->name('komponen-gaji');
+    Route::POST('komponengajiadd', [Komponen_gajiController::class, 'store'])->name('komponengajiadd');
+    Route::POST('bonusharianupdate', [Komponen_gajiController::class, 'bonusharianupdate'])->name('bonusharianupdate');
+    Route::POST('bonusmingguanupdate', [Komponen_gajiController::class, 'bonusmingguanupdate'])->name('bonusmingguanupdate');
+    Route::POST('bonusbulananupdate', [Komponen_gajiController::class, 'bonusbulananupdate'])->name('bonusbulananupdate');
+
+
     Route::get('lembur', [PageController::class, 'lembur'])->name('lembur');
 
     Route::get('setting-perusahaan', [SettingController::class, 'index'])->name('setting-perusahaan');

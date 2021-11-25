@@ -8,23 +8,7 @@ use Illuminate\Http\Request;
 
 class PegawaiController extends Controller
 {
-    public function index2()
-    {
-        $data = Pegawai::all();
-        $jumlahPegawai = Pegawai::all()->groupBy('id_Pegawai');
-        $jumlahKasir = Pegawai::all()->where('id_Pegawai', '1');
-        $jumlahGudang = Pegawai::all()->where('id_Pegawai', '2');
-        $jumlahKantor = Pegawai::all()->where('id_Pegawai', '3');
-        return view('gocay/karyawan', 
-        compact(
-            'data', 
-            'jumlahPegawai',
-            'jumlahKasir', 
-            'jumlahGudang',
-            'jumlahKantor'
-        ));
-    }
-
+   
     //
     /**
      * Display a listing of the resource.
