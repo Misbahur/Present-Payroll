@@ -142,6 +142,14 @@ class SideMenu
             ],
             
             'devider',
+            'users' => [
+                'icon' => 'users',
+                'route_name' => 'user',
+                'params' => [
+                    'layout' => 'side-menu'
+                ],
+                'title' => 'Users'
+            ],
             'Setting' => [
                 'icon' => 'trello',
                 'title' => 'Setting Perusahaan',

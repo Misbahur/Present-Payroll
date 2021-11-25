@@ -12,7 +12,7 @@ use App\Http\Controllers\{
     PegawaiController,
     SettingController,
     PengecualianController,
-
+    UserController,
 
 };
 
@@ -153,6 +153,9 @@ Route::middleware('auth')->group(function() {
     Route::POST('pengecualianupdate', [PengecualianController::class, 'update'])->name('pengecualianupdate');
     Route::get('pengecualiandelete/{id}', [PengecualianController::class, 'destroy'])->name('pengecualiandelete');
     Route::get('dropdown_jabatan', [PengecualianController::class, 'dropdown_jabatan'])->name('dropdown_jabatan');
+
+    //Management User 
+    Route::get('user', [UserController::class, 'index'])->name('user');
 
 
     Route::get('kalender', [PageController::class, 'kalender'])->name('kalender');
