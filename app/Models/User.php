@@ -24,7 +24,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'role', 'gender', 'photo'
     ];
 
     /**
@@ -44,25 +44,4 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    /**
-     * The attributes that appends to returned entities.
-     *
-     * @var array
-     */
-    protected $appends = ['photo'];
-
-    /**
-     * The getter that return accessible URL for user photo.
-     *
-     * @var array
-     */
-    public function getPhotoUrlAttribute()
-    {
-        if ($this->foto !== null) {
-            return url('media/user/' . $this->id . '/' . $this->foto);
-        } else {
-            return url('media-example/no-image.png');
-        }
-    }
 }

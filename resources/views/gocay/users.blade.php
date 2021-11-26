@@ -46,7 +46,7 @@
                                                 class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md user-edit">
                                             <i data-feather="edit" class="w-4 h-4 mr-2"></i> Edit User
                                         </a>
-                                        <a href="/userdelete/{{$item->id}}" onclick="return confirm('Apakah Anda Yakin Menghapus Data?');" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                                        <a href="{{ route('userdelete', $item->id)}}" onclick="return confirm('Apakah Anda Yakin Menghapus Data?');" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                                             <i data-feather="trash-2" class="w-4 h-4 mr-2"></i> Delete
                                         </a>
                                     </div>
