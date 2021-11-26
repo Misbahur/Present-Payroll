@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-
 class UserController extends Controller
 {
     /**
@@ -101,9 +100,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $Request)
     {
         //
+        $user = User::findOrFail($Request->get('id'));
+        echo json_encode($user);
     }
 
     /**
@@ -127,5 +128,9 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+        $user = User::where('id', $id)
+              ->delete();
+        return redirect()->route('user')
+                        ->with('success','Post deleted successfully');
     }
 }
