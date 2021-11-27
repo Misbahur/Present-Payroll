@@ -189,7 +189,8 @@
                     </div>
                     <div class="col-span-12 sm:col-span-12">
                         <label for="modal-form-5-edit" class="form-label">Photo Profile</label>
-                        <input id="modal-form-5-edit" name="photo" type="file" class="form-control" placeholder="">
+                        <img src="" id="modal-form-5-edit" alt="file" width="100" height="100">
+                        <input id="modal-form-5-edit" name="photo" type="file" class="form-control" placeholder="sertakan photo baru">
                     </div>
                      <div class="col-span-12 sm:col-span-12">
                         <label for="modal-form-6-edit" class="form-label">Password</label>
@@ -229,7 +230,7 @@
                             $('#modal-form-2-edit').val(data.email);
                             $('#modal-form-3-edit').val(data.gender);
                             $('#modal-form-4-edit').val(data.role);
-                            $('#modal-form-5-edit').val(data.photo);
+                            $('#modal-form-5-edit').attr('src', 'storage/'+data.photo);
                             $('#modal-form-6-edit').val(data.password);
 
                             // $('#header-footer-modal-preview-edit').modal('show');

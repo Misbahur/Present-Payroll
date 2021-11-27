@@ -114,9 +114,45 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
         //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'gender' => 'required',
+            'role' => 'required',
+        ]);
+
+         if ($request->hasFile('photo')) {
+        $filenameWithExt = $request->file('photo')->getClientOriginalName ();
+        // Get Filename
+        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        // Get just Extension
+        $extension = $request->file('photo')->getClientOriginalExtension();
+        // Filename To store
+        $fileNameToStore = $filename.'_'. 'user'.'.'.$extension;
+        $path = $request->file('photo')->storeAs('user', $fileNameToStore, 'public');
+        }
+        // Else add a dummy photo
+        else {
+        $path = 'Nophoto.jpg';
+        }
+
+        $user = User::find($request->id);
+        if($request->input('password')){
+            $user->password = $request->input('password');
+        }else{
+            unset($user->password);
+        }
+        $user->update($request->all());
+
+        
+         if($user){
+            return redirect()->route('user')->with(['success' => 'Data Berhasil Terekam!']);
+        }else{
+            return redirect()->route('user')->with(['danger' => 'Data Tidak Terekam!']);
+        }
     }
 
     /**
