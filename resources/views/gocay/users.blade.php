@@ -171,21 +171,20 @@
                     </div>
                      <div class="col-span-12 sm:col-span-6">
                         <label for="modal-form-3-edit" class="form-label">Gender</label>
-                        {{-- <select id="modal-form-3-edit" class="form-select" name="gender" aria-label="Default select example">
+                         <select id="modal-form-3-edit" class="form-select" name="gender" aria-label="Default select example">
                             <option value="" selected disabled>--- Pilih Salah satu ---</option>
-                            <option value="laki-laki" {{ $user->gender == 'laki-laki' ? 'selected' : ''}}>Laki - Laki</option>
-                            <option value="perempuan" {{ $user->gender == 'perempuan' ? 'selected' : ''}}>Perempuan</option>
-                        </select> --}}
-                        <input type="text" name="gender" id="modal-form-3-edit" class="form-control">
+                            <option value="laki-laki" > laki-laki </option>
+                            <option value="perempuan" > perempuan </option>
+                        </select> 
+                        <!-- <input type="text" name="gender" id="modal-form-3-edit" class="form-control"> -->
                     </div>
                     <div class="col-span-12 sm:col-span-6">
                         <label for="modal-form-4-edit" class="form-label">Role User</label>
-                        {{-- <select id="modal-form-4-edit" class="form-select" name="role" aria-label="Default select example">
+                        <select id="modal-form-4-edit" class="form-select" name="role" aria-label="Default select example">
                             <option value="" selected disabled>--- Pilih Salah satu ---</option>
-                            <option value="koordinator" {{ $user->role == 'koordinator' ? 'selected' : ''}}>Koordinator</option>
-                            <option value="admin" {{ $user->role == 'admin' ? 'selected' : ''}}>Admin</option>
-                        </select> --}}
-                        <input type="text" name="role" id="modal-form-4-edit" class="form-control">
+                            <option value="koordinator">Koordinator</option>
+                            <option value="admin">Admin</option>
+                        </select> 
                     </div>
                     <div class="col-span-12 sm:col-span-12">
                         <label for="modal-form-5-edit" class="form-label">Photo Profile</label>
@@ -228,16 +227,17 @@
                             $('#modal-update-id').val(data.id);
                             $('#modal-form-1-edit').val(data.name);
                             $('#modal-form-2-edit').val(data.email);
-                            $('#modal-form-3-edit').val(data.gender);
-                            $('#modal-form-4-edit').val(data.role);
+                            // $('#modal-form-3-edit').val(data.gender);
+                            // $('#modal-form-4-edit').val(data.role);
                             $('#modal-form-5-edit').attr('src', 'storage/'+data.photo);
                             $('#modal-form-6-edit').val(data.password);
-
-                            // $('#header-footer-modal-preview-edit').modal('show');
-
+                            $('#modal-form-3-edit option[value="' + data.gender +'"]').prop("selected", true);
+                            $('#modal-form-4-edit option[value="' + data.role +'"]').prop("selected", true);
                         }
                     });
+
                 });
             });
         </script>
 @endsection
+
