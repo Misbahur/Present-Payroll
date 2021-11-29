@@ -22,15 +22,9 @@
                                 <div class="box p-5">
                                     <div class="flex">
                                         <i data-feather="users" class="report-box__icon text-theme-10"></i>
-                                        <div class="ml-auto">
-                                            <div class="report-box__indicator bg-theme-9 tooltip cursor-pointer" title="33% Higher than last month">
-                                                
-                                                <i data-feather="chevron-up" class="w-4 h-4 ml-0.5"></i>
-                                            </div>
-                                        </div>
                                     </div>
-                                    <div class="text-3xl font-bold leading-8 mt-6">{{$data->count()}}</div>
-                                    <div class="text-base text-gray-600 mt-1">Jumlah Pegawai</div>
+                                    <div class="text-3xl font-bold leading-8 mt-6">{{$jumlahPegawai->count()}}</div>
+                                    <div class="text-base text-gray-600 mt-1">Jumlah Pegawai Hadir</div>
                                 </div>
                             </div>
                         </div>
@@ -39,15 +33,9 @@
                                 <div class="box p-5">
                                     <div class="flex">
                                         <i data-feather="shopping-cart" class="report-box__icon text-theme-11"></i>
-                                        <div class="ml-auto">
-                                            <div class="report-box__indicator bg-theme-6 tooltip cursor-pointer" title="2% Lower than last month">
-                                               
-                                                <i data-feather="chevron-down" class="w-4 h-4 ml-0.5"></i>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="text-3xl font-bold leading-8 mt-6">
-                                        
+                                        {{$jumlahPegawaiKasir->count()}}
                                     </div>
                                     <div class="text-base text-gray-600 mt-1">Total Pegawai Kasir</div>
                                 </div>
@@ -58,17 +46,11 @@
                                 <div class="box p-5">
                                     <div class="flex">
                                         <i data-feather="codesandbox" class="report-box__icon text-theme-12"></i>
-                                        <div class="ml-auto">
-                                            <div class="report-box__indicator bg-theme-9 tooltip cursor-pointer" title="12% Higher than last month">
-                                                
-                                                <i data-feather="chevron-up" class="w-4 h-4 ml-0.5"></i>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="text-3xl font-bold leading-8 mt-6">
-                                        
+                                        {{ $jumlahSatpam->count() }}
                                     </div>
-                                    <div class="text-base text-gray-600 mt-1">Total Pegawai Gudang </div>
+                                    <div class="text-base text-gray-600 mt-1">Total Satpam </div>
                                 </div>
                             </div>
                         </div>
@@ -77,12 +59,6 @@
                                 <div class="box p-5">
                                     <div class="flex">
                                         <i data-feather="monitor" class="report-box__icon text-theme-9"></i>
-                                        <div class="ml-auto">
-                                            <div class="report-box__indicator bg-theme-9 tooltip cursor-pointer" title="22% Higher than last month">
-                                                
-                                                <i data-feather="chevron-up" class="w-4 h-4 ml-0.5"></i>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="text-3xl font-bold leading-8 mt-6">
                                         
@@ -112,30 +88,46 @@
                         <table class="table table-report sm:mt-2">
                             <thead>
                                 <tr>
-                                    <th class="whitespace-nowrap">ID</th>
-                                    <th class="whitespace-nowrap">Nama</th>
+                                    <th class="whitespace-nowrap">No</th>
+                                    <th class="whitespace-nowrap">Tanggal</th>
+                                    <th class="text-center whitespace-nowrap">Pegawai</th>
                                     <th class="text-center whitespace-nowrap">Jabatan</th>
-                                    <!-- <th class="text-center whitespace-nowrap">Status</th> -->
-                                    <th class="text-center whitespace-nowrap">Aksi</th>
+                                    <th class="text-center whitespace-nowrap">Jam Masuk</th>
+                                    <th class="text-center whitespace-nowrap">Jam Istirahat</th>
+                                    <th class="text-center whitespace-nowrap">Jam Istirahat Masuk</th>
+                                    <th class="text-center whitespace-nowrap">Jam Pulang</th>
+                                    <!-- <th class="text-center whitespace-nowrap">Aksi</th> -->
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach ($data as $d)
+                            <?php $no = 1; ?>
+                            @foreach ($kehadirans as $item)
                                     <tr class="intro-x">
-                                        <td class="w-40">
-                                        {{ $d->id }}
+                                        <td class="w-20 text-right">
+                                        {{ $no++ }}
                                         </td>
-                                        <td>
-                                            <a href="" class="font-medium whitespace-nowrap">{{ $d->nama }}</a>
+                                        <td class="w-20 text-center">
+                                            <a href="" class="font-small whitespace-nowrap">{{ $item->tanggal }}</a>
                                         </td>
-                                        <td class="text-center">
-                                            <a href="" class="font-medium whitespace-nowrap">{{ $d->jabatan->nama }}</a>
+                                        <td class="w-20 text-center">
+                                            {{ $item->pegawai->nama }}
+                                        </td> 
+                                        <td class="w-20 text-center">
+                                            {{ $item->jabatan->nama }}
+                                        </td>         
+                                        <td class="w-20 text-center">
+                                            {{ $item->jam_masuk }}
                                         </td>
-                                        <!-- <td class="text-center">
-                                            <a href="" class="font-medium whitespace-nowrap">{{ $d['tgl'] }}</a>
-                                        </td> -->
-                                     
-                                        <td class="table-report__action w-56">
+                                        <td class="w-20 text-center">
+                                            {{ $item->jam_istirahat }}
+                                        </td>
+                                        <td class="w-20 text-center">
+                                            {{ $item->jam_masuk_istirahat }}
+                                        </td>
+                                        <td class="w-40 text-center">
+                                            {{ $item->jam_pulang }}
+                                        </td>
+                                        <!-- <td class="table-report__action w-56">
                                             <div class="flex justify-center items-center">
                                                 <a class="flex items-center mr-3" href="">
                                                     <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
@@ -144,56 +136,16 @@
                                                     <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
                                                 </a>
                                             </div>
-                                        </td>
+                                        </td> -->
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
                     <div class="intro-y flex flex-wrap sm:flex-row sm:flex-nowrap items-center mt-3">
-                        <ul class="pagination">
-                            <li>
-                                <a class="pagination__link" href="">
-                                    <i class="w-4 h-4" data-feather="chevrons-left"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="pagination__link" href="">
-                                    <i class="w-4 h-4" data-feather="chevron-left"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="pagination__link" href="">...</a>
-                            </li>
-                            <li>
-                                <a class="pagination__link" href="">1</a>
-                            </li>
-                            <li>
-                                <a class="pagination__link pagination__link--active" href="">2</a>
-                            </li>
-                            <li>
-                                <a class="pagination__link" href="">3</a>
-                            </li>
-                            <li>
-                                <a class="pagination__link" href="">...</a>
-                            </li>
-                            <li>
-                                <a class="pagination__link" href="">
-                                    <i class="w-4 h-4" data-feather="chevron-right"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="pagination__link" href="">
-                                    <i class="w-4 h-4" data-feather="chevrons-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                        <select class="w-20 form-select box mt-3 sm:mt-0">
-                            <option>10</option>
-                            <option>25</option>
-                            <option>35</option>
-                            <option>50</option>
-                        </select>
+                        <div class="pagination">
+                            {{ $kehadirans->links() }}
+                        </div>
                     </div>
                 </div>
                 <!-- END: Weekly Top Products -->

@@ -71,14 +71,12 @@ class SideMenu
                 ],
             ],
 
-           
-
             'Kehadiran' => [
                 'icon' => 'clock',
                 'title' => 'Kehadiran',
                 'sub_menu' => [
                     'Data Kehadiran' => [
-                        'icon' => 'minus',
+                        'icon' => 'book',
                         'title' => 'Data Kehadiran',
                         'route_name' => 'kehadiran',
                         'params' => [

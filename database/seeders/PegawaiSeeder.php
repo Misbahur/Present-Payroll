@@ -15,6 +15,24 @@ class PegawaiSeeder extends Seeder
     public function run()
     {
         // Fake Pegawai
-        Pegawai::factory()->times(10)->create();
+        // Pegawai::factory()->times(10)->create();
+        \App\Models\Pegawai::insert([
+            [ 
+                'nama' => 'Rina',
+                'jabatan_id' => '1',
+            ],
+            [ 
+                'nama' => 'Aisyah',
+                'jabatan_id' => '1',
+            ],
+            [ 
+                'nama' => 'Deni',
+                'jabatan_id' => '2',
+            ],
+            [ 
+                'nama' => 'Ghofur',
+                'jabatan_id' => '1',
+            ],
+        ]);
     }
 }

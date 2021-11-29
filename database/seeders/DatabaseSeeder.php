@@ -3,6 +3,13 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\Pola;
+use App\Models\Jabatan;
+use App\Models\Pegawai;
+use App\Models\User;
+use App\Models\Setting;
+use App\Models\Jam;
+
 
 
 class DatabaseSeeder extends Seeder
@@ -15,8 +22,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(UserSeeder::class);
-        // $this->call(PegawaiSeeder::class);
-        // $this->call(JabatanSeeder::class);
+        $this->call(PolaKerjaSeeder::class);
+        $this->call(JabatanSeeder::class);
+        $this->call(PegawaiSeeder::class);
+        $this->call(SettingSeeder::class);
+        $this->call(JamSeeder::class);
 
         
     }

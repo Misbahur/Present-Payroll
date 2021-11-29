@@ -14,6 +14,7 @@ use App\Http\Controllers\{
     PengecualianController,
     UserController,
     Komponen_gajiController,
+    KehadiranController,
 
 };
 
@@ -103,10 +104,14 @@ Route::middleware('auth')->group(function() {
     
     
     // Gocay Routing
-    Route::get('/', [PageController::class, 'kehadiran'])->name('kehadiran');
+    Route::get('/', [KehadiranController::class, 'index'])->name('kehadiran');
     
     //Kehadian Manage
-    Route::get('kehadiran', [PageController::class, 'kehadiran'])->name('kehadiran');
+    Route::get('kehadiran', [KehadiranController::class, 'index'])->name('kehadiran');
+    Route::post('kehadianadd', [KehadiranController::class, 'store'])->name('kehadianadd');
+    Route::get('kehadianedit', [KehadiranController::class, 'edit'])->name('kehadianedit');
+    Route::POST('kehadianupdate', [KehadiranController::class, 'update'])->name('kehadianupdate');
+    Route::get('kehadiandelete/{id}', [KehadiranController::class, 'destroy'])->name('kehadiandelete');
 
     
     //Pegawai Manage

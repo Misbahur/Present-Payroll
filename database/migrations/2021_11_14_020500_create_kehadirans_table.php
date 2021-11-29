@@ -16,10 +16,10 @@ class CreateKehadiransTable extends Migration
         Schema::create('kehadirans', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal')->nullable();
-            $table->timestamp('jam_masuk')->nullable();
-            $table->timestamp('jam_istirahat')->nullable();
-            $table->timestamp('jam_masuk_istirahat')->nullable();
-            $table->timestamp('jam_pulang')->nullable();
+            $table->time('jam_masuk')->nullable();
+            $table->time('jam_istirahat')->nullable();
+            $table->time('jam_masuk_istirahat')->nullable();
+            $table->time('jam_pulang')->nullable();
             $table->unsignedBigInteger('pegawai_id');
             $table->unsignedBigInteger('jabatan_id');
             // $table->foreignId('id_pola_kerja');

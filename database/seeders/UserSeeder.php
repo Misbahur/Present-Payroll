@@ -22,14 +22,24 @@ class UserSeeder extends Seeder
                 'email' => 'midone@left4code.com',
                 'email_verified_at' => now(),
                 'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-                'gender' => 'male',
+                'gender' => 'laki-laki',
                 'active' => 1,
-                'role' => 'su',
+                'role' => 'admin',
+                'remember_token' => Str::random(10)
+            ],
+            [ 
+                'name' => 'Aisyah',
+                'email' => 'aisyah@left4code.com',
+                'email_verified_at' => now(),
+                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+                'gender' => 'perempuan',
+                'active' => 1,
+                'role' => 'koordinator',
                 'remember_token' => Str::random(10)
             ]
         ]);
 
         // Fake users
-        User::factory()->times(9)->create();
+        // User::factory()->times(9)->create();
     }
 }
