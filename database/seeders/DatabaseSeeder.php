@@ -22,11 +22,17 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(UserSeeder::class);
-        $this->call(PolaKerjaSeeder::class);
-        $this->call(JabatanSeeder::class);
-        $this->call(PegawaiSeeder::class);
         $this->call(SettingSeeder::class);
+        $this->call(PolaKerjaSeeder::class);
+        $this->call(PegawaiSeeder::class);
+        $this->call(KomponenGajiSeeder::class);
+        $this->call(KelompokKerjaSeeder::class);
         $this->call(JamSeeder::class);
+        $this->call(JabatanSeeder::class);
+        $this->call(BonKasSeeder::class);
+
+        // $this->call(PegawaiSeeder::class);
+        // $this->call(JabatanSeeder::class);
 
         
     }
