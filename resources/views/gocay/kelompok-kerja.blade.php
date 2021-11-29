@@ -272,10 +272,15 @@
                             $('#modal-update-id').val(data.id);
                             $('#modal-form-1-edit').val(data.nama);
                             $('#modal-form-2-edit').val(data.pola_kerja_id);
-                            $('#modal-form-3-edit').val(data.pegawai_id);
                             
-                            var pegawai_id = data.pegawai_id;
-                            console.log(pegawai_id.split('|'));
+                            // var datapegawai = data.pegawai_id.split('|');
+                            $.each(data.pegawai_id.split("|"), function(index,x){
+                                // $(".select-handle option[value='" + x + "']").prop("selected", true);
+                                $(".select-handle").append($('<option>', {value: x,text: x}));
+                                // $('.select-label').innerHTML += '<div class="select-handle" data-key="'+value+'" data-group="#">'+value+'</div>';
+                                console.log(x);
+                            });
+                            
 
                         }
                     });
