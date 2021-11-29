@@ -51,21 +51,32 @@ class PengecualianController extends Controller
             'pegawai_id' => 'required',
             'jabatan_id' => 'required',
             'keterangan' => 'required',
-            'dokumen' => 'required|mimes:jpg,jpeg,png,txt,xlx,xls,pdf|max:2048',
+            // 'dokumen' => 'required|mimes:jpg,jpeg,png,txt,xlx,xls,pdf|max:2048',
          
         ]);
 
         
-        $fileName = $request->tanggal.'-'.$request->pegawai_id.'.'.$request->dokumen->extension();  
-        $request->dokumen->move(public_path('dokumen'), $fileName);
+        if ($request->hasFile('dokumen')) {
+            $filenameWithExt = $request->file('dokumen')->getClientOriginalName ();
+            // Get Filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just Extension
+            $extension = $request->file('dokumen')->getClientOriginalExtension();
+            // Filename To store
+            $fileNameToStore = $filename.'_'. 'dokumen'.'.'.$extension;
+            $path = $request->file('dokumen')->storeAs('pengecualian', $fileNameToStore, 'public');
+            }
+            // Else add a dummy dokumen
+        else {
+            $path = 'Nophoto.jpg';
+        }
    
-        // dd($request);
         $pengecualians = new pengecualian;
         $pengecualians->tanggal = $request->tanggal;
         $pengecualians->pegawai_id = $request->pegawai_id;
         $pengecualians->jabatan_id = $request->jabatan_id;
         $pengecualians->keterangan = $request->keterangan;
-        $pengecualians->dokumen = $fileName;
+        $pengecualians->dokumen = $path;
         $pengecualians->save();
 
         if($pengecualians){
@@ -119,19 +130,36 @@ class PengecualianController extends Controller
             'pegawai_id' => 'required',
             'jabatan_id' => 'required',
             'keterangan' => 'required',
-            'dokumen' => 'required|mimes:jpg,jpeg,png,txt,xlx,xls,pdf|max:2048',
+            // 'dokumen' => 'required|mimes:jpg,jpeg,png,txt,xlx,xls,pdf|max:2048',
          
         ]);
 
-        $fileName = $request->tanggal.'-'.$request->pegawai_id.'.'.$request->dokumen->extension();  
-        $request->dokumen->move(public_path('dokumen'), $fileName);
+        if ($request->hasFile('dokumen')) {
+            $filenameWithExt = $request->file('dokumen')->getClientOriginalName ();
+            // Get Filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just Extension
+            $extension = $request->file('dokumen')->getClientOriginalExtension();
+            // Filename To store
+            $fileNameToStore = $filename.'_'. 'dokumen'.'.'.$extension;
+            $path = $request->file('dokumen')->storeAs('pengecualian', $fileNameToStore, 'public');
+            }
+            // Else add a dummy dokumen
+        else {
+            $path = 'Nophoto.jpg';
+        }
    
         $pengecualians = Pengecualian::find($request->id);
         $pengecualians->tanggal = $request->tanggal;
         $pengecualians->pegawai_id = $request->pegawai_id;
         $pengecualians->jabatan_id = $request->jabatan_id;
         $pengecualians->keterangan = $request->keterangan;
-        $pengecualians->dokumen = $fileName;
+        if ($request->dokumen){
+            $pengecualians->dokumen = $path;
+        }
+        else{
+            unset($pengecualians->dokumen);
+        }
         $pengecualians->update();
 
         if($pengecualians){

@@ -13,6 +13,23 @@ class KomponenGajiSeeder extends Seeder
      */
     public function run()
     {
-        //
+        \App\Models\Komponen_gaji::insert([
+            [ 
+                'nama' => 'Bonus Harian',
+                'nominal' => '50000',
+                'jabatan_id' => '1',
+            ],
+            [ 
+                'nama' => 'Bonus Mingguan',
+                'nominal' => '50000',
+                'jabatan_id' => '1',
+            ],
+            [ 
+                'nama' => 'Bonus Bulanan',
+                'nominal' => '50000',
+                'jabatan_id' => '1',
+            ],
+           
+        ]);
     }
 }

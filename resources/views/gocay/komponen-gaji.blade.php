@@ -24,12 +24,14 @@
                     <div class="intro-y overflow-auto lg:overflow-visible py-5 mt-8 sm:mt-0">
                         <div class="flex justify-left md:justify-end mt-16">
                             <button class="btn btn-primary tablink p-5 flex " onclick="openTab(event,'komponen-gaji-tab')">Daftar Komponen</button>
-                            <button class="btn tablink p-5 flex " onclick="openTab(event,'komponen-gaji-add-tab')">Tambah Komponen</button>
-                            <button class="btn tablink p-5 flex " onclick="openTab(event,'bonus-harian-tab')">Bonus Harian</button>
+                            <button class="btn tablink p-5 flex " onclick="openTab(event,'lembur-tab')">Lembur</button>
+                            <button class="btn tablink p-5 flex " onclick="openTab(event,'keterlambatan-tab')">Keterlambatan</button>
                             <button class="btn tablink p-5 flex" onclick="openTab(event,'bonus-mingguan-tab')">Bonus Mingguan</button>
                             <button class="btn tablink p-5 flex" onclick="openTab(event,'bonus-bulanan-tab')">Bonus Bulanan</button>
                         </div>
                         <div id="komponen-gaji-tab" class="bonus max-w-md py-5 px-8 shadow-lg rounded-lg my-20" >
+                        <a href="javascript:;" data-toggle="modal" data-target="#header-footer-modal-preview"
+                        class="btn btn-primary shadow-md mr-2">Tambah Data Komponen</a>
                             <table class="table table-report sm:mt-2">
                                 <thead>
                                     <tr>
@@ -72,49 +74,11 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div id="komponen-gaji-add-tab" class="bonus max-w-md py-5 px-8 bg-white shadow-lg rounded-lg my-20" style="display:none">
-                            <form method="POST" action="{{ route('komponengajiadd') }}">
-                                    @csrf
-                                    <div>
-                                        <h2 class="text-gray-800 text-2xl font-semibold">Bonus Harian</h2>
-                                    </div>
-                                    <div class="col-span-12 sm:col-span-12 mt-5">
-                                        <label for="form-1" class="form-label">Nama</label>
-                                        <input name='nama' type="text" class="form-control" placeholder="Nama Komponen Gaji">
-                                    </div>
-                                    <div class="col-span-12 sm:col-span-12 mt-5">
-                                        <label for="form-2" class="form-label">Jabatan</label>
-                                        <select name="jabatan_id" class="form-select">
-                                        @foreach ($jabatans as $item)
-                                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                                        @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-span-12 sm:col-span-12 mt-5">
-                                        <label for="form-3" class="form-label">Nominal</label>
-                                        <input name='nominal' type="number" class="form-control" placeholder="Nominal Bonus Harian">
-                                    </div>
-                                    <div class="flex justify-start mt-4">
-                                        <button type="submit" class="btn btn-primary text-xl font-medium text-indigo-500">Simpan</button>
-                                    </div>
-                            </form>
+                        <div id="lembur-tab" class="bonus max-w-md py-5 px-8 bg-white shadow-lg rounded-lg my-20" style="display:none">
+                            
                         </div>
-                        <div id="bonus-harian-tab" class="bonus max-w-md py-5 px-8 bg-white shadow-lg rounded-lg my-20" style="display:none" >
-                            <form method="POST" action="{{ route('bonusharianupdate') }}">
-                                <input type="hidden" name="id" id="modal-update-id">
-                                    @csrf
-                                    <div>
-                                        <h2 class="text-gray-800 text-2xl font-semibold">Bonus Harian</h2>
-                                        <h2 class="text-gray-800 text-xl font-semibold">Rp. {{ $komponen_gaji[0]->nominal }}</h2>
-                                    </div>
-                                    <div class="col-span-12 sm:col-span-12 mt-5">
-                                        <label for="form-1" class="form-label">Nominal</label>
-                                        <input name='nominal' type="number" class="form-control" placeholder="Nominal Bonus Harian">
-                                    </div>
-                                    <div class="flex justify-start mt-4">
-                                        <button type="submit" class="btn btn-primary text-xl font-medium text-indigo-500">Simpan</button>
-                                    </div>
-                            </form>
+                        <div id="keterlambatan-tab" class="bonus max-w-md py-5 px-8 bg-white shadow-lg rounded-lg my-20" style="display:none" >
+                            
                         </div>
                         <div id="bonus-mingguan-tab" class="bonus max-w-md py-5 px-8 bg-white shadow-lg rounded-lg my-20" style="display:none">
                             <form method="POST" action="{{ route('bonusmingguanupdate') }}">
@@ -129,7 +93,7 @@
                                         <input name='nominal' type="number" class="form-control" placeholder="Nominal Bonus Mingguan">
                                     </div>
                                     <div class="flex justify-start mt-4">
-                                        <button type="submit" class="btn btn-primary text-xl font-medium text-indigo-500">Simpan</button>
+                                        <button type="submit" class="btn btn-primary font-medium text-indigo-500">Simpan</button>
                                     </div>
                             </form>
                         </div>
@@ -146,7 +110,7 @@
                                         <input name='nominal' type="number" class="form-control" placeholder="Nominal Bonus Bulanan">
                                     </div>
                                     <div class="flex justify-start mt-4">
-                                        <button type="submit" class="btn btn-primary text-xl font-medium text-indigo-500">Simpan</button>
+                                        <button type="submit" class="btn btn-primary font-medium text-indigo-500">Simpan</button>
                                     </div>
                             </form>
                         </div>          
@@ -200,6 +164,63 @@
                 <!-- END: Weekly Top Products -->
             </div>
         </div>
+
+        <!-- BEGIN: Modal Content -->
+        <div id="header-footer-modal-preview" class="modal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <!-- BEGIN: Modal Header -->
+                    <div class="modal-header">
+                        <h2 class="font-medium text-base mr-auto">Tambah item</h2>
+                        <div class="dropdown sm:hidden">
+                            <a class="dropdown-toggle w-5 h-5 block" href="javascript:;" aria-expanded="false">
+                                <i data-feather="more-horizontal" class="w-5 h-5 text-gray-600 dark:text-gray-600"></i>
+                            </a>
+                            <div class="dropdown-menu w-40">
+                                <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
+                                    <a href="javascript:;"
+                                        class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                                        <i data-feather="file" class="w-4 h-4 mr-2"></i> Download Docs
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END: Modal Header -->
+                    <!-- BEGIN: Modal Body -->
+                    <form method="POST" enctype="multipart/form-data" action="{{ route('komponengajiadd') }}">
+                        @csrf
+                    <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-1" class="form-label">Nama Komponen</label>
+                            <input id="modal-form-1" name="nama" type="text" class="form-control" placeholder="Nama Komponen Gaji">
+                        </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-2" class="form-label">Jabatan Pegawai</label>
+                            <select id="modal-form-2" class="form-select" name="jabatan_id">
+                            @foreach ($jabatans as $item)
+                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                            @endforeach
+                            </select>
+                        </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-3" class="form-label">Nominal</label>
+                            <input id="modal-form-3" type="number" class="form-control"  name="nominal">
+                        </div>
+                    </div>
+                    <!-- END: Modal Body -->
+                    <!-- BEGIN: Modal Footer -->
+                    <div class="modal-footer text-right">
+                        <button type="button" data-dismiss="modal"
+                            class="btn btn-outline-secondary w-20 mr-1">Cancel</button>
+                        <button type="submit" class="btn btn-primary w-20">Send</button>
+                    </div>
+                    </form>
+                    <!-- END: Modal Footer -->
+                </div>
+            </div>
+        </div>
+        <!-- END: Modal Content -->
 
 
         <script>

@@ -56,8 +56,8 @@
                                             <a href="" class="font-medium whitespace-nowrap">{{ $item->keterangan }}</a>
                                         </td>
                                         <td class="text-center">
-                                            <a href="" class="font-medium whitespace-nowrap">
-                                                <img src="dokumen/{{ $item->dokumen }}" alt="">
+                                            <a href="{{ asset('storage/'.$item->dokumen) }}" class="font-medium whitespace-nowrap" target="blank">
+                                                Lihat Dokumen
                                             </a>
                                         </td>
                                         <td class="table-report__action w-56">
@@ -150,6 +150,8 @@
                     <!-- END: Modal Header -->
                     <!-- BEGIN: Modal Body -->
                     <form method="POST" enctype="multipart/form-data" action="{{ route('pengecualianadd') }}">
+                    <input type="hidden" name="jabatan_id" id="jabatan_id_hidden">
+
                         @csrf
                     <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
                         <div class="col-span-12 sm:col-span-12">
@@ -166,11 +168,7 @@
                         </div>
                         <div class="col-span-12 sm:col-span-12">
                             <label for="modal-form-3" class="form-label">Jabatan</label>
-                            <select id="modal-form-3" class="form-select" name="jabatan_id">
-                            @foreach ($jabatans as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                            @endforeach
-                            </select>
+                            <input id="modal-form-3" type="text" class="form-control"  disabled>
                         </div>
                         <div class="col-span-12 sm:col-span-12">
                             <label for="modal-form-4" class="form-label">Keterangan</label>
@@ -220,6 +218,7 @@
                     <!-- BEGIN: Modal Body -->
                     <form method="POST" enctype="multipart/form-data" action="{{ route('pengecualianupdate') }}">
                     <input type="hidden" name="id" id="modal-update-id">
+                    
                         @csrf
                     <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
                         <div class="col-span-12 sm:col-span-12">
@@ -227,20 +226,22 @@
                             <input id="modal-form-1-edit" name="tanggal" type="date" class="form-control" placeholder="Tanggal">
                         </div>
                         <div class="col-span-12 sm:col-span-12">
+                            <input type="hidden" name="pegawai_id" id="pegawai_id_edit">
                             <label for="modal-form-2-edit" class="form-label">Nama Pegawai</label>
-                            <select id="modal-form-2-edit" class="form-select" name="pegawai_id">
+                            <select id="modal-form-2-edit" class="form-select"  disabled>
                             @foreach ($pegawais as $item)
                                 <option value="{{ $item->id }}">{{ $item->nama }}</option>
                             @endforeach
                             </select>
                         </div>
                         <div class="col-span-12 sm:col-span-12">
+                            <input type="hidden" name="jabatan_id" id="jabatan_id_edit">
                             <label for="modal-form-3-edit" class="form-label">Jabatan</label>
-                            <select id="modal-form-3-edit" class="form-select" name="jabatan_id">
+                            <select id="modal-form-3-edit" class="form-select"  disabled>
                             @foreach ($jabatans as $item)
                                 <option value="{{ $item->id }}">{{ $item->nama }}</option>
                             @endforeach
-                            </select>
+
                         </div>
                         <div class="col-span-12 sm:col-span-12">
                             <label for="modal-form-4-edit" class="form-label">Keterangan</label>
@@ -271,6 +272,7 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 //edit data
+
                 
                 $('.pengecualian-edit').on('click',function() {
                     var id = $(this).attr('data-id');
@@ -283,11 +285,16 @@
                         {
                             $('#modal-update-id').val(data.id);
                             $('#modal-form-1-edit').val(data.tanggal);
-                            $('#modal-form-2-edit').val(data.pegawai_id);
-                            $('#modal-form-3-edit').val(data.jabatan_id);
+                            $('#pegawai_id_edit').val(data.pegawai_id);
+                            $('#jabatan_id_edit').val(data.jabatan_id);
+                            // $('#modal-form-2-edit').val(data.pegawai_id);
+                            // $('#modal-form-3-edit').val(data.jabatan_id);
+                            $('#modal-form-2-edit option[value="' + data.pegawai_id +'"]').prop("selected", true);
+                            $('#modal-form-3-edit option[value="' + data.jabatan_id +'"]').prop("selected", true);
                             $('#modal-form-4-edit').val(data.keterangan);
                             $('#image-edit').attr('src', 'dokumen/'+data.dokumen);
                             $('#modal-form-5-edit').val(data.dokumen);
+                            
                         }
                     });
                 });
@@ -302,9 +309,12 @@
                             dataType : "json",
                             success:function(data)
                             {
-                                jQuery('#modal-form-3').empty();
                                 jQuery.each(data, function(key,value){
-                                $('#modal-form-3').append('<option value="'+ key +'">'+ value +'</option>');
+                                    $('#modal-form-3').val(value);
+                                    $('#jabatan_id_hidden').val(key);
+
+                                    console.log($('#jabatan_id_hidden').val());
+
                                 });
                             }
                         });
@@ -325,9 +335,8 @@
                             dataType : "json",
                             success:function(data)
                             {
-                                jQuery('#modal-form-3-edit').empty();
                                 jQuery.each(data, function(key,value){
-                                $('#modal-form-3-edit').append('<option value="'+ key +'">'+ value +'</option>');
+                                    $('#modal-form-3').val(value);
                                 });
                             }
                         });
