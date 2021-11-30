@@ -109,24 +109,22 @@ class SideMenu
                         ],
                         'title' => 'Modul Bon-Kas'
                     ],
-                    'Modul Gaji Karyawan' => [
-                        'icon' => 'dollar-sign',
-                        'route_name' => 'gaji',
-                        'params' => [
-                            'layout' => 'side-menu'
-                        ],
-                        'title' => 'Modul Gaji Karyawan'
-                    ],
-                    'Modul Komponen Gaji Karyawan' => [
+                    'Komponen Gaji' => [
                         'icon' => 'list',
                         'route_name' => 'komponen-gaji',
                         'params' => [
                             'layout' => 'side-menu'
                         ],
-                        'title' => 'Modul Komponen Gaji Karyawan'
+                        'title' => 'Komponen Gaji'
                     ],
-                    
-                    
+                    'Penggajian' => [
+                        'icon' => 'dollar-sign',
+                        'route_name' => 'gaji',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'Penggajian'
+                    ],
                 ],
             ],
 
