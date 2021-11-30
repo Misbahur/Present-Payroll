@@ -175,9 +175,12 @@ Route::middleware('auth')->group(function() {
 
     Route::get('komponen-gaji', [Komponen_gajiController::class, 'index'])->name('komponen-gaji');
     Route::POST('komponengajiadd', [Komponen_gajiController::class, 'store'])->name('komponengajiadd');
-    Route::POST('bonusharianupdate', [Komponen_gajiController::class, 'bonusharianupdate'])->name('bonusharianupdate');
+    // Route::POST('bonusharianupdate', [Komponen_gajiController::class, 'bonusharianupdate'])->name('bonusharianupdate');
     Route::POST('bonusmingguanupdate', [Komponen_gajiController::class, 'bonusmingguanupdate'])->name('bonusmingguanupdate');
     Route::POST('bonusbulananupdate', [Komponen_gajiController::class, 'bonusbulananupdate'])->name('bonusbulananupdate');
+    Route::POST('lembur', [Komponen_gajiController::class, 'lembur'])->name('lembur');
+    Route::POST('keterlambatan', [Komponen_gajiController::class, 'keterlambatan'])->name('keterlambatan');
+
 
 
     Route::get('lembur', [PageController::class, 'lembur'])->name('lembur');

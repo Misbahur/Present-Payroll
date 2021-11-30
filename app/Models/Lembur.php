@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Lembur extends Model
 {
     use HasFactory;
+    protected $fillable = ['nama', 'durasi', 'nominal'];
 }

@@ -74,12 +74,53 @@
                                 </tbody>
                             </table>
                         </div>
+
                         <div id="lembur-tab" class="bonus max-w-md py-5 px-8 bg-white shadow-lg rounded-lg my-20" style="display:none">
-                            
+                            <form method="POST" action="{{ route('lembur') }}">
+                                <input type="hidden" name="id" id="modal-update-id">
+                                    @csrf
+                                    <div>
+                                        <h2 class="text-gray-800 text-2xl font-semibold">Lembur</h2>
+                                        <h2 class="text-gray-800 text-lg font-base">Durasi : {{ $lembur->durasi }} Menit</h2>
+                                        <h2 class="text-gray-800 text-lg font-base">Fee : Rp. {{ $lembur->nominal }}</h2>
+                                    </div>
+                                    <div class="col-span-12 sm:col-span-12 mt-5">
+                                        <label for="form-1" class="form-label">Durasi</label>
+                                        <input name='durasi' type="number" class="form-control" placeholder="Durasi Untuk Mendapatkan Bonus Lembur">
+                                    </div>
+                                    <div class="col-span-12 sm:col-span-12 mt-5">
+                                        <label for="form-1" class="form-label">Nominal</label>
+                                        <input name='nominal' type="number" class="form-control" placeholder="Nominal Bonus Lembur">
+                                    </div>
+                                    <div class="flex justify-start mt-4">
+                                        <button type="submit" class="btn btn-primary font-medium text-indigo-500">Simpan</button>
+                                    </div>
+                            </form>
                         </div>
+
                         <div id="keterlambatan-tab" class="bonus max-w-md py-5 px-8 bg-white shadow-lg rounded-lg my-20" style="display:none" >
-                            
+                            <form method="POST" action="{{ route('keterlambatan') }}">
+                                <input type="hidden" name="id" id="modal-update-id">
+                                    @csrf
+                                    <div>
+                                        <h2 class="text-gray-800 text-2xl font-semibold">Keterlambatan</h2>
+                                         <h2 class="text-gray-800 text-lg font-base">Durasi : {{ $keterlambatan->durasi }} Menit</h2>
+                                        <h2 class="text-gray-800 text-lg font-base">Fee : Rp. {{ $keterlambatan->nominal }}</h2>
+                                    </div>
+                                    <div class="col-span-12 sm:col-span-12 mt-5">
+                                        <label for="form-1" class="form-label">Durasi</label>
+                                        <input name='durasi' type="number" class="form-control" placeholder="Durasi Untuk Sanksi Keterlambatan">
+                                    </div>
+                                    <div class="col-span-12 sm:col-span-12 mt-5">
+                                        <label for="form-1" class="form-label">Nominal</label>
+                                        <input name='nominal' type="number" class="form-control" placeholder="Nominal Sanksi Keterlambatan">
+                                    </div>
+                                    <div class="flex justify-start mt-4">
+                                        <button type="submit" class="btn btn-primary font-medium text-indigo-500">Simpan</button>
+                                    </div>
+                            </form>
                         </div>
+
                         <div id="bonus-mingguan-tab" class="bonus max-w-md py-5 px-8 bg-white shadow-lg rounded-lg my-20" style="display:none">
                             <form method="POST" action="{{ route('bonusmingguanupdate') }}">
                                 <input type="hidden" name="id" id="modal-update-id">
@@ -97,6 +138,7 @@
                                     </div>
                             </form>
                         </div>
+
                         <div id="bonus-bulanan-tab" class="bonus max-w-md py-5 px-8 bg-white shadow-lg rounded-lg my-20" style="display:none">
                             <form method="POST" action="{{ route('bonusbulananupdate') }}">
                                 <input type="hidden" name="id" id="modal-update-id">
@@ -115,6 +157,7 @@
                             </form>
                         </div>          
                     </div>
+
                     <div class="intro-y flex flex-wrap sm:flex-row sm:flex-nowrap items-center mt-3">
                         <ul class="pagination">
                             <li>

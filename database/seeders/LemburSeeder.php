@@ -14,5 +14,18 @@ class LemburSeeder extends Seeder
     public function run()
     {
         //
+        \App\Models\Lembur::insert([
+            [ 
+                'nama' => 'Lembur Harian',
+                'durasi' => '30',
+                'nominal' => '60000',
+            ],
+            [ 
+                'nama' => 'Keterlambatan Harian',
+                'durasi' => '30',
+                'nominal' => '50000',
+            ],
+           
+        ]);
     }
 }

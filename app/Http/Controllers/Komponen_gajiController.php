@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Komponen_gaji;
 use App\Models\Pegawai;
 use App\Models\Jabatan;
+use App\Models\Lembur;
 use Illuminate\Http\Request;
 
 class Komponen_gajiController extends Controller
@@ -22,10 +23,14 @@ class Komponen_gajiController extends Controller
         $komponen_gaji = Komponen_gaji::all();
         $pegawais = Pegawai::all();
         $jabatans = Jabatan::all();
+        $lembur = Lembur::where('id', 1)->first();
+        $keterlambatan = Lembur::where('id', 2)->first();
         return view('gocay.komponen-gaji', [
             'komponen_gaji' => $komponen_gaji,
             'pegawais' => $pegawais,
-            'jabatans' => $jabatans
+            'jabatans' => $jabatans,
+            'lembur' => $lembur,
+            'keterlambatan' => $keterlambatan,
         ]);
         
     }
@@ -168,6 +173,44 @@ class Komponen_gajiController extends Controller
         }
     }
 
+    public function lembur(Request $request, Lembur $lembur)
+    {
+        $this->validate($request, [
+            'durasi' => 'required',
+            'nominal' => 'required',
+        ]);
+
+        $lembur = Lembur::find(1);
+        $lembur->durasi = $request->durasi;
+        $lembur->nominal = $request->nominal;
+        $lembur->update();
+
+        if($lembur){
+            return redirect()->route('komponen-gaji')->with(['success' => 'Data Komponen Gaji berhasil disimpan']);
+        }else{
+            return redirect()->route('komponen-gaji')->with(['danger' => 'Data Tidak Terekam!']);
+        }
+    }
+
+    public function keterlambatan(Request $request, Lembur $lembur)
+    {
+        $this->validate($request, [
+            'durasi' => 'required',
+            'nominal' => 'required',
+        ]);
+
+        $lembur = Lembur::find(2);
+        $lembur->durasi = $request->durasi;
+        $lembur->nominal = $request->nominal;
+        $lembur->update();
+
+        if($lembur){
+            return redirect()->route('komponen-gaji')->with(['success' => 'Data Komponen Gaji berhasil disimpan']);
+        }else{
+            return redirect()->route('komponen-gaji')->with(['danger' => 'Data Tidak Terekam!']);
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -176,9 +219,9 @@ class Komponen_gajiController extends Controller
      */
     public function destroy($id)
     {
-        $pegawais = Pegawai::where('id', $id)
+        $pegawais = Komponen_gaji::where('id', $id)
               ->delete();
-        return redirect()->route('pegawai')
-                        ->with('success','Post deleted successfully');
+        return redirect()->route('komponen-gaji')
+                        ->with('success','Data deleted successfully');
     }
 }

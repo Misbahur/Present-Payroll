@@ -9,6 +9,9 @@ use App\Models\Pegawai;
 use App\Models\User;
 use App\Models\Setting;
 use App\Models\Jam;
+use App\Models\Bon_kas;
+use App\Models\Lembur;
+
 
 
 
@@ -30,6 +33,8 @@ class DatabaseSeeder extends Seeder
         $this->call(JamSeeder::class);
         $this->call(JabatanSeeder::class);
         $this->call(BonKasSeeder::class);
+        $this->call(LemburSeeder::class);
+
 
         // $this->call(PegawaiSeeder::class);
         // $this->call(JabatanSeeder::class);
