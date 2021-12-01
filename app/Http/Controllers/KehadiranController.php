@@ -18,10 +18,13 @@ class KehadiranController extends Controller
      */
     public function index()
     {
-        //
+        
+        $kehadirans = Kehadiran::where('tanggal', Carbon::now()->subDays(1)->toDateString())
+        ->orderBy('tanggal', 'desc')
+        ->orderBy('pegawai_id', 'asc')
+        ->paginate(10);
+        $bulan=array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
         $jumlahPegawai = Kehadiran::all()->groupBy('pegawai_id');
-        $kehadirans = Kehadiran::where('tanggal', Carbon::now()->subDays(1)->toDateString())->orderBy('tanggal', 'desc')->orderBy('pegawai_id', 'asc')->paginate(10);
-        // $kehadirans = Kehadiran::paginate(10);
         $jumlahPegawaiKasir = Kehadiran::where('tanggal', Carbon::now()->subDays(1)->toDateString())
                                 ->whereBetween('jabatan_id', ['1', '2']);
         $jumlahSatpam = Kehadiran::where('tanggal', Carbon::now()->subDays(1)->toDateString())
@@ -34,8 +37,43 @@ class KehadiranController extends Controller
             'jumlahPegawai' => $jumlahPegawai,
             'jumlahPegawaiKasir' => $jumlahPegawaiKasir,
             'jumlahSatpam' => $jumlahSatpam,
+            'bulan' => $bulan,
         ]);
         
+    }
+
+    public function filterkehadiran(Request $request)
+    {
+        $pegawai_id = Pegawai::where('nama','like',"%".$request->filter_nama."%")->pluck('id');
+        $bulan_id = date('Y') .'-' . $request->filter_bulan .'-' . $request->filter_tanggal;
+        if ($request->filter_nama == ''):
+            $kehadirans = Kehadiran::where('tanggal', $bulan_id)
+                        ->orderBy('tanggal', 'desc')
+                        ->orderBy('pegawai_id', 'asc')
+                        ->paginate(10);
+        elseif( !$pegawai_id->isEmpty()):
+            $kehadirans = Kehadiran::where('tanggal', $bulan_id)
+                        ->where('pegawai_id', $pegawai_id)
+                        ->orderBy('tanggal', 'desc')
+                        ->orderBy('pegawai_id', 'asc')
+                        ->paginate(10);
+        else:
+            $kehadirans = array();
+        endif;
+        $bulan=array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
+        $jumlahPegawai = Kehadiran::all()->groupBy('pegawai_id');
+        $jumlahPegawaiKasir = Kehadiran::where('tanggal', $bulan_id)
+                                ->whereBetween('jabatan_id', ['1', '2']);
+        $jumlahSatpam = Kehadiran::where('tanggal', $bulan_id)
+                                ->whereBetween('jabatan_id', ['3', '4']);
+        // dd($bulan_id);
+        return view('gocay.kehadiran', [
+            'kehadirans' => $kehadirans,
+            'jumlahPegawai' => $jumlahPegawai,
+            'jumlahPegawaiKasir' => $jumlahPegawaiKasir,
+            'jumlahSatpam' => $jumlahSatpam,
+            'bulan' => $bulan,
+        ]);
     }
 
     /**
@@ -56,23 +94,7 @@ class KehadiranController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nama' => 'required',
-            'deskripsi' => 'required',
-         
-        ]);
-
-        // dd($request);
-        $kehadirans = new Jabatan;
-        $kehadirans->nama = $request->nama;
-        $kehadirans->deskripsi = $request->deskripsi;
-        $kehadirans->save();
-
-        if($kehadirans){
-            return redirect()->route('kehadiran')->with(['success' => 'Data Kehadiran'.$request->input('nama').'berhasil disimpan']);
-        }else{
-            return redirect()->route('kehadiran')->with(['danger' => 'Data Tidak Terekam!']);
-        }
+       
     }
 
     /**
@@ -105,11 +127,14 @@ class KehadiranController extends Controller
      * @param  \App\Models\Kehadiran  $kehadirans
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Jabatan $kehadirans)
+    public function update(Request $request, Kehadiran $kehadirans)
     {
         $this->validate($request, [
-            'nama' => 'required',
-            'deskripsi' => 'required',
+            'pegawai_id' => 'required',
+            'jam_masuk' => 'required',
+            'jam_istirahat' => 'required',
+            'jam_masuk_istirahat' => 'required',
+            'jam_pulang' => 'required',
             ]);
    
         $kehadirans = Kehadiran::find($request->id);

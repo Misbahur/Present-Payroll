@@ -5,17 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class tgl extends Model
+class Fingerprint extends Model
 {
     use HasFactory;
 
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'id_user', 'tgl', 'nama'
+        'tanggal', 'jam_masuk', 'jam_istirahat', 'jam_masuk_istirahat', 'jam_pulang', 'jabatan_id', 'pegawai_id'
     ];
 }

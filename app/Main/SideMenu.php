@@ -14,6 +14,17 @@ class SideMenu
     {
         return [
 
+            'Fingerprint' => [
+                'icon' => 'clock',
+                'route_name' => 'fingerprint',
+                'params' => [
+                    'layout' => 'side-menu'
+                ],
+                'title' => 'Fingerprint'
+            ],
+            
+            'devider',
+
             'Data Master' => [
                 'icon' => 'box',
                 'title' => 'Data Master',

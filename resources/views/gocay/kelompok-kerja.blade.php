@@ -232,7 +232,7 @@
                     
                     <div class="col-span-12 sm:col-span-12">
                         <label for="modal-form-3-edit" class="form-label">Pegawai</label>
-                        <select name="pegawai_id_edit[]" data-placeholder="Select your favorite actors" class="tail-select w-full" id="modal-form-3-edit" multiple required>
+                        <select name="pegawai_id[]" data-placeholder="Select your favorite actors" class="tail-select w-full" id="modal-form-3-edit" multiple required>
                             @foreach ($pegawais as $item)
                                 <option value="{{$item->id}}">{{$item->nama}}</option>
                             @endforeach
@@ -256,11 +256,9 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                //edit data
                 
                 $('.kelompok-kerja-edit').on('click',function() {
                     var id = $(this).attr('data-id');
-
 
                     $.ajax({
                         url : "{{route('kelompok-kerjaedit')}}?id="+id,
@@ -273,13 +271,17 @@
                             $('#modal-form-1-edit').val(data.nama);
                             $('#modal-form-2-edit').val(data.pola_kerja_id);
                             
-                            // var datapegawai = data.pegawai_id.split('|');
-                            $.each(data.pegawai_id.split("|"), function(index,x){
-                                // $(".select-handle option[value='" + x + "']").prop("selected", true);
-                                $(".select-handle").append($('<option>', {value: x,text: x}));
-                                // $('.select-label').innerHTML += '<div class="select-handle" data-key="'+value+'" data-group="#">'+value+'</div>';
-                                console.log(x);
+                            var datapegawai = data.pegawai_id.split('|');
+                            $.each(datapegawai, function(i,e){
+                                // $("#modal-form-3-edit option[value='" + e + "']").prop("selected", true);
+                                $('#modal-form-3-edit').find('option[value="'+ e +'"]').attr('Selected', 'Selected');
+                                $("#modal-form-3-edit").trigger('chosen:updated');  
+                                // $('.label-inner').hide();
+                                // $('.select-label').append('<div class="select-handle" data-key="'+value+'" data-group="#">'+value+'</div>');
+
+                                // $('.label-inner').replaceWith($('<div class="select-handle" data-key="'+e+'" data-group="#">'+e+'</div>'));
                             });
+                           
                             
 
                         }

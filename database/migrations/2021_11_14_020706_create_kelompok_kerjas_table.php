@@ -17,7 +17,7 @@ class CreateKelompokKerjasTable extends Migration
             $table->id();
             $table->string('nama');
             $table->unsignedBigInteger('pola_kerja_id');
-            $table->unsignedBigInteger('pegawai_id');
+            $table->string('pegawai_id');
             $table->timestamps();
         });
     }

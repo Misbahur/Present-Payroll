@@ -15,6 +15,7 @@ use App\Http\Controllers\{
     UserController,
     Komponen_gajiController,
     KehadiranController,
+    FingerprintController,
 
 };
 
@@ -105,6 +106,22 @@ Route::middleware('auth')->group(function() {
     
     // Gocay Routing
     Route::get('/', [KehadiranController::class, 'index'])->name('kehadiran');
+
+    //Fingerprint Manage
+    Route::get('fingerprint', [FingerprintController::class, 'getData'])->name('fingerprint');
+    Route::post('fingerprintadd', [FingerprintController::class, 'store'])->name('fingerprintadd');
+    Route::get('fingerprintedit', [FingerprintController::class, 'edit'])->name('fingerprintedit');
+    Route::POST('fingerprintupdate', [FingerprintController::class, 'update'])->name('fingerprintupdate');
+    Route::get('fingerprintdelete/{id}', [FingerprintController::class, 'destroy'])->name('fingerprintdelete');
+
+    //kehadiran Manage
+    Route::get('kehadiran', [KehadiranController::class, 'index'])->name('kehadiran');
+    Route::post('kehadiranadd', [KehadiranController::class, 'store'])->name('kehadiranadd');
+    Route::get('kehadiranedit', [KehadiranController::class, 'edit'])->name('kehadiranedit');
+    Route::POST('kehadiranupdate', [KehadiranController::class, 'update'])->name('kehadiranupdate');
+    Route::get('kehadirandelete/{id}', [KehadiranController::class, 'destroy'])->name('kehadirandelete');
+    Route::get('filterkehadiran', [KehadiranController::class, 'filterkehadiran'])->name('filter-kehadiran');
+
     
     //Kehadian Manage
     Route::get('kehadiran', [KehadiranController::class, 'index'])->name('kehadiran');

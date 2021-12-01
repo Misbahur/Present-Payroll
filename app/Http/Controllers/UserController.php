@@ -48,7 +48,7 @@ class UserController extends Controller
             'password' => 'required',
         ]);
 
-         if ($request->hasFile('photo')) {
+        if ($request->hasFile('photo')) {
         $filenameWithExt = $request->file('photo')->getClientOriginalName ();
         // Get Filename
         $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);

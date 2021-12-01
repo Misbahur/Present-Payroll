@@ -119,10 +119,10 @@ class Kelompok_kerjaController extends Controller
         $request->validate([
             'nama' => 'required',
             'pola_kerja_id' => 'required',
-            'pegawai_id_edit' => 'required',
+            'pegawai_id' => 'required',
         ]);
    
-        $pegawai_ids = implode('|', $request->pegawai_id_edit);
+        $pegawai_ids = implode('|', $request->pegawai_id);
         $kelompok_kerja = Kelompok_kerja::find($request->id);
         $kelompok_kerja->nama = $request->nama;
         $kelompok_kerja->pola_kerja_id = $request->pola_kerja_id;
