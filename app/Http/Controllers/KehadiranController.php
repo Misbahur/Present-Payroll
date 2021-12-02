@@ -117,6 +117,10 @@ class KehadiranController extends Controller
     public function edit(Request $Request)
     {
         $kehadirans = Kehadiran::findOrFail($Request->get('id'));
+        $kehadirans['jam_masuk'] = date('H:i', strtotime($kehadirans['jam_masuk']));
+        $kehadirans['jam_istirahat'] = date('H:i', strtotime($kehadirans['jam_istirahat']));
+        $kehadirans['jam_masuk_istirahat'] = date('H:i', strtotime($kehadirans['jam_masuk_istirahat']));
+        $kehadirans['jam_pulang'] = date('H:i', strtotime($kehadirans['jam_pulang']));
         echo json_encode($kehadirans);
     }
 

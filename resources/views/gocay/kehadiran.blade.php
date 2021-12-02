@@ -82,7 +82,7 @@
                                     <input type="text" name="filter_nama" class="form-control w-44 mr-2" placeholder="Nama Pegawai" autofocus value="{{Request::old('filter_nama')}}">
                                     <select class="form-select w-15 mr-2" name="filter_tanggal">
                                         @for ($x=0; $x < date('t'); $x++)
-                                            <option value="{{ $x+1 }}" "{{ $x+1 == date('j') ? 'selected' : '' }}>
+                                            <option value="{{ $x+1 }}" {{ $x+1 == date('j') ? 'selected' : '' }}>
                                                 {{ $x+1 == date('j') ? date('j') : $x+1 }}
                                             </option>
                                         @endfor
@@ -280,6 +280,7 @@
                                     $('#modal-form-3-edit').val(data.jam_istirahat);
                                     $('#modal-form-4-edit').val(data.jam_masuk_istirahat);
                                     $('#modal-form-5-edit').val(data.jam_pulang);
+                                    console.log(data.jam_masuk);
 
                                 }
                             });
