@@ -54,7 +54,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                        <div class="col-span-12 sm:col-span-6  xl:col-span-3 intro-y">
                             <div class="report-box zoom-in">
                                 <div class="box p-5">
                                     <div class="flex">
@@ -127,9 +127,15 @@
                             </thead>
                             <tbody>
                             <?php $no = 1; ?>
-                            @foreach ($kehadirans as $item)
-                                <tr class="intro-x">
-                                    <td class="w-20 text-right">
+                            @foreach ($kehadirans as $item) 
+
+                            <input type="hidden" name="hidden-id" id="id-{{ $item->pegawai_id }}" value="{{ $item->pegawai_id }}">
+                            <input type="hidden" id="jam_masuk{{ $item->pegawai_id }}" value="{{ $item->jam_masuk }}">
+                            <input type="hidden" id="jam_istirahat{{ $item->pegawai_id }}" value="{{ $item->jam_istirahat }}">
+                            <input type="hidden" id="jam_masuk_istirahat{{ $item->pegawai_id }}" value="{{ $item->jam_masuk_istirahat }}">
+                            <input type="hidden" id="jam_pulang{{ $item->pegawai_id }}" value="{{ $item->jam_pulang }}">
+                                <tr class="intro-x tabel-pegawai{{ $item->pegawai_id }}">
+                                    <td class="w-20">
                                     {{ $no++ }}
                                     </td>
                                     <td class="w-20 text-center">
@@ -262,6 +268,32 @@
                 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
                 <script type="text/javascript">
                     $(document).ready(function() {
+
+                        <?php foreach ($kehadirans as $item): ?>
+                            var id{{ $item->pegawai_id }} = $('#id-{{ $item->pegawai_id }}').val();
+                            $.ajax({
+                                    url : "{{route('getpolakerja')}}?id="+id{{ $item->pegawai_id }},
+                                    type: "GET",
+                                    dataType: "JSON",
+                                    success: function(data)
+                                    {
+                                        if ($('#jam_masuk{{ $item->pegawai_id }}').val() > data.jam_masuk){
+                                            $('.tabel-pegawai{{ $item->pegawai_id }}').addClass('text-theme-11');
+                                            console.log('telat');
+                                        }
+                                        if ($('#jam_istirahat{{ $item->pegawai_id }}').val() < data.jam_istirahat){
+                                            // $('.tabel-pegawai').addClass('text-theme-11');
+                                        }
+                                        if ($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val() > data.jam_istirahat_masuk){
+                                            // $('.tabel-pegawai').addClass('text-theme-11');
+                                        }
+                                        if ($('#jam_pulang{{ $item->pegawai_id }}').val() < data.jam_pulang){
+                                            // $('.tabel-pegawai').addClass('text-theme-11');
+                                        }
+                                        // console.log(e);
+                                    }
+                                });
+                            <?php endforeach; ?>
                         
                         $('.kehadiran-edit').on('click',function() {
                             var id = $(this).attr('data-id');

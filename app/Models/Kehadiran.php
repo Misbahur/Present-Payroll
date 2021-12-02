@@ -13,6 +13,7 @@ class Kehadiran extends Model
         'tanggal', 'jam_masuk', 'jam_istirahat', 'jam_masuk_istirahat', 'jam_pulang', 'jabatan_id', 'pegawai_id'
     ];
 
+
     public function pegawai()
     {
         return $this->belongsTo('App\Models\Pegawai', 'pegawai_id');
