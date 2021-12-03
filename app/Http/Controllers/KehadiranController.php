@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Kehadiran;
 use App\Models\Pegawai;
+use App\Models\Kelompok_kerja;
+use App\Models\Pola;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -19,15 +21,18 @@ class KehadiranController extends Controller
     public function index()
     {
         
-        $kehadirans = Kehadiran::where('tanggal', Carbon::now()->subDays(1)->toDateString())
+        
+
+
+        $kehadirans = Kehadiran::where('tanggal', Carbon::now()->toDateString())
         ->orderBy('tanggal', 'desc')
         ->orderBy('pegawai_id', 'asc')
         ->paginate(10);
         $bulan=array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
         $jumlahPegawai = Kehadiran::all()->groupBy('pegawai_id');
-        $jumlahPegawaiKasir = Kehadiran::where('tanggal', Carbon::now()->subDays(1)->toDateString())
+        $jumlahPegawaiKasir = Kehadiran::where('tanggal', Carbon::now()->toDateString())
                                 ->whereBetween('jabatan_id', ['1', '2']);
-        $jumlahSatpam = Kehadiran::where('tanggal', Carbon::now()->subDays(1)->toDateString())
+        $jumlahSatpam = Kehadiran::where('tanggal', Carbon::now()->toDateString())
                                 ->whereBetween('jabatan_id', ['3', '4']);
         // $jumlahPegawaiKasir = Kehadiran::whereBetween('tanggal', [Carbon::now()->subDays(1),Carbon::now()->addDays(1)])->where('jabatan_id', '1')->groupBy('jabatan_id');
         // $kehadirans = Kehadiran::whereBetween('tanggal', [Carbon::now()->subDays(1),Carbon::now()->addDays(1)])->orderBy('tanggal', 'desc')->orderBy('pegawai_id', 'asc')->get();
@@ -74,6 +79,24 @@ class KehadiranController extends Controller
             'jumlahSatpam' => $jumlahSatpam,
             'bulan' => $bulan,
         ]);
+    }
+
+    public function getpolakerja(Request $request)
+    {
+        $kelompok_kerjas = Kelompok_kerja::all();
+        foreach ($kelompok_kerjas as $item):
+            $pegawai_id_array = explode('|', $item->pegawai_id);
+            for ($x = 0; $x < count($pegawai_id_array); $x++):
+                if ($pegawai_id_array[$x] == $request->id):
+                    $pegawai_id = $pegawai_id_array[$x];
+                    $pola_id = $item->pola_kerja_id;
+                    $polas = Pola::findOrFail($pola_id);
+                else:
+                    continue;
+                endif;
+            endfor;
+        endforeach;
+        return response()->json($polas);
     }
 
     /**

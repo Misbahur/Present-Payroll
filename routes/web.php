@@ -121,6 +121,7 @@ Route::middleware('auth')->group(function() {
     Route::POST('kehadiranupdate', [KehadiranController::class, 'update'])->name('kehadiranupdate');
     Route::get('kehadirandelete/{id}', [KehadiranController::class, 'destroy'])->name('kehadirandelete');
     Route::get('filterkehadiran', [KehadiranController::class, 'filterkehadiran'])->name('filter-kehadiran');
+    Route::get('getpolakerja', [KehadiranController::class, 'getpolakerja'])->name('getpolakerja');
 
     
     //Kehadian Manage
