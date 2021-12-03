@@ -116,6 +116,7 @@ Route::middleware('auth')->group(function() {
 
     //kehadiran Manage
     Route::get('kehadiran', [KehadiranController::class, 'index'])->name('kehadiran');
+    Route::get('kehadiran_bulanan', [KehadiranController::class, 'kehadiran_bulanan'])->name('kehadiran_bulanan');
     Route::post('kehadiranadd', [KehadiranController::class, 'store'])->name('kehadiranadd');
     Route::get('kehadiranedit', [KehadiranController::class, 'edit'])->name('kehadiranedit');
     Route::POST('kehadiranupdate', [KehadiranController::class, 'update'])->name('kehadiranupdate');
@@ -123,7 +124,6 @@ Route::middleware('auth')->group(function() {
     Route::get('filterkehadiran', [KehadiranController::class, 'filterkehadiran'])->name('filter-kehadiran');
     Route::get('getpolakerja', [KehadiranController::class, 'getpolakerja'])->name('getpolakerja');
 
-    
     //Kehadian Manage
     Route::get('kehadiran', [KehadiranController::class, 'index'])->name('kehadiran');
     Route::post('kehadianadd', [KehadiranController::class, 'store'])->name('kehadianadd');

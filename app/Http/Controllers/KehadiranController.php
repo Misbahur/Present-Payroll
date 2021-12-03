@@ -21,13 +21,11 @@ class KehadiranController extends Controller
     public function index()
     {
         
-        
-
-
         $kehadirans = Kehadiran::where('tanggal', Carbon::now()->toDateString())
-        ->orderBy('tanggal', 'desc')
+        ->orderBy('tanggal', 'asc')
         ->orderBy('pegawai_id', 'asc')
         ->paginate(10);
+
         $bulan=array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
         $jumlahPegawai = Kehadiran::all()->groupBy('pegawai_id');
         $jumlahPegawaiKasir = Kehadiran::where('tanggal', Carbon::now()->toDateString())
@@ -46,6 +44,36 @@ class KehadiranController extends Controller
         ]);
         
     }
+
+    public function kehadiran_bulanan()
+    {
+        $pegawais = Pegawai::all();
+        $tanggal_awal = date('j');
+        $batas_tanggal = date('t');
+        $kehadiran_bulanan = Kehadiran::whereBetween('tanggal', [Carbon::now()->subDays($tanggal_awal),Carbon::now()->addDays($batas_tanggal)])
+        ->orderBy('pegawai_id', 'asc')
+        ->orderBy('tanggal', 'asc')->get();
+        // ->paginate(4);
+
+        $tanggal_terakhir = Kehadiran::latest()->first();
+        // dd($kehadiran_bulanan[0]->pegawai_id);
+
+        $kehadirans = Kehadiran::where('tanggal', Carbon::now()->toDateString())
+        ->orderBy('tanggal', 'asc')
+        ->orderBy('pegawai_id', 'asc')
+        ->paginate(10);
+
+        $bulan=array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
+        return view('gocay.kehadiran-bulanan', [
+            'kehadiran_bulanan' => $kehadiran_bulanan,
+            'kehadirans' => $kehadirans,
+            'pegawais' => $pegawais,
+            'bulan' => $bulan,
+            'tanggal_terakhir' => $tanggal_terakhir,
+        ]);
+    }
+
+    // 
 
     public function filterkehadiran(Request $request)
     {

@@ -86,10 +86,19 @@ class SideMenu
                 'icon' => 'clock',
                 'title' => 'Kehadiran',
                 'sub_menu' => [
-                    'Data Kehadiran' => [
+                    'Kehadiran Harian' => [
                         'icon' => 'book',
-                        'title' => 'Data Kehadiran',
+                        'title' => 'Kehadiran Harian',
                         'route_name' => 'kehadiran',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                    ],
+
+                    'Kehadiran Bulanan' => [
+                        'icon' => 'book',
+                        'title' => 'Kehadiran Bulanan',
+                        'route_name' => 'kehadiran_bulanan',
                         'params' => [
                             'layout' => 'side-menu'
                         ],

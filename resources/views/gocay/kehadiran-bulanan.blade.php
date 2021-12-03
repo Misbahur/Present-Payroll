@@ -8,69 +8,6 @@
     <div class="grid grid-cols-12 gap-6">
         <div class="col-span-12 xxl:col-span-9">
             <div class="grid grid-cols-12 gap-6">
-                <!-- BEGIN: General Report -->
-                <div class="col-span-12 mt-8">
-                    <div class="intro-y flex items-center h-10">
-                        <h2 class="text-lg font-medium truncate mr-5">Data Kehadiran</h2>
-                        <a href="" class="ml-auto flex items-center text-theme-1 dark:text-theme-10">
-                            <i data-feather="refresh-ccw" class="w-4 h-4 mr-3"></i> Reload Data
-                        </a>
-                    </div>
-                    <div class="grid grid-cols-12 gap-6 mt-5">
-                        <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
-                            <div class="report-box zoom-in">
-                                <div class="box p-5">
-                                    <div class="flex">
-                                        <i data-feather="users" class="report-box__icon text-theme-10"></i>
-                                    </div>
-                                    <div class="text-3xl font-bold leading-8 mt-6">{{$jumlahPegawai->count()}}</div>
-                                    <div class="text-base text-gray-600 mt-1">Jumlah Pegawai Hadir</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
-                            <div class="report-box zoom-in">
-                                <div class="box p-5">
-                                    <div class="flex">
-                                        <i data-feather="shopping-cart" class="report-box__icon text-theme-11"></i>
-                                    </div>
-                                    <div class="text-3xl font-bold leading-8 mt-6">
-                                        {{$jumlahPegawaiKasir->count()}}
-                                    </div>
-                                    <div class="text-base text-gray-600 mt-1">Total Pegawai Kasir</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
-                            <div class="report-box zoom-in">
-                                <div class="box p-5">
-                                    <div class="flex">
-                                        <i data-feather="codesandbox" class="report-box__icon text-theme-12"></i>
-                                    </div>
-                                    <div class="text-3xl font-bold leading-8 mt-6">
-                                        {{ $jumlahSatpam->count() }}
-                                    </div>
-                                    <div class="text-base text-gray-600 mt-1">Total Satpam </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-span-12 sm:col-span-6  xl:col-span-3 intro-y">
-                            <div class="report-box zoom-in">
-                                <div class="box p-5">
-                                    <div class="flex">
-                                        <i data-feather="monitor" class="report-box__icon text-theme-9"></i>
-                                    </div>
-                                    <div class="text-3xl font-bold leading-8 mt-6">
-                                        
-                                    </div>
-                                    <div class="text-base text-gray-600 mt-1">Total Pegawai Kantor</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- END: General Report -->
-
                 <!-- BEGIN: Weekly Top Products -->
                 <div class="col-span-12 mt-6">
                     <div class="intro-y block sm:flex items-center h-10">
@@ -108,73 +45,55 @@
                             </button> -->
                         </div>
                     </div>
-                    <div class="intro-y overflow-auto lg:overflow-visible mt-8 sm:mt-0">
-                        @if ($kehadirans != null)
+                    <div class="intro-y overflow-auto  mt-8 sm:mt-0 table-responsive">
+                        @if ($kehadiran_bulanan != null)
                         <table class="table table-report sm:mt-2">
                             <thead>
                                 <tr>
                                     <th class="whitespace-nowrap">No</th>
-                                    <!-- <th class="whitespace-nowrap">NIP</th> -->
-                                    <th class="whitespace-nowrap">Tanggal</th>
                                     <th class="text-center whitespace-nowrap">Nama Pegawai</th>
-                                    <!-- <th class="text-center whitespace-nowrap">Jabatan</th> -->
-                                    <th class="text-center whitespace-nowrap">Jam Masuk</th>
-                                    <th class="text-center whitespace-nowrap">Jam Istirahat</th>
-                                    <th class="text-center whitespace-nowrap">Jam Istirahat Masuk</th>
-                                    <th class="text-center whitespace-nowrap">Jam Pulang</th>
-                                    <th class="text-center whitespace-nowrap">Aksi</th>
+                                    @for ($x=0; $x < date('t'); $x++)
+                                    <th class="text-center whitespace-nowrap">
+                                        {{ $x+1 }}
+                                    </th>
+                                    @endfor
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php $no = 1; ?>
-                            @foreach ($kehadirans as $item) 
-
+                             
+                            @foreach ($kehadiran_bulanan as $item)
                             <input type="hidden" name="hidden-id" id="id-{{ $item->pegawai_id }}" value="{{ $item->pegawai_id }}">
-                            <input type="hidden" id="jam_masuk{{ $item->pegawai_id }}" value="{{ $item->jam_masuk }}">
-                            <input type="hidden" id="jam_istirahat{{ $item->pegawai_id }}" value="{{ $item->jam_istirahat }}">
-                            <input type="hidden" id="jam_masuk_istirahat{{ $item->pegawai_id }}" value="{{ $item->jam_masuk_istirahat }}">
-                            <input type="hidden" id="jam_pulang{{ $item->pegawai_id }}" value="{{ $item->jam_pulang }}">
-                                <tr class="intro-x tabel-pegawai{{ $item->pegawai_id }}">
-                                    <td class="w-20">
+                            @endforeach
+
+                            <?php $no = 1; $t=0; ?>
+                            @foreach ($pegawais as $p) 
+                            <tr class="intro-x ">
+                                <td class="text-center">
                                     {{ $no++ }}
-                                    </td>
-                                    <td class="w-20 text-center">
-                                        <a href="" class="font-small whitespace-nowrap">{{ $item->tanggal }}</a>
-                                    </td>
-                                    <!-- <td class="w-20 text-center">
-                                        <a href="" class="font-small whitespace-nowrap"></a>
-                                    </td> -->
-                                    <td class="w-20 text-center">
-                                        {{ $item->pegawai->nama }}
-                                    </td> 
-                                    <!-- <td class="w-20 text-center">
-                                        {{ $item->jabatan->nama }}
-                                    </td>          -->
-                                    <td class="w-20 text-center jam_masuk{{ $item->pegawai_id }}">
-                                        {{ $item->jam_masuk ? $item->jam_masuk : '-'}}
-                                    </td>
-                                    <td class="w-20 text-center jam_istirahat{{ $item->pegawai_id }}">
-                                        {{ $item->jam_istirahat ? $item->jam_istirahat : '-' }}
-                                    </td>
-                                    <td class="w-20 text-center jam_masuk_istirahat{{ $item->pegawai_id }}">
-                                        {{ $item->jam_masuk_istirahat ? $item->jam_masuk_istirahat : '-'}}
-                                    </td>
-                                    <td class="w-40 text-center jam_pulang{{ $item->pegawai_id }}">
-                                        {{ $item->jam_pulang ? $item->jam_pulang : '-'}}
-                                    </td>
-                                    <td class="table-report__action w-56">
-                                            <div class="flex justify-center items-center">
-                                                <a class="flex items-center mr-3 kehadiran-edit" href="javascript:void(0)" data-toggle="modal" 
-                                                id="{{ $item->id }}" data-target="#header-footer-modal-preview-edit" data-id="{{ $item->id }}">
-                                                    <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit 
-                                                </a>
-                                                <a class="flex items-center text-theme-6" href="/kehadirandelete/{{$item->id}}" onclick="return confirm('Apakah Anda Yakin Menghapus Data?');">
-                                                    <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
-                                                </a>
-                                            </div>
-                                        </td>
+                                </td>
+                                
+                                <td class="text-center">
+                                    {{ $p->nama }}
+                                </td> 
+                                
+                                @for ($x=1; $x <= date('j', strtotime($tanggal_terakhir->tanggal)); $x++)
+                                <input type="hidden" name="hidden-id" id="id-{{ $kehadiran_bulanan[$t]->pegawai_id }}" value="{{ $kehadiran_bulanan[$t]->pegawai_id }}">
+                                <td class="text-center">
+                                    <span class="jam_masuk{{$t}}" value="{{ $kehadiran_bulanan[$t]->jam_masuk }}"> {{ $kehadiran_bulanan[$t]->jam_masuk }} </span>
+                                    <span class="jam_istirahat{{$t}}" value="{{ $kehadiran_bulanan[$t]->jam_istirahat }}"> {{ $kehadiran_bulanan[$t]->jam_istirahat }} </span>
+                                    <span class="jam_masuk_istirahat{{$t}}" value="{{ $kehadiran_bulanan[$t]->jam_masuk_istirahat }}"> {{ $kehadiran_bulanan[$t]->jam_masuk_istirahat }} </span>
+                                    <span class="jam_pulang{{$t}}" value="{{ $kehadiran_bulanan[$t]->jam_pulang }}"> {{ $kehadiran_bulanan[$t]->jam_pulang }} </span>
+                                </td>
+                                <?php 
+                                    if ($t != (date('j', strtotime($tanggal_terakhir->tanggal))*$p->id )):
+                                        $t++;
+                                    else:
+                                        $t = date('j', strtotime($tanggal_terakhir->tanggal))*$p->id;
+                                    endif;  
+                                ?>
+                                @endfor
+
                                 </tr>
-                               
                             @endforeach
                             </tbody>
                         </table>
@@ -188,11 +107,7 @@
                     </div>
                     <div class="intro-y flex flex-wrap sm:flex-row sm:flex-nowrap items-center mt-3">
                         <div class="pagination">
-                        @if ($kehadirans != null)
-                            {{ $kehadirans->links() }}
-                        @else
 
-                        @endif
                         </div>
                     </div>
                 </div>
@@ -268,35 +183,39 @@
                 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
                 <script type="text/javascript">
                     $(document).ready(function() {
-
-                        <?php foreach ($kehadirans as $item): ?>
-                            var id{{ $item->pegawai_id }} = $('#id-{{ $item->pegawai_id }}').val();
+                        
+                        <?php 
+                            for ( $t = 0; $t < $kehadiran_bulanan->count(); $t++): 
+                            ?>
+                            
+                            var id{{ $kehadiran_bulanan[$t]->pegawai_id }} = $('#id-{{ $kehadiran_bulanan[$t]->pegawai_id }}').val();
                             $.ajax({
-                                    url : "{{route('getpolakerja')}}?id="+id{{ $item->pegawai_id }},
+                                    url : "{{route('getpolakerja')}}?id="+id{{ $kehadiran_bulanan[$t]->pegawai_id }},
                                     type: "GET",
                                     dataType: "JSON",
                                     success: function(data)
                                     {
-                                        if ($('#jam_masuk{{ $item->pegawai_id }}').val() > data.jam_masuk){
-                                            $('.jam_masuk{{ $item->pegawai_id }}').addClass('text-theme-11');
-                                            console.log('telat');
+                                        if ( '{{ $kehadiran_bulanan[$t]->jam_masuk }}' > data.jam_masuk){
+                                            $('.jam_masuk{{ $t }}').addClass('text-theme-11');
                                         }
-                                        if ($('#jam_istirahat{{ $item->pegawai_id }}').val() < data.jam_istirahat){
-                                            $('.jam_istirahat{{ $item->pegawai_id }}').addClass('text-theme-11');
+                                        if ( '{{ $kehadiran_bulanan[$t]->jam_istirahat }}' < data.jam_istirahat){
+                                            $('.jam_istirahat{{ $t }}').addClass('text-theme-11');
                                             
                                         }
-                                        if ($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val() > data.jam_istirahat_masuk){
-                                            $('.jam_masuk_istirahat{{ $item->pegawai_id }}').addClass('text-theme-11');
+                                        if ( '{{ $kehadiran_bulanan[$t]->jam_istirahat_masuk }}' > data.jam_istirahat_masuk){
+                                            $('.jam_masuk_istirahat{{ $t }}').addClass('text-theme-11');
                                             
                                         }
-                                        if ($('#jam_pulang{{ $item->pegawai_id }}').val() < data.jam_pulang){
-                                            $('.jam_pulang{{ $item->pegawai_id }}').addClass('text-theme-11');
+                                        if ( '{{ $kehadiran_bulanan[$t]->jam_pulang }}' < data.jam_pulang){
+                                            $('.jam_pulang{{ $t }}').addClass('text-theme-11');
                                             
                                         }
+
                                     }
                                 });
-                            <?php endforeach; ?>
-                        
+
+                            <?php endfor; ?>
+                                                
                         $('.kehadiran-edit').on('click',function() {
                             var id = $(this).attr('data-id');
 
