@@ -15,14 +15,9 @@ class CreatePenggajiansTable extends Migration
     {
         Schema::create('penggajians', function (Blueprint $table) {
             $table->id();
-            $table->date('tanggal_awal');
-            $table->date('tanggal_akhir');
-            $table->integer('nominal');
-            $table->enum('status', ['in', 'out']);
-            $table->string('keterangan');
+            $table->string('status_print');
+            $table->unsignedBigInteger('periode_id');
             $table->unsignedBigInteger('pegawai_id');
-            $table->unsignedBigInteger('jabatan_id');
-            $table->unsignedBigInteger('komponen_gaji_id');
             $table->timestamps();
         });
     }
