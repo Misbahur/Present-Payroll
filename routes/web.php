@@ -16,6 +16,7 @@ use App\Http\Controllers\{
     Komponen_gajiController,
     KehadiranController,
     FingerprintController,
+    JadwalController,
 
 };
 
@@ -146,7 +147,14 @@ Route::middleware('auth')->group(function() {
     Route::get('kelompok-kerjaedit', [Kelompok_kerjaController::class, 'edit'])->name('kelompok-kerjaedit');
     Route::POST('kelompok-kerjaupdate', [Kelompok_kerjaController::class, 'update'])->name('kelompok-kerjaupdate');
     Route::get('kelompok-kerjadelete/{id}', [Kelompok_kerjaController::class, 'destroy'])->name('kelompok-kerjadelete');
-    
+
+    //Jadwal Manage
+    Route::get('jadwal', [JadwalController::class, 'index'])->name('jadwal');
+    Route::post('jadwaladd', [JadwalController::class, 'store'])->name('jadwaladd');
+    Route::get('jadwaledit', [JadwalController::class, 'edit'])->name('jadwaledit');
+    Route::POST('jadwalupdate', [JadwalController::class, 'update'])->name('jadwalupdate');
+    Route::get('jadwaldelete/{id}', [JadwalController::class, 'destroy'])->name('jadwaldelete');
+    Route::get('filterjadwal', [JadwalController::class, 'filterjadwal'])->name('filter-jadwal');
     
     //Jabatan Manage
     Route::get('jabatan', [JabatanController::class, 'index'])->name('jabatan');

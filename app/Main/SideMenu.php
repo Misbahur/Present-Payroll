@@ -61,13 +61,13 @@ class SideMenu
                         'title' => 'Modul Pola Kerja'
                     ],
 
-                    'Modul Kelompok Kerja' => [
+                    'Modul Jadwal' => [
                         'icon' => 'users',
-                        'route_name' => 'kelompok-kerja',
+                        'route_name' => 'jadwal',
                         'params' => [
                             'layout' => 'side-menu'
                         ],
-                        'title' => 'Modul Kelompok Kerja'
+                        'title' => 'Modul Jadwal'
                     ],
 
                     'Modul Kalender Kerja' => [

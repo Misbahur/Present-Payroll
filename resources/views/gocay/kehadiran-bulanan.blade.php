@@ -78,6 +78,7 @@
                                 
                                 @for ($x=1; $x <= date('j', strtotime($tanggal_terakhir->tanggal)); $x++)
                                 <input type="hidden" name="hidden-id" id="id-{{ $kehadiran_bulanan[$t]->pegawai_id }}" value="{{ $kehadiran_bulanan[$t]->pegawai_id }}">
+                                <input type="hidden" name="hidden-tanggal" id="tanggal-{{ $kehadiran_bulanan[$t]->tanggal }}" value="{{ $kehadiran_bulanan[$t]->tanggal }}">
                                 <td class="text-center">
                                     <span class="jam_masuk{{$t}}" value="{{ $kehadiran_bulanan[$t]->jam_masuk }}"> {{ $kehadiran_bulanan[$t]->jam_masuk }} </span>
                                     <span class="jam_istirahat{{$t}}" value="{{ $kehadiran_bulanan[$t]->jam_istirahat }}"> {{ $kehadiran_bulanan[$t]->jam_istirahat }} </span>
@@ -189,8 +190,10 @@
                             ?>
                             
                             var id{{ $kehadiran_bulanan[$t]->pegawai_id }} = $('#id-{{ $kehadiran_bulanan[$t]->pegawai_id }}').val();
+                            var tanggal{{ $t }} = $('#tanggal-{{ $kehadiran_bulanan[$t]->tanggal }}').val();
                             $.ajax({
-                                    url : "{{route('getpolakerja')}}?id="+id{{ $kehadiran_bulanan[$t]->pegawai_id }},
+                                    // url : "{{route('getpolakerja')}}?id="+id{{ $kehadiran_bulanan[$t]->pegawai_id }},
+                                    url : "{{route('getpolakerja')}}?id="+id{{ $kehadiran_bulanan[$t]->pegawai_id }}+"&tanggal="+tanggal{{ $t }},
                                     type: "GET",
                                     dataType: "JSON",
                                     success: function(data)

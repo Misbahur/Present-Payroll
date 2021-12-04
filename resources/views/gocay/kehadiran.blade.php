@@ -130,6 +130,7 @@
                             @foreach ($kehadirans as $item) 
 
                             <input type="hidden" name="hidden-id" id="id-{{ $item->pegawai_id }}" value="{{ $item->pegawai_id }}">
+                            <input type="hidden" name="hidden-tanggal" id="tanggal-{{ $item->tanggal }}" value="{{ $item->tanggal }}">
                             <input type="hidden" id="jam_masuk{{ $item->pegawai_id }}" value="{{ $item->jam_masuk }}">
                             <input type="hidden" id="jam_istirahat{{ $item->pegawai_id }}" value="{{ $item->jam_istirahat }}">
                             <input type="hidden" id="jam_masuk_istirahat{{ $item->pegawai_id }}" value="{{ $item->jam_masuk_istirahat }}">
@@ -269,17 +270,17 @@
                 <script type="text/javascript">
                     $(document).ready(function() {
 
-                        <?php foreach ($kehadirans as $item): ?>
+                        <?php $tanggal = 0; foreach ($kehadirans as $item): ?>
                             var id{{ $item->pegawai_id }} = $('#id-{{ $item->pegawai_id }}').val();
+                            var tanggal{{ $tanggal }} = $('#tanggal-{{ $item->tanggal }}').val();
                             $.ajax({
-                                    url : "{{route('getpolakerja')}}?id="+id{{ $item->pegawai_id }},
+                                    url : "{{route('getpolakerja')}}?id="+id{{ $item->pegawai_id }}+"&tanggal="+tanggal{{ $tanggal }},
                                     type: "GET",
                                     dataType: "JSON",
                                     success: function(data)
                                     {
                                         if ($('#jam_masuk{{ $item->pegawai_id }}').val() > data.jam_masuk){
                                             $('.jam_masuk{{ $item->pegawai_id }}').addClass('text-theme-11');
-                                            console.log('telat');
                                         }
                                         if ($('#jam_istirahat{{ $item->pegawai_id }}').val() < data.jam_istirahat){
                                             $('.jam_istirahat{{ $item->pegawai_id }}').addClass('text-theme-11');
@@ -293,9 +294,11 @@
                                             $('.jam_pulang{{ $item->pegawai_id }}').addClass('text-theme-11');
                                             
                                         }
+
+                                        console.log(data);
                                     }
                                 });
-                            <?php endforeach; ?>
+                            <?php $tanggal++; endforeach; ?>
                         
                         $('.kehadiran-edit').on('click',function() {
                             var id = $(this).attr('data-id');

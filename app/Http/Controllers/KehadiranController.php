@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Kehadiran;
 use App\Models\Pegawai;
-use App\Models\Kelompok_kerja;
+use App\Models\Jadwal;
 use App\Models\Pola;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -111,19 +111,25 @@ class KehadiranController extends Controller
 
     public function getpolakerja(Request $request)
     {
-        $kelompok_kerjas = Kelompok_kerja::all();
-        foreach ($kelompok_kerjas as $item):
-            $pegawai_id_array = explode('|', $item->pegawai_id);
-            for ($x = 0; $x < count($pegawai_id_array); $x++):
-                if ($pegawai_id_array[$x] == $request->id):
-                    $pegawai_id = $pegawai_id_array[$x];
-                    $pola_id = $item->pola_kerja_id;
-                    $polas = Pola::findOrFail($pola_id);
-                else:
-                    continue;
-                endif;
-            endfor;
-        endforeach;
+        $jadwals = Jadwal::where('tanggal', $request->tanggal)
+        ->where('pegawai_id', $request->id)
+        ->orderBy('tanggal', 'desc')
+        ->orderBy('pegawai_id', 'asc')->get();
+
+        $polas = Pola::findOrFail($jadwals[0]->pola_kerja_id);
+        
+        // foreach ($kelompok_kerjas as $item):
+        //     $pegawai_id_array = explode('|', $item->pegawai_id);
+        //     for ($x = 0; $x < count($pegawai_id_array); $x++):
+        //         if ($pegawai_id_array[$x] == $request->id):
+        //             $pegawai_id = $pegawai_id_array[$x];
+        //             $pola_id = $item->pola_kerja_id;
+        //             $polas = Pola::findOrFail($pola_id);
+        //         else:
+        //             continue;
+        //         endif;
+        //     endfor;
+        // endforeach;
         return response()->json($polas);
     }
 
