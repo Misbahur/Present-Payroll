@@ -28,6 +28,8 @@
                             <button class="btn tablink p-5 flex " onclick="openTab(event,'keterlambatan-tab')">Keterlambatan</button>
                             <button class="btn tablink p-5 flex" onclick="openTab(event,'bonus-mingguan-tab')">Bonus Mingguan</button>
                             <button class="btn tablink p-5 flex" onclick="openTab(event,'bonus-bulanan-tab')">Bonus Bulanan</button>
+                            <button class="btn tablink p-5 flex" onclick="openTab(event,'liburmasuk-tab')">Bonus Libur Masuk</button>
+                            <button class="btn tablink p-5 flex" onclick="openTab(event,'masuklibur-tab')">Potongan Tidak Masuk</button>
                         </div>
                         <div id="komponen-gaji-tab" class="bonus max-w-md py-5 px-8 shadow-lg rounded-lg my-20" >
                         <a href="javascript:;" data-toggle="modal" data-target="#header-footer-modal-preview"
@@ -44,7 +46,7 @@
                                 </thead>
                                 <tbody>
                                     <?php $no = 1; ?>
-                                    @foreach ($komponen_gaji->skip(3) as $item)
+                                    @foreach ($komponen_gaji->skip(4) as $item)
                                         <tr class="intro-x">
                                             <td class="w-40">
                                             {{ $no++; }}
@@ -127,7 +129,7 @@
                                     @csrf
                                     <div>
                                         <h2 class="text-gray-800 text-2xl font-semibold">Bonus Mingguan</h2>
-                                        <h2 class="text-gray-800 text-xl font-semibold">Rp. {{ $komponen_gaji[1]->nominal }}</h2>
+                                        <h2 class="text-gray-800 text-xl font-semibold">Rp. {{ $komponen_gaji[0]->nominal }}</h2>
                                     </div>
                                     <div class="col-span-12 sm:col-span-12 mt-5">
                                         <label for="form-1" class="form-label">Nominal</label>
@@ -145,7 +147,41 @@
                                     @csrf
                                     <div>
                                         <h2 class="text-gray-800 text-2xl font-semibold">Bonus Bulanan</h2>
+                                        <h2 class="text-gray-800 text-xl font-semibold">Rp. {{ $komponen_gaji[1]->nominal }}</h2>
+                                    </div>
+                                    <div class="col-span-12 sm:col-span-12 mt-5">
+                                        <label for="form-1" class="form-label">Nominal</label>
+                                        <input name='nominal' type="number" class="form-control" placeholder="Nominal Bonus Bulanan">
+                                    </div>
+                                    <div class="flex justify-start mt-4">
+                                        <button type="submit" class="btn btn-primary font-medium text-indigo-500">Simpan</button>
+                                    </div>
+                            </form>
+                        </div>
+                        <div id="liburmasuk-tab" class="bonus max-w-md py-5 px-8 bg-white shadow-lg rounded-lg my-20" style="display:none">
+                            <form method="POST" action="{{ route('liburmasuk') }}">
+                                <input type="hidden" name="id" id="modal-update-id">
+                                    @csrf
+                                    <div>
+                                        <h2 class="text-gray-800 text-2xl font-semibold">Bonus Libur Masuk</h2>
                                         <h2 class="text-gray-800 text-xl font-semibold">Rp. {{ $komponen_gaji[2]->nominal }}</h2>
+                                    </div>
+                                    <div class="col-span-12 sm:col-span-12 mt-5">
+                                        <label for="form-1" class="form-label">Nominal</label>
+                                        <input name='nominal' type="number" class="form-control" placeholder="Nominal Bonus Bulanan">
+                                    </div>
+                                    <div class="flex justify-start mt-4">
+                                        <button type="submit" class="btn btn-primary font-medium text-indigo-500">Simpan</button>
+                                    </div>
+                            </form>
+                        </div>
+                        <div id="masuklibur-tab" class="bonus max-w-md py-5 px-8 bg-white shadow-lg rounded-lg my-20" style="display:none">
+                            <form method="POST" action="{{ route('masuklibur') }}">
+                                <input type="hidden" name="id" id="modal-update-id">
+                                    @csrf
+                                    <div>
+                                        <h2 class="text-gray-800 text-2xl font-semibold">Potongan Tidak Masuk</h2>
+                                        <h2 class="text-gray-800 text-xl font-semibold">Rp. {{ $komponen_gaji[3]->nominal }}</h2>
                                     </div>
                                     <div class="col-span-12 sm:col-span-12 mt-5">
                                         <label for="form-1" class="form-label">Nominal</label>

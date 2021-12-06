@@ -16,8 +16,9 @@ class CreatePenggajiansTable extends Migration
         Schema::create('penggajians', function (Blueprint $table) {
             $table->id();
             $table->string('status_print');
-            $table->unsignedBigInteger('periode_id');
             $table->unsignedBigInteger('pegawai_id');
+            $table->unsignedBigInteger('jabatan_id');
+            $table->unsignedBigInteger('periode_id');
             $table->timestamps();
         });
     }

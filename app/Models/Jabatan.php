@@ -14,4 +14,9 @@ class Jabatan extends Model
     {
         return $this->hasMany(Pegawai::class);
     }
+
+    public function penggajian()
+    {
+        return $this->hasMany(Penggajia::class);
+    }
 }

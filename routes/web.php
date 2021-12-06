@@ -16,6 +16,7 @@ use App\Http\Controllers\{
     Komponen_gajiController,
     KehadiranController,
     FingerprintController,
+    PenggajianController,
 
 };
 
@@ -188,7 +189,7 @@ Route::middleware('auth')->group(function() {
 
 
     Route::get('kalender', [PageController::class, 'kalender'])->name('kalender');
-    Route::get('gaji', [PageController::class, 'gaji'])->name('gaji');
+    // Route::get('gaji', [PageController::class, 'gaji'])->name('gaji');
 
 
     Route::get('komponen-gaji', [Komponen_gajiController::class, 'index'])->name('komponen-gaji');
@@ -198,8 +199,15 @@ Route::middleware('auth')->group(function() {
     Route::POST('bonusbulananupdate', [Komponen_gajiController::class, 'bonusbulananupdate'])->name('bonusbulananupdate');
     Route::POST('lembur', [Komponen_gajiController::class, 'lembur'])->name('lembur');
     Route::POST('keterlambatan', [Komponen_gajiController::class, 'keterlambatan'])->name('keterlambatan');
+    Route::POST('liburmasuk', [Komponen_gajiController::class, 'liburmasuk'])->name('liburmasuk');
+    Route::POST('masuklibur', [Komponen_gajiController::class, 'masuklibur'])->name('masuklibur');
 
 
+
+    Route::post('periodeadd', [PenggajianController::class, 'tambahperiode'])->name('periodeadd');
+
+    Route::get('penggajian', [PenggajianController::class, 'index'])->name('penggajian');
+    Route::get('filterperiode', [PenggajianController::class, 'filterperiode'])->name('filterperiode');
 
     Route::get('lembur', [PageController::class, 'lembur'])->name('lembur');
 

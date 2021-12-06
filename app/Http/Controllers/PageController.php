@@ -116,13 +116,6 @@ class PageController extends Controller
         ]);
     }
 
-    public function gaji()
-    {
-        return view('gocay/gaji', [
-            
-        ]);
-    }
-
     public function komponenGaji()
     {
         return view('gocay/komponen-gaji', [

@@ -12,30 +12,56 @@
         <!-- BEGIN: Profile Menu -->
         <div class="col-span-12 lg:col-span-4 xxl:col-span-3 flex lg:block flex-col-reverse">
             <div class="intro-y box mt-5 lg:mt-0">
-                <div class="relative flex items-center p-5">
+                <div class="relative flex items-center p-5 border-b">
                     <h2 class="font-medium text-base mr-auto">Filter Periode</h2>
                 </div>
+                <form method="GET" action="{{ route('filterperiode') }}">
                 <div class="p-5 border-gray-200">
-                    <select class="form-select mt-2 sm:mr-2" aria-label="Default select example">
-                        <option>November 2021</option>
-                        <option>Desember 2021</option>
-                        <option>Januari 2021</option>
+                    <select name="periode_id" class="form-select mt-2 sm:mr-2" aria-label="Default select example">
+                        @foreach ($periodes as $item)
+                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="p-5 border-t border-gray-200 dark:border-dark-5 flex">
-                    <button type="button" class="btn btn-primary py-1 px-2 ml-auto">Submit</button>
+                    <button type="submit" class="btn btn-primary py-1 px-2 ml-auto">Submit</button>
                 </div>
+                </form>
             </div>
             <div class="intro-y box mt-5 lg:mt-2">
-                <div class="relative flex items-center p-5">
+                <div class="relative flex items-center p-5 border-b">
                     <h2 class="font-medium text-base mr-auto">Tambah Periode</h2>
                 </div>
-                <div class="p-5">
-                    <input data-daterange="true" class="datepicker form-control w-56 block mx-auto">
+                <form method="POST" action="{{ route('periodeadd') }}">
+                @csrf
+                <div class="px-4 pt-5">
+                    <label for="nama">Nama Periode</label>
+                    <input class="form-control" type="text" name="nama" id="nama">
+                </div>
+                <div class="p-2">
+                    <div class="px-2 py-2">
+                        <label for="tanggal_awal">Tanggal Awal</label>
+                        <div id="tanggal_awal" class="relative mx-auto">
+                            <div class="absolute rounded-l w-10 h-full flex items-center justify-center bg-gray-100 border text-gray-600 dark:bg-dark-1 dark:border-dark-4">
+                                <i data-feather="calendar" class="w-4 h-4"></i>
+                            </div>
+                            <input type="text" name="tanggal_awal" class="datepicker form-control pl-12" data-single-mode="true">
+                        </div>
+                    </div>  
+                     <div class="px-2 py-2">
+                        <label for="tanggal_akhir">Tanggal Akhir</label>
+                        <div id="tanggal_akhir" class="relative mx-auto">
+                            <div class="absolute rounded-l w-10 h-full flex items-center justify-center bg-gray-100 border text-gray-600 dark:bg-dark-1 dark:border-dark-4">
+                                <i data-feather="calendar" class="w-4 h-4"></i>
+                            </div>
+                            <input type="text" name="tanggal_akhir" class="datepicker form-control pl-12" data-single-mode="true">
+                        </div>
+                    </div> 
                 </div>
                 <div class="p-5 border-t border-gray-200 dark:border-dark-5 flex">
-                    <button type="button" class="btn btn-primary py-1 px-2 ml-auto">Save</button>
+                    <button type="submit" class="btn btn-primary py-1 px-2 ml-auto">Save</button>
                 </div>
+                </form>
             </div>
             <div class="intro-y box p-5 bg-theme-9 text-white mt-5">
                 <div class="flex items-center">
@@ -83,11 +109,12 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($penggajians as $key=>$item)
                                 <tr>
-                                    <td class="border-b dark:border-dark-5">1</td>
-                                    <td class="border-b dark:border-dark-5">Angelina</td>
-                                    <td class="border-b dark:border-dark-5">Jolie</td>
-                                    <td class="border-b dark:border-dark-5">Jolie</td>
+                                    <td class="border-b dark:border-dark-5">{{ ++   $key }}</td>
+                                    <td class="border-b dark:border-dark-5">{{ $item->pegawai->nama }}</td>
+                                    <td class="border-b dark:border-dark-5">{{ $item->jabatan->nama }}</td>
+                                    <td class="border-b dark:border-dark-5">{{ $item->periode->nama }}</td>
                                     <td class="border-b dark:border-dark-5">
                                         <a class="btn btn-warning w-24 inline-block mr-1 mb-2">
                                             <i data-feather="alert-circle" class="w-4 h-4 mr-2"></i>Detail</a>
@@ -95,42 +122,7 @@
                                             <i data-feather="printer" class="w-4 h-4 mr-2"></i>Print</a>
                                     </td>
                                 </tr>
-                               <tr>
-                                    <td class="border-b dark:border-dark-5">1</td>
-                                    <td class="border-b dark:border-dark-5">Angelina</td>
-                                    <td class="border-b dark:border-dark-5">Jolie</td>
-                                    <td class="border-b dark:border-dark-5">Jolie</td>
-                                    <td class="border-b dark:border-dark-5">
-                                        <a class="btn btn-warning w-24 inline-block mr-1 mb-2">
-                                            <i data-feather="alert-circle" class="w-4 h-4 mr-2"></i>Detail</a>
-                                        <a class="btn btn-primary w-24 inline-block mr-1 mb-2">
-                                            <i data-feather="printer" class="w-4 h-4 mr-2"></i>Print</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="border-b dark:border-dark-5">1</td>
-                                    <td class="border-b dark:border-dark-5">Angelina</td>
-                                    <td class="border-b dark:border-dark-5">Jolie</td>
-                                    <td class="border-b dark:border-dark-5">Jolie</td>
-                                    <td class="border-b dark:border-dark-5">
-                                        <a class="btn btn-warning w-24 inline-block mr-1 mb-2">
-                                            <i data-feather="alert-circle" class="w-4 h-4 mr-2"></i>Detail</a>
-                                        <a class="btn btn-primary w-24 inline-block mr-1 mb-2">
-                                            <i data-feather="printer" class="w-4 h-4 mr-2"></i>Print</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="border-b dark:border-dark-5">1</td>
-                                    <td class="border-b dark:border-dark-5">Angelina</td>
-                                    <td class="border-b dark:border-dark-5">Jolie</td>
-                                    <td class="border-b dark:border-dark-5">Jolie</td>
-                                    <td class="border-b dark:border-dark-5">
-                                        <a class="btn btn-warning w-24 inline-block mr-1 mb-2">
-                                            <i data-feather="alert-circle" class="w-4 h-4 mr-2"></i>Detail</a>
-                                        <a class="btn btn-primary w-24 inline-block mr-1 mb-2">
-                                            <i data-feather="printer" class="w-4 h-4 mr-2"></i>Print</a>
-                                    </td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
