@@ -139,7 +139,7 @@ class SideMenu
                     ],
                     'Penggajian' => [
                         'icon' => 'dollar-sign',
-                        'route_name' => 'gaji',
+                        'route_name' => 'penggajian',
                         'params' => [
                             'layout' => 'side-menu'
                         ],

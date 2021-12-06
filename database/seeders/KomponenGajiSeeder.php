@@ -15,11 +15,6 @@ class KomponenGajiSeeder extends Seeder
     {
         \App\Models\Komponen_gaji::insert([
             [ 
-                'nama' => 'Bonus Harian',
-                'nominal' => '50000',
-                'jabatan_id' => '1',
-            ],
-            [ 
                 'nama' => 'Bonus Mingguan',
                 'nominal' => '50000',
                 'jabatan_id' => '1',
@@ -27,6 +22,16 @@ class KomponenGajiSeeder extends Seeder
             [ 
                 'nama' => 'Bonus Bulanan',
                 'nominal' => '50000',
+                'jabatan_id' => '1',
+            ],
+             [ 
+                'nama' => 'Bonus Libur Masuk',
+                'nominal' => '250000',
+                'jabatan_id' => '1',
+            ],
+             [ 
+                'nama' => 'Potongan Tidak Masuk',
+                'nominal' => '250000',
                 'jabatan_id' => '1',
             ],
            

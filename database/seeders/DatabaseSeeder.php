@@ -11,7 +11,7 @@ use App\Models\Setting;
 use App\Models\Jam;
 use App\Models\Bon_kas;
 use App\Models\Lembur;
-
+use App\Models\Komponen_gaji;
 
 
 
