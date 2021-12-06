@@ -17,6 +17,7 @@ use App\Http\Controllers\{
     KehadiranController,
     FingerprintController,
     PenggajianController,
+    JadwalController,
 
 };
 
@@ -117,6 +118,7 @@ Route::middleware('auth')->group(function() {
 
     //kehadiran Manage
     Route::get('kehadiran', [KehadiranController::class, 'index'])->name('kehadiran');
+    Route::get('kehadiran_bulanan', [KehadiranController::class, 'kehadiran_bulanan'])->name('kehadiran_bulanan');
     Route::post('kehadiranadd', [KehadiranController::class, 'store'])->name('kehadiranadd');
     Route::get('kehadiranedit', [KehadiranController::class, 'edit'])->name('kehadiranedit');
     Route::POST('kehadiranupdate', [KehadiranController::class, 'update'])->name('kehadiranupdate');
@@ -124,7 +126,6 @@ Route::middleware('auth')->group(function() {
     Route::get('filterkehadiran', [KehadiranController::class, 'filterkehadiran'])->name('filter-kehadiran');
     Route::get('getpolakerja', [KehadiranController::class, 'getpolakerja'])->name('getpolakerja');
 
-    
     //Kehadian Manage
     Route::get('kehadiran', [KehadiranController::class, 'index'])->name('kehadiran');
     Route::post('kehadianadd', [KehadiranController::class, 'store'])->name('kehadianadd');
@@ -147,7 +148,14 @@ Route::middleware('auth')->group(function() {
     Route::get('kelompok-kerjaedit', [Kelompok_kerjaController::class, 'edit'])->name('kelompok-kerjaedit');
     Route::POST('kelompok-kerjaupdate', [Kelompok_kerjaController::class, 'update'])->name('kelompok-kerjaupdate');
     Route::get('kelompok-kerjadelete/{id}', [Kelompok_kerjaController::class, 'destroy'])->name('kelompok-kerjadelete');
-    
+
+    //Jadwal Manage
+    Route::get('jadwal', [JadwalController::class, 'index'])->name('jadwal');
+    Route::post('jadwaladd', [JadwalController::class, 'store'])->name('jadwaladd');
+    Route::get('jadwaledit', [JadwalController::class, 'edit'])->name('jadwaledit');
+    Route::POST('jadwalupdate', [JadwalController::class, 'update'])->name('jadwalupdate');
+    Route::get('jadwaldelete/{id}', [JadwalController::class, 'destroy'])->name('jadwaldelete');
+    Route::get('filterjadwal', [JadwalController::class, 'filterjadwal'])->name('filter-jadwal');
     
     //Jabatan Manage
     Route::get('jabatan', [JabatanController::class, 'index'])->name('jabatan');
