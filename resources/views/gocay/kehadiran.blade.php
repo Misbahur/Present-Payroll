@@ -273,16 +273,19 @@
 
                         function telat(a,b,c,d){
                             
-                           const getSeconds = s => s.split(":").reduce((acc, curr) => acc * 60 + +curr, 0);
-                           var jam_pegawai = getSeconds(a);
-                           var jadwal = getSeconds(b);
+                        //    const getSeconds = s => s.split(":").reduce((acc, curr) => acc * 60 + +curr, 0);
+                        //    var jam_pegawai = getSeconds(a);
+                        //    var jadwal = getSeconds(b);
+                           var jam_pegawai = new Date("01/01/2007 " + a).getHours();
+                           var jam_jadwal = new Date("01/01/2007 " + b).getHours();
+                           var menit_pegawai = new Date("01/01/2007 " + a).getMinutes();
+                           var menit_jadwal = new Date("01/01/2007 " + b).getMinutes();
                            var pegawai_id = c;
                            var tanggal = d;
-                           var status = 'telat';
+                           var status = 'out';
                         
-                           var durasi = Math.floor(Math.abs(jam_pegawai-jadwal)% 3600 / 60);
+                           var durasi = ((jam_pegawai - jam_jadwal)*60) + (menit_pegawai - menit_jadwal);
                            console.log('Pegawai ID : ' + pegawai_id);
-                           console.log(tanggal);
                            console.log(durasi + ' ' + 'menit');
                            console.log('telat');
                            $.ajax({
@@ -298,17 +301,33 @@
 
                         function lembur(a,b,c,d){
                             
-                            const getSeconds = s => s.split(":").reduce((acc, curr) => acc * 60 + +curr, 0);
-                            var jam_pegawai = getSeconds(a);
-                            var jadwal = getSeconds(b);
+                            // const getSeconds = s => s.split(":").reduce((acc, curr) => acc * 60 + +curr, 0);
+                            // var durasi = Math.floor(Math.abs(jadwal-jam_pegawai)% 3600 / 60);
+                            // var jam_pegawai = getSeconds(a);
+                            // var jadwal = getSeconds(b);
                             var pegawai_id = c;
                             var tanggal = d;
-                         
-                            var durasi = Math.floor(Math.abs(jadwal-jam_pegawai)% 3600 / 60);
+                            var pegawai_id = c;
+                            var status = 'in';
+
+                            var jam_pegawai = new Date("01/01/2007 " + a).getHours();
+                            var jam_jadwal = new Date("01/01/2007 " + b).getHours();
+                            var menit_pegawai = new Date("01/01/2007 " + a).getMinutes();
+                            var menit_jadwal = new Date("01/01/2007 " + b).getMinutes();
+                            var durasi = ((jam_pegawai - jam_jadwal)*60) + (menit_pegawai - menit_jadwal);
                             console.log('Pegawai ID : ' + pegawai_id);
                             console.log(tanggal);
                             console.log(durasi + ' ' + 'menit');
                             console.log('lembur');
+                            $.ajax({
+                                url : "{{route('telatlembur')}}?pegawai_id="+pegawai_id+"&tanggal="+tanggal+"&durasi="+durasi+"&status="+status,
+                                type: "GET",
+                                dataType: "JSON",
+                                success: function(data)
+                                {
+
+                                }
+                            });
 
                            
                          }

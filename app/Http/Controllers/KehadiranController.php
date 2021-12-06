@@ -22,7 +22,7 @@ class KehadiranController extends Controller
      */
     public function index()
     {
-        
+
         $kehadirans = Kehadiran::where('tanggal', Carbon::now()->toDateString())
         ->orderBy('tanggal', 'asc')
         ->orderBy('pegawai_id', 'asc')
@@ -147,34 +147,41 @@ class KehadiranController extends Controller
 
         $temp = Temporary::where('tanggal', $request->tanggal)
         ->where('pegawai_id', $request->pegawai_id)
+        ->where('status', $request->status)
         ->get();
 
         $lembur = Lembur::all();
 
-        $temporary = new Temporary;
-
+        $pegawai = Pegawai::all();
+        
         if ($temp->isEmpty()):
-            if ($request->status == 'telat' && $request->durasi >  $lembur[1]->durasi):
-                $temporary->status = 'out';
-                $temporary->tanggal = $request->tanggal;
-                $temporary->pegawai_id = $request->pegawai_id;
-                $temporary->nominal = intval(($request->durasi/$lembur[1]->durasi) * $lembur[1]->nominal);
-                $temporary->save();
-            
-            elseif ($request->status == 'lembur' && $request->durasi >  $lembur[0]->durasi):
-                $temporary->status = 'in';
-                $temporary->tanggal = $request->tanggal;
-                $temporary->pegawai_id = $request->pegawai_id;
-                $temporary->nominal = intval(($request->durasi/$lembur[1]->durasi) * $lembur[0]->nominal);
-                $temporary->save();
-
+            if ($request->status == 'out' && $request->durasi >  $lembur[1]->durasi):
+                $temporary_in = new Temporary;
+                $temporary_in->status = 'out';
+                $temporary_in->keterangan = $lembur[1]->nama;
+                $temporary_in->tanggal = $request->tanggal;
+                $temporary_in->pegawai_id = $request->pegawai_id;
+                // $temporary_in->nominal = intval(($request->durasi%$lembur[1]->durasi) * $lembur[1]->nominal);
+                for($i=1; $i <= intval($request->durasi/$lembur[1]->durasi); $i++ ):
+                    $temporary_in->nominal +=  $lembur[1]->nominal;
+                endfor;
+                $temporary_in->save();
             endif;
-            
-        else:
+            if ($request->status == 'in' && $request->durasi >  $lembur[0]->durasi):
+                    $temporary_out = new Temporary;
+                    $temporary_out->status = 'in';
+                    $temporary_out->keterangan = $lembur[0]->nama;
+                    $temporary_out->tanggal = $request->tanggal;
+                    $temporary_out->pegawai_id = $request->pegawai_id;
+                    for($i=1; $i <= intval($request->durasi/$lembur[0]->durasi); $i++ ):
+                        $temporary_out->nominal +=  $lembur[0]->nominal;
+                    endfor;
+                    $temporary_out->save();
 
+                endif;
         endif;
 
-        // dd($temp);
+
         
     }
 
