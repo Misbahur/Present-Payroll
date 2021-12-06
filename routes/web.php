@@ -124,6 +124,7 @@ Route::middleware('auth')->group(function() {
     Route::get('kehadirandelete/{id}', [KehadiranController::class, 'destroy'])->name('kehadirandelete');
     Route::get('filterkehadiran', [KehadiranController::class, 'filterkehadiran'])->name('filter-kehadiran');
     Route::get('getpolakerja', [KehadiranController::class, 'getpolakerja'])->name('getpolakerja');
+    Route::get('telatlembur', [KehadiranController::class, 'telatlembur'])->name('telatlembur');
 
     //Kehadian Manage
     Route::get('kehadiran', [KehadiranController::class, 'index'])->name('kehadiran');

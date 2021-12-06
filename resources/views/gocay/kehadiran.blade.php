@@ -268,22 +268,68 @@
 
                 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
                 <script type="text/javascript">
+
                     $(document).ready(function() {
 
-                        <?php $tanggal = 0; foreach ($kehadirans as $item): ?>
-                            var id{{ $item->pegawai_id }} = $('#id-{{ $item->pegawai_id }}').val();
-                            var tanggal{{ $tanggal }} = $('#tanggal-{{ $item->tanggal }}').val();
+                        function telat(a,b,c,d){
+                            
+                           const getSeconds = s => s.split(":").reduce((acc, curr) => acc * 60 + +curr, 0);
+                           var jam_pegawai = getSeconds(a);
+                           var jadwal = getSeconds(b);
+                           var pegawai_id = c;
+                           var tanggal = d;
+                           var status = 'telat';
+                        
+                           var durasi = Math.floor(Math.abs(jam_pegawai-jadwal)% 3600 / 60);
+                           console.log('Pegawai ID : ' + pegawai_id);
+                           console.log(tanggal);
+                           console.log(durasi + ' ' + 'menit');
+                           console.log('telat');
+                           $.ajax({
+                                url : "{{route('telatlembur')}}?pegawai_id="+pegawai_id+"&tanggal="+tanggal+"&durasi="+durasi+"&status="+status,
+                                type: "GET",
+                                dataType: "JSON",
+                                success: function(data)
+                                {
+
+                                }
+                            });
+                        }
+
+                        function lembur(a,b,c,d){
+                            
+                            const getSeconds = s => s.split(":").reduce((acc, curr) => acc * 60 + +curr, 0);
+                            var jam_pegawai = getSeconds(a);
+                            var jadwal = getSeconds(b);
+                            var pegawai_id = c;
+                            var tanggal = d;
+                         
+                            var durasi = Math.floor(Math.abs(jadwal-jam_pegawai)% 3600 / 60);
+                            console.log('Pegawai ID : ' + pegawai_id);
+                            console.log(tanggal);
+                            console.log(durasi + ' ' + 'menit');
+                            console.log('lembur');
+
+                           
+                         }
+
+                        <?php $i = 0; foreach ($kehadirans as $item): ?>
+                            var pegawai_id{{ $item->pegawai_id }} = $('#id-{{ $item->pegawai_id }}').val();
+                            var tanggal{{ $i }} = $('#tanggal-{{ $item->tanggal }}').val();
                             $.ajax({
-                                    url : "{{route('getpolakerja')}}?id="+id{{ $item->pegawai_id }}+"&tanggal="+tanggal{{ $tanggal }},
+                                    url : "{{route('getpolakerja')}}?id="+pegawai_id{{ $item->pegawai_id }}+"&tanggal="+tanggal{{ $i }},
                                     type: "GET",
                                     dataType: "JSON",
                                     success: function(data)
                                     {
                                         if ($('#jam_masuk{{ $item->pegawai_id }}').val() > data.jam_masuk){
                                             $('.jam_masuk{{ $item->pegawai_id }}').addClass('text-theme-11');
+
+                                            telat($('#jam_masuk{{ $item->pegawai_id }}').val(), data.jam_masuk, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
                                         }
                                         if ($('#jam_istirahat{{ $item->pegawai_id }}').val() < data.jam_istirahat){
                                             $('.jam_istirahat{{ $item->pegawai_id }}').addClass('text-theme-11');
+
                                             
                                         }
                                         if ($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val() > data.jam_istirahat_masuk){
@@ -295,10 +341,14 @@
                                             
                                         }
 
-                                        console.log(data);
+                                        if ($('#jam_pulang{{ $item->pegawai_id }}').val() > data.jam_pulang){
+                                            lembur($('#jam_pulang{{ $item->pegawai_id }}').val(), data.jam_pulang, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
+                                        }
+
                                     }
                                 });
-                            <?php $tanggal++; endforeach; ?>
+                            <?php $i++; endforeach; ?>
+
                         
                         $('.kehadiran-edit').on('click',function() {
                             var id = $(this).attr('data-id');

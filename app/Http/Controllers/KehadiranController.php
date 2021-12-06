@@ -6,6 +6,8 @@ use App\Models\Kehadiran;
 use App\Models\Pegawai;
 use App\Models\Jadwal;
 use App\Models\Pola;
+use App\Models\Temporary;
+use App\Models\Lembur;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -131,6 +133,49 @@ class KehadiranController extends Controller
         //     endfor;
         // endforeach;
         return response()->json($polas);
+    }
+
+    public function telatlembur(Request $request)
+    {
+        $request->validate([
+            'tanggal' => 'required',
+            'durasi' => 'required',
+            'status' => 'required',
+            'pegawai_id' => 'required',
+         
+        ]);
+
+        $temp = Temporary::where('tanggal', $request->tanggal)
+        ->where('pegawai_id', $request->pegawai_id)
+        ->get();
+
+        $lembur = Lembur::all();
+
+        $temporary = new Temporary;
+
+        if ($temp->isEmpty()):
+            if ($request->status == 'telat' && $request->durasi >  $lembur[1]->durasi):
+                $temporary->status = 'out';
+                $temporary->tanggal = $request->tanggal;
+                $temporary->pegawai_id = $request->pegawai_id;
+                $temporary->nominal = intval(($request->durasi/$lembur[1]->durasi) * $lembur[1]->nominal);
+                $temporary->save();
+            
+            elseif ($request->status == 'lembur' && $request->durasi >  $lembur[0]->durasi):
+                $temporary->status = 'in';
+                $temporary->tanggal = $request->tanggal;
+                $temporary->pegawai_id = $request->pegawai_id;
+                $temporary->nominal = intval(($request->durasi/$lembur[1]->durasi) * $lembur[0]->nominal);
+                $temporary->save();
+
+            endif;
+            
+        else:
+
+        endif;
+
+        // dd($temp);
+        
     }
 
     /**
