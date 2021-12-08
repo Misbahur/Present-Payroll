@@ -282,7 +282,7 @@
                            var menit_jadwal = new Date("01/01/2007 " + b).getMinutes();
                            var pegawai_id = c;
                            var tanggal = d;
-                           var status = 'out';
+                           var status = 'out-telat-harian';
                         
                            var durasi = ((jam_pegawai - jam_jadwal)*60) + (menit_pegawai - menit_jadwal);
                            console.log('Pegawai ID : ' + pegawai_id);
@@ -308,7 +308,7 @@
                             var pegawai_id = c;
                             var tanggal = d;
                             var pegawai_id = c;
-                            var status = 'in';
+                            var status = 'in-lembur-harian';
 
                             var jam_pegawai = new Date("01/01/2007 " + a).getHours();
                             var jam_jadwal = new Date("01/01/2007 " + b).getHours();

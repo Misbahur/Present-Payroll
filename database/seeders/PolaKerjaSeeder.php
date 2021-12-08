@@ -23,7 +23,7 @@ class PolaKerjaSeeder extends Seeder
                 'jam_masuk' => '07:00',
                 'jam_istirahat' => '12:00',
                 'jam_istirahat_masuk' => '13:00',
-                'jam_pulang' => '16:00'
+                'jam_pulang' => '17:00'
             ],
             [
                 'nama' => 'Siang',
@@ -36,7 +36,7 @@ class PolaKerjaSeeder extends Seeder
                 'nama' => 'PS',
                 'jam_masuk' => '07:00',
                 'jam_istirahat' => '12:00',
-                'jam_istirahat_masuk' => '16:00',
+                'jam_istirahat_masuk' => '17:00',
                 'jam_pulang' => '21:00'
             ]
         ]);
