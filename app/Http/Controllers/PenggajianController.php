@@ -200,12 +200,13 @@ class PenggajianController extends Controller
         $pegawai = Penggajian::where('id', $id)->first();
         $detail_gajis =  Metapenggajian::where('penggajian_id', $id)->get();
 
-        view()->share('gocay.invoice',$detail_gajis);
-        $pdf = PDF::loadView('gocay.invoice',
-        [
+        // share data to view
+        $data = [
             'pegawai' => $pegawai,
             'details' => $detail_gajis,
-        ]);
+        ];
+        view()->share('gocay.invoice', $data);
+        $pdf = PDF::loadView('gocay.invoice', $data);
         return $pdf->stream();
         // return view('gocay.invoice');
     }

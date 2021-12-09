@@ -121,7 +121,7 @@
 						<table>
 							<tr>
 								<td class="title">
-									<img src="{{ asset('dist/images/logo.png') }}" alt="Company logo" style="width: 100%; max-width: 300px" />
+									<img src="dist/images/logo.png" alt="Company logo" style="width: 100%; max-width: 300px" />
 								</td>
 
 								<td>
