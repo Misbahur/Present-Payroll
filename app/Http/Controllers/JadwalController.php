@@ -95,7 +95,7 @@ class JadwalController extends Controller
     {
         $request->validate([
             'tanggal' => 'required',
-            'pola_kerja_id' => 'required',
+            'pola_id' => 'required',
             'pegawai_id' => 'required',
          
         ]);
@@ -119,7 +119,7 @@ class JadwalController extends Controller
             $tanggal[$i] = date('Y-m-d', strtotime($tanggal[0].'+'.$i.' days'));
             $jadwals = new Jadwal;
             $jadwals->tanggal = $tanggal[$i];
-            $jadwals->pola_kerja_id = $request->pola_kerja_id;
+            $jadwals->pola_id = $request->pola_id;
             $jadwals->pegawai_id = $request->pegawai_id;
             $jadwals->save();
             // echo $jadwals . '<br>';
@@ -127,7 +127,7 @@ class JadwalController extends Controller
         // $pegawai_ids = implode('|', $request->pegawai_id);
         // $jadwals = new Jadwal;
         // $jadwals->nama = $request->nama;
-        // $jadwals->pola_kerja_id = $request->pola_kerja_id;
+        // $jadwals->pola_id = $request->pola_id;
         // $jadwals->pegawai_id = $pegawai_ids;
         // $jadwals->save();
 
@@ -172,13 +172,13 @@ class JadwalController extends Controller
     {
         $request->validate([
             'tanggal' => 'required',
-            'pola_kerja_id' => 'required',
+            'pola_id' => 'required',
             'pegawai_id' => 'required',
         ]);
    
         $jadwals = Jadwal::find($request->id);
         $jadwals->tanggal = $request->tanggal;
-        $jadwals->pola_kerja_id = $request->pola_kerja_id;
+        $jadwals->pola_id = $request->pola_id;
         $jadwals->pegawai_id = $request->pegawai_id;
         $jadwals->update();
 

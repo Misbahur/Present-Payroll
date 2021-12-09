@@ -147,7 +147,7 @@
                     </div>
                     <div class="col-span-12 sm:col-span-12">
                         <label for="modal-form-2" class="form-label">Pola Kerja</label>
-                        <select id="modal-form-2" class="form-select" name="pola_kerja_id">
+                        <select id="modal-form-2" class="form-select" name="pola_id">
                         @foreach ($pola as $item)
                             <option value="{{ $item->id }}">{{ $item->nama }}</option>
                         @endforeach
@@ -215,7 +215,7 @@
                     </div>
                     <div class="col-span-12 sm:col-span-12">
                         <label for="modal-form-2" class="form-label">Pola Kerja</label>
-                        <select id="modal-form-2-edit" class="form-select" name="pola_kerja_id">
+                        <select id="modal-form-2-edit" class="form-select" name="pola_id">
                         @foreach ($pola as $item)
                             <option value="{{ $item->id }}">{{ $item->nama }}</option>
                         @endforeach
@@ -265,7 +265,7 @@
                             $('#modal-update-id').val(data.id);
                             $('#modal-form-1-edit').val(data.tanggal);
                             $('#tanggal-edit').val(data.tanggal);
-                            $('#modal-form-2-edit option[value="' + data.pola_kerja_id +'"]').prop("selected", true);
+                            $('#modal-form-2-edit option[value="' + data.pola_id +'"]').prop("selected", true);
                             $('#modal-form-3-edit').val(data.pegawai_id);
                             $('#pegawai-id-edit').val(data.pegawai_id);
 

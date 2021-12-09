@@ -15,7 +15,7 @@ class SideMenu
         return [
 
             'Fingerprint' => [
-                'icon' => 'clock',
+                'icon' => 'airplay',
                 'route_name' => 'fingerprint',
                 'params' => [
                     'layout' => 'side-menu'
@@ -87,7 +87,7 @@ class SideMenu
                 'title' => 'Kehadiran',
                 'sub_menu' => [
                     'Kehadiran Harian' => [
-                        'icon' => 'book',
+                        'icon' => 'bar-chart-2',
                         'title' => 'Kehadiran Harian',
                         'route_name' => 'kehadiran',
                         'params' => [
@@ -96,7 +96,7 @@ class SideMenu
                     ],
 
                     'Kehadiran Bulanan' => [
-                        'icon' => 'book',
+                        'icon' => 'cloud-drizzle',
                         'title' => 'Kehadiran Bulanan',
                         'route_name' => 'kehadiran_bulanan',
                         'params' => [

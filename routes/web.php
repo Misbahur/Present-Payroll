@@ -111,8 +111,8 @@ Route::middleware('auth')->group(function() {
 
     //Fingerprint Manage
     Route::get('fingerprint', [FingerprintController::class, 'getData'])->name('fingerprint');
-    Route::post('fingerprintadd', [FingerprintController::class, 'store'])->name('fingerprintadd');
-    Route::get('fingerprintedit', [FingerprintController::class, 'edit'])->name('fingerprintedit');
+    Route::get('cekUserFingerprint', [FingerprintController::class, 'cekUserFingerprint'])->name('cekUserFingerprint');
+    Route::post('setUserFingerprint', [FingerprintController::class, 'setUserFingerprint'])->name('setUserFingerprint');
     Route::POST('fingerprintupdate', [FingerprintController::class, 'update'])->name('fingerprintupdate');
     Route::get('fingerprintdelete/{id}', [FingerprintController::class, 'destroy'])->name('fingerprintdelete');
 
@@ -125,6 +125,9 @@ Route::middleware('auth')->group(function() {
     Route::get('kehadirandelete/{id}', [KehadiranController::class, 'destroy'])->name('kehadirandelete');
     Route::get('filterkehadiran', [KehadiranController::class, 'filterkehadiran'])->name('filter-kehadiran');
     Route::get('getpolakerja', [KehadiranController::class, 'getpolakerja'])->name('getpolakerja');
+    Route::get('telatlembur', [KehadiranController::class, 'telatlembur'])->name('telatlembur');
+    Route::get('bonusMingguan', [KehadiranController::class, 'bonusMingguan'])->name('bonusMingguan');
+    Route::get('bonusBulanan', [KehadiranController::class, 'bonusBulanan'])->name('bonusBulanan');
 
     //Kehadian Manage
     Route::get('kehadiran', [KehadiranController::class, 'index'])->name('kehadiran');
