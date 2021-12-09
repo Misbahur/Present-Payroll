@@ -21,7 +21,6 @@ class CreateKehadiransTable extends Migration
             $table->time('jam_masuk_istirahat')->nullable();
             $table->time('jam_pulang')->nullable();
             $table->unsignedBigInteger('pegawai_id');
-            $table->unsignedBigInteger('jabatan_id');
             // $table->foreignId('id_pola_kerja');
             $table->timestamps();
         });

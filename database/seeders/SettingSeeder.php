@@ -26,7 +26,7 @@ class SettingSeeder extends Seeder
                 'value' => 'Sistem Present & Payroll Gocay'
             ],
             [
-                'name' => 'Author',
+                'name' => 'Nama Perusahaan',
                 'value' => 'Odete Jaya Kreatif'
             ],
             [
@@ -43,7 +43,7 @@ class SettingSeeder extends Seeder
             ], 
             [
                 'name' => 'Address',
-                'value' => 'Situbondo'
+                'value' => 'Jl. Gelora No.17, Besuki, Kec. Besuki, Kabupaten Situbondo, Jawa Timur 68356.'
             ],
         ]);
     }

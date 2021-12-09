@@ -8,6 +8,7 @@ use App\Models\Penggajian;
 use App\Models\Metapenggajian;
 use App\Models\Pegawai;
 use App\Models\Temporaries;
+use App\Models\Setting;
 use Illuminate\Support\Facades\DB;
 use PDF;
 
@@ -197,13 +198,28 @@ class PenggajianController extends Controller
 
     public function yesgajian($id)
     {
+        $updateprint = Penggajian::find($id);
+        $updateprint->status_print = 'Sudah Print';
+        $updateprint->update();
+
         $pegawai = Penggajian::where('id', $id)->first();
-        $detail_gajis =  Metapenggajian::where('penggajian_id', $id)->get();
+
+        $gaji =  Metapenggajian::where('penggajian_id', $id)->where('status', 'in')->get();
+        $potongan =  Metapenggajian::where('penggajian_id', $id)->where('status', 'out')->get();
+
+        $in = Metapenggajian::where('penggajian_id', $id)->where('status', 'in')->get()->sum('nominal');
+        $out = Metapenggajian::where('penggajian_id', $id)->where('status', 'out')->get()->sum('nominal');
+
+        $setting = Setting::all();
 
         // share data to view
         $data = [
+            'setting' => $setting,
             'pegawai' => $pegawai,
-            'details' => $detail_gajis,
+            'gaji' => $gaji,
+            'potongan' => $potongan,
+            'in' => $in,
+            'out' => $out,
         ];
         view()->share('gocay.invoice', $data);
         $pdf = PDF::loadView('gocay.invoice', $data);

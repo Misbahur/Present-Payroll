@@ -97,6 +97,18 @@
 				font-weight: bold;
 			}
 
+			.invoice-box table tr.titlettd td {
+				font-weight: bold;
+				text-align: center;
+				padding-top: 60px;
+			}
+
+			.invoice-box table tr.ttd td {
+				font-weight: bold;
+				text-align: center;
+				padding-top: 120px;
+			}
+
 			@media only screen and (max-width: 600px) {
 				.invoice-box table tr.top table td {
 					width: 100%;
@@ -125,8 +137,8 @@
 								</td>
 
 								<td>
-									Cetak #: 1<br />
-									Periode: 1 Nov 2021 - 30 Nov 2021 
+									Cetak #<br />
+									Periode: {{ $pegawai->periode->tanggal_awal }} - {{ $pegawai->periode->tanggal_akhir }} 
 								</td>
 							</tr>
 						</table>
@@ -139,15 +151,14 @@
 							<tr>
 								<td>
                                     <b>Perusahaan</b><br/>
-									Gocay Cafe Resto & Supermarket.<br />
-									Jl. Gelora No.17, Besuki, Kec. Besuki,<br />
-									Kabupaten Situbondo, Jawa Timur 68356.
+									{{ $setting[2]->value }}<br />
+									{{ $setting[6]->value }}
 								</td>
 
 								<td>
 									<b>Pegawai</b><br/>
-									Misbahur Rifqi<br />
-									General Manager
+									{{ $pegawai->pegawai->nama }}<br />
+									{{ $pegawai->jabatan->nama }}
 								</td>
 							</tr>
 						</table>
@@ -160,10 +171,12 @@
 					<td>Nominal #</td>
 				</tr>
 
+				@foreach ($gaji as $item)
 				<tr class="details">
-					<td>Gaji Pokok</td>
-					<td>Rp. 6.000.000</td>
+					<td>{{ $item->keterangan }}</td>
+					<td>Rp. {{ number_format($item->nominal) }}</td>
 				</tr>
+				@endforeach
 
 				<tr class="heading">
 					<td>Pengeluaran -</td>
@@ -171,11 +184,13 @@
 					<td>Nominal</td>
 				</tr>
 
+				@foreach ($potongan as $item)
 				<tr class="details">
-					<td>Keterlambatan</td>
+					<td>{{ $item->keterangan }}</td>
 
-					<td>Rp. 100.000</td>
+					<td>Rp. {{ number_format($item->nominal) }}</td>
 				</tr>
+				@endforeach
 
 				<tr class="heading">
 					<td>Subtotal</td>
@@ -186,25 +201,33 @@
                 <tr class="item">
                     <td>Total Pemasukan</td>
 
-					<td>Rp. 6.000.000</td>
+					<td>Rp. {{ number_format($in) }}</td>
                 </tr>
 
 				<tr class="item last">
 					<td>Total Potongan</td>
 
-					<td>Rp. 100.000</td>
+					<td>Rp. {{ number_format($out) }}</td>
 				</tr>
 
 				<tr class="total">
 					<td></td>
 
-					<td>Total: Rp. 5.900.000</td>
+					<td>Total: Rp. {{ number_format($in-$out) }}</td>
 				</tr>
 
-                <tr>
+                <tr class="titlettd">
                     <td>Diserahkan Oleh</td>
 
                     <td>Diterima Oleh</td>
+                </tr>
+				<tr class="ttd">
+                    <td>Admin</td>
+
+                    <td>{{ $pegawai->pegawai->nama }}</td>
+                </tr>
+				<tr>
+                    <td colspan="2" style="text-align: center; color:#A9A9A9">Tgl Cetak : {{ now() }}</td>
                 </tr>
 			</table>
 		</div>
