@@ -116,9 +116,9 @@
                                     <td class="border-b dark:border-dark-5">{{ $item->jabatan->nama }}</td>
                                     <td class="border-b dark:border-dark-5">{{ $item->periode->nama }}</td>
                                     <td class="border-b dark:border-dark-5">
-                                        <a class="btn btn-warning w-24 inline-block mr-1 mb-2">
+                                        <a href="{{ route('penggajiandetail', $item->id) }}" class="btn btn-warning w-24 inline-block mr-1 mb-2">
                                             <i data-feather="alert-circle" class="w-4 h-4 mr-2"></i>Detail</a>
-                                        <a class="btn btn-primary w-24 inline-block mr-1 mb-2">
+                                        <a href="{{ route('slipgaji', $item->id) }}" class="btn btn-primary w-24 inline-block mr-1 mb-2" target="_BLANK">
                                             <i data-feather="printer" class="w-4 h-4 mr-2"></i>Print</a>
                                     </td>
                                 </tr>

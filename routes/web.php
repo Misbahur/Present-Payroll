@@ -213,9 +213,16 @@ Route::middleware('auth')->group(function() {
 
 
     Route::post('periodeadd', [PenggajianController::class, 'tambahperiode'])->name('periodeadd');
+    Route::get('filterperiode', [PenggajianController::class, 'filterperiode'])->name('filterperiode');
+
 
     Route::get('penggajian', [PenggajianController::class, 'index'])->name('penggajian');
-    Route::get('filterperiode', [PenggajianController::class, 'filterperiode'])->name('filterperiode');
+    Route::get('penggajiandetail/id={id}', [PenggajianController::class, 'detailgaji'])->name('penggajiandetail');
+    Route::POST('tambahbonusptongan', [PenggajianController::class, 'tambahbonuspotongan'])->name('tambahbonuspotongan');
+    Route::get('hapusbonusptongan/{id}', [PenggajianController::class, 'hapusbonuspotongan'])->name('hapusbonuspotongan');
+    
+
+    Route::get('slipgaji/{id}', [PenggajianController::class, 'yesgajian'])->name('slipgaji');
 
     Route::get('lembur', [PageController::class, 'lembur'])->name('lembur');
 

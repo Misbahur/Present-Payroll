@@ -17,22 +17,22 @@ class KomponenGajiSeeder extends Seeder
             [ 
                 'nama' => 'Bonus Mingguan',
                 'nominal' => '50000',
-                'jabatan_id' => '1',
+                'jabatan_id' => '0',
             ],
             [ 
                 'nama' => 'Bonus Bulanan',
                 'nominal' => '50000',
-                'jabatan_id' => '1',
+                'jabatan_id' => '0',
             ],
              [ 
                 'nama' => 'Bonus Libur Masuk',
                 'nominal' => '250000',
-                'jabatan_id' => '1',
+                'jabatan_id' => '0',
             ],
              [ 
                 'nama' => 'Potongan Tidak Masuk',
                 'nominal' => '250000',
-                'jabatan_id' => '1',
+                'jabatan_id' => '0',
             ],
            
         ]);

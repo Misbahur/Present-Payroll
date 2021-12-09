@@ -9,6 +9,7 @@ use App\Models\Metapenggajian;
 use App\Models\Pegawai;
 use App\Models\Temporaries;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class PenggajianController extends Controller
 {
@@ -77,44 +78,48 @@ class PenggajianController extends Controller
                 'jabatan_id' => $pegawai[$i]->jabatan_id,
                 'periode_id' => $last_periode_id,
             ]);
-            $last_penggajian_id = Penggajian::create($penggajian)->id; 
-            $meta_in = DB::table('temporaries')
-            ->select('pegawai_id', DB::raw('SUM(nominal) as total_lembur'))
-            ->where('status', 'in')
-            ->groupBy('pegawai_id')
-            ->get();
-            // dd($meta_in);
-            foreach ($meta_in as $key => $value) {
-            $meta_in_insert = ([
-                'nominal' => $value->total_lembur,
-                'status' => 'in',
-                'keterangan' => 'Lembur Harian',
-                'penggajian_id' => $last_penggajian_id,
-            ]);
-            Metapenggajian::create($meta_in_insert);
-            }
-            $meta_out = DB::table('temporaries')
-            ->select('pegawai_id', DB::raw('SUM(nominal) as total_potongan'))
-            ->where('status', 'out')
-            ->groupBy('pegawai_id')
-            ->get();
-            foreach ($meta_out as $key => $value) {
-            $meta_out_insert = ([
-                'nominal' => $value->total_potongan,
-                'status' => 'out',
-                'keterangan' => 'Potongan Harian',
-                'penggajian_id' => $last_penggajian_id,
-            ]);
-            Metapenggajian::create($meta_out_insert);
-            }
+            $last_penggajian_id = Penggajian::create($penggajian)->id;
+            
+            $gajipokok = DB::table('komponen_gajis')->where('jabatan_id', $pegawai[$i]->jabatan_id)->first();
+            // dd($gajipokok);
+            $metagaji = new Metapenggajian;
+            $metagaji->nominal = $gajipokok->nominal;
+            $metagaji->status = 'in';
+            $metagaji->keterangan = 'Gaji Pokok';
+            $metagaji->penggajian_id = $last_penggajian_id;
+            $metagaji->save();
+            
+            $total_lembur = DB::table('temporaries')->where('status', 'in')->where('pegawai_id', $pegawai[$i]->id)->get()->sum('nominal');
+
+            if ($total_lembur):
+                $meta_in_insert = ([
+                    'nominal' => $total_lembur,
+                    'status' => 'in',
+                    'keterangan' => 'Lembur',
+                    'penggajian_id' => $last_penggajian_id,
+                ]);
+                Metapenggajian::create($meta_in_insert);
+            endif;
+
+            $total_potongan = DB::table('temporaries')->where('status', 'out')->where('pegawai_id', $pegawai[$i]->id)->get()->sum('nominal');
+            // dd($total_potongan);
+            if ($total_potongan):
+                $meta_out_insert= ([
+                    'nominal' => $total_potongan,
+                    'status' => 'out',
+                    'keterangan' => 'Potongan',
+                    'penggajian_id' => $last_penggajian_id,
+                ]);
+                Metapenggajian::create($meta_out_insert);
+            endif;
+        } 
+
+
+        if($periode){
+            return redirect()->route('penggajian')->with(['success' => 'Data Periode'.$request->input('nama').'berhasil disimpan']);
+        }else{
+            return redirect()->route('penggajian')->with(['danger' => 'Data Tidak Terekam!']);
         }
-
-
-        // if($periode){
-        //     return redirect()->route('penggajian')->with(['success' => 'Data Periode'.$request->input('nama').'berhasil disimpan']);
-        // }else{
-        //     return redirect()->route('penggajian')->with(['danger' => 'Data Tidak Terekam!']);
-        // }
 
     }
 
@@ -136,9 +141,35 @@ class PenggajianController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function detailgaji(Request $request, $id)
     {
         //
+        $pegawai = Penggajian::where('id', $id)->first();
+        $detail_gajis =  Metapenggajian::where('penggajian_id', $id)->get();    
+        $id = $request->id;
+        return view('gocay.gajidetail', [
+            'pegawai' => $pegawai,
+            'detail_gajis' => $detail_gajis,
+            'id' => $id
+        ]);
+    }
+
+    public function tambahbonuspotongan(Request $request)
+    {
+        // dd($request->all());
+        $request->validate([
+            'nominal' => 'required',
+            'keterangan' => 'required',
+            'status' => 'required',
+            'penggajian_id' => 'required',
+        ]);
+
+        $meta = new Metapenggajian;
+        $meta->nominal = $request->input('nominal');
+        $meta->keterangan = $request->input('keterangan');
+        $meta->status = $request->input('status');
+        $meta->penggajian_id = $request->input('penggajian_id');
+        $meta->save();
     }
 
     /**
@@ -164,14 +195,32 @@ class PenggajianController extends Controller
         //
     }
 
+    public function yesgajian($id)
+    {
+        $pegawai = Penggajian::where('id', $id)->first();
+        $detail_gajis =  Metapenggajian::where('penggajian_id', $id)->get();
+
+        view()->share('gocay.invoice',$detail_gajis);
+        $pdf = PDF::loadView('gocay.invoice',
+        [
+            'pegawai' => $pegawai,
+            'details' => $detail_gajis,
+        ]);
+        return $pdf->stream();
+        // return view('gocay.invoice');
+    }
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function hapusbonuspotongan($id)
     {
         //
+        $meta = Metapenggajian::find($id);
+        $meta->delete();
+
+        return redirect()->back()->with('success','deleted successfully');
     }
 }
