@@ -110,11 +110,15 @@ Route::middleware('auth')->group(function() {
     Route::get('/', [KehadiranController::class, 'index'])->name('kehadiran');
 
     //Fingerprint Manage
-    Route::get('fingerprint', [FingerprintController::class, 'getData'])->name('fingerprint');
+    Route::get('fingerprint', [FingerprintController::class, 'index'])->name('fingerprint');
+    Route::get('getDataFingerprint', [FingerprintController::class, 'getDataFingerprint'])->name('getDataFingerprint');
+    Route::get('cekDataFingerprint', [FingerprintController::class, 'cekDataFingerprint'])->name('cekDataFingerprint');
+    Route::get('addPegawaiToFingerprint', [FingerprintController::class, 'addPegawaiToFingerprint'])->name('addPegawaiToFingerprint');
+    Route::get('updateFingerData', [FingerprintController::class, 'updateFingerData'])->name('updateFingerData');
     Route::get('cekUserFingerprint', [FingerprintController::class, 'cekUserFingerprint'])->name('cekUserFingerprint');
     Route::post('setUserFingerprint', [FingerprintController::class, 'setUserFingerprint'])->name('setUserFingerprint');
-    Route::POST('fingerprintupdate', [FingerprintController::class, 'update'])->name('fingerprintupdate');
-    Route::get('fingerprintdelete/{id}', [FingerprintController::class, 'destroy'])->name('fingerprintdelete');
+    Route::get('deleteAllUserFingerptint', [FingerprintController::class, 'deleteAllUserFingerptint'])->name('deleteAllUserFingerptint');
+    Route::get('deleteAllLogFingerptint', [FingerprintController::class, 'deleteAllLogFingerptint'])->name('deleteAllLogFingerptint');
 
     //kehadiran Manage
     Route::get('kehadiran', [KehadiranController::class, 'index'])->name('kehadiran');
@@ -129,12 +133,12 @@ Route::middleware('auth')->group(function() {
     Route::get('bonusMingguan', [KehadiranController::class, 'bonusMingguan'])->name('bonusMingguan');
     Route::get('bonusBulanan', [KehadiranController::class, 'bonusBulanan'])->name('bonusBulanan');
 
-    //Kehadian Manage
-    Route::get('kehadiran', [KehadiranController::class, 'index'])->name('kehadiran');
-    Route::post('kehadianadd', [KehadiranController::class, 'store'])->name('kehadianadd');
-    Route::get('kehadianedit', [KehadiranController::class, 'edit'])->name('kehadianedit');
-    Route::POST('kehadianupdate', [KehadiranController::class, 'update'])->name('kehadianupdate');
-    Route::get('kehadiandelete/{id}', [KehadiranController::class, 'destroy'])->name('kehadiandelete');
+    // //Kehadian Manage
+    // Route::get('kehadiran', [KehadiranController::class, 'index'])->name('kehadiran');
+    // Route::post('kehadianadd', [KehadiranController::class, 'store'])->name('kehadianadd');
+    // Route::get('kehadianedit', [KehadiranController::class, 'edit'])->name('kehadianedit');
+    // Route::POST('kehadianupdate', [KehadiranController::class, 'update'])->name('kehadianupdate');
+    // Route::get('kehadiandelete/{id}', [KehadiranController::class, 'destroy'])->name('kehadiandelete');
 
     
     //Pegawai Manage

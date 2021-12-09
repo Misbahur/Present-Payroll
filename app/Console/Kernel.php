@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\bonusMingguan::class,
+        Commands\bonusBulanan::class,
     ];
 
     /**
@@ -25,6 +26,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('bonus:week')->weekly();
+        $schedule->command('bonus:month')->monthly();
     }
 
     /**
