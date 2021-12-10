@@ -219,12 +219,24 @@ class KehadiranController extends Controller
             $range = Kehadiran::whereBetween('tanggal', [$tanggal_awal ,$tanggal_akhir])
             ->where('pegawai_id', $p->id)
             ->get();
+
+            if($range->isNotEmpty()):
             foreach ($range as $item):
                 $jadwals = Jadwal::where('tanggal', $item->tanggal)
                 ->where('pegawai_id', $p->id)
                 ->orderBy('tanggal', 'desc')
                 ->orderBy('pegawai_id', 'asc')->get();
-                $polas = Pola::findOrFail($jadwals[0]->pola_id);
+
+                $temp = Temporary::where('tanggal', date('Y-m-d'))
+                ->where('pegawai_id', $p->id)
+                ->where('status', 'in-bonus-mingguan')
+                ->first();
+
+                if($jadwals->isNotEmpty()):
+                    $polas = Pola::findOrFail($jadwals[0]->pola_id);
+                else:
+                    continue;
+                endif;
                 $countDate = Kehadiran::whereBetween('tanggal', [$tanggal_awal ,$tanggal_akhir])
                     ->where('jam_masuk', '<=' ,$polas['jam_masuk'])
                     ->where('jam_istirahat', '>=' ,$polas['jam_istirahat'])
@@ -232,18 +244,27 @@ class KehadiranController extends Controller
                     ->where('jam_pulang', '>=' ,$polas['jam_pulang'])
                     ->where('pegawai_id', $p->id)
                     ->get()->count('pegawai_id');
-            endforeach;
-            if ($countDate == 6):
-                $temporary_in = new Temporary;
-                $temporary_in->tanggal = Carbon::now();
-                $temporary_in->status = 'in-bonus-mingguan';
-                $temporary_in->pegawai_id = $p->id;
-                $temporary_in->nominal = $komponen_gaji[0]->nominal;
-                $temporary_in->save();
+                
+                if ($countDate == 6 and $temp == null):
+                    $temporary_in = new Temporary;
+                    $temporary_in->tanggal = Carbon::now();
+                    $temporary_in->status = 'in-bonus-mingguan';
+                    $temporary_in->pegawai_id = $p->id;
+                    $temporary_in->nominal = $komponen_gaji[0]->nominal;
+                    $temporary_in->save();
+                    break;
+                else:
+                    continue;
+                endif;
+
+                endforeach;
+                
             else:
                 continue;
             endif;
+            
         endforeach;
+
 
         
         return redirect()->route('kehadiran');
