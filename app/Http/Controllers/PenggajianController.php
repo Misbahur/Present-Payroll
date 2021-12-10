@@ -9,6 +9,7 @@ use App\Models\Metapenggajian;
 use App\Models\Pegawai;
 use App\Models\Temporaries;
 use App\Models\Setting;
+use App\Models\Bon_kas;
 use Illuminate\Support\Facades\DB;
 use PDF;
 
@@ -37,7 +38,7 @@ class PenggajianController extends Controller
 
         $penggajians = Penggajian::where('periode_id', $request->periode_id)->paginate(10);
         $periodes = Periode::orderBy('created_at', 'DESC')->get();
-        return view('gocay/gaji', [
+        return view('gocay/filtergaji', [
             'penggajians' => $penggajians,
             'periodes' => $periodes,
         ]); 
@@ -90,7 +91,7 @@ class PenggajianController extends Controller
             $metagaji->penggajian_id = $last_penggajian_id;
             $metagaji->save();
             
-            $total_lembur = DB::table('temporaries')->where('status', 'in')->where('pegawai_id', $pegawai[$i]->id)->get()->sum('nominal');
+            $total_lembur = DB::table('temporaries')->where('status', 'in-lembur-harian')->where('pegawai_id', $pegawai[$i]->id)->get()->sum('nominal');
 
             if ($total_lembur):
                 $meta_in_insert = ([
@@ -102,13 +103,78 @@ class PenggajianController extends Controller
                 Metapenggajian::create($meta_in_insert);
             endif;
 
-            $total_potongan = DB::table('temporaries')->where('status', 'out')->where('pegawai_id', $pegawai[$i]->id)->get()->sum('nominal');
+            $total_potongan = DB::table('temporaries')->where('status', 'out-telat-harian')->where('pegawai_id', $pegawai[$i]->id)->get()->sum('nominal');
             // dd($total_potongan);
             if ($total_potongan):
                 $meta_out_insert= ([
                     'nominal' => $total_potongan,
                     'status' => 'out',
                     'keterangan' => 'Potongan',
+                    'penggajian_id' => $last_penggajian_id,
+                ]);
+                Metapenggajian::create($meta_out_insert);
+            endif;
+
+            $bolos = DB::table('temporaries')->where('status', 'out-absen-harian')->where('pegawai_id', $pegawai[$i]->id)->get()->sum('nominal');
+            // dd($total_potongan);
+            if ($bolos):
+                $meta_out_insert= ([
+                    'nominal' => $bolos,
+                    'status' => 'out',
+                    'keterangan' => 'Potongan Tidak Masuk',
+                    'penggajian_id' => $last_penggajian_id,
+                ]);
+                Metapenggajian::create($meta_out_insert);
+            endif;
+
+            $bonusmingguan = DB::table('temporaries')->where('status', 'in-bonus-mingguan')->where('pegawai_id', $pegawai[$i]->id)->get()->sum('nominal');
+            // dd($total_potongan);
+            if ($bonusmingguan):
+                $meta_in_insert= ([
+                    'nominal' => $bonusmingguan,
+                    'status' => 'in',
+                    'keterangan' => 'Bonus Mingguan',
+                    'penggajian_id' => $last_penggajian_id,
+                ]);
+                Metapenggajian::create($meta_in_insert);
+            endif;
+
+            $bonusbulanan = DB::table('temporaries')->where('status', 'in-bonus-bulanan')->where('pegawai_id', $pegawai[$i]->id)->get()->sum('nominal');
+            // dd($total_potongan);
+            if ($bonusbulanan):
+                $meta_in_insert= ([
+                    'nominal' => $bonusbulanan,
+                    'status' => 'in',
+                    'keterangan' => 'Bonus Bulanan',
+                    'penggajian_id' => $last_penggajian_id,
+                ]);
+                Metapenggajian::create($meta_in_insert);
+            endif;
+
+            $kepatengen = DB::table('temporaries')->where('status', 'in-bonus-libur-masuk')->where('pegawai_id', $pegawai[$i]->id)->get()->sum('nominal');
+            // dd($total_potongan);
+            if ($kepatengen):
+                $meta_in_insert= ([
+                    'nominal' => $kepatengen,
+                    'status' => 'in',
+                    'keterangan' => 'Bonus Kerja Hari Libur',
+                    'penggajian_id' => $last_penggajian_id,
+                ]);
+                Metapenggajian::create($meta_in_insert);
+            endif;
+
+            $tanggal_awal = date("Y-m-d",strtotime($request->input('tanggal_awal')));
+            $tanggal_akhir = date("Y-m-d",strtotime($request->input('tanggal_akhir')));
+            // dd($tanggal_awal);
+            // dd($tanggal_akhir);  
+
+            $bon_kas = Bon_kas::whereDate('tanggal', '>=', $tanggal_awal)->whereDate('tanggal', '<=', $tanggal_akhir)->where('pegawai_id', $pegawai[$i]->id)->get()->sum('nominal');
+            // dd($bon_kas);
+            if ($bon_kas):
+                $meta_out_insert= ([
+                    'nominal' => $bon_kas,
+                    'status' => 'out',
+                    'keterangan' => 'Potongan Bon Kas',
                     'penggajian_id' => $last_penggajian_id,
                 ]);
                 Metapenggajian::create($meta_out_insert);
@@ -122,6 +188,36 @@ class PenggajianController extends Controller
             return redirect()->route('penggajian')->with(['danger' => 'Data Tidak Terekam!']);
         }
 
+    }
+
+    public function bonusall(Request $request)
+    {
+        $request->validate([
+            'keterangan' => 'required',
+            'status' => 'required',
+            'nominal' => 'required',
+            'periode_id' => 'required',
+        ]);
+
+        $penggajian_id = Penggajian::where('periode_id', $request->periode_id)->get();
+        // dd($penggajian_id);
+        $nominal = $request->nominal/Pegawai::count();
+        // dd($nominal);
+        foreach ($penggajian_id as $value) {
+            $tambahbonus = ([
+                'keterangan' => $request->keterangan,
+                'status' => $request->status,
+                'nominal' => $nominal,
+                'penggajian_id' => $value->id,
+            ]);
+            Metapenggajian::create($tambahbonus);
+        }
+
+        if($tambahbonus){
+            return redirect()->route('penggajian')->with(['success' => 'Data Periode'.$request->input('keterangan').'berhasil disimpan']);
+        }else{
+            return redirect()->route('penggajian')->with(['danger' => 'Data Tidak Terekam!']);
+        }
     }
 
     /**
