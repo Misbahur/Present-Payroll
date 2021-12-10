@@ -8,10 +8,11 @@ use App\Models\Jadwal;
 use App\Models\Pola;
 use App\Models\Temporary;
 use App\Models\Lembur;
+use App\Models\Libur;
 use App\Models\Pengecualian;
 use App\Models\Komponen_gaji;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class KehadiranController extends Controller
 {
@@ -32,18 +33,18 @@ class KehadiranController extends Controller
 
         $bulan=array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
         $jumlahPegawai = Kehadiran::all()->groupBy('pegawai_id');
-        $jumlahPegawaiKasir = Kehadiran::where('tanggal', Carbon::now()->toDateString())
-                                ->whereBetween('jabatan_id', ['1', '2']);
-        $jumlahSatpam = Kehadiran::where('tanggal', Carbon::now()->toDateString())
-                                ->whereBetween('jabatan_id', ['3', '4']);
+        // $jumlahPegawaiKasir = Kehadiran::where('tanggal', Carbon::now()->toDateString())
+        //                         ->whereBetween('jabatan_id', ['1', '2']);
+        // $jumlahSatpam = Kehadiran::where('tanggal', Carbon::now()->toDateString())
+        //                         ->whereBetween('jabatan_id', ['3', '4']);
         // $jumlahPegawaiKasir = Kehadiran::whereBetween('tanggal', [Carbon::now()->subDays(1),Carbon::now()->addDays(1)])->where('jabatan_id', '1')->groupBy('jabatan_id');
         // $kehadirans = Kehadiran::whereBetween('tanggal', [Carbon::now()->subDays(1),Carbon::now()->addDays(1)])->orderBy('tanggal', 'desc')->orderBy('pegawai_id', 'asc')->get();
         // $kehadirans = Kehadiran::all()->orderBy('tanggal', 'desc')->orderBy('pegawai_id', 'asc');
         return view('gocay.kehadiran', [
             'kehadirans' => $kehadirans,
             'jumlahPegawai' => $jumlahPegawai,
-            'jumlahPegawaiKasir' => $jumlahPegawaiKasir,
-            'jumlahSatpam' => $jumlahSatpam,
+            // 'jumlahPegawaiKasir' => $jumlahPegawaiKasir,
+            // 'jumlahSatpam' => $jumlahSatpam,
             'bulan' => $bulan,
         ]);
         
@@ -99,16 +100,16 @@ class KehadiranController extends Controller
         endif;
         $bulan=array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
         $jumlahPegawai = Kehadiran::all()->groupBy('pegawai_id');
-        $jumlahPegawaiKasir = Kehadiran::where('tanggal', $bulan_id)
-                                ->whereBetween('jabatan_id', ['1', '2']);
-        $jumlahSatpam = Kehadiran::where('tanggal', $bulan_id)
-                                ->whereBetween('jabatan_id', ['3', '4']);
+        // $jumlahPegawaiKasir = Kehadiran::where('tanggal', $bulan_id)
+        //                         ->whereBetween('jabatan_id', ['1', '2']);
+        // $jumlahSatpam = Kehadiran::where('tanggal', $bulan_id)
+        //                         ->whereBetween('jabatan_id', ['3', '4']);
         // dd($bulan_id);
         return view('gocay.kehadiran', [
             'kehadirans' => $kehadirans,
             'jumlahPegawai' => $jumlahPegawai,
-            'jumlahPegawaiKasir' => $jumlahPegawaiKasir,
-            'jumlahSatpam' => $jumlahSatpam,
+            // 'jumlahPegawaiKasir' => $jumlahPegawaiKasir,
+            // 'jumlahSatpam' => $jumlahSatpam,
             'bulan' => $bulan,
         ]);
     }
@@ -122,6 +123,75 @@ class KehadiranController extends Controller
 
         $polas = Pola::findOrFail($jadwals[0]->pola_id);
         return response()->json($polas);
+    }
+
+    public function cekAbsenPegawai()
+    {
+        $jadwal_libur = Libur::all();
+        $komponen_gaji = Komponen_gaji::all();
+        $pegawais = Pegawai::all();
+        
+        if (date('d') <= 7):
+            $tanggal_awal = date('Y-m-d', strtotime('first day of this month'));
+            $tanggal_akhir = date('Y-m-d', strtotime('+5 day', strtotime($tanggal_awal)));
+        elseif (date('d') <= 14):
+            $tanggal_awal = date('Y-m-d', strtotime('+7 day', strtotime('first day of this month')));
+            $tanggal_akhir = date('Y-m-d', strtotime('+5 day', strtotime($tanggal_awal)));
+        elseif (date('d') <= 21):
+            $tanggal_awal = date('Y-m-d', strtotime('+14 day', strtotime('first day of this month')));
+            $tanggal_akhir = date('Y-m-d', strtotime('+5 day', strtotime($tanggal_awal)));
+        elseif (date('d') <= date('t')):
+            $tanggal_awal = date('Y-m-d', strtotime('+21 day', strtotime('first day of this month')));
+            $tanggal_akhir = date('Y-m-d', strtotime('+5 day', strtotime($tanggal_awal)));
+        endif;
+        
+
+
+        foreach ($pegawais as $p):
+            $range = Kehadiran::whereBetween('tanggal', [$tanggal_awal ,$tanggal_akhir])
+            ->where('pegawai_id', $p->id)
+            ->get();
+
+            foreach ($range as $item):
+                $libur = Libur::where('tanggal', $item->tanggal)
+                    ->where('pegawai_id', $p->id)
+                    ->get();
+                $cekKehadiran = Kehadiran::where('tanggal', $item->tanggal)
+                    ->where('jam_masuk', null)
+                    ->where('jam_istirahat', null)
+                    ->where('jam_masuk_istirahat', null)
+                    ->where('jam_pulang', null)
+                    ->where('pegawai_id', $p->id)
+                    ->get();
+                $pengecualian = Pengecualian::where('tanggal', date('Y-m-d', strtotime('-1 day', strtotime($item->tanggal))))
+                ->where('pegawai_id', $p->id)
+                ->get();
+
+                if ($cekKehadiran->isEmpty()):
+                    continue;
+                else:
+                    if($libur->isEmpty()):
+                        if($pengecualian->isEmpty()):
+                            $temporary_out = new Temporary;
+                            $temporary_out->tanggal = Carbon::now();
+                            $temporary_out->status = 'out-absen-harian';
+                            $temporary_out->pegawai_id = $p->id;
+                            $temporary_out->nominal = $komponen_gaji[0]->nominal;
+                            $temporary_out->save();
+                        else:
+                            continue;
+                        endif;
+                    else:
+                        continue;
+                    endif;
+                endif;
+            endforeach;
+
+        endforeach;
+
+        
+        // return redirect()->route('kehadiran');
+        
     }
 
     public function bonusMingguan()
@@ -381,7 +451,7 @@ class KehadiranController extends Controller
      * @param  \App\Models\Kehadiran  $kehadirans
      * @return \Illuminate\Http\Response
      */
-    public function show(Jabatan $kehadirans)
+    public function show(Kehadiran $kehadirans)
     {
         //
     }

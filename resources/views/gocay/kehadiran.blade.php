@@ -35,7 +35,7 @@
                                         <i data-feather="shopping-cart" class="report-box__icon text-theme-11"></i>
                                     </div>
                                     <div class="text-3xl font-bold leading-8 mt-6">
-                                        {{$jumlahPegawaiKasir->count()}}
+                                        
                                     </div>
                                     <div class="text-base text-gray-600 mt-1">Total Pegawai Kasir</div>
                                 </div>
@@ -48,7 +48,7 @@
                                         <i data-feather="codesandbox" class="report-box__icon text-theme-12"></i>
                                     </div>
                                     <div class="text-3xl font-bold leading-8 mt-6">
-                                        {{ $jumlahSatpam->count() }}
+                                        
                                     </div>
                                     <div class="text-base text-gray-600 mt-1">Total Satpam </div>
                                 </div>
@@ -148,9 +148,7 @@
                                     <td class="w-20 text-center">
                                         {{ $item->pegawai->nama }}
                                     </td> 
-                                    <!-- <td class="w-20 text-center">
-                                        {{ $item->jabatan->nama }}
-                                    </td>          -->
+                                           
                                     <td class="w-20 text-center jam_masuk{{ $item->pegawai_id }}">
                                         {{ $item->jam_masuk ? $item->jam_masuk : '-'}}
                                     </td>

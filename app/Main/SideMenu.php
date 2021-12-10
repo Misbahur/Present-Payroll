@@ -70,13 +70,22 @@ class SideMenu
                         'title' => 'Modul Jadwal'
                     ],
 
-                    'Modul Kalender Kerja' => [
-                        'icon' => 'calendar',
-                        'route_name' => 'kalender',
+                    // 'Modul Kalender Kerja' => [
+                    //     'icon' => 'calendar',
+                    //     'route_name' => 'kalender',
+                    //     'params' => [
+                    //         'layout' => 'side-menu'
+                    //     ],
+                    //     'title' => 'Modul Kalender Kerja'
+                    // ],
+
+                    'Jadwal Libur Pegawai' => [
+                        'icon' => 'activity',
+                        'route_name' => 'libur',
                         'params' => [
                             'layout' => 'side-menu'
                         ],
-                        'title' => 'Modul Kalender Kerja'
+                        'title' => 'Jadwal Libur Pegawai'
                     ],
 
                 ],
@@ -104,15 +113,6 @@ class SideMenu
                         ],
                     ],
 
-                    'Modul Lembur' => [
-                        'icon' => 'activity',
-                        'route_name' => 'lembur',
-                        'params' => [
-                            'layout' => 'side-menu'
-                        ],
-                        'title' => 'Modul Lembur'
-                    ],
-                    
                 ],
             ],
 

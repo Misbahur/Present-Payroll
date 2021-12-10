@@ -18,7 +18,8 @@ class Kernel extends ConsoleKernel
         Commands\bonusMasukLibur::class,
         Commands\getLogKehadiran::class,
         Commands\createKehadiranDummy::class,
-        
+        Commands\absenKehadiran::class,
+
     ];
 
     /**
@@ -35,6 +36,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('bonus:month')->monthly();
         $schedule->command('kehadiran:log')->everyTenMinutes();
         $schedule->command('kehadiran:dummy')->monthly();
+        $schedule->command('kehadiran:absen')->daily();
     }
 
     /**

@@ -18,6 +18,7 @@ use App\Http\Controllers\{
     FingerprintController,
     PenggajianController,
     JadwalController,
+    LiburController,
 
 };
 
@@ -133,16 +134,10 @@ Route::middleware('auth')->group(function() {
     Route::get('bonusMingguan', [KehadiranController::class, 'bonusMingguan'])->name('bonusMingguan');
     Route::get('bonusMasukLibur', [KehadiranController::class, 'bonusMasukLibur'])->name('bonusMasukLibur');
     Route::get('bonusBulanan', [KehadiranController::class, 'bonusBulanan'])->name('bonusBulanan');
+    Route::get('cekAbsenPegawai', [KehadiranController::class, 'cekAbsenPegawai'])->name('cekAbsenPegawai');
+
 
     
-
-    // //Kehadian Manage
-    // Route::get('kehadiran', [KehadiranController::class, 'index'])->name('kehadiran');
-    // Route::post('kehadianadd', [KehadiranController::class, 'store'])->name('kehadianadd');
-    // Route::get('kehadianedit', [KehadiranController::class, 'edit'])->name('kehadianedit');
-    // Route::POST('kehadianupdate', [KehadiranController::class, 'update'])->name('kehadianupdate');
-    // Route::get('kehadiandelete/{id}', [KehadiranController::class, 'destroy'])->name('kehadiandelete');
-
     
     //Pegawai Manage
     Route::get('pegawai', [PegawaiController::class, 'index'])->name('pegawai');
@@ -234,7 +229,15 @@ Route::middleware('auth')->group(function() {
 
     Route::get('slipgaji/{id}', [PenggajianController::class, 'yesgajian'])->name('slipgaji');
 
-    Route::get('lembur', [PageController::class, 'lembur'])->name('lembur');
+    // Route::get('lembur', [PageController::class, 'lembur'])->name('lembur');
+    //libur Manage
+    Route::get('libur', [LiburController::class, 'index'])->name('libur');
+    Route::post('liburadd', [LiburController::class, 'store'])->name('liburadd');
+    Route::get('liburedit', [LiburController::class, 'edit'])->name('liburedit');
+    Route::POST('liburupdate', [LiburController::class, 'update'])->name('liburupdate');
+    Route::get('liburdelete/{id}', [LiburController::class, 'destroy'])->name('liburdelete');
+    Route::get('filterlibur', [LiburController::class, 'filterlibur'])->name('filter-libur');
+
 
     Route::get('setting-perusahaan', [SettingController::class, 'index'])->name('setting-perusahaan');
     Route::get('setting-perusahaan/edit/{id}', [SettingController::class, 'edit'])->name('setting-edit');

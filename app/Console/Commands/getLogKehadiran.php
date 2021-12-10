@@ -90,5 +90,8 @@ class getLogKehadiran extends Command
                 endforeach;
             endif;
         endforeach;
+
+        $this->info('Data log kehadiran Pegawai berhasil ditambahkan');
+
     }
 }

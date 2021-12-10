@@ -57,5 +57,7 @@ class createKehadiranDummy extends Command
                 $data->save();
             endforeach;
         endfor;
+
+        $this->info('Data kehadiran dummy Pegawai berhasil ditambahkan');
     }
 }

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Jadwal;
+use App\Models\libur;
 use App\Models\Pegawai;
 use App\Models\Pola;
 use App\Models\User;
 
-class JadwalController extends Controller
+class LiburController extends Controller
 {
     //
     /**
@@ -19,7 +19,7 @@ class JadwalController extends Controller
     public function index()
     {
         //
-        $jadwals = Jadwal::orderBy('tanggal', 'desc')
+        $liburs = Libur::orderBy('tanggal', 'desc')
         ->orderBy('pegawai_id', 'asc')
         ->paginate(10);
 
@@ -28,8 +28,8 @@ class JadwalController extends Controller
         $pola = Pola::all();
         $pegawais = Pegawai::all();
         
-        return view('gocay.jadwal', [
-            'jadwals' => $jadwals,
+        return view('gocay.libur', [
+            'liburs' => $liburs,
             'pola' => $pola,
             'pegawais' => $pegawais,
             'bulan' => $bulan,
@@ -37,23 +37,23 @@ class JadwalController extends Controller
         
     }
 
-    public function filterjadwal(Request $request)
+    public function filterlibur(Request $request)
     {
         $pegawai_id = Pegawai::where('nama','like',"%".$request->filter_nama."%")->pluck('id');
         $bulan_id = date('Y') .'-' . $request->filter_bulan .'-' . $request->filter_tanggal;
         if ($request->filter_nama == ''):
-            $jadwals = Jadwal::where('tanggal', $bulan_id)
+            $liburs = Libur::where('tanggal', $bulan_id)
                         ->orderBy('pegawai_id', 'asc')
                         ->orderBy('tanggal', 'desc')
                         ->paginate(10);
         elseif( !$pegawai_id->isEmpty()):
-            $jadwals = Jadwal::where('tanggal', $bulan_id)
+            $liburs = Libur::where('tanggal', $bulan_id)
                         ->where('pegawai_id', $pegawai_id)
                         ->orderBy('pegawai_id', 'asc')
                         ->orderBy('tanggal', 'desc')
                         ->paginate(10);
         else:
-            $jadwals = array();
+            $liburs = array();
         endif;
 
         $pola = Pola::all();
@@ -61,8 +61,8 @@ class JadwalController extends Controller
 
         $bulan=array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
   
-        return view('gocay.jadwal', [
-            'jadwals' => $jadwals,
+        return view('gocay.libur', [
+            'liburs' => $liburs,
             'pola' => $pola,
             'pegawais' => $pegawais,
             'bulan' => $bulan,
@@ -95,56 +95,30 @@ class JadwalController extends Controller
     {
         $request->validate([
             'tanggal' => 'required',
-            'pola_id' => 'required',
             'pegawai_id' => 'required',
          
         ]);
         
-        $tanggal = preg_replace("/[^A-Za-z0-9\ ]/", "", explode('-', $request->tanggal));
-        // $pegawai_ids = implode('|', $request->pegawai_id);
-       
-        $x = sizeof(explode('-', $request->tanggal));
+        
+        $liburs = new libur;
+        $liburs->tanggal = $request->tanggal;
+        $liburs->pegawai_id = $request->pegawai_id;
+        $liburs->save();
 
-        for ($i=0; $i < $x; $i++):
-            $tanggal[$i] = date('Y-m-d', strtotime(trim($tanggal[$i], ' ')));
-        endfor;
-
-
-        $tanggal_awal = date_create($tanggal[0]);
-        $tanggal_akhir = date_create($tanggal[$x-1]);
-        $jarak_tanggal = date_diff($tanggal_awal, $tanggal_akhir)->format('%a');
-       
-
-        for ($i=0; $i <= $jarak_tanggal; $i++):
-            $tanggal[$i] = date('Y-m-d', strtotime($tanggal[0].'+'.$i.' days'));
-            $jadwals = new Jadwal;
-            $jadwals->tanggal = $tanggal[$i];
-            $jadwals->pola_id = $request->pola_id;
-            $jadwals->pegawai_id = $request->pegawai_id;
-            $jadwals->save();
-            // echo $jadwals . '<br>';
-        endfor;
-        // $pegawai_ids = implode('|', $request->pegawai_id);
-        // $jadwals = new Jadwal;
-        // $jadwals->nama = $request->nama;
-        // $jadwals->pola_id = $request->pola_id;
-        // $jadwals->pegawai_id = $pegawai_ids;
-        // $jadwals->save();
-
-        if($jadwals){
-            return redirect()->route('jadwal')->with(['success' => 'Data Jadwal'.$request->input('nama').'berhasil disimpan']);
+        if($liburs){
+            return redirect()->route('libur')->with(['success' => 'Data libur'.$request->input('nama').'berhasil disimpan']);
         }else{
-            return redirect()->route('jadwal')->with(['danger' => 'Data Tidak Terekam!']);
+            return redirect()->route('libur')->with(['danger' => 'Data Tidak Terekam!']);
         }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Jadwal  $jadwals
+     * @param  \App\Models\libur  $liburs
      * @return \Illuminate\Http\Response
      */
-    public function show(Jadwal $jadwals)
+    public function show(libur $liburs)
     {
         //
     }
@@ -157,49 +131,47 @@ class JadwalController extends Controller
      */
     public function edit(Request $Request)
     {
-        $jadwals = Jadwal::findOrFail($Request->get('id'));
-        echo json_encode($jadwals);
+        $liburs = Libur::findOrFail($Request->get('id'));
+        echo json_encode($liburs);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Jadwal  $jadwals
+     * @param  \App\Models\libur  $liburs
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Jadwal $jadwals)
+    public function update(Request $request, libur $liburs)
     {
         $request->validate([
             'tanggal' => 'required',
-            'pola_id' => 'required',
             'pegawai_id' => 'required',
         ]);
    
-        $jadwals = Jadwal::find($request->id);
-        $jadwals->tanggal = $request->tanggal;
-        $jadwals->pola_id = $request->pola_id;
-        $jadwals->pegawai_id = $request->pegawai_id;
-        $jadwals->update();
+        $liburs = Libur::find($request->id);
+        $liburs->tanggal = $request->tanggal;
+        $liburs->pegawai_id = $request->pegawai_id;
+        $liburs->update();
 
-        if($jadwals){
-            return redirect()->route('jadwal')->with(['success' => 'Data Kelompok Keja'.$request->input('tanggal').'berhasil disimpan']);
+        if($liburs){
+            return redirect()->route('libur')->with(['success' => 'Data Kelompok Keja'.$request->input('tanggal').'berhasil disimpan']);
         }else{
-            return redirect()->route('jadwal')->with(['danger' => 'Data Tidak Terekam!']);
+            return redirect()->route('libur')->with(['danger' => 'Data Tidak Terekam!']);
         }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Jadwal  $jadwals
+     * @param  \App\Models\libur  $liburs
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $jadwals = Jadwal::where('id', $id)
+        $liburs = Libur::where('id', $id)
               ->delete();
-        return redirect()->route('jadwal')
+        return redirect()->route('libur')
                         ->with('success','Post deleted successfully');
     }
 }
