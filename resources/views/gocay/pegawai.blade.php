@@ -15,12 +15,12 @@
                         <a href="javascript:;" data-toggle="modal" data-target="#header-footer-modal-preview"
                         class="btn btn-primary shadow-md mr-2">Tambah Pegawai</a>
                         <div class="flex items-center sm:ml-auto mt-3 sm:mt-0">
-                            <button class="btn box flex items-center text-gray-700 dark:text-gray-300">
+                            <!-- <button class="btn box flex items-center text-gray-700 dark:text-gray-300">
                                 <i data-feather="file-text" class="hidden sm:block w-4 h-4 mr-2"></i> Export to Excel
                             </button>
                             <button class="ml-3 btn box flex items-center text-gray-700 dark:text-gray-300">
                                 <i data-feather="file-text" class="hidden sm:block w-4 h-4 mr-2"></i> Export to PDF
-                            </button>
+                            </button> -->
                         </div>
                     </div>
                     <div class="intro-y overflow-auto lg:overflow-visible mt-8 sm:mt-0">
@@ -28,8 +28,12 @@
                             <thead>
                                 <tr>
                                     <th class="whitespace-nowrap">No</th>
+                                    <th class="whitespace-nowrap">NIK</th>
                                     <th class="text-center whitespace-nowrap">Nama Pegawai</th>
                                     <th class="text-center whitespace-nowrap">Jabatan</th>
+                                    <th class="text-center whitespace-nowrap">Tanggal Lahir</th>
+                                    <th class="text-center whitespace-nowrap">Alamat</th>
+                                    <th class="text-center whitespace-nowrap">Tanggal Masuk</th>
                                     <th class="text-center whitespace-nowrap">Aksi</th>
                                 </tr>
                             </thead>
@@ -41,10 +45,22 @@
                                         {{ $no++; }}
                                         </td>
                                         <td class="text-center">
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->nik }}</a>
+                                        </td>
+                                        <td class="text-center">
                                             <a href="" class="font-medium whitespace-nowrap">{{ $item->nama }}</a>
                                         </td>
                                         <td class="text-center">
                                             <a href="" class="font-medium whitespace-nowrap">{{ $item->jabatan->nama }}</a>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->tanggal_lahir }}</a>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->alamat }}</a>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->tanggal_masuk }}</a>
                                         </td>
                                         <td class="table-report__action w-56">
                                             <div class="flex justify-center items-center">
@@ -63,49 +79,9 @@
                         </table>
                     </div>
                     <div class="intro-y flex flex-wrap sm:flex-row sm:flex-nowrap items-center mt-3">
-                        <ul class="pagination">
-                            <li>
-                                <a class="pagination__link" href="">
-                                    <i class="w-4 h-4" data-feather="chevrons-left"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="pagination__link" href="">
-                                    <i class="w-4 h-4" data-feather="chevron-left"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="pagination__link" href="">...</a>
-                            </li>
-                            <li>
-                                <a class="pagination__link" href="">1</a>
-                            </li>
-                            <li>
-                                <a class="pagination__link pagination__link--active" href="">2</a>
-                            </li>
-                            <li>
-                                <a class="pagination__link" href="">3</a>
-                            </li>
-                            <li>
-                                <a class="pagination__link" href="">...</a>
-                            </li>
-                            <li>
-                                <a class="pagination__link" href="">
-                                    <i class="w-4 h-4" data-feather="chevron-right"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="pagination__link" href="">
-                                    <i class="w-4 h-4" data-feather="chevrons-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                        <select class="w-20 form-select box mt-3 sm:mt-0">
-                            <option>10</option>
-                            <option>25</option>
-                            <option>35</option>
-                            <option>50</option>
-                        </select>
+                        <div class="pagination">
+                                {{ $pegawais->links() }}
+                        </div>
                     </div>
                 </div>
                 <!-- END: Weekly Top Products -->
@@ -138,18 +114,35 @@
                     <form method="POST" action="{{ route('pegawaiadd') }}">
                         @csrf
                     <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
+                        
                         <div class="col-span-12 sm:col-span-12">
                             <label for="modal-form-1" class="form-label">Nama Pegawai</label>
                             <input id="modal-form-1" name="nama" type="text" class="form-control" placeholder="Nama Pegawai">
                         </div>
-                    <div class="col-span-12 sm:col-span-12">
-                        <label for="modal-form-2" class="form-label">Jabatan</label>
-                        <select id="modal-form-2" class="form-select" name="jabatan_id">
-                        @foreach ($jabatans as $item)
-                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                        @endforeach
-                        </select>
-                    </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-2" class="form-label">Jabatan</label>
+                            <select id="modal-form-2" class="form-select" name="jabatan_id">
+                            @foreach ($jabatans as $item)
+                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                            @endforeach
+                            </select>
+                        </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-3" class="form-label">NIK Pegawai</label>
+                            <input id="modal-form-3" name="nik" type="number" class="form-control" placeholder="NIK Pegawai">
+                        </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-4" class="form-label">Tanggal Lahir Pegawai</label>
+                            <input id="modal-form-4" name="tanggal_lahir" type="date" class="form-control" placeholder="Tanggal Lahir Pegawai">
+                        </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-5" class="form-label">Tanggal Masuk Pegawai</label>
+                            <input id="modal-form-5" name="tanggal_masuk" type="date" class="form-control" placeholder="Tanggal Masuk Pegawai">
+                        </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-6" class="form-label">Alamat Pegawai</label>
+                            <input id="modal-form-6" name="alamat" type="text" class="form-control" placeholder="Alamat Pegawai">
+                        </div>
                     </div>
                     <!-- END: Modal Body -->
                     <!-- BEGIN: Modal Footer -->
@@ -171,7 +164,7 @@
                 <div class="modal-content">
                     <!-- BEGIN: Modal Header -->
                     <div class="modal-header">
-                        <h2 class="font-medium text-base mr-auto">Tambah item</h2>
+                        <h2 class="font-medium text-base mr-auto">Update Pegawai</h2>
                         <div class="dropdown sm:hidden">
                             <a class="dropdown-toggle w-5 h-5 block" href="javascript:;" aria-expanded="false">
                                 <i data-feather="more-horizontal" class="w-5 h-5 text-gray-600 dark:text-gray-600"></i>
@@ -196,14 +189,30 @@
                             <label for="modal-form-1" class="form-label">Nama Pegawai</label>
                             <input id="modal-form-1-edit" name="nama" type="text" class="form-control" placeholder="Nama Pegawai">
                         </div>
-                    <div class="col-span-12 sm:col-span-12">
-                        <label for="modal-form-2" class="form-label">Jabatan</label>
-                        <select id="modal-form-2-edit" class="form-select" name="jabatan_id">
-                        @foreach ($jabatans as $item)
-                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                        @endforeach
-                        </select>
-                    </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-2" class="form-label">Jabatan</label>
+                            <select id="modal-form-2-edit" class="form-select" name="jabatan_id">
+                            @foreach ($jabatans as $item)
+                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                            @endforeach
+                            </select>
+                        </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-3" class="form-label">NIK Pegawai</label>
+                            <input id="modal-form-3-edit" name="nik" type="number" class="form-control" placeholder="NIK Pegawai">
+                        </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-4" class="form-label">Tanggal Lahir Pegawai</label>
+                            <input id="modal-form-4-edit" name="tanggal_lahir" type="date" class="form-control" placeholder="Tanggal Lahir Pegawai">
+                        </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-5" class="form-label">Tanggal Masuk Pegawai</label>
+                            <input id="modal-form-5-edit" name="tanggal_masuk" type="date" class="form-control" placeholder="Tanggal Masuk Pegawai">
+                        </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-6" class="form-label">Alamat Pegawai</label>
+                            <input id="modal-form-6-edit" name="alamat" type="text" class="form-control" placeholder="Alamat Pegawai">
+                        </div>
                     </div>
                     <!-- END: Modal Body -->
                     <!-- BEGIN: Modal Footer -->
@@ -234,7 +243,12 @@
                         {
                             $('#modal-update-id').val(data.id);
                             $('#modal-form-1-edit').val(data.nama);
-                            $('#modal-form-2-edit').val(data.jabatan_id);
+                            $('#modal-form-2-edit option[value="' + data.jabatan_id +'"]').prop("selected", true);
+                            $('#modal-form-3-edit').val(data.nik);
+                            $('#modal-form-4-edit').val(data.tanggal_lahir);
+                            $('#modal-form-5-edit').val(data.tanggal_masuk);
+                            $('#modal-form-6-edit').val(data.alamat);
+
                             // $('#header-footer-modal-preview-edit').modal('show');
 
                         }

@@ -187,11 +187,11 @@
                     </div>
                     <div class="intro-y flex flex-wrap sm:flex-row sm:flex-nowrap items-center mt-3">
                         <div class="pagination">
-                        @if ($kehadirans != null)
-                            {{ $kehadirans->links() }}
-                        @else
+                            @if ($kehadirans != null)
+                                {{ $kehadirans->links() }}
+                            @else
 
-                        @endif
+                            @endif
                         </div>
                     </div>
                 </div>

@@ -5,10 +5,12 @@ use Illuminate\Console\Command;
 
 use Rats\Zkteco\Lib\ZKTeco;
 use App\Models\Fingerprint;
+use App\Models\Kehadiran;
 use App\Models\Pegawai;
 use App\Models\Jabatan;
 use App\Models\Jadwal;
 use App\Models\Pola;
+
 
 class createKehadiranDummy extends Command
 {
@@ -47,7 +49,7 @@ class createKehadiranDummy extends Command
         $batas_tanggal = date('t');
         for ($i = 0; $i < $batas_tanggal; $i++):
             foreach ($pegawais as $item):
-                $data = new Fingerprint;
+                $data = new Kehadiran;
                 $data->tanggal = date('Y-m-d', strtotime('+'.$i.' day', strtotime('first day of this month')));
                 $data->pegawai_id = $item->id;
                 $data->jam_masuk = null;
