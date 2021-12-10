@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\libur;
+use App\Models\Libur;
 use App\Models\Pegawai;
 use App\Models\Pola;
 use App\Models\User;
