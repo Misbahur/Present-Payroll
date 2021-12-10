@@ -8,6 +8,8 @@ use App\Models\Fingerprint;
 use Illuminate\Http\Request;
 use App\Models\Pegawai;
 use App\Models\Jabatan;
+use App\Models\Jadwal;
+use App\Models\Pola;
 
 
 class FingerprintController extends Controller
@@ -15,7 +17,7 @@ class FingerprintController extends Controller
     public function index()
     {
         // $this->getDataFingerprint();
-        $datafingers = Fingerprint::all(); 
+        $datafingers = Fingerprint::where('tanggal', date('Y-m-d'))->get(); 
         $jabatans = Jabatan::all(); 
 
 
@@ -34,16 +36,22 @@ class FingerprintController extends Controller
         $hariini = date('Y-m-d');
             
         foreach ($users as $u):
-            $data = new Fingerprint;
-            foreach ($att as $a):
-                $cekDataExist = Fingerprint::where('pegawai_id', $u['userid'])
-                ->where('tanggal', $hariini)
-                ->whereNotNull('jam_masuk')
-                ->whereNotNull('jam_istirahat')
-                ->whereNotNull('jam_masuk_istirahat')
-                ->whereNotNull('jam_pulang')
-                ->get();
-                if ($cekDataExist->isEmpty()):
+            $data = Fingerprint::where('tanggal', $hariini)
+            ->where('pegawai_id', $u['userid'])
+            ->first();
+            if ($data == null):
+                continue;
+            else:
+                $jadwals = Jadwal::where('tanggal', $hariini)
+                ->where('pegawai_id', $u['userid'])
+                ->first();
+                if ($jadwals != null):
+                    $polas = Pola::findOrFail($jadwals->pola_id);
+                else:
+                    continue;
+                endif;
+                foreach ($att as $a):
+                    
                     if(date('Y-m-d', strtotime($a['timestamp'])) == $hariini):
                         if($a['id'] != $u['userid']):
                             continue;
@@ -52,33 +60,25 @@ class FingerprintController extends Controller
                             $data->tanggal = date('Y-m-d', strtotime($a['timestamp']));
                             $data->pegawai_id = $u['userid'];
 
-                            $pegawai = Pegawai::where('id', $u['userid'])->pluck('jabatan_id');
-                            if ($pegawai):
-                                $data->jabatan_id = $pegawai[0];
-                            else:
-                                continue;
-                            endif;
-                            
-                            if ($data->jam_masuk == null):
+                            if ($data->jam_masuk == null  && $time < $polas->jam_masuk):
                                 $data->jam_masuk = $time;
-                            elseif ($data->jam_istirahat == null):
+                            elseif ($data->jam_istirahat == null  && $time > $polas->jam_istirahat && $time < $polas->jam_masuk_istirahat):
                                 $data->jam_istirahat = $time;
-                            elseif ($data->jam_masuk_istirahat == null ):
+                            elseif ($data->jam_masuk_istirahat == null  && $time < $polas->jam_masuk_istirahat):
                                 $data->jam_masuk_istirahat = $time;
-                            else:
+                            elseif ($data->jam_pulang == null  && $time > $polas->jam_pulang ):
                                 $data->jam_pulang = $time;
                             endif;
                         endif;
-                    else:
-                        continue;
+                        $data->update();
                     endif;
-                    $data->save();
-                endif;
-            endforeach;
+                endforeach;
+            endif;
         endforeach;
                 
         $datafingers = Fingerprint::all(); 
         $jabatans = Jabatan::all(); 
+
 
 
         return view('gocay.fingerprint', [
@@ -88,28 +88,48 @@ class FingerprintController extends Controller
                    
     }
 
-    public function updateFingerData()
-    {
-        $zk = new ZKTeco('192.168.1.201', 4370);
-        $zk->connect();
-        $zk->disableDevice();
+    // public function updateFingerData()
+    // {
+    //     $pegawais = Pegawai::all();
+    //     $batas_tanggal = date('t');
+    //     // $batas_tanggal = 3;
+    //     for ($i = 0; $i < $batas_tanggal; $i++):
+    //         foreach ($pegawais as $item):
+    //             $data = new Fingerprint;
+    //             $data->tanggal = date('Y-m-d', strtotime('+'.$i.' day', strtotime('first day of this month')));
+    //             $data->pegawai_id = $item->id;
+    //             $data->jam_masuk = null;
+    //             $data->jam_istirahat = null;
+    //             $data->jam_masuk_istirahat = null;
+    //             $data->jam_pulang = null;
+    //             $data->save();
+    //         endforeach;
+    //     endfor;
+        
+    // }
+
+    // public function updateFingerData()
+    // {
+    //     $zk = new ZKTeco('192.168.1.201', 4370);
+    //     $zk->connect();
+    //     $zk->disableDevice();
         
 
-        $pegawais = Pegawai::all();
-        foreach ($pegawais as $item):
-            $data = $zk->getFingerprint(4);
-            if ($data):
-                // $pegawais_update = Pegawai::find($item->id);
-                // $pegawais_update->fingerprint = $data;
-                // $pegawais_update->update();
-            else:
-                continue;
-            endif;
-        endforeach;
+    //     $pegawais = Pegawai::all();
+    //     foreach ($pegawais as $item):
+    //         $data = $zk->getFingerprint(1);
+    //         if ($data):
+    //             $pegawais_update = Pegawai::find($item->id);
+    //             $pegawais_update->fingerprint = $data;
+    //             $pegawais_update->update();
+    //         else:
+    //             continue;
+    //         endif;
+    //     endforeach;
 
-        dd($data);
+    //     // dd($data);
 
-    }
+    // }
 
     public function cekDataFingerprint()
     {
@@ -144,10 +164,10 @@ class FingerprintController extends Controller
             $zk->setUser($item->id, $item->id, $item->nama, strtolower($item->nama));
         endforeach;
         
-        return view('gocay.fingerprint', [
-            'datafingers' => $datafingers,
-            'jabatans' => $jabatans,
-        ]);
+        // return view('gocay.fingerprint', [
+        //     'datafingers' => $datafingers,
+        //     'jabatans' => $jabatans,
+        // ]);
     }
 
     public function setUserFingerprint(Request $request)
@@ -176,10 +196,10 @@ class FingerprintController extends Controller
         $zk->disableDevice();
         $zk->clearUsers();
 
-        return view('gocay.fingerprint', [
-            'datafingers' => $datafingers,
-            'jabatans' => $jabatans,
-        ]);
+        // return view('gocay.fingerprint', [
+        //     'datafingers' => $datafingers,
+        //     'jabatans' => $jabatans,
+        // ]);
     }
 
     public function deleteAllLogFingerptint()
@@ -189,9 +209,9 @@ class FingerprintController extends Controller
         $zk->disableDevice();
         $zk->clearAttendance();
 
-        return view('gocay.fingerprint', [
-            'datafingers' => $datafingers,
-            'jabatans' => $jabatans,
-        ]);
+        // return view('gocay.fingerprint', [
+        //     'datafingers' => $datafingers,
+        //     'jabatans' => $jabatans,
+        // ]);
     }
 }

@@ -41,9 +41,9 @@
                             <a href="{{ route('addPegawaiToFingerprint') }}" class="btn btn-sm btn-primary ml-3 flex items-center" onclick="return confirm('Apakah Anda Yakin Menambahkan Data?');">
                                 <i data-feather="user-plus" class="hidden sm:block  mr-2"></i> Add Pegawai to Fingerprint
                             </a>
-                            <a href="{{ route('updateFingerData') }}" class="btn btn-sm btn-primary ml-3 flex items-center" onclick="return confirm('Apakah Anda Yakin Menambahkan Data?');">
+                            <!-- <a href="{{ route('updateFingerData') }}" class="btn btn-sm btn-primary ml-3 flex items-center" onclick="return confirm('Apakah Anda Yakin Menambahkan Data?');">
                                 <i data-feather="plus" class="hidden sm:block  mr-2"></i> Add Fingerdata to Pegawai
-                            </a>
+                            </a> -->
                             <a href="{{ route('cekDataFingerprint') }}" class="btn btn-sm btn-primary ml-3 flex items-center">
                                 <i data-feather="bar-chart-2" class="hidden sm:block  mr-2"></i> Get Data Fingerprint
                             </a>

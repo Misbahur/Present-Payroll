@@ -131,7 +131,10 @@ Route::middleware('auth')->group(function() {
     Route::get('getpolakerja', [KehadiranController::class, 'getpolakerja'])->name('getpolakerja');
     Route::get('telatlembur', [KehadiranController::class, 'telatlembur'])->name('telatlembur');
     Route::get('bonusMingguan', [KehadiranController::class, 'bonusMingguan'])->name('bonusMingguan');
+    Route::get('bonusMasukLibur', [KehadiranController::class, 'bonusMasukLibur'])->name('bonusMasukLibur');
     Route::get('bonusBulanan', [KehadiranController::class, 'bonusBulanan'])->name('bonusBulanan');
+
+    
 
     // //Kehadian Manage
     // Route::get('kehadiran', [KehadiranController::class, 'index'])->name('kehadiran');

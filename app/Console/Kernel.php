@@ -15,6 +15,10 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\bonusMingguan::class,
         Commands\bonusBulanan::class,
+        Commands\bonusMasukLibur::class,
+        Commands\getLogKehadiran::class,
+        Commands\createKehadiranDummy::class,
+        
     ];
 
     /**
@@ -27,7 +31,10 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('bonus:week')->weekly();
+        $schedule->command('bonus:liburmasuk')->weekly();
         $schedule->command('bonus:month')->monthly();
+        $schedule->command('kehadiran:log')->everyTenMinutes();
+        $schedule->command('kehadiran:dummy')->monthly();
     }
 
     /**
