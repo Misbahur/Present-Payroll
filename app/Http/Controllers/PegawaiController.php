@@ -18,7 +18,7 @@ class PegawaiController extends Controller
     public function index()
     {
         //
-        $pegawais = Pegawai::all();
+        $pegawais = Pegawai::paginate(10);
         $jabatans = Jabatan::all();
         return view('gocay.pegawai', [
             'pegawais' => $pegawais,
@@ -48,6 +48,10 @@ class PegawaiController extends Controller
         $request->validate([
             'nama' => 'required',
             'jabatan_id' => 'required',
+            'tanggal_lahir' => 'required',
+            'nik' => 'required',
+            'tanggal_masuk' => 'required',
+            'alamat' => 'required',
          
         ]);
 
@@ -55,6 +59,10 @@ class PegawaiController extends Controller
         $pegawai = new Pegawai;
         $pegawai->nama = $request->nama;
         $pegawai->jabatan_id = $request->jabatan_id;
+        $pegawai->tanggal_lahir = $request->tanggal_lahir;
+        $pegawai->nik = $request->nik;
+        $pegawai->tanggal_masuk = $request->tanggal_masuk;
+        $pegawai->alamat = $request->alamat;
         $pegawai->save();
 
          if($pegawai){
@@ -99,6 +107,10 @@ class PegawaiController extends Controller
         $this->validate($request, [
             'nama' => 'required',
             'jabatan_id' => 'required',
+            'tanggal_lahir' => 'required',
+            'nik' => 'required',
+            'tanggal_masuk' => 'required',
+            'alamat' => 'required',
             ]);
    
         $pegawais = Pegawai::find($request->id);

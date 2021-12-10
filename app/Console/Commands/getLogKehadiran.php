@@ -5,6 +5,7 @@ use Illuminate\Console\Command;
 
 use Rats\Zkteco\Lib\ZKTeco;
 use App\Models\Fingerprint;
+use App\Models\Kehadiran;
 use App\Models\Pegawai;
 use App\Models\Jabatan;
 use App\Models\Jadwal;
@@ -51,7 +52,7 @@ class getLogKehadiran extends Command
         $hariini = date('Y-m-d');
             
         foreach ($users as $u):
-            $data = Fingerprint::where('tanggal', $hariini)
+            $data = Kehadiran::where('tanggal', $hariini)
             ->where('pegawai_id', $u['userid'])
             ->first();
             if ($data == null):
@@ -66,7 +67,7 @@ class getLogKehadiran extends Command
                     continue;
                 endif;
                 foreach ($att as $a):
-                    
+                  
                     if(date('Y-m-d', strtotime($a['timestamp'])) == $hariini):
                         if($a['id'] != $u['userid']):
                             continue;

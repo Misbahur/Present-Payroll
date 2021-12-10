@@ -20,7 +20,7 @@ class Komponen_gajiController extends Controller
     public function index()
     {
         //
-        $komponen_gaji = Komponen_gaji::all();
+        $komponen_gaji = Komponen_gaji::paginate(10);
         $pegawais = Pegawai::all();
         $jabatans = Jabatan::all();
         $lembur = Lembur::where('id', 1)->first();
