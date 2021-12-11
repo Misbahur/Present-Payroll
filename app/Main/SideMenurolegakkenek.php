@@ -4,7 +4,6 @@ namespace App\Main;
 
 use Auth;
 
-
 class SideMenu
 {
     /**
@@ -15,9 +14,7 @@ class SideMenu
      */
     public static function menu()
     {
-<<<<<<< HEAD
-
-        // if (Auth::User()->role=='admin'):
+        if (Auth::user()->role=='admin'):
             return [
             'Data Master' => [
                 'icon' => 'box',
@@ -119,8 +116,8 @@ class SideMenu
                 'title' => 'Pengecualian'
             ],
         ];
-        // endif;
-        // if (Auth::user()->role=='koordinator'):
+        endif;
+        if (Auth::user()->role=='koordinator'):
             return [
                 'Fingerprint' => [
                 'icon' => 'airplay',
@@ -266,12 +263,8 @@ class SideMenu
                 'title' => 'Pengecualian'
             ],
             ];
-        // endif;
-        // if (Auth::user()->role=='su'):
-=======
-
-        
->>>>>>> 7712c7e4e537af68478fe73d80b550faa92ea37d
+        endif;
+        if (Auth::user()->role=='su'):
         return [
             'Fingerprint' => [
                 'icon' => 'airplay',
@@ -438,9 +431,6 @@ class SideMenu
                 
             
         ];
-<<<<<<< HEAD
-        // endif;
-=======
->>>>>>> 7712c7e4e537af68478fe73d80b550faa92ea37d
+        endif;
     }
 }
