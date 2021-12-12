@@ -36,7 +36,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('bonus:month')->monthly();
         $schedule->command('kehadiran:log')->everyTenMinutes();
         $schedule->command('kehadiran:dummy')->monthly();
-        $schedule->command('kehadiran:absen')->daily();
+        $schedule->command('kehadiran:absen')->everyMinute();
     }
 
     /**

@@ -28,13 +28,15 @@ class FingerprintController extends Controller
     }
     public function getDataFingerprint()
     {
-        $zk = new ZKTeco('192.168.1.201', 4370);
+        $zk = new ZKTeco('192.168.22.71', 4370);
         $zk->connect();
         $zk->disableDevice();
         $users = $zk->getUser();
         $att = $zk->getAttendance();
         $hariini = date('Y-m-d');
-            
+
+        dd($att);
+
         foreach ($users as $u):
             $data = Fingerprint::where('tanggal', $hariini)
             ->where('pegawai_id', $u['userid'])
@@ -47,6 +49,7 @@ class FingerprintController extends Controller
                 ->first();
                 if ($jadwals != null):
                     $polas = Pola::findOrFail($jadwals->pola_id);
+                    dd($polas);
                 else:
                     continue;
                 endif;
@@ -64,13 +67,17 @@ class FingerprintController extends Controller
                                 $data->jam_masuk = $time;
                             elseif ($data->jam_istirahat == null  && $time > $polas->jam_istirahat && $time < $polas->jam_masuk_istirahat):
                                 $data->jam_istirahat = $time;
-                            elseif ($data->jam_masuk_istirahat == null  && $time < $polas->jam_masuk_istirahat):
+                            elseif ($data->jam_masuk_istirahat == null  && $time < $polas->jam_masuk_istirahat || $time > $polas->jam_istirahat):
                                 $data->jam_masuk_istirahat = $time;
-                            elseif ($data->jam_pulang == null  && $time > $polas->jam_pulang ):
+                            elseif ($data->jam_pulang == null  && $time > $polas->jam_pulang || $time > $polas->jam_masuk_istirahat):
                                 $data->jam_pulang = $time;
                             endif;
                         endif;
                         $data->update();
+                        if ($data->update()):
+                            echo 'berhasil';
+                        endif;
+
                     endif;
                 endforeach;
             endif;
@@ -81,10 +88,10 @@ class FingerprintController extends Controller
 
 
 
-        return view('gocay.fingerprint', [
-            'datafingers' => $datafingers,
-            'jabatans' => $jabatans,
-        ]);
+        // return view('gocay.fingerprint', [
+        //     'datafingers' => $datafingers,
+        //     'jabatans' => $jabatans,
+        // ]);
                    
     }
 

@@ -43,10 +43,10 @@ Route::middleware('loggedin')->group(function() {
     Route::post('login', [AuthController::class, 'login'])->name('login');
     Route::get('register', [AuthController::class, 'registerView'])->name('register-view');
     Route::post('register', [AuthController::class, 'register'])->name('register');
+    
 });
 
 Route::middleware('auth')->group(function() {
-    Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     // Route::get('/', [PageController::class, 'dashboardOverview1'])->name('dashboard-overview-1');
     // Route::get('dashboard-overview-2-page', [PageController::class, 'dashboardOverview2'])->name('dashboard-overview-2');
     // Route::get('dashboard-overview-3-page', [PageController::class, 'dashboardOverview3'])->name('dashboard-overview-3');
@@ -106,7 +106,11 @@ Route::middleware('auth')->group(function() {
     // Route::get('slider-page', [PageController::class, 'slider'])->name('slider');
     // Route::get('image-zoom-page', [PageController::class, 'imageZoom'])->name('image-zoom');
     
+    
     Route::group(['middleware'=>['auth','role:admin,koordinator,su']],function(){
+    
+        Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+
         //Pegawai Manage
         Route::get('pegawai', [PegawaiController::class, 'index'])->name('pegawai');
         Route::post('pegawaiadd', [PegawaiController::class, 'store'])->name('pegawaiadd');
