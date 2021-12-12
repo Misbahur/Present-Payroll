@@ -63,6 +63,7 @@ class PegawaiController extends Controller
         $pegawai->nik = $request->nik;
         $pegawai->tanggal_masuk = $request->tanggal_masuk;
         $pegawai->alamat = $request->alamat;
+        $pegawai->nohp = $request->nohp;
         $pegawai->save();
 
          if($pegawai){
@@ -113,8 +114,16 @@ class PegawaiController extends Controller
             'alamat' => 'required',
             ]);
    
-        $pegawais = Pegawai::find($request->id);
-        $pegawais->update($request->all());
+        $pegawai = Pegawai::find($request->id);
+        $pegawai->nama = $request->nama;
+        $pegawai->jabatan_id = $request->jabatan_id;
+        $pegawai->tanggal_lahir = $request->tanggal_lahir;
+        $pegawai->nik = $request->nik;
+        $pegawai->tanggal_masuk = $request->tanggal_masuk;
+        $pegawai->alamat = $request->alamat;
+        $pegawai->nohp = $request->nohp;
+        $pegawai->update();
+        // $pegawais->update($request->all());
 
         if($pegawais){
             return redirect()->route('pegawai')->with(['success' => 'Data Pegawai'.$request->input('nama').'berhasil disimpan']);

@@ -109,6 +109,7 @@
                             <option value="" selected disabled>--- Pilih Salah satu ---</option>
                             <option value="koordinator">Koordinator</option>
                             <option value="admin">Admin</option>
+                            <option value="su">Pemilik / Super User</option>
                         </select>
                     </div>
                     <div class="col-span-12 sm:col-span-12">
@@ -184,6 +185,7 @@
                             <option value="" selected disabled>--- Pilih Salah satu ---</option>
                             <option value="koordinator">Koordinator</option>
                             <option value="admin">Admin</option>
+                            <option value="su">Pemilik / Super User</option>
                         </select> 
                     </div>
                     <div class="col-span-12 sm:col-span-12">

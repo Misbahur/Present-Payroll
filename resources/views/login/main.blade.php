@@ -26,9 +26,13 @@
                     <div class="intro-x mt-2 text-gray-500 xl:hidden text-center">GOCAY Cafe Resto & Supermarket.</div>
                     <div class="intro-x mt-8">
                         <form id="login-form">
-                            <input id="email" type="text" class="intro-x login__input form-control py-3 px-4 border-gray-300 block" placeholder="Email" value="midone@left4code.com">
+                            {{-- <input id="email" type="text" class="intro-x login__input form-control py-3 px-4 border-gray-300 block" placeholder="Email" value="midone@left4code.com">
                             <div id="error-email" class="login__input-error w-5/6 text-theme-6 mt-2"></div>
                             <input id="password" type="password" class="intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4" placeholder="Password" value="password">
+                            <div id="error-password" class="login__input-error w-5/6 text-theme-6 mt-2"></div> --}}
+                            <input id="name" type="text" class="intro-x login__input form-control py-3 px-4 border-gray-300 block" placeholder="name">
+                            <div id="error-name" class="login__input-error w-5/6 text-theme-6 mt-2"></div>
+                            <input id="password" type="password" class="intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4" placeholder="Password">
                             <div id="error-password" class="login__input-error w-5/6 text-theme-6 mt-2"></div>
                         </form>
                     </div>
