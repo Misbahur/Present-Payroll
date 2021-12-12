@@ -4,6 +4,7 @@ namespace App\Main;
 
 use Auth;
 
+
 class SideMenu
 {
     /**
