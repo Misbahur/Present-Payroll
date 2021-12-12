@@ -33,6 +33,7 @@
                                     <th class="text-center whitespace-nowrap">Jabatan</th>
                                     <th class="text-center whitespace-nowrap">Tanggal Lahir</th>
                                     <th class="text-center whitespace-nowrap">Alamat</th>
+                                    <th class="text-center whitespace-nowrap">No HP</th>
                                     <th class="text-center whitespace-nowrap">Tanggal Masuk</th>
                                     <th class="text-center whitespace-nowrap">Aksi</th>
                                 </tr>
