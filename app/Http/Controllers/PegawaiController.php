@@ -114,7 +114,7 @@ class PegawaiController extends Controller
             'alamat' => 'required',
             ]);
    
-        $pegawais = Pegawai::find($request->id);
+        $pegawai = Pegawai::find($request->id);
         $pegawai->nama = $request->nama;
         $pegawai->jabatan_id = $request->jabatan_id;
         $pegawai->tanggal_lahir = $request->tanggal_lahir;
