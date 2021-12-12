@@ -30,7 +30,7 @@
                             <div id="error-email" class="login__input-error w-5/6 text-theme-6 mt-2"></div>
                             <input id="password" type="password" class="intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4" placeholder="Password" value="password">
                             <div id="error-password" class="login__input-error w-5/6 text-theme-6 mt-2"></div> --}}
-                            <input id="name" type="text" class="intro-x login__input form-control py-3 px-4 border-gray-300 block" placeholder="name">
+                            <input id="name" type="text" class="intro-x login__input form-control py-3 px-4 border-gray-300 block" placeholder="Username">
                             <div id="error-name" class="login__input-error w-5/6 text-theme-6 mt-2"></div>
                             <input id="password" type="password" class="intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4" placeholder="Password">
                             <div id="error-password" class="login__input-error w-5/6 text-theme-6 mt-2"></div>
@@ -66,7 +66,7 @@
                 cash('#login-form').find('.login__input-error').html('')
 
                 // Post form
-                let email = cash('#email').val()
+                let name = cash('#name').val()
                 let password = cash('#password').val()
                 let rememberMe = cash('#remember-me').val()
                 
@@ -75,14 +75,14 @@
                 await helper.delay(1500)
 
                 axios.post(`login`, {
-                    email: email,
+                    name: name,
                     password: password,
                     remember_me: rememberMe
                 }).then(res => {
                     location.href = '/'
                 }).catch(err => {
                     cash('#btn-login').html('Login')
-                    if (err.response.data.message != 'Wrong email or password.') {
+                    if (err.response.data.message != 'Wrong name or password.') {
                         for (const [key, val] of Object.entries(err.response.data.errors)) {
                             cash(`#${key}`).addClass('border-theme-6')
                             cash(`#error-${key}`).html(val)

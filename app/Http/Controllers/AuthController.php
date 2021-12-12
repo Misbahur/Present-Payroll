@@ -32,7 +32,7 @@ class AuthController extends Controller
             'name' => $request->name, 
             'password' => $request->password
         ])) {
-            throw new \Exception('Wrong email or password.');
+            throw new \Exception('Wrong name or password.');
         }
     }
 
