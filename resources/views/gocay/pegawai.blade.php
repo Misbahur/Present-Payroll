@@ -143,6 +143,10 @@
                             <label for="modal-form-6" class="form-label">Alamat Pegawai</label>
                             <input id="modal-form-6" name="alamat" type="text" class="form-control" placeholder="Alamat Pegawai">
                         </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-7" class="form-label">Nomor HP Pegawai</label>
+                            <input id="modal-form-7" name="nohp" type="text" class="form-control" placeholder="No HP Pegawai">
+                        </div>
                     </div>
                     <!-- END: Modal Body -->
                     <!-- BEGIN: Modal Footer -->
@@ -213,6 +217,10 @@
                             <label for="modal-form-6" class="form-label">Alamat Pegawai</label>
                             <input id="modal-form-6-edit" name="alamat" type="text" class="form-control" placeholder="Alamat Pegawai">
                         </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-7" class="form-label">Nomor HP Pegawai</label>
+                            <input id="modal-form-7-edit" name="nohp" type="text" class="form-control" placeholder="No HP Pegawai">
+                        </div>
                     </div>
                     <!-- END: Modal Body -->
                     <!-- BEGIN: Modal Footer -->
@@ -248,6 +256,7 @@
                             $('#modal-form-4-edit').val(data.tanggal_lahir);
                             $('#modal-form-5-edit').val(data.tanggal_masuk);
                             $('#modal-form-6-edit').val(data.alamat);
+                            $('#modal-form-7-edit').val(data.nohp);
 
                             // $('#header-footer-modal-preview-edit').modal('show');
 
