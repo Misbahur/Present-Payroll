@@ -78,14 +78,11 @@ class getLogKehadiran extends Command
 
                             if ($data->jam_masuk == null  && $time <= $polas->jam_masuk):
                                 $data->jam_masuk = $time;
-                            endif;
-                            if ($data->jam_istirahat == null  && $time >= $polas->jam_masuk && $time >= $polas->jam_istirahat && $time <= $polas->jam_masuk_istirahat):
+                            elseif ($data->jam_istirahat == null  && $time >= $polas->jam_masuk && $time >= $polas->jam_istirahat && $time <= $polas->jam_masuk_istirahat):
                                 $data->jam_istirahat = $time;
-                            endif;
-                            if ($data->jam_masuk_istirahat == null && $time >= $polas->jam_istirahat && $time <= $polas->jam_masuk_istirahat):
+                            elseif ($data->jam_masuk_istirahat == null && $time >= $polas->jam_istirahat && $time <= $polas->jam_masuk_istirahat):
                                 $data->jam_masuk_istirahat = $time;
-                            endif;
-                            if ($data->jam_pulang == null  && $time >= $polas->jam_pulang ):
+                            elseif ($data->jam_pulang == null  && $time >= $polas->jam_pulang ):
                                 $data->jam_pulang = $time;
                             endif;
                         endif;
