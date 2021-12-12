@@ -60,6 +60,9 @@
                                             <a href="" class="font-medium whitespace-nowrap">{{ $item->alamat }}</a>
                                         </td>
                                         <td class="text-center">
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->nohp }}</a>
+                                        </td>
+                                        <td class="text-center">
                                             <a href="" class="font-medium whitespace-nowrap">{{ $item->tanggal_masuk }}</a>
                                         </td>
                                         <td class="table-report__action w-56">
