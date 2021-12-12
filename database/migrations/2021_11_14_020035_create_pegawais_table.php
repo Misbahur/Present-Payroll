@@ -15,7 +15,7 @@ class CreatePegawaisTable extends Migration
     {
         Schema::create('pegawais', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('nik');
+            $table->integer('nik');
             $table->string('nama');
             $table->date('tanggal_lahir');
             $table->string('alamat');
