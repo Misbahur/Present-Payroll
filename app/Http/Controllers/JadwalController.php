@@ -16,7 +16,7 @@ class JadwalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
         $jadwals = Jadwal::orderBy('tanggal', 'desc')
@@ -33,7 +33,7 @@ class JadwalController extends Controller
             'pola' => $pola,
             'pegawais' => $pegawais,
             'bulan' => $bulan,
-        ]);
+        ])->with('i', ($request->input('page', 1) - 1) * 10);
         
     }
 
@@ -66,7 +66,7 @@ class JadwalController extends Controller
             'pola' => $pola,
             'pegawais' => $pegawais,
             'bulan' => $bulan,
-        ]);
+        ])->with('i', ($request->input('page', 1) - 1) * 10);
     }
 
     public static function pegawai_name($id)
@@ -132,9 +132,9 @@ class JadwalController extends Controller
         // $jadwals->save();
 
         if($jadwals){
-            return redirect()->route('jadwal')->with(['success' => 'Data Jadwal'.$request->input('nama').'berhasil disimpan']);
+            return redirect()->back();
         }else{
-            return redirect()->route('jadwal')->with(['danger' => 'Data Tidak Terekam!']);
+            return redirect()->back();
         }
     }
 
@@ -183,9 +183,9 @@ class JadwalController extends Controller
         $jadwals->update();
 
         if($jadwals){
-            return redirect()->route('jadwal')->with(['success' => 'Data Kelompok Keja'.$request->input('tanggal').'berhasil disimpan']);
+            return redirect()->back();
         }else{
-            return redirect()->route('jadwal')->with(['danger' => 'Data Tidak Terekam!']);
+            return redirect()->back();
         }
     }
 
