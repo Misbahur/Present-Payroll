@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Rats\Zkteco\Lib\ZKTeco;
 use App\Models\Fingerprint;
 use Illuminate\Http\Request;
+use App\Models\Kehadiran;
 use App\Models\Pegawai;
 use App\Models\Jabatan;
 use App\Models\Jadwal;
@@ -35,12 +36,13 @@ class FingerprintController extends Controller
         $att = $zk->getAttendance();
         $hariini = date('Y-m-d');
 
-        dd($att);
+        // dd($att);
 
         foreach ($users as $u):
-            $data = Fingerprint::where('tanggal', $hariini)
-            ->where('pegawai_id', $u['userid'])
+            $data = Kehadiran::where('tanggal', $hariini)
+            ->where('pegawai_id', 1)
             ->first();
+
             if ($data == null):
                 continue;
             else:
@@ -49,7 +51,6 @@ class FingerprintController extends Controller
                 ->first();
                 if ($jadwals != null):
                     $polas = Pola::findOrFail($jadwals->pola_id);
-                    dd($polas);
                 else:
                     continue;
                 endif;
@@ -65,14 +66,16 @@ class FingerprintController extends Controller
 
                             if ($data->jam_masuk == null  && $time <= $polas->jam_masuk):
                                 $data->jam_masuk = $time;
-                            elseif ($data->jam_istirahat == null  && $time >= $polas->jam_masuk && $time >= $polas->jam_istirahat && $time <= $polas->jam_masuk_istirahat):
+                            elseif ($data->jam_istirahat == null  && $time >= $polas->jam_istirahat && $time <= $polas->jam_masuk_istirahat):
                                 $data->jam_istirahat = $time;
                             elseif ($data->jam_masuk_istirahat == null && $time >= $polas->jam_istirahat && $time <= $polas->jam_masuk_istirahat):
                                 $data->jam_masuk_istirahat = $time;
                             elseif ($data->jam_pulang == null  && $time >= $polas->jam_pulang ):
                                 $data->jam_pulang = $time;
                             endif;
+
                         endif;
+
                         $data->update();
                         if ($data->update()):
                             echo 'berhasil';
@@ -83,8 +86,8 @@ class FingerprintController extends Controller
             endif;
         endforeach;
                 
-        $datafingers = Fingerprint::all(); 
-        $jabatans = Jabatan::all(); 
+        // $datafingers = Keha::all(); 
+        // $jabatans = Jabatan::all(); 
 
 
 
@@ -117,7 +120,7 @@ class FingerprintController extends Controller
 
     // public function updateFingerData()
     // {
-    //     $zk = new ZKTeco('192.168.1.201', 4370);
+    //     $zk = new ZKTeco('192.168.22.71', 4370);
     //     $zk->connect();
     //     $zk->disableDevice();
         
@@ -140,7 +143,7 @@ class FingerprintController extends Controller
 
     public function cekDataFingerprint()
     {
-        $zk = new ZKTeco('192.168.1.201', 4370);
+        $zk = new ZKTeco('192.168.22.71', 4370);
         $zk->connect();
         $zk->disableDevice();
         $att = $zk->getAttendance();
@@ -151,7 +154,7 @@ class FingerprintController extends Controller
 
     public function cekUserFingerprint()
     {
-        $zk = new ZKTeco('192.168.1.201', 4370);
+        $zk = new ZKTeco('192.168.22.71', 4370);
         $zk->connect();
         $zk->disableDevice();
         $users = $zk->getUser();
@@ -162,7 +165,7 @@ class FingerprintController extends Controller
 
     public function addPegawaiToFingerprint()
     {
-        $zk = new ZKTeco('192.168.1.201', 4370);
+        $zk = new ZKTeco('192.168.22.71', 4370);
         $zk->connect();
         $zk->disableDevice();
 
@@ -179,7 +182,7 @@ class FingerprintController extends Controller
 
     public function setUserFingerprint(Request $request)
     {
-        $zk = new ZKTeco('192.168.1.201', 4370);
+        $zk = new ZKTeco('192.168.22.71', 4370);
         $zk->connect();
         $zk->disableDevice();
         $users = $zk->getUser();
@@ -198,7 +201,7 @@ class FingerprintController extends Controller
 
     public function deleteAllUserFingerptint()
     {
-        $zk = new ZKTeco('192.168.1.201', 4370);
+        $zk = new ZKTeco('192.168.22.71', 4370);
         $zk->connect();
         $zk->disableDevice();
         $zk->clearUsers();
@@ -211,7 +214,7 @@ class FingerprintController extends Controller
 
     public function deleteAllLogFingerptint()
     {
-        $zk = new ZKTeco('192.168.1.201', 4370);
+        $zk = new ZKTeco('192.168.22.71', 4370);
         $zk->connect();
         $zk->disableDevice();
         $zk->clearAttendance();
