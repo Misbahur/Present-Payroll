@@ -23,7 +23,7 @@ class KehadiranController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
 
         $kehadirans = Kehadiran::where('tanggal', Carbon::now()->toDateString())
@@ -49,7 +49,7 @@ class KehadiranController extends Controller
             // 'jumlahPegawaiKasir' => $jumlahPegawaiKasir,
             // 'jumlahSatpam' => $jumlahSatpam,
             'bulan' => $bulan,
-        ]);
+        ])->with('i', ($request->input('page', 1) - 1) * 10);
         
     }
 

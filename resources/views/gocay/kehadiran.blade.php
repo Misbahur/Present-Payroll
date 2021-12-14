@@ -137,7 +137,7 @@
                             <input type="hidden" id="jam_pulang{{ $item->pegawai_id }}" value="{{ $item->jam_pulang }}">
                                 <tr class="intro-x tabel-pegawai{{ $item->pegawai_id }}">
                                     <td class="w-20">
-                                    {{ $no++ }}
+                                    {{ ++ $i }}
                                     </td>
                                     <td class="w-20 text-center">
                                         <a href="" class="font-small whitespace-nowrap">{{ $item->tanggal }}</a>
