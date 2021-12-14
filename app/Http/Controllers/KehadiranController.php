@@ -23,7 +23,7 @@ class KehadiranController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
 
         $kehadirans = Kehadiran::where('tanggal', Carbon::now()->toDateString())
@@ -32,7 +32,10 @@ class KehadiranController extends Controller
         ->paginate(10);
 
         $bulan=array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
-        $jumlahPegawai = Kehadiran::all()->groupBy('pegawai_id');
+        $jumlahPegawai = Kehadiran::where('tanggal', Carbon::now()->toDateString())
+        ->where('jam_masuk', '!=', null)
+        ->orderBy('tanggal', 'asc')
+        ->orderBy('pegawai_id', 'asc');
         // $jumlahPegawaiKasir = Kehadiran::where('tanggal', Carbon::now()->toDateString())
         //                         ->whereBetween('jabatan_id', ['1', '2']);
         // $jumlahSatpam = Kehadiran::where('tanggal', Carbon::now()->toDateString())
@@ -46,16 +49,16 @@ class KehadiranController extends Controller
             // 'jumlahPegawaiKasir' => $jumlahPegawaiKasir,
             // 'jumlahSatpam' => $jumlahSatpam,
             'bulan' => $bulan,
-        ]);
+        ])->with('i', ($request->input('page', 1) - 1) * 10);
         
     }
 
     public function kehadiran_bulanan()
     {
         $pegawais = Pegawai::all();
-        $tanggal_awal = date('j');
+        // $tanggal_awal = date('j');
         $batas_tanggal = date('t');
-        $kehadiran_bulanan = Kehadiran::whereBetween('tanggal', [Carbon::now()->subDays($tanggal_awal),Carbon::now()->addDays($batas_tanggal)])
+        $kehadiran_bulanan = Kehadiran::whereBetween('tanggal', [date('Y-m-d', strtotime('first day of this month')),date('Y-m-d', strtotime('last day of this month'))])
         ->orderBy('pegawai_id', 'asc')
         ->orderBy('tanggal', 'asc')->get();
         // ->paginate(4);
@@ -99,7 +102,10 @@ class KehadiranController extends Controller
             $kehadirans = array();
         endif;
         $bulan=array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
-        $jumlahPegawai = Kehadiran::all()->groupBy('pegawai_id');
+        $jumlahPegawai = Kehadiran::where('tanggal', $bulan_id)
+        ->where('jam_masuk', '!=', null)
+        ->orderBy('tanggal', 'asc')
+        ->orderBy('pegawai_id', 'asc');
         // $jumlahPegawaiKasir = Kehadiran::where('tanggal', $bulan_id)
         //                         ->whereBetween('jabatan_id', ['1', '2']);
         // $jumlahSatpam = Kehadiran::where('tanggal', $bulan_id)
@@ -421,6 +427,26 @@ class KehadiranController extends Controller
             if ($request->status == 'out-telat-harian' && $request->durasi >  $lembur[1]->durasi && $pengecualian->isEmpty()):
                 $temporary_out = new Temporary;
                 $temporary_out->status = 'out-telat-harian';
+                $temporary_out->tanggal = $request->tanggal;
+                $temporary_out->pegawai_id = $request->pegawai_id;
+                for($i=1; $i <= intval($request->durasi/$lembur[1]->durasi); $i++ ):
+                    $temporary_out->nominal +=  $lembur[1]->nominal;
+                endfor;
+                $temporary_out->save();
+            endif;
+            if ($request->status == 'out-istirahat' && $request->durasi >  $lembur[1]->durasi && $pengecualian->isEmpty()):
+                $temporary_out = new Temporary;
+                $temporary_out->status = 'out-istirahat';
+                $temporary_out->tanggal = $request->tanggal;
+                $temporary_out->pegawai_id = $request->pegawai_id;
+                for($i=1; $i <= intval($request->durasi/$lembur[1]->durasi); $i++ ):
+                    $temporary_out->nominal +=  $lembur[1]->nominal;
+                endfor;
+                $temporary_out->save();
+            endif;
+            if ($request->status == 'out-istirahat-masuk' && $request->durasi >  $lembur[1]->durasi && $pengecualian->isEmpty()):
+                $temporary_out = new Temporary;
+                $temporary_out->status = 'out-istirahat-masuk';
                 $temporary_out->tanggal = $request->tanggal;
                 $temporary_out->pegawai_id = $request->pegawai_id;
                 for($i=1; $i <= intval($request->durasi/$lembur[1]->durasi); $i++ ):

@@ -23,7 +23,7 @@
                             </button> -->
                         </div>
                     </div>
-                    <div class="intro-y overflow-auto lg:overflow-visible mt-8 sm:mt-0">
+                    <div class="intro-y overflow-auto mt-8 sm:mt-0">
                         <table class="table table-report sm:mt-2">
                             <thead>
                                 <tr>
@@ -39,11 +39,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $no = 1; ?>
                                 @foreach ($pegawais as $item)
                                     <tr class="intro-x">
                                         <td class="w-40">
-                                        {{ $no++; }}
+                                        {{ ++ $i }}
                                         </td>
                                         <td class="text-center">
                                             <a href="" class="font-medium whitespace-nowrap">{{ $item->nik }}</a>

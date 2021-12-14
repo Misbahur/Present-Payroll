@@ -137,7 +137,7 @@
                             <input type="hidden" id="jam_pulang{{ $item->pegawai_id }}" value="{{ $item->jam_pulang }}">
                                 <tr class="intro-x tabel-pegawai{{ $item->pegawai_id }}">
                                     <td class="w-20">
-                                    {{ $no++ }}
+                                    {{ ++ $i }}
                                     </td>
                                     <td class="w-20 text-center">
                                         <a href="" class="font-small whitespace-nowrap">{{ $item->tanggal }}</a>
@@ -285,7 +285,7 @@
                            var durasi = ((jam_pegawai - jam_jadwal)*60) + (menit_pegawai - menit_jadwal);
                            console.log('Pegawai ID : ' + pegawai_id);
                            console.log(durasi + ' ' + 'menit');
-                           console.log('telat');
+                           console.log(status);
                            $.ajax({
                                 url : "{{route('telatlembur')}}?pegawai_id="+pegawai_id+"&tanggal="+tanggal+"&durasi="+durasi+"&status="+status,
                                 type: "GET",
@@ -296,6 +296,62 @@
                                 }
                             });
                         }
+
+                        function telat_istirahat(a,b,c,d){
+                            
+                            //    const getSeconds = s => s.split(":").reduce((acc, curr) => acc * 60 + +curr, 0);
+                            //    var jam_pegawai = getSeconds(a);
+                            //    var jadwal = getSeconds(b);
+                               var jam_pegawai = new Date("01/01/2007 " + a).getHours();
+                               var jam_jadwal = new Date("01/01/2007 " + b).getHours();
+                               var menit_pegawai = new Date("01/01/2007 " + a).getMinutes();
+                               var menit_jadwal = new Date("01/01/2007 " + b).getMinutes();
+                               var pegawai_id = c;
+                               var tanggal = d;
+                               var status = 'out-istirahat';
+                            
+                               var durasi = ((jam_pegawai - jam_jadwal)*60) + (menit_pegawai - menit_jadwal);
+                               console.log('Pegawai ID : ' + pegawai_id);
+                               console.log(durasi + ' ' + 'menit');
+                               console.log(status);
+                               $.ajax({
+                                    url : "{{route('telatlembur')}}?pegawai_id="+pegawai_id+"&tanggal="+tanggal+"&durasi="+durasi+"&status="+status,
+                                    type: "GET",
+                                    dataType: "JSON",
+                                    success: function(data)
+                                    {
+    
+                                    }
+                                });
+                            }
+
+                            function telat_istirahat_masuk(a,b,c,d){
+                            
+                            //    const getSeconds = s => s.split(":").reduce((acc, curr) => acc * 60 + +curr, 0);
+                            //    var jam_pegawai = getSeconds(a);
+                            //    var jadwal = getSeconds(b);
+                               var jam_pegawai = new Date("01/01/2007 " + a).getHours();
+                               var jam_jadwal = new Date("01/01/2007 " + b).getHours();
+                               var menit_pegawai = new Date("01/01/2007 " + a).getMinutes();
+                               var menit_jadwal = new Date("01/01/2007 " + b).getMinutes();
+                               var pegawai_id = c;
+                               var tanggal = d;
+                               var status = 'out-istirahat-masuk';
+                            
+                               var durasi = ((jam_pegawai - jam_jadwal)*60) + (menit_pegawai - menit_jadwal);
+                               console.log('Pegawai ID : ' + pegawai_id);
+                               console.log(durasi + ' ' + 'menit');
+                               console.log(status);
+                               $.ajax({
+                                    url : "{{route('telatlembur')}}?pegawai_id="+pegawai_id+"&tanggal="+tanggal+"&durasi="+durasi+"&status="+status,
+                                    type: "GET",
+                                    dataType: "JSON",
+                                    success: function(data)
+                                    {
+    
+                                    }
+                                });
+                            }
 
                         function lembur(a,b,c,d){
                             
@@ -316,7 +372,7 @@
                             console.log('Pegawai ID : ' + pegawai_id);
                             console.log(tanggal);
                             console.log(durasi + ' ' + 'menit');
-                            console.log('lembur');
+                            console.log(status);
                             $.ajax({
                                 url : "{{route('telatlembur')}}?pegawai_id="+pegawai_id+"&tanggal="+tanggal+"&durasi="+durasi+"&status="+status,
                                 type: "GET",
@@ -347,10 +403,13 @@
                                         if ($('#jam_istirahat{{ $item->pegawai_id }}').val() < data.jam_istirahat){
                                             $('.jam_istirahat{{ $item->pegawai_id }}').addClass('text-theme-11');
 
+                                            telat_istirahat($('#jam_istirahat{{ $item->pegawai_id }}').val(), data.jam_istirahat, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
                                             
                                         }
                                         if ($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val() > data.jam_istirahat_masuk){
                                             $('.jam_masuk_istirahat{{ $item->pegawai_id }}').addClass('text-theme-11');
+                                            
+                                            telat_istirahat_masuk($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val(), data.jam_istirahat_masuk, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
                                             
                                         }
                                         if ($('#jam_pulang{{ $item->pegawai_id }}').val() < data.jam_pulang){

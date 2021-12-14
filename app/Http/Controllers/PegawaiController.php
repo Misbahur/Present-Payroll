@@ -15,7 +15,7 @@ class PegawaiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
         $pegawais = Pegawai::paginate(10);
@@ -23,7 +23,7 @@ class PegawaiController extends Controller
         return view('gocay.pegawai', [
             'pegawais' => $pegawais,
             'jabatans' => $jabatans
-        ]);
+        ])->with('i', ($request->input('page', 1) - 1) * 10);
         
     }
 

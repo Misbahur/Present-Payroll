@@ -38,12 +38,11 @@
                             <button class="ml-3 btn box flex items-center text-gray-700 dark:text-gray-300">
                                 <i data-feather="file-text" class="hidden sm:block w-4 h-4 mr-2"></i> Export to PDF
                             </button> -->
-                            <a href="{{ route('addPegawaiToFingerprint') }}" class="btn btn-sm btn-primary ml-3 flex items-center" onclick="return confirm('Apakah Anda Yakin Menambahkan Data?');">
+                            <!-- <a href="{{ route('addPegawaiToFingerprint') }}" class="btn btn-sm btn-primary ml-3 flex items-center" onclick="return confirm('Apakah Anda Yakin Menambahkan Data?');">
                                 <i data-feather="user-plus" class="hidden sm:block  mr-2"></i> Add Pegawai to Fingerprint
-                            </a>
-                            <!-- <a href="{{ route('updateFingerData') }}" class="btn btn-sm btn-primary ml-3 flex items-center" onclick="return confirm('Apakah Anda Yakin Menambahkan Data?');">
-                                <i data-feather="plus" class="hidden sm:block  mr-2"></i> Add Fingerdata to Pegawai
                             </a> -->
+                            <a href="javascript:;" data-toggle="modal" data-target="#header-footer-modal-preview" class="btn btn-sm btn-primary ml-3 flex items-center" onclick="return confirm('Apakah Anda Yakin Menambahkan Data?');">
+                                <i data-feather="plus" class="hidden sm:block  mr-2"></i> Update Time </a>
                             <a href="{{ route('cekDataFingerprint') }}" class="btn btn-sm btn-primary ml-3 flex items-center">
                                 <i data-feather="bar-chart-2" class="hidden sm:block  mr-2"></i> Get Data Fingerprint
                             </a>
@@ -139,21 +138,19 @@
                     </div>
                     <!-- END: Modal Header -->
                     <!-- BEGIN: Modal Body -->
-                    <form method="POST" action="{{ route('setUserFingerprint') }}">
+                    <!-- <form method="POST" action="{{ route('updateFingerData') }}"> -->
+                    <form method="POST" action="{{ route('updateFingerData') }}">
                         @csrf
+                    <input id="modal-form-1" name="pegawai_id" type="hidden" value="1" class="form-control" placeholder="Nama Pegawai">
                     <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
-                        <div class="col-span-12 sm:col-span-12">
+                        <!-- <div class="col-span-12 sm:col-span-12">
                             <label for="modal-form-1" class="form-label">Nama Pegawai</label>
                             <input id="modal-form-1" name="nama" type="text" class="form-control" placeholder="Nama Pegawai">
+                        </div> -->
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-1" class="form-label">Waktu</label>
+                            <input id="modal-form-1" name="time" type="time" class="form-control" placeholder="Nama Pegawai">
                         </div>
-                    <div class="col-span-12 sm:col-span-12">
-                        <label for="modal-form-2" class="form-label">Jabatan</label>
-                        <select id="modal-form-2" class="form-select" name="jabatan_id">
-                        @foreach ($jabatans as $item)
-                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                        @endforeach
-                        </select>
-                    </div>
                     </div>
                     <!-- END: Modal Body -->
                     <!-- BEGIN: Modal Footer -->
@@ -168,6 +165,7 @@
             </div>
         </div>
         <!-- END: Modal Content -->
+        
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         
     </div>

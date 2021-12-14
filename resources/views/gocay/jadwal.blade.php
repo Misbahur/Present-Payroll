@@ -60,11 +60,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $no = 1; ?>
                             @foreach ($jadwals as $item)
                                 <tr class="intro-x">
                                     <td class="w-40">
-                                    {{ $no++ }}
+                                    {{ ++ $i}}
                                     </td>
                                     <td class="text-center">
                                         <a href="" class="font-medium whitespace-nowrap">{{ $item->tanggal }}</a>
