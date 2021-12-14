@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Rats\Zkteco\Lib\ZKTeco;
 use App\Models\Fingerprint;
+use App\Models\Kehadiran;
 use Illuminate\Http\Request;
 use App\Models\Pegawai;
 use App\Models\Jabatan;
@@ -93,6 +94,44 @@ class FingerprintController extends Controller
         //     'jabatans' => $jabatans,
         // ]);
                    
+    }
+
+    public function updateFingerData(Request $request)
+    {
+        // $time = date('H:i:s', strtotime($a['timestamp']));
+        // $time = date('H:i:s', strtotime($request->time);
+        // $data->tanggal = date('Y-m-d', strtotime($a['timestamp']));
+        $hariini = date('Y-m-d');
+        // $data->pegawai_id = $u['userid'];
+
+            $data = Kehadiran::where('tanggal', $hariini)
+            ->where('pegawai_id', $request->pegawai_id)
+            ->first();
+            if ($data == null):
+                
+            else:
+                $jadwals = Jadwal::where('tanggal', $hariini)
+                ->where('pegawai_id', $request->pegawai_id)
+                ->first();
+                if ($jadwals != null):
+                    $polas = Pola::findOrFail($jadwals->pola_id);
+                else:
+                    
+                endif;
+
+                if ($data->jam_masuk == null && $request->time <= date('H:i', strtotime($polas->jam_masuk.'+60 minute'))):
+                    $data->jam_masuk = $request->time;
+                elseif ($data->jam_istirahat == null  && $request->time >= date('H:i', strtotime($polas->jam_istirahat.'-30 minute')) && $request->time < date('H:i', strtotime($polas->jam_istirahat.'+30 minute')) ):
+                    $data->jam_istirahat = $request->time;
+                elseif ($data->jam_masuk_istirahat == null && $request->time >= date('H:i', strtotime($polas->jam_istirahat_masuk.'-30 minute')) && $request->time <= date('H:i', strtotime($polas->jam_istirahat_masuk.'+30 minute')) ):
+                    $data->jam_masuk_istirahat = $request->time;
+                elseif ($data->jam_pulang == null  && $request->time >= date('H:i', strtotime($polas->jam_pulang.'-30 minute')) && $request->time <= date('H:i', strtotime($polas->jam_pulang.'+60 minute')) ):
+                    $data->jam_pulang = $request->time;
+                endif;
+                $data->update();
+            endif;
+
+            return redirect()->route('kehadiran');
     }
 
     // public function updateFingerData()

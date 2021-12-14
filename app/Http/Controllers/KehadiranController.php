@@ -434,6 +434,26 @@ class KehadiranController extends Controller
                 endfor;
                 $temporary_out->save();
             endif;
+            if ($request->status == 'out-istirahat' && $request->durasi >  $lembur[1]->durasi && $pengecualian->isEmpty()):
+                $temporary_out = new Temporary;
+                $temporary_out->status = 'out-istirahat';
+                $temporary_out->tanggal = $request->tanggal;
+                $temporary_out->pegawai_id = $request->pegawai_id;
+                for($i=1; $i <= intval($request->durasi/$lembur[1]->durasi); $i++ ):
+                    $temporary_out->nominal +=  $lembur[1]->nominal;
+                endfor;
+                $temporary_out->save();
+            endif;
+            if ($request->status == 'out-istirahat-masuk' && $request->durasi >  $lembur[1]->durasi && $pengecualian->isEmpty()):
+                $temporary_out = new Temporary;
+                $temporary_out->status = 'out-istirahat-masuk';
+                $temporary_out->tanggal = $request->tanggal;
+                $temporary_out->pegawai_id = $request->pegawai_id;
+                for($i=1; $i <= intval($request->durasi/$lembur[1]->durasi); $i++ ):
+                    $temporary_out->nominal +=  $lembur[1]->nominal;
+                endfor;
+                $temporary_out->save();
+            endif;
             if ($request->status == 'in-lembur-harian' && $request->durasi >  $lembur[0]->durasi):
                     $temporary_in = new Temporary;
                     $temporary_in->status = 'in-lembur-harian';
