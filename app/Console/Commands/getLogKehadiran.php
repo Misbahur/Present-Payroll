@@ -72,7 +72,7 @@ class getLogKehadiran extends Command
                         if($a['id'] != $u['userid']):
                             continue;
                         else:
-                            $time = date('H:i:s', strtotime($a['timestamp']));
+                            $time = date('H:i', strtotime($a['timestamp']));
                             $data->tanggal = date('Y-m-d', strtotime($a['timestamp']));
                             $data->pegawai_id = $u['userid'];
 
@@ -89,7 +89,7 @@ class getLogKehadiran extends Command
                                 $data->jam_masuk = $time;
                             elseif ($data->jam_istirahat == null  && $time >= date('H:i', strtotime($polas->jam_istirahat.'-30 minute')) && $time < date('H:i', strtotime($polas->jam_istirahat.'+30 minute')) ):
                                 $data->jam_istirahat = $time;
-                            elseif ($data->jam_masuk_istirahat == null && $time >= date('H:i', strtotime($polas->jam_istirahat_masuk.'-30 minute')) && $time <= date('H:i', strtotime($polas->jam_istirahat_masuk.'+30 minute')) ):
+                            elseif ($data->jam_masuk_istirahat == null && $time >= date('H:i', strtotime($polas->jam_istirahat_masuk.'-35 minute')) && $time <= date('H:i', strtotime($polas->jam_istirahat_masuk.'+30 minute')) ):
                                 $data->jam_masuk_istirahat = $time;
                             elseif ($data->jam_pulang == null  && $time >= date('H:i', strtotime($polas->jam_pulang.'-30 minute')) && $time <= date('H:i', strtotime($polas->jam_pulang.'+60 minute')) ):
                                 $data->jam_pulang = $time;

@@ -99,37 +99,123 @@ class FingerprintController extends Controller
     public function updateFingerData(Request $request)
     {
         // $time = date('H:i:s', strtotime($a['timestamp']));
-        // $time = date('H:i:s', strtotime($request->time);
         // $data->tanggal = date('Y-m-d', strtotime($a['timestamp']));
         $hariini = date('Y-m-d');
         // $data->pegawai_id = $u['userid'];
 
-            $data = Kehadiran::where('tanggal', $hariini)
-            ->where('pegawai_id', $request->pegawai_id)
-            ->first();
-            if ($data == null):
-                
-            else:
-                $jadwals = Jadwal::where('tanggal', $hariini)
-                ->where('pegawai_id', $request->pegawai_id)
-                ->first();
-                if ($jadwals != null):
-                    $polas = Pola::findOrFail($jadwals->pola_id);
-                else:
-                    
-                endif;
+        $users = array(
+            [
+                'userid' => '1',
+                'nama' => 'Rina'
+            ],
+            [
+                'userid' => '2',
+                'nama' => 'Aisyah'
+            ],
+            [
+                'userid' => '3',
+                'nama' => 'Deny'
+            ],
+            [
+                'userid' => '4',
+                'nama' => 'Ghofur'
+            ]
+        );
 
-                if ($data->jam_masuk == null && $request->time <= date('H:i', strtotime($polas->jam_masuk.'+60 minute'))):
-                    $data->jam_masuk = $request->time;
-                elseif ($data->jam_istirahat == null  && $request->time >= date('H:i', strtotime($polas->jam_istirahat.'-30 minute')) && $request->time < date('H:i', strtotime($polas->jam_istirahat.'+30 minute')) ):
-                    $data->jam_istirahat = $request->time;
-                elseif ($data->jam_masuk_istirahat == null && $request->time >= date('H:i', strtotime($polas->jam_istirahat_masuk.'-30 minute')) && $request->time <= date('H:i', strtotime($polas->jam_istirahat_masuk.'+30 minute')) ):
-                    $data->jam_masuk_istirahat = $request->time;
-                elseif ($data->jam_pulang == null  && $request->time >= date('H:i', strtotime($polas->jam_pulang.'-30 minute')) && $request->time <= date('H:i', strtotime($polas->jam_pulang.'+60 minute')) ):
-                    $data->jam_pulang = $request->time;
+        $att = array(
+            [
+                'timestamp' => '16-12-2021 07:54:07',
+                'id' => '1'
+            ],
+            [
+                'timestamp' => '16-12-2021 08:20:40',
+                'id' => '2'
+            ],
+            [
+                'timestamp' => '16-12-2021 13:20:40',
+                'id' => '2'
+            ],
+            [
+                'timestamp' => '16-12-2021 13:27:37',
+                'id' => '1'
+            ],
+            [
+                'timestamp' => '16-12-2021 13:59:37',
+                'id' => '1'
+            ],
+            [
+                'timestamp' => '16-12-2021 13:59:40',
+                'id' => '1'
+            ],
+            [
+                'timestamp' => '16-12-2021 14:00:40',
+                'id' => '2'
+            ],
+            [
+                'timestamp' => '16-12-2021 14:01:40',
+                'id' => '1'
+            ]
+        );
+
+            
+            foreach ($users as $u):
+                $data = Kehadiran::where('tanggal', $hariini)
+                ->where('pegawai_id', $u['userid'])
+                ->first();
+                if ($data == null):
+                    continue;
+                else:
+                    $jadwals = Jadwal::where('tanggal', $hariini)
+                    ->where('pegawai_id', $u['userid'])
+                    ->first();
+                    if ($jadwals != null):
+                        $polas = Pola::findOrFail($jadwals->pola_id);
+                    else:
+                        continue;
+                    endif;
+                    foreach ($att as $a):
+                    
+                        if(date('Y-m-d', strtotime($a['timestamp'])) == $hariini):
+                            if($a['id'] != $u['userid']):
+                                continue;
+                            else:
+                                $time = date('H:i', strtotime($a['timestamp']));
+                                $data->tanggal = date('Y-m-d', strtotime($a['timestamp']));
+                                $data->pegawai_id = $u['userid'];
+
+                                
+                                if ($data->jam_masuk == null && $time <= date('H:i', strtotime($polas->jam_masuk.'+60 minute'))):
+                                    $data->jam_masuk = $time;
+                                
+                                elseif ($data->jam_istirahat == null  && $time >= date('H:i', strtotime($polas->jam_istirahat.'-30 minute')) && $time < date('H:i', strtotime($polas->jam_istirahat.'+30 minute')) ):
+                                    $data->jam_istirahat = $time;
+                                
+                                elseif ($data->jam_masuk_istirahat == null && $time >= date('H:i', strtotime($polas->jam_istirahat_masuk.'-35 minute')) && $time <= date('H:i', strtotime($polas->jam_istirahat_masuk.'+30 minute')) ):
+                                    $data->jam_masuk_istirahat = $time;
+                                
+                                elseif ($data->jam_pulang == null  && $time >= date('H:i', strtotime($polas->jam_pulang.'-30 minute')) && $time <= date('H:i', strtotime($polas->jam_pulang.'+60 minute')) ):
+                                    $data->jam_pulang = $time;
+                                endif;
+                                
+                            
+                                // if ($data->jam_masuk == null && date('H:i', strtotime( $time)) <= date('H:i', strtotime($polas->jam_masuk.'+60 minute')) ):
+                                //     $data->jam_masuk = date('H:i', strtotime( $time));
+                                // elseif ($data->jam_istirahat == null  && date('H:i', strtotime( $time )) >= date('H:i', strtotime($polas->jam_istirahat.'-30 minute')) && date('H:i', strtotime( $time )) <= date('H:i', strtotime($polas->jam_istirahat.'+30 minute')) ):
+                                //     $data->jam_istirahat = date('H:i', strtotime( $time));
+                                // elseif ($data->jam_masuk_istirahat == null && date('H:i', strtotime( $time )) > date('H:i', strtotime($polas->jam_istirahat_masuk.'-35 minute')) && date('H:i', strtotime( $time )) <= date('H:i', strtotime($polas->jam_istirahat_masuk.'+30 minute')) ):
+                                //     $data->jam_masuk_istirahat = date('H:i', strtotime( $time));
+                                // elseif ($data->jam_pulang == null  && date('H:i', strtotime( $time)) >= date('H:i', strtotime($polas->jam_pulang.'-30 minute')) && date('H:i', strtotime( $time)) <= date('H:i', strtotime($polas->jam_pulang.'+60 minute')) ):
+                                //     $data->jam_pulang = date('H:i', strtotime( $time));
+                                // endif;
+                                $data->update();
+                            endif;
+                        endif;
+                        
+                    endforeach;
                 endif;
-                $data->update();
-            endif;
+            endforeach;
+            
+            // dd($att);
 
             return redirect()->route('kehadiran');
     }
