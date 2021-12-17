@@ -13,11 +13,13 @@ class JabatanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
         $jabatans = Jabatan::paginate(10);
-        return view('gocay.jabatan', ['jabatans' => $jabatans]);
+        return view('gocay.jabatan', [
+            'jabatans' => $jabatans
+        ])->with('i', ($request->input('page', 1) - 1) * 10);
         
     }
 
@@ -99,9 +101,9 @@ class JabatanController extends Controller
         $jabatans->update($request->all());
 
         if($jabatans){
-            return redirect()->route('jabatan')->with(['success' => 'Data Jabatan'.$request->input('nama').'berhasil disimpan']);
+            return redirect()->back()->with(['success' => 'Data Jabatan'.$request->input('nama').'berhasil disimpan']);
         }else{
-            return redirect()->route('jabatan')->with(['danger' => 'Data Tidak Terekam!']);
+            return redirect()->back()->with(['danger' => 'Data Tidak Terekam!']);
         }
     }
 

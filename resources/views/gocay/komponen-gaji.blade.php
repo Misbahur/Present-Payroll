@@ -58,7 +58,7 @@
                                                 <a href="" class="font-medium whitespace-nowrap">{{ $item->jabatan->nama }}</a>
                                             </td>
                                             <td class="text-center">
-                                                <a href="" class="font-medium whitespace-nowrap">{{ $item->nominal }}</a>
+                                                <a href="" class="font-medium whitespace-nowrap">{{ "Rp. " . number_format($item->nominal,0,',','.'); }}</a>
                                             </td>
                                             <td class="table-report__action w-56">
                                                 <div class="flex justify-center items-center">
@@ -84,7 +84,7 @@
                                     <div>
                                         <h2 class="text-gray-800 text-2xl font-semibold">Lembur</h2>
                                         <h2 class="text-gray-800 text-lg font-base">Durasi : {{ $lembur->durasi }} Menit</h2>
-                                        <h2 class="text-gray-800 text-lg font-base">Fee : Rp. {{ $lembur->nominal }}</h2>
+                                        <h2 class="text-gray-800 text-lg font-base">Fee : {{ "Rp. " . number_format($lembur->nominal,0,',','.') }} </h2>
                                     </div>
                                     <div class="col-span-12 sm:col-span-12 mt-5">
                                         <label for="form-1" class="form-label">Durasi</label>
@@ -107,7 +107,7 @@
                                     <div>
                                         <h2 class="text-gray-800 text-2xl font-semibold">Keterlambatan</h2>
                                          <h2 class="text-gray-800 text-lg font-base">Durasi : {{ $keterlambatan->durasi }} Menit</h2>
-                                        <h2 class="text-gray-800 text-lg font-base">Fee : Rp. {{ $keterlambatan->nominal }}</h2>
+                                        <h2 class="text-gray-800 text-lg font-base">Fee : {{ "Rp. " . number_format($keterlambatan->nominal,0,',','.') }}</h2>
                                     </div>
                                     <div class="col-span-12 sm:col-span-12 mt-5">
                                         <label for="form-1" class="form-label">Durasi</label>
@@ -129,7 +129,7 @@
                                     @csrf
                                     <div>
                                         <h2 class="text-gray-800 text-2xl font-semibold">Bonus Mingguan</h2>
-                                        <h2 class="text-gray-800 text-xl font-semibold">Rp. {{ $komponen_gaji[0]->nominal }}</h2>
+                                        <h2 class="text-gray-800 text-xl font-semibold">{{ "Rp. " . number_format($komponen_gaji[0]->nominal,0,',','.') }}</h2>
                                     </div>
                                     <div class="col-span-12 sm:col-span-12 mt-5">
                                         <label for="form-1" class="form-label">Nominal</label>
@@ -147,7 +147,7 @@
                                     @csrf
                                     <div>
                                         <h2 class="text-gray-800 text-2xl font-semibold">Bonus Bulanan</h2>
-                                        <h2 class="text-gray-800 text-xl font-semibold">Rp. {{ $komponen_gaji[1]->nominal }}</h2>
+                                        <h2 class="text-gray-800 text-xl font-semibold">{{ "Rp. " . number_format($komponen_gaji[1]->nominal,0,',','.') }}</h2>
                                     </div>
                                     <div class="col-span-12 sm:col-span-12 mt-5">
                                         <label for="form-1" class="form-label">Nominal</label>
@@ -164,7 +164,7 @@
                                     @csrf
                                     <div>
                                         <h2 class="text-gray-800 text-2xl font-semibold">Bonus Libur Masuk</h2>
-                                        <h2 class="text-gray-800 text-xl font-semibold">Rp. {{ $komponen_gaji[2]->nominal }}</h2>
+                                        <h2 class="text-gray-800 text-xl font-semibold">{{ "Rp. " . number_format($komponen_gaji[2]->nominal,0,',','.') }}</h2>
                                     </div>
                                     <div class="col-span-12 sm:col-span-12 mt-5">
                                         <label for="form-1" class="form-label">Nominal</label>
@@ -181,7 +181,7 @@
                                     @csrf
                                     <div>
                                         <h2 class="text-gray-800 text-2xl font-semibold">Potongan Tidak Masuk</h2>
-                                        <h2 class="text-gray-800 text-xl font-semibold">Rp. {{ $komponen_gaji[3]->nominal }}</h2>
+                                        <h2 class="text-gray-800 text-xl font-semibold">{{ "Rp. " . number_format($komponen_gaji[3]->nominal,0,',','.') }}</h2>
                                     </div>
                                     <div class="col-span-12 sm:col-span-12 mt-5">
                                         <label for="form-1" class="form-label">Nominal</label>

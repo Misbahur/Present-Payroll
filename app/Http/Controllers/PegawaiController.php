@@ -126,9 +126,9 @@ class PegawaiController extends Controller
         // $pegawais->update($request->all());
 
         if($pegawais){
-            return redirect()->route('pegawai')->with(['success' => 'Data Pegawai'.$request->input('nama').'berhasil disimpan']);
+            return redirect()->back()->with(['success' => 'Data Pegawai'.$request->input('nama').'berhasil disimpan']);
         }else{
-            return redirect()->route('pegawai')->with(['danger' => 'Data Tidak Terekam!']);
+            return redirect()->back()->with(['danger' => 'Data Tidak Terekam!']);
         }
     }
 

@@ -117,7 +117,7 @@ class KehadiranController extends Controller
             // 'jumlahPegawaiKasir' => $jumlahPegawaiKasir,
             // 'jumlahSatpam' => $jumlahSatpam,
             'bulan' => $bulan,
-        ]);
+        ])->with('i', ($request->input('page', 1) - 1) * 10);
     }
 
     public function getpolakerja(Request $request)
@@ -540,9 +540,9 @@ class KehadiranController extends Controller
         $kehadirans->update($request->all());
 
         if($kehadirans){
-            return redirect()->route('kehadiran')->with(['success' => 'Data Kehadiran'.$request->input('nama').'berhasil disimpan']);
+            return redirect()->back()->with(['success' => 'Data Kehadiran'.$request->input('nama').'berhasil disimpan']);
         }else{
-            return redirect()->route('kehadiran')->with(['danger' => 'Data Tidak Terekam!']);
+            return redirect()->back()->with(['danger' => 'Data Tidak Terekam!']);
         }
     }
 

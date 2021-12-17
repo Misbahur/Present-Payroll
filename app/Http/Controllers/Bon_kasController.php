@@ -15,7 +15,7 @@ class Bon_kasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
         $bon_kas = Bon_kas::whereMonth('tanggal', date('m'))->paginate(10);
@@ -25,7 +25,7 @@ class Bon_kasController extends Controller
             'bon_kas' => $bon_kas,
             'pegawais' => $pegawais,
             // 'jabatans' => $jabatans
-        ]);
+        ])->with('i', ($request->input('page', 1) - 1) * 10);
         
     }
 
@@ -124,9 +124,9 @@ class Bon_kasController extends Controller
         $bon_kas->update($request->all());
 
         if($Bon_kas){
-            return redirect()->route('bon-kas')->with(['success' => 'Data Bon_kas'.$request->input('nama').'berhasil disimpan']);
+            return redirect()->back()->with(['success' => 'Data Bon_kas'.$request->input('nama').'berhasil disimpan']);
         }else{
-            return redirect()->route('bon-kas')->with(['danger' => 'Data Tidak Terekam!']);
+            return redirect()->back()->with(['danger' => 'Data Tidak Terekam!']);
         }
     }
 
