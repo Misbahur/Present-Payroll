@@ -126,37 +126,62 @@ class FingerprintController extends Controller
 
         $att = array(
             [
-                'timestamp' => '16-12-2021 07:54:07',
+                'timestamp' => '17-12-2021 07:54:07',
                 'id' => '1'
             ],
             [
-                'timestamp' => '16-12-2021 08:20:40',
+                'timestamp' => '17-12-2021 08:00:40',
+                'id' => '3'
+            ],
+            
+            [
+                'timestamp' => '17-12-2021 11:20:40',
                 'id' => '2'
             ],
             [
-                'timestamp' => '16-12-2021 13:20:40',
+                'timestamp' => '17-12-2021 13:27:37',
+                'id' => '1'
+            ],
+            [
+                'timestamp' => '17-12-2021 13:59:37',
+                'id' => '1'
+            ],
+            [
+                'timestamp' => '17-12-2021 13:59:40',
+                'id' => '1'
+            ],
+            [
+                'timestamp' => '17-12-2021 14:01:55',
+                'id' => '3'
+            ],
+            [
+                'timestamp' => '17-12-2021 14:02:00',
+                'id' => '3'
+            ],
+            [
+                'timestamp' => '17-12-2021 16:58:00',
+                'id' => '3'
+            ],
+            [
+                'timestamp' => '17-12-2021 17:08:00',
+                'id' => '1'
+            ],
+            [
+                'timestamp' => '17-12-2021 17:03:00',
                 'id' => '2'
             ],
             [
-                'timestamp' => '16-12-2021 13:27:37',
-                'id' => '1'
-            ],
-            [
-                'timestamp' => '16-12-2021 13:59:37',
-                'id' => '1'
-            ],
-            [
-                'timestamp' => '16-12-2021 13:59:40',
-                'id' => '1'
-            ],
-            [
-                'timestamp' => '16-12-2021 14:00:40',
+                'timestamp' => '17-12-2021 17:53:00',
                 'id' => '2'
             ],
             [
-                'timestamp' => '16-12-2021 14:01:40',
-                'id' => '1'
-            ]
+                'timestamp' => '17-12-2021 21:03:00',
+                'id' => '2'
+            ],
+            [
+                'timestamp' => '17-12-2021 21:05:00',
+                'id' => '3'
+            ],
         );
 
             
@@ -185,18 +210,32 @@ class FingerprintController extends Controller
                                 $data->tanggal = date('Y-m-d', strtotime($a['timestamp']));
                                 $data->pegawai_id = $u['userid'];
 
-                                
-                                if ($data->jam_masuk == null && $time <= date('H:i', strtotime($polas->jam_masuk.'+60 minute'))):
-                                    $data->jam_masuk = $time;
-                                
-                                elseif ($data->jam_istirahat == null  && $time >= date('H:i', strtotime($polas->jam_istirahat.'-30 minute')) && $time < date('H:i', strtotime($polas->jam_istirahat.'+30 minute')) ):
-                                    $data->jam_istirahat = $time;
-                                
-                                elseif ($data->jam_masuk_istirahat == null && $time >= date('H:i', strtotime($polas->jam_istirahat_masuk.'-35 minute')) && $time <= date('H:i', strtotime($polas->jam_istirahat_masuk.'+30 minute')) ):
-                                    $data->jam_masuk_istirahat = $time;
-                                
-                                elseif ($data->jam_pulang == null  && $time >= date('H:i', strtotime($polas->jam_pulang.'-30 minute')) && $time <= date('H:i', strtotime($polas->jam_pulang.'+60 minute')) ):
-                                    $data->jam_pulang = $time;
+                                if ($polas->nama == 'PS' || $polas->nama == 'ps'):
+                                    if ($data->jam_masuk == null && $time <= date('H:i', strtotime($polas->jam_masuk.'+60 minute'))):
+                                        $data->jam_masuk = $time;
+                                    
+                                    elseif ($data->jam_istirahat == null  && $time >= date('H:i', strtotime($polas->jam_istirahat.'-30 minute')) && $time < date('H:i', strtotime('15:00')) ):
+                                        $data->jam_istirahat = $time;
+                                    
+                                    elseif ($data->jam_masuk_istirahat == null && $time >= date('H:i', strtotime('15:00')) && $time <= date('H:i', strtotime($polas->jam_istirahat_masuk.'+30 minute')) ):
+                                        $data->jam_masuk_istirahat = $time;
+                                    
+                                    elseif ($data->jam_pulang == null  && $time >= date('H:i', strtotime($polas->jam_pulang.'-30 minute')) && $time <= date('H:i', strtotime($polas->jam_pulang.'+60 minute')) ):
+                                        $data->jam_pulang = $time;
+                                    endif;
+                                else:
+                                    if ($data->jam_masuk == null && $time <= date('H:i', strtotime($polas->jam_masuk.'+60 minute'))):
+                                        $data->jam_masuk = $time;
+                                    
+                                    elseif ($data->jam_istirahat == null  && $time >= date('H:i', strtotime($polas->jam_istirahat.'-30 minute')) && $time < date('H:i', strtotime($polas->jam_istirahat.'+30 minute')) ):
+                                        $data->jam_istirahat = $time;
+                                    
+                                    elseif ($data->jam_masuk_istirahat == null && $time >= date('H:i', strtotime($polas->jam_istirahat_masuk.'-35 minute')) && $time <= date('H:i', strtotime($polas->jam_istirahat_masuk.'+30 minute')) ):
+                                        $data->jam_masuk_istirahat = $time;
+                                    
+                                    elseif ($data->jam_pulang == null  && $time >= date('H:i', strtotime($polas->jam_pulang.'-30 minute')) && $time <= date('H:i', strtotime($polas->jam_pulang.'+60 minute')) ):
+                                        $data->jam_pulang = $time;
+                                    endif;
                                 endif;
                                 
                             

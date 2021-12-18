@@ -27,8 +27,8 @@
                         <table class="table table-report sm:mt-2">
                             <thead>
                                 <tr>
-                                    <th class="whitespace-nowrap">No</th>
-                                    <th class="whitespace-nowrap">NIK</th>
+                                    <th class="text-center whitespace-nowrap">No</th>
+                                    <th class="text-center whitespace-nowrap">NIK</th>
                                     <th class="text-center whitespace-nowrap">Nama Pegawai</th>
                                     <th class="text-center whitespace-nowrap">Jabatan</th>
                                     <th class="text-center whitespace-nowrap">Tanggal Lahir</th>

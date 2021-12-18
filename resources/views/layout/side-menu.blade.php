@@ -23,6 +23,10 @@
                 @foreach ($side_menu as $menuKey => $menu)
                     @if ($menu == 'devider')
                         <li class="side-nav__devider my-6"></li>
+                    @elseif ( $menuKey == 'Setting' && Auth::user()->role != 'su')
+                        @continue
+                    @elseif ( $menuKey == 'users' && Auth::user()->role == 'admin' || $menuKey == 'Keuangan' && Auth::user()->role == 'admin')
+                        @continue
                     @else
                         <li>
                             <a href="{{ isset($menu['route_name']) ? route($menu['route_name'], $menu['params']) : 'javascript:;' }}" class="{{ $first_level_active_index == $menuKey ? 'side-menu side-menu--active' : 'side-menu' }}">
