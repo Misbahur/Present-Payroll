@@ -7,7 +7,6 @@ use Rats\Zkteco\Lib\ZKTeco;
 use App\Models\Fingerprint;
 use App\Models\Kehadiran;
 use Illuminate\Http\Request;
-use App\Models\Kehadiran;
 use App\Models\Pegawai;
 use App\Models\Jabatan;
 use App\Models\Jadwal;
