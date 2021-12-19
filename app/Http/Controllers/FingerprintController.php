@@ -326,14 +326,16 @@ class FingerprintController extends Controller
 
     public function addPegawaiToFingerprint()
     {
-        $zk = new ZKTeco('192.168.1.201', 4370);
-        $zk->connect();
-        $zk->disableDevice();
+        // $zk = new ZKTeco('192.168.1.201', 4370);
+        // $zk->connect();
+        // $zk->disableDevice();
 
-        $pegawais = Pegawai::all();
-        foreach ($pegawais as $item):
-            $zk->setUser($item->id, $item->id, $item->nama, strtolower($item->nama));
-        endforeach;
+        // $pegawais = Pegawai::all();
+        // foreach ($pegawais as $item):
+        //     $zk->setUser($item->id, $item->id, $item->nama, strtolower($item->nama));
+        // endforeach;
+
+        return redirect()->back();
         
         // return view('gocay.fingerprint', [
         //     'datafingers' => $datafingers,

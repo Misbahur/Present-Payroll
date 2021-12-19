@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Kehadiran;
 use App\Models\Pegawai;
+use App\Models\Jabatan;
 use App\Models\Jadwal;
 use App\Models\Pola;
 use App\Models\Temporary;
@@ -26,6 +27,8 @@ class KehadiranController extends Controller
     public function index(Request $request)
     {
 
+        $data_request = $request->all();
+        $jabatans = Jabatan::all();
         $kehadirans = Kehadiran::where('tanggal', Carbon::now()->toDateString())
         ->orderBy('tanggal', 'asc')
         ->orderBy('pegawai_id', 'asc')
@@ -36,6 +39,14 @@ class KehadiranController extends Controller
         ->where('jam_masuk', '!=', null)
         ->orderBy('tanggal', 'asc')
         ->orderBy('pegawai_id', 'asc');
+        foreach ($jabatans as $item):
+            $jabatan_total[$item->id] = Kehadiran::where('tanggal', Carbon::now()->toDateString())
+                    ->join('pegawais', 'kehadirans.pegawai_id' ,'=','pegawais.id')
+                    ->join('jabatans', 'pegawais.jabatan_id' ,'=','jabatans.id')
+                    ->where('jam_masuk', '!=', null)
+                    ->where('jabatan_id', $item->id)
+                    ->get();
+        endforeach;
         // $jumlahPegawaiKasir = Kehadiran::where('tanggal', Carbon::now()->toDateString())
         //                         ->whereBetween('jabatan_id', ['1', '2']);
         // $jumlahSatpam = Kehadiran::where('tanggal', Carbon::now()->toDateString())
@@ -46,8 +57,9 @@ class KehadiranController extends Controller
         return view('gocay.kehadiran', [
             'kehadirans' => $kehadirans,
             'jumlahPegawai' => $jumlahPegawai,
-            // 'jumlahPegawaiKasir' => $jumlahPegawaiKasir,
-            // 'jumlahSatpam' => $jumlahSatpam,
+            'jabatan_total' => $jabatan_total,
+            'jabatans' => $jabatans,
+            'data_request' => $data_request,
             'bulan' => $bulan,
         ])->with('i', ($request->input('page', 1) - 1) * 10);
         
@@ -85,6 +97,8 @@ class KehadiranController extends Controller
 
     public function filterkehadiran(Request $request)
     {
+        $jabatans = Jabatan::all();
+        $data_request = $request->all();
         $pegawai_id = Pegawai::where('nama','like',"%".$request->filter_nama."%")->pluck('id');
         $bulan_id = date('Y') .'-' . $request->filter_bulan .'-' . $request->filter_tanggal;
         if ($request->filter_nama == ''):
@@ -106,6 +120,16 @@ class KehadiranController extends Controller
         ->where('jam_masuk', '!=', null)
         ->orderBy('tanggal', 'asc')
         ->orderBy('pegawai_id', 'asc');
+        foreach ($jabatans as $item):
+            $jabatan_total[$item->id] = Kehadiran::where('tanggal', $bulan_id)
+                    ->join('pegawais', 'kehadirans.pegawai_id' ,'=','pegawais.id')
+                    ->join('jabatans', 'pegawais.jabatan_id' ,'=','jabatans.id')
+                    ->where('jam_masuk', '!=', null)
+                    ->where('jabatan_id', $item->id)
+                    ->get();
+        endforeach;
+
+
         // $jumlahPegawaiKasir = Kehadiran::where('tanggal', $bulan_id)
         //                         ->whereBetween('jabatan_id', ['1', '2']);
         // $jumlahSatpam = Kehadiran::where('tanggal', $bulan_id)
@@ -114,8 +138,9 @@ class KehadiranController extends Controller
         return view('gocay.kehadiran', [
             'kehadirans' => $kehadirans,
             'jumlahPegawai' => $jumlahPegawai,
-            // 'jumlahPegawaiKasir' => $jumlahPegawaiKasir,
-            // 'jumlahSatpam' => $jumlahSatpam,
+            'jabatan_total' => $jabatan_total,
+            'jabatans' => $jabatans,
+            'data_request' => $data_request,
             'bulan' => $bulan,
         ])->with('i', ($request->input('page', 1) - 1) * 10);
     }
