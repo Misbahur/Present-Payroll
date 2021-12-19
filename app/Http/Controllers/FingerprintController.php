@@ -30,62 +30,67 @@ class FingerprintController extends Controller
     public function getDataFingerprint()
     {
         $zk = new ZKTeco('192.168.22.71', 4370);
+        $zk2 = new ZKTeco('192.168.22.72', 4370);
         $zk->connect();
         $zk->disableDevice();
         $users = $zk->getUser();
         $att = $zk->getAttendance();
-        $hariini = date('Y-m-d');
+        $zk2->connect();
+        $zk2->disableDevice();
+        $users2 = $zk2->getUser();
+        $att2 = $zk2->getAttendance();
+        // $hariini = date('Y-m-d');
 
-        dd($att);
+        dd($att2);
 
-        foreach ($users as $u):
-            $data = Fingerprint::where('tanggal', $hariini)
-            ->where('pegawai_id', $u['userid'])
-            ->first();
-            if ($data == null):
-                continue;
-            else:
-                $jadwals = Jadwal::where('tanggal', $hariini)
-                ->where('pegawai_id', $u['userid'])
-                ->first();
-                if ($jadwals != null):
-                    $polas = Pola::findOrFail($jadwals->pola_id);
-                    dd($polas);
-                else:
-                    continue;
-                endif;
-                foreach ($att as $a):
+        // foreach ($users as $u):
+        //     $data = Fingerprint::where('tanggal', $hariini)
+        //     ->where('pegawai_id', $u['userid'])
+        //     ->first();
+        //     if ($data == null):
+        //         continue;
+        //     else:
+        //         $jadwals = Jadwal::where('tanggal', $hariini)
+        //         ->where('pegawai_id', $u['userid'])
+        //         ->first();
+        //         if ($jadwals != null):
+        //             $polas = Pola::findOrFail($jadwals->pola_id);
+        //             dd($polas);
+        //         else:
+        //             continue;
+        //         endif;
+        //         foreach ($att as $a):
                     
-                    if(date('Y-m-d', strtotime($a['timestamp'])) == $hariini):
-                        if($a['id'] != $u['userid']):
-                            continue;
-                        else:
-                            $time = date('H:i:s', strtotime($a['timestamp']));
-                            $data->tanggal = date('Y-m-d', strtotime($a['timestamp']));
-                            $data->pegawai_id = $u['userid'];
+        //             if(date('Y-m-d', strtotime($a['timestamp'])) == $hariini):
+        //                 if($a['id'] != $u['userid']):
+        //                     continue;
+        //                 else:
+        //                     $time = date('H:i:s', strtotime($a['timestamp']));
+        //                     $data->tanggal = date('Y-m-d', strtotime($a['timestamp']));
+        //                     $data->pegawai_id = $u['userid'];
 
-                            if ($data->jam_masuk == null  && $time <= $polas->jam_masuk):
-                                $data->jam_masuk = $time;
-                            elseif ($data->jam_istirahat == null  && $time >= $polas->jam_masuk && $time >= $polas->jam_istirahat && $time <= $polas->jam_masuk_istirahat):
-                                $data->jam_istirahat = $time;
-                            elseif ($data->jam_masuk_istirahat == null && $time >= $polas->jam_istirahat && $time <= $polas->jam_masuk_istirahat):
-                                $data->jam_masuk_istirahat = $time;
-                            elseif ($data->jam_pulang == null  && $time >= $polas->jam_pulang ):
-                                $data->jam_pulang = $time;
-                            endif;
-                        endif;
-                        $data->update();
-                        if ($data->update()):
-                            echo 'berhasil';
-                        endif;
+        //                     if ($data->jam_masuk == null  && $time <= $polas->jam_masuk):
+        //                         $data->jam_masuk = $time;
+        //                     elseif ($data->jam_istirahat == null  && $time >= $polas->jam_masuk && $time >= $polas->jam_istirahat && $time <= $polas->jam_masuk_istirahat):
+        //                         $data->jam_istirahat = $time;
+        //                     elseif ($data->jam_masuk_istirahat == null && $time >= $polas->jam_istirahat && $time <= $polas->jam_masuk_istirahat):
+        //                         $data->jam_masuk_istirahat = $time;
+        //                     elseif ($data->jam_pulang == null  && $time >= $polas->jam_pulang ):
+        //                         $data->jam_pulang = $time;
+        //                     endif;
+        //                 endif;
+        //                 $data->update();
+        //                 if ($data->update()):
+        //                     echo 'berhasil';
+        //                 endif;
 
-                    endif;
-                endforeach;
-            endif;
-        endforeach;
+        //             endif;
+        //         endforeach;
+        //     endif;
+        // endforeach;
                 
-        $datafingers = Fingerprint::all(); 
-        $jabatans = Jabatan::all(); 
+        // $datafingers = Fingerprint::all(); 
+        // $jabatans = Jabatan::all(); 
 
 
 
@@ -304,7 +309,8 @@ class FingerprintController extends Controller
 
     public function cekDataFingerprint()
     {
-        $zk = new ZKTeco('192.168.1.201', 4370);
+        // $zk = new ZKTeco('192.168.1.201', 4370);
+        $zk = new ZKTeco('192.168.22.72', 4370);
         $zk->connect();
         $zk->disableDevice();
         $att = $zk->getAttendance();
@@ -315,7 +321,8 @@ class FingerprintController extends Controller
 
     public function cekUserFingerprint()
     {
-        $zk = new ZKTeco('192.168.1.201', 4370);
+        // $zk = new ZKTeco('192.168.1.201', 4370);
+        $zk = new ZKTeco('192.168.22.72', 4370);
         $zk->connect();
         $zk->disableDevice();
         $users = $zk->getUser();
@@ -326,14 +333,14 @@ class FingerprintController extends Controller
 
     public function addPegawaiToFingerprint()
     {
-        // $zk = new ZKTeco('192.168.1.201', 4370);
-        // $zk->connect();
-        // $zk->disableDevice();
+        $zk = new ZKTeco('192.168.22.72', 4370);
+        $zk->connect();
+        $zk->disableDevice();
 
-        // $pegawais = Pegawai::all();
-        // foreach ($pegawais as $item):
-        //     $zk->setUser($item->id, $item->id, $item->nama, strtolower($item->nama));
-        // endforeach;
+        $pegawais = Pegawai::all();
+        foreach ($pegawais as $item):
+            $zk->setUser($item->id, $item->id, $item->nama, strtolower($item->nama));
+        endforeach;
 
         return redirect()->back();
         
