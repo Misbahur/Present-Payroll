@@ -173,9 +173,9 @@ Route::middleware('auth')->group(function() {
         Route::get('deleteAllLogFingerptint', [FingerprintController::class, 'deleteAllLogFingerptint'])->name('deleteAllLogFingerptint');
 
         //kehadiran Manage
+        // Route::post('kehadiranadd', [KehadiranController::class, 'store'])->name('kehadiranadd');
         Route::get('kehadiran', [KehadiranController::class, 'index'])->name('kehadiran');
         Route::get('kehadiran_bulanan', [KehadiranController::class, 'kehadiran_bulanan'])->name('kehadiran_bulanan');
-        Route::post('kehadiranadd', [KehadiranController::class, 'store'])->name('kehadiranadd');
         Route::get('kehadiranedit', [KehadiranController::class, 'edit'])->name('kehadiranedit');
         Route::POST('kehadiranupdate', [KehadiranController::class, 'update'])->name('kehadiranupdate');
         Route::get('kehadirandelete/{id}', [KehadiranController::class, 'destroy'])->name('kehadirandelete');

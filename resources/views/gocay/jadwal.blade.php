@@ -102,7 +102,7 @@
                 <div class="intro-y flex flex-wrap sm:flex-row sm:flex-nowrap items-center mt-3">
                         <div class="pagination">
                         @if ($jadwals != null)
-                            {{ $jadwals->links() }}
+                            {{ $jadwals->appends($data_request)->links() }}
                         @else
 
                         @endif

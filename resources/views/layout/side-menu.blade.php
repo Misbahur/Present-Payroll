@@ -22,7 +22,8 @@
             <ul>
                 @foreach ($side_menu as $menuKey => $menu)
                     @if ($menu == 'devider')
-                        <li class="side-nav__devider my-6"></li>
+                    @elseif ($menuKey == 'Fingerprint' && Auth::user()->role != 'su')
+                        @continue
                     @elseif ( $menuKey == 'Setting' && Auth::user()->role != 'su')
                         @continue
                     @elseif ( $menuKey == 'users' && Auth::user()->role == 'admin' || $menuKey == 'Keuangan' && Auth::user()->role == 'admin')

@@ -38,9 +38,9 @@
                             <button class="ml-3 btn box flex items-center text-gray-700 dark:text-gray-300">
                                 <i data-feather="file-text" class="hidden sm:block w-4 h-4 mr-2"></i> Export to PDF
                             </button> -->
-                            <!-- <a href="{{ route('addPegawaiToFingerprint') }}" class="btn btn-sm btn-primary ml-3 flex items-center" onclick="return confirm('Apakah Anda Yakin Menambahkan Data?');">
+                            <a href="{{ route('addPegawaiToFingerprint') }}" class="btn btn-sm btn-primary ml-3 flex items-center" onclick="return confirm('Apakah Anda Yakin Menambahkan Data?');">
                                 <i data-feather="user-plus" class="hidden sm:block  mr-2"></i> Add Pegawai to Fingerprint
-                            </a> -->
+                            </a>
                             <a href="javascript:;" data-toggle="modal" data-target="#header-footer-modal-preview" class="btn btn-sm btn-primary ml-3 flex items-center" onclick="return confirm('Apakah Anda Yakin Menambahkan Data?');">
                                 <i data-feather="plus" class="hidden sm:block  mr-2"></i> Update Time </a>
                             <a href="{{ route('cekDataFingerprint') }}" class="btn btn-sm btn-primary ml-3 flex items-center">

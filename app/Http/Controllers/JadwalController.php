@@ -19,9 +19,11 @@ class JadwalController extends Controller
     public function index(Request $request)
     {
         //
+        $data_request = $request->all();
         $jadwals = Jadwal::orderBy('tanggal', 'desc')
         ->orderBy('pegawai_id', 'asc')
         ->paginate(10);
+
 
         $bulan=array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
 
@@ -31,6 +33,7 @@ class JadwalController extends Controller
         return view('gocay.jadwal', [
             'jadwals' => $jadwals,
             'pola' => $pola,
+            'data_request' => $data_request,
             'pegawais' => $pegawais,
             'bulan' => $bulan,
         ])->with('i', ($request->input('page', 1) - 1) * 10);
@@ -39,6 +42,7 @@ class JadwalController extends Controller
 
     public function filterjadwal(Request $request)
     {
+        $data_request = $request->all();
         $pegawai_id = Pegawai::where('nama','like',"%".$request->filter_nama."%")->pluck('id');
         $bulan_id = date('Y') .'-' . $request->filter_bulan .'-' . $request->filter_tanggal;
         if ($request->filter_nama == ''):
@@ -60,12 +64,15 @@ class JadwalController extends Controller
         $pegawais = Pegawai::all();
 
         $bulan=array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
+
+        // dd($request->all());
   
         return view('gocay.jadwal', [
             'jadwals' => $jadwals,
             'pola' => $pola,
             'pegawais' => $pegawais,
             'bulan' => $bulan,
+            'data_request' => $data_request,
         ])->with('i', ($request->input('page', 1) - 1) * 10);
     }
 

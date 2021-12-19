@@ -28,6 +28,22 @@
                                 </div>
                             </div>
                         </div>
+                        @foreach ($jabatans as $item)
+                            <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                                <div class="report-box zoom-in">
+                                    <div class="box p-5">
+                                        <div class="flex">
+                                            <i data-feather="users" class="report-box__icon text-theme-10"></i>
+                                        </div>
+                                        <div class="text-3xl font-bold leading-8 mt-6">
+                                            {{ $jabatan_total[$item->id]->count() ? $jabatan_total[$item->id]->count() : '0' }}
+                                        </div>
+                                        <div class="text-base text-gray-600 mt-1">Total Pegawai {{ $item->nama }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+<!-- 
                         <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
                             <div class="report-box zoom-in">
                                 <div class="box p-5">
@@ -68,7 +84,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- END: General Report -->
 
                 <!-- BEGIN: Weekly Top Products -->
@@ -188,7 +204,7 @@
                     <div class="intro-y flex flex-wrap sm:flex-row sm:flex-nowrap items-center mt-3">
                         <div class="pagination">
                             @if ($kehadirans != null)
-                                {{ $kehadirans->links() }}
+                                {{ $kehadirans->appends($data_request)->links() }}
                             @else
 
                             @endif
