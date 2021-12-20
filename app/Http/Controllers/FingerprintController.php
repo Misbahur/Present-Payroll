@@ -340,7 +340,7 @@ class FingerprintController extends Controller
         $pegawais = Pegawai::all();
         foreach ($pegawais as $item):
             // $zk2->setUser($item->id, $item->id, $item->nama, strtolower($item->nama));
-            $zk2->setUser($item->id, $item->id, $item->nama);
+            $zk2->setUser($item->id, $item->id, $item->nama, '');
         endforeach;
 
         return redirect()->back();
