@@ -18,14 +18,14 @@ class SideMenu
 
         
         return [
-            'Fingerprint' => [
-                'icon' => 'airplay',
-                'route_name' => 'fingerprint',
-                'params' => [
-                    'layout' => 'side-menu'
-                ],
-                'title' => 'Fingerprint'
-            ],
+            // 'Fingerprint' => [
+            //     'icon' => 'airplay',
+            //     'route_name' => 'fingerprint',
+            //     'params' => [
+            //         'layout' => 'side-menu'
+            //     ],
+            //     'title' => 'Fingerprint'
+            // ],
             
             
             'Data Master' => [
