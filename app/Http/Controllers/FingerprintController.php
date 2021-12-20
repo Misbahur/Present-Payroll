@@ -342,7 +342,7 @@ class FingerprintController extends Controller
             $zk->setUser($item->id, $item->id, $item->nama, strtolower($item->nama));
         endforeach;
 
-        return redirect()->back();
+        // return redirect()->back();
         
         // return view('gocay.fingerprint', [
         //     'datafingers' => $datafingers,
