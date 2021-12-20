@@ -30,7 +30,7 @@ class FingerprintController extends Controller
     public function getDataFingerprint()
     {
         $zk = new ZKTeco('192.168.22.71', 4370);
-        $zk2 = new ZKTeco('192.168.22.70', 4370);
+        $zk2 = new ZKTeco('192.168.22.73', 4370);
         $zk->connect();
         $zk->disableDevice();
         $users = $zk->getUser();
@@ -310,7 +310,7 @@ class FingerprintController extends Controller
     public function cekDataFingerprint()
     {
         // $zk = new ZKTeco('192.168.1.201', 4370);
-        $zk = new ZKTeco('192.168.22.70', 4370);
+        $zk = new ZKTeco('192.168.22.73', 4370);
         $zk->connect();
         $zk->disableDevice();
         $att = $zk->getAttendance();
@@ -322,7 +322,7 @@ class FingerprintController extends Controller
     public function cekUserFingerprint()
     {
         // $zk = new ZKTeco('192.168.1.201', 4370);
-        $zk = new ZKTeco('192.168.22.70', 4370);
+        $zk = new ZKTeco('192.168.22.73', 4370);
         $zk->connect();
         $zk->disableDevice();
         $users = $zk->getUser();
@@ -333,7 +333,7 @@ class FingerprintController extends Controller
 
     public function addPegawaiToFingerprint()
     {
-        $zk = new ZKTeco('192.168.22.70', 4370);
+        $zk = new ZKTeco('192.168.22.73', 4370);
         $zk->connect();
         $zk->disableDevice();
 
@@ -352,7 +352,7 @@ class FingerprintController extends Controller
 
     public function setUserFingerprint(Request $request)
     {
-        $zk = new ZKTeco('192.168.22.71', 4370);
+        $zk = new ZKTeco('192.168.22.73', 4370);
         $zk->connect();
         $zk->disableDevice();
         $users = $zk->getUser();
