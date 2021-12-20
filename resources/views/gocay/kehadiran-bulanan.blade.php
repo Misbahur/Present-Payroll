@@ -76,7 +76,7 @@
                                     {{ $p->nama }} 
                                 </td> 
                                 
-                                @for ($x=1; $x <= date('j', strtotime($tanggal_terakhir->tanggal)); $x++)
+                                @for ($x=1; $x <= date('t'); $x++)
                                 <input type="hidden" name="hidden-id" id="id-{{ $kehadiran_bulanan[$t]->pegawai_id }}" value="{{ $kehadiran_bulanan[$t]->pegawai_id }}">
                                 <input type="hidden" name="hidden-tanggal" id="tanggal-{{ $kehadiran_bulanan[$t]->tanggal }}" value="{{ $kehadiran_bulanan[$t]->tanggal }}">
                                 <td class="text-center">
@@ -86,10 +86,10 @@
                                     <span class="jam_pulang{{$t}}" value="{{ $kehadiran_bulanan[$t]->jam_pulang }}"> {{ $kehadiran_bulanan[$t]->jam_pulang ? $kehadiran_bulanan[$t]->jam_pulang : '-'  }} </span>
                                 </td>
                                 <?php 
-                                    if ($t != (date('j', strtotime($tanggal_terakhir->tanggal))*$p->id )):
+                                    if ($t != (date('t')*$p->id )):
                                         $t++;
                                     else:
-                                        $t = date('j', strtotime($tanggal_terakhir->tanggal))*$p->id;
+                                        $t = date('t')*$p->id;
                                     endif;  
                                 ?>
                                 @endfor
