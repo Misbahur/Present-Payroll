@@ -80,10 +80,10 @@
                                 <input type="hidden" name="hidden-id" id="id-{{ $kehadiran_bulanan[$t]->pegawai_id }}" value="{{ $kehadiran_bulanan[$t]->pegawai_id }}">
                                 <input type="hidden" name="hidden-tanggal" id="tanggal-{{ $kehadiran_bulanan[$t]->tanggal }}" value="{{ $kehadiran_bulanan[$t]->tanggal }}">
                                 <td class="text-center">
-                                    <span class="jam_masuk{{$t}}" value="{{ $kehadiran_bulanan[$t]->jam_masuk }}"> {{ $kehadiran_bulanan[$t]->jam_masuk ? $kehadiran_bulanan[$t]->jam_masuk : '-'  }} </span> <br>
-                                    <span class="jam_istirahat{{$t}}" value="{{ $kehadiran_bulanan[$t]->jam_istirahat }}"> {{ $kehadiran_bulanan[$t]->jam_istirahat ? $kehadiran_bulanan[$t]->jam_istirahat : '-'  }} </span> <br>
-                                    <span class="jam_masuk_istirahat{{$t}}" value="{{ $kehadiran_bulanan[$t]->jam_masuk_istirahat }}"> {{ $kehadiran_bulanan[$t]->jam_masuk_istirahat ? $kehadiran_bulanan[$t]->jam_masuk_istirahat : '-'  }} </span> <br>
-                                    <span class="jam_pulang{{$t}}" value="{{ $kehadiran_bulanan[$t]->jam_pulang }}"> {{ $kehadiran_bulanan[$t]->jam_pulang ? $kehadiran_bulanan[$t]->jam_pulang : '-'  }} </span>
+                                    <span class="jam_masuk{{$t}}" value="{{ $kehadiran_bulanan[$t]->jam_masuk }}"> {{ $kehadiran_bulanan[$t]->jam_masuk ? $kehadiran_bulanan[$t]->jam_masuk : $t  }} </span> <br>
+                                    <span class="jam_istirahat{{$t}}" value="{{ $kehadiran_bulanan[$t]->jam_istirahat }}"> {{ $kehadiran_bulanan[$t]->jam_istirahat ? $kehadiran_bulanan[$t]->jam_istirahat : $t  }} </span> <br>
+                                    <span class="jam_masuk_istirahat{{$t}}" value="{{ $kehadiran_bulanan[$t]->jam_masuk_istirahat }}"> {{ $kehadiran_bulanan[$t]->jam_masuk_istirahat ? $kehadiran_bulanan[$t]->jam_masuk_istirahat : $t  }} </span> <br>
+                                    <span class="jam_pulang{{$t}}" value="{{ $kehadiran_bulanan[$t]->jam_pulang }}"> {{ $kehadiran_bulanan[$t]->jam_pulang ? $kehadiran_bulanan[$t]->jam_pulang : $t  }} </span>
                                 </td>
                                 <?php 
                                     if ($t != (date('j', strtotime($tanggal_terakhir->tanggal))*$p->id )):
