@@ -142,7 +142,7 @@ class PegawaiController extends Controller
     {
         $pegawais = Pegawai::where('id', $id)
               ->delete();
-        return redirect()->route('pegawai')
+        return redirect()->back()
                         ->with('success','Post deleted successfully');
     }
 }

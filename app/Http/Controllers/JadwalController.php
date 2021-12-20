@@ -206,7 +206,7 @@ class JadwalController extends Controller
     {
         $jadwals = Jadwal::where('id', $id)
               ->delete();
-        return redirect()->route('jadwal')
+        return redirect()->back()
                         ->with('success','Post deleted successfully');
     }
 }

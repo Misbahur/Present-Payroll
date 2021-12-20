@@ -583,7 +583,7 @@ class KehadiranController extends Controller
         // $kehadirans->delete();
         $kehadirans = Kehadiran::where('id', $id)
               ->delete();
-        return redirect()->route('kehadiran')
+        return redirect()->back()
                         ->with('success','Post deleted successfully');
     }
 }

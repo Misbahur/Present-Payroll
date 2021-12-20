@@ -119,7 +119,7 @@ class JabatanController extends Controller
         // $jabatans->delete();
         $jabatans = Jabatan::where('id', $id)
               ->delete();
-        return redirect()->route('jabatan')
+        return redirect()->back()
                         ->with('success','Post deleted successfully');
     }
 }
