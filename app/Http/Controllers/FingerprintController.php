@@ -371,7 +371,11 @@ class FingerprintController extends Controller
 
     public function deleteAllUserFingerptint()
     {
+<<<<<<< HEAD
         $zk = new ZKTeco('192.168.22.71', 4370);
+=======
+        $zk = new ZKTeco('192.168.22.73', 4370);
+>>>>>>> 05cbf3a820013d392eede02d8bfe6dcdb2bdb4f2
         $zk->connect();
         $zk->disableDevice();
         $zk->clearUsers();
@@ -384,7 +388,11 @@ class FingerprintController extends Controller
 
     public function deleteAllLogFingerptint()
     {
+<<<<<<< HEAD
         $zk = new ZKTeco('192.168.22.71', 4370);
+=======
+        $zk = new ZKTeco('192.168.22.73', 4370);
+>>>>>>> 05cbf3a820013d392eede02d8bfe6dcdb2bdb4f2
         $zk->connect();
         $zk->disableDevice();
         $zk->clearAttendance();
