@@ -310,39 +310,39 @@ class FingerprintController extends Controller
     public function cekDataFingerprint()
     {
         // $zk = new ZKTeco('192.168.1.201', 4370);
-        $zk = new ZKTeco('192.168.22.73', 4370);
-        $zk->connect();
-        $zk->disableDevice();
-        $att = $zk->getAttendance();
+        $zk2 = new ZKTeco('192.168.22.73', 4370);
+        $zk2->connect();
+        $zk2->disableDevice();
+        $att2 = $zk2->getAttendance();
 
-        dd($att);
+        dd($att2);
 
     }
 
     public function cekUserFingerprint()
     {
         // $zk = new ZKTeco('192.168.1.201', 4370);
-        $zk = new ZKTeco('192.168.22.73', 4370);
-        $zk->connect();
-        $zk->disableDevice();
-        $users = $zk->getUser();
+        $zk2 = new ZKTeco('192.168.22.73', 4370);
+        $zk2->connect();
+        $zk2->disableDevice();
+        $users2 = $zk2->getUser();
 
-        dd($users);
+        dd($users2);
 
     }
 
     public function addPegawaiToFingerprint()
     {
-        $zk = new ZKTeco('192.168.22.73', 4370);
-        $zk->connect();
-        $zk->disableDevice();
+        $zk2 = new ZKTeco('192.168.22.73', 4370);
+        $zk2->connect();
+        $zk2->disableDevice();
 
         $pegawais = Pegawai::all();
         foreach ($pegawais as $item):
             $zk->setUser($item->id, $item->id, $item->nama, strtolower($item->nama));
         endforeach;
 
-        // return redirect()->back();
+        return redirect()->back();
         
         // return view('gocay.fingerprint', [
         //     'datafingers' => $datafingers,
