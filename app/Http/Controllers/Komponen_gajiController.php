@@ -111,7 +111,6 @@ class Komponen_gajiController extends Controller
      */
     public function update(Request $request, Komponen_gaji $komponen_gaji)
     {
-        dd($request->all());
         $this->validate($request, [
             'nama' => 'required',
             'jabatan_id' => 'required',

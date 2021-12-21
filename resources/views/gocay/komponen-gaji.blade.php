@@ -302,8 +302,8 @@
                     <!-- BEGIN: Modal Body -->
                     <form method="POST" enctype="multipart/form-data" action="{{ route('komponengajiupdate') }}">
                         @csrf
-                    <input type="hidden" name="id" id="modal-update-id">
-                    <input id="modal-form-jabatan-edit" name="jabatan_id" type="hidden">
+                    <input type="hidden" name="id" id="modal-update-id-komponen">
+                    <!-- <input id="modal-form-jabatan-edit" name="jabatan_id" type="hidden"> -->
                     <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
                         <div class="col-span-12 sm:col-span-12">
                             <label for="modal-form-1-edit" class="form-label">Nama Komponen</label>
@@ -311,12 +311,12 @@
                         </div>
                         <div class="col-span-12 sm:col-span-12">
                             <label for="modal-form-2-edit" class="form-label">Jabatan_id</label>
-                            <input disabled id="modal-form-2-edit" name="jabatan_id" type="text" class="form-control">
-                            {{-- <select id="modal-form-2-edit" class="form-select" name="jabatan_id">
+                            <input  type="hidden" id="modal-form-2-edit" name="jabatan_id" type="text" class="form-control">
+                            <select id="modal-form-2-edit" class="form-select" name="jabatan_id" disabled>
                             @foreach ($jabatans as $item)
                                 <option value="{{ $item->id }}">{{ $item->nama }}</option>
                             @endforeach
-                            </select> --}}
+                            </select> 
                         </div>
                         <div class="col-span-12 sm:col-span-12">
                             <label for="modal-form-3-edit" class="form-label">Nominal</label>
@@ -374,6 +374,10 @@
                         dataType: "JSON",
                         success: function(data)
                         {
+                            
+                            $('#modal-update-id-komponen').val(data.id);
+                            $('#modal-form-2-edit-jabatan option[value="' + data.jabatan_id +'"]').prop("selected", true);
+
                             $('#modal-update-id').val(data.id);
                             $('#modal-form-1-edit').val(data.nama);
                             $('#modal-form-2-edit').val(data.jabatan_id);
