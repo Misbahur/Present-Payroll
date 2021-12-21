@@ -187,6 +187,7 @@ Route::middleware('auth')->group(function() {
         Route::get('bonusMasukLibur', [KehadiranController::class, 'bonusMasukLibur'])->name('bonusMasukLibur');
         Route::get('bonusBulanan', [KehadiranController::class, 'bonusBulanan'])->name('bonusBulanan');
         Route::get('cekAbsenPegawai', [KehadiranController::class, 'cekAbsenPegawai'])->name('cekAbsenPegawai');
+        Route::get('data_bulanan', [KehadiranController::class, 'data_bulanan'])->name('data_bulanan');
 
         //Jabatan Manage
         Route::get('jabatan', [JabatanController::class, 'index'])->name('jabatan');

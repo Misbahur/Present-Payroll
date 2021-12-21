@@ -68,32 +68,46 @@ class KehadiranController extends Controller
         
     }
 
-    public function kehadiran_bulanan()
+    public function kehadiran_bulanan(Request $request)
     {
         $pegawais = Pegawai::all();
-        $batas_tanggal = date('t');
+        // $batas_tanggal = date('t');
         $kehadiran_bulanan = Kehadiran::whereBetween('tanggal', [date('Y-m-d', strtotime('first day of this month')),date('Y-m-d', strtotime('last day of this month'))])
         ->orderBy('pegawai_id', 'asc')
         ->orderBy('tanggal', 'asc')->get();
+        $tanggal = date('Y') .'-' . date('m') .'-' . $request->tanggal;
+        $kehadiran_data = Kehadiran::where('tanggal', $tanggal)
+        ->where('pegawai_id', $request->pegawai_id)
+        ->get();
 
-        $tanggal_terakhir = Kehadiran::latest()->first();
+        // $tanggal_terakhir = Kehadiran::latest()->first();
 
-        $kehadirans = Kehadiran::where('tanggal', Carbon::now()->toDateString())
-        ->orderBy('tanggal', 'asc')
-        ->orderBy('pegawai_id', 'asc')
-        ->paginate(10);
+        // $kehadirans = Kehadiran::where('tanggal', Carbon::now()->toDateString())
+        // ->orderBy('tanggal', 'asc')
+        // ->orderBy('pegawai_id', 'asc')
+        // ->paginate(10);
 
         $bulan=array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
         return view('gocay.kehadiran-bulanan', [
             'kehadiran_bulanan' => $kehadiran_bulanan,
-            'kehadirans' => $kehadirans,
+            // 'kehadirans' => $kehadirans,
             'pegawais' => $pegawais,
             'bulan' => $bulan,
-            'tanggal_terakhir' => $tanggal_terakhir,
+            // 'tanggal_terakhir' => $tanggal_terakhir,
         ]);
     }
 
-    // 
+    public function data_bulanan(Request $request)
+    {
+       
+        $tanggal = date('Y') .'-' . date('m') .'-' . $request->tanggal;
+        $data_bulanan = Kehadiran::where('tanggal', $tanggal)
+        ->where('pegawai_id', $request->id)
+        ->get();
+
+        return response()->json($data_bulanan[0]);
+    }
+
 
     public function filterkehadiran(Request $request)
     {
@@ -160,10 +174,14 @@ class KehadiranController extends Controller
 
     public function getpolakerja(Request $request)
     {
-        $jadwals = Jadwal::where('tanggal', $request->tanggal)
+        // $jadwals = Jadwal::where('tanggal', $request->tanggal)
+        // ->where('pegawai_id', $request->id)
+        // ->orderBy('tanggal', 'desc')
+        // ->orderBy('pegawai_id', 'asc')->get();
+        $tanggal = date('Y') .'-' . date('m') .'-' . $request->tanggal;
+        $jadwals = Jadwal::where('tanggal', $tanggal)
         ->where('pegawai_id', $request->id)
-        ->orderBy('tanggal', 'desc')
-        ->orderBy('pegawai_id', 'asc')->get();
+        ->get();
 
         $polas = Pola::findOrFail($jadwals[0]->pola_id);
         return response()->json($polas);
