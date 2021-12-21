@@ -16,7 +16,7 @@
         <!-- BEGIN: Side Menu -->
         <nav class="side-nav">
             <a href="" class="intro-x flex items-center pl-5 pt-4">
-                <img alt="Rubick Tailwind HTML Admin Template" class="w-24" src="{{ asset('dist/images/logo.png') }}">
+                <img alt="Gocay Present & Payroll" class="w-24" src="{{ asset('dist/images/logo.png') }}">
             </a>
             <div class="side-nav__devider my-6"></div>
             <ul>

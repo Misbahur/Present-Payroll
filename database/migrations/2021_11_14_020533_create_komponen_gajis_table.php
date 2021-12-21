@@ -17,6 +17,8 @@ class CreateKomponenGajisTable extends Migration
             $table->id();
             $table->string('nama');
             $table->integer('nominal');
+            $table->integer('masuklibur');
+            $table->integer('tidakmasuk');
             $table->unsignedBigInteger('jabatan_id');
             $table->timestamps();
         });

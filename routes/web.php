@@ -219,6 +219,9 @@ Route::middleware('auth')->group(function() {
 
         Route::get('komponen-gaji', [Komponen_gajiController::class, 'index'])->name('komponen-gaji');
         Route::POST('komponengajiadd', [Komponen_gajiController::class, 'store'])->name('komponengajiadd');
+        Route::get('komponengajiedit', [Komponen_gajiController::class, 'edit'])->name('komponengajiedit');
+        Route::POST('komponengajiupdate', [Komponen_gajiController::class, 'update'])->name('komponengajiupdate');
+        Route::get('komponengajidelete/{id}', [Komponen_gajiController::class, 'destroy'])->name('komponengajidelete');
         // Route::POST('bonusharianupdate', [Komponen_gajiController::class, 'bonusharianupdate'])->name('bonusharianupdate');
         Route::POST('bonusmingguanupdate', [Komponen_gajiController::class, 'bonusmingguanupdate'])->name('bonusmingguanupdate');
         Route::POST('bonusbulananupdate', [Komponen_gajiController::class, 'bonusbulananupdate'])->name('bonusbulananupdate');
