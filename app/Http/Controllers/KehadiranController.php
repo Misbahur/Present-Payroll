@@ -47,6 +47,8 @@ class KehadiranController extends Controller
                     ->where('jabatan_id', $item->id)
                     ->get();
         endforeach;
+
+        $tanggal = date('Y-m-d');
         // $jumlahPegawaiKasir = Kehadiran::where('tanggal', Carbon::now()->toDateString())
         //                         ->whereBetween('jabatan_id', ['1', '2']);
         // $jumlahSatpam = Kehadiran::where('tanggal', Carbon::now()->toDateString())
@@ -61,6 +63,7 @@ class KehadiranController extends Controller
             'jabatans' => $jabatans,
             'data_request' => $data_request,
             'bulan' => $bulan,
+            'tanggal' => $tanggal,
         ])->with('i', ($request->input('page', 1) - 1) * 10);
         
     }
@@ -68,15 +71,12 @@ class KehadiranController extends Controller
     public function kehadiran_bulanan()
     {
         $pegawais = Pegawai::all();
-        // $tanggal_awal = date('j');
         $batas_tanggal = date('t');
         $kehadiran_bulanan = Kehadiran::whereBetween('tanggal', [date('Y-m-d', strtotime('first day of this month')),date('Y-m-d', strtotime('last day of this month'))])
         ->orderBy('pegawai_id', 'asc')
         ->orderBy('tanggal', 'asc')->get();
-        // ->paginate(4);
 
         $tanggal_terakhir = Kehadiran::latest()->first();
-        // dd($kehadiran_bulanan[0]->pegawai_id);
 
         $kehadirans = Kehadiran::where('tanggal', Carbon::now()->toDateString())
         ->orderBy('tanggal', 'asc')
@@ -101,6 +101,9 @@ class KehadiranController extends Controller
         $data_request = $request->all();
         $pegawai_id = Pegawai::where('nama','like',"%".$request->filter_nama."%")->pluck('id');
         $bulan_id = date('Y') .'-' . $request->filter_bulan .'-' . $request->filter_tanggal;
+
+        $tanggal = $bulan_id;
+
         if ($request->filter_nama == ''):
             $kehadirans = Kehadiran::where('tanggal', $bulan_id)
                         ->orderBy('tanggal', 'desc')
@@ -128,13 +131,6 @@ class KehadiranController extends Controller
                     ->where('jabatan_id', $item->id)
                     ->get();
         endforeach;
-
-
-        // $jumlahPegawaiKasir = Kehadiran::where('tanggal', $bulan_id)
-        //                         ->whereBetween('jabatan_id', ['1', '2']);
-        // $jumlahSatpam = Kehadiran::where('tanggal', $bulan_id)
-        //                         ->whereBetween('jabatan_id', ['3', '4']);
-        // dd($bulan_id);
         return view('gocay.kehadiran', [
             'kehadirans' => $kehadirans,
             'jumlahPegawai' => $jumlahPegawai,
@@ -142,8 +138,25 @@ class KehadiranController extends Controller
             'jabatans' => $jabatans,
             'data_request' => $data_request,
             'bulan' => $bulan,
+            'tanggal' => $tanggal,
         ])->with('i', ($request->input('page', 1) - 1) * 10);
     }
+
+    public function kehadiran_jabatan(Request $request)
+    {
+        $data_request = $request->all();
+        $kehadirans = Kehadiran::where('tanggal', $request->tanggal)
+                    ->join('pegawais', 'kehadirans.pegawai_id' ,'=','pegawais.id')
+                    ->join('jabatans', 'pegawais.jabatan_id' ,'=','jabatans.id')
+                    ->where('jam_masuk', '!=', null)
+                    ->where('jabatan_id', $request->id)
+                    ->paginate(10);
+        return view('gocay.kehadiran-jabatan', [
+            'kehadirans' => $kehadirans,
+            'data_request' => $data_request,
+        ])->with('i', ($request->input('page', 1) - 1) * 10);
+    }
+
 
     public function getpolakerja(Request $request)
     {

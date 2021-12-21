@@ -176,6 +176,7 @@ Route::middleware('auth')->group(function() {
         // Route::post('kehadiranadd', [KehadiranController::class, 'store'])->name('kehadiranadd');
         Route::get('kehadiran', [KehadiranController::class, 'index'])->name('kehadiran');
         Route::get('kehadiran_bulanan', [KehadiranController::class, 'kehadiran_bulanan'])->name('kehadiran_bulanan');
+        Route::get('kehadiran_jabatan/{id}/{tanggal}', [KehadiranController::class, 'kehadiran_jabatan'])->name('kehadiran_jabatan');
         Route::get('kehadiranedit', [KehadiranController::class, 'edit'])->name('kehadiranedit');
         Route::POST('kehadiranupdate', [KehadiranController::class, 'update'])->name('kehadiranupdate');
         Route::get('kehadirandelete/{id}', [KehadiranController::class, 'destroy'])->name('kehadirandelete');
