@@ -372,7 +372,8 @@ class FingerprintController extends Controller
     public function cekDataFingerprint()
     {
         // $zk = new ZKTeco('192.168.1.201', 4370);
-        $zk2 = new ZKTeco('192.168.22.73', 4370);
+        // $zk2 = new ZKTeco('192.168.22.73', 4370);
+        $zk2 = new ZKTeco('192.168.22.71', 4370);
         $zk2->connect();
         $zk2->disableDevice();
         $att2 = $zk2->getAttendance();
