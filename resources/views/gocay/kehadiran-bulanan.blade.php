@@ -122,13 +122,13 @@
                                         if (data.jam_masuk != null) {
                                             $('.jam_masuk-{{ $p->id }}-{{ $x }}').text(data.jam_masuk);
                                         }
-                                        if (data.jam_masuk != null) {
+                                        if (data.jam_istirahat != null) {
                                             $('.jam_istirahat-{{ $p->id }}-{{ $x }}').text(data.jam_istirahat);
                                         }
-                                        if (data.jam_masuk != null) {
-                                            $('.jam_masuk_istirahat-{{ $p->id }}-{{ $x }}').text(data.jam_masuk_istirahat);
+                                        if (data.jam_istirahat_masuk != null) {
+                                            $('.jam_masuk_istirahat-{{ $p->id }}-{{ $x }}').text(data.jam_istirahat_masuk);
                                         }
-                                        if (data.jam_masuk != null) {
+                                        if (data.jam_pulang != null) {
                                             $('.jam_pulang-{{ $p->id }}-{{ $x }}').text(data.jam_pulang);
                                         }
                                     }
