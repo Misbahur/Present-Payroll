@@ -56,6 +56,8 @@ class Komponen_gajiController extends Controller
         $request->validate([
             'nama' => 'required',
             'nominal' => 'required',
+            'masuklibur' => 'required',
+            'tidakmasuk' => 'required',
             'jabatan_id' => 'required',
          
         ]);
@@ -65,6 +67,8 @@ class Komponen_gajiController extends Controller
         $komponen_gaji->nama = $request->nama;
         $komponen_gaji->jabatan_id = $request->jabatan_id;
         $komponen_gaji->nominal = $request->nominal;
+        $komponen_gaji->masuklibur = $request->masuklibur;
+        $komponen_gaji->tidakmasuk = $request->tidakmasuk;
         $komponen_gaji->save();
 
         // dd($komponen_gaji);
@@ -78,10 +82,10 @@ class Komponen_gajiController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Pegawai  $Pegawai
+     * @param  \App\Models\Komponen_gaji $komponen_gaji
      * @return \Illuminate\Http\Response
      */
-    public function show(Pegawai $Pegawai)
+    public function show(Komponen_gaji $komponen_gaji)
     {
         //
     }
@@ -89,13 +93,13 @@ class Komponen_gajiController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Pegawai  $Pegawai
+     * @param  \App\Models\Komponen_gaji $komponen_gaji
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $Request)
     {
-        // $pegawais = Pegawai::findOrFail($Request->get('id'));
-        // echo json_encode($pegawais);
+        $komponen = Komponen_gaji::findOrFail($Request->get('id'));
+        echo json_encode($komponen);
     }
 
     /**
@@ -105,24 +109,27 @@ class Komponen_gajiController extends Controller
      * @param  \App\Models\Pegawai  $Pegawai
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pegawai $pegawais)
+    public function update(Request $request, Komponen_gaji $komponen_gaji)
     {
-        // $this->validate($request, [
-        //     'nama' => 'required',
-        //     'jabatan_id' => 'required',
-        //     ]);
+        $this->validate($request, [
+            'nama' => 'required',
+            'jabatan_id' => 'required',
+            'nominal' => 'required',
+            'masuklibur' => 'required',
+            'tidakmasuk' => 'required',
+            ]);
    
-        // $pegawais = Pegawai::find($request->id);
-        // $pegawais->update($request->all());
+        $komponen = Komponen_gaji::find($request->id);
+        $komponen->update($request->all());
 
-        // if($pegawais){
-        //     return redirect()->route('pegawai')->with(['success' => 'Data Pegawai'.$request->input('nama').'berhasil disimpan']);
-        // }else{
-        //     return redirect()->route('pegawai')->with(['danger' => 'Data Tidak Terekam!']);
-        // }
+        if($komponen){
+            return redirect()->route('komponen-gaji')->with(['success' => 'Data komponen-gaji'.$request->input('nama').'berhasil disimpan']);
+        }else{
+            return redirect()->route('komponen-gaji')->with(['danger' => 'Data Tidak Terekam!']);
+        }
     }
 
-    public function bonusmingguanupdate(Request $request, Komponen_gaji $komponen_gaji)
+    public function bonusmingguanupdate(Request $request, Komponen_gaji $komponen)
     {
         $this->validate($request, [
             'nominal' => 'required',
@@ -156,37 +163,39 @@ class Komponen_gajiController extends Controller
         }
     }
 
-    public function liburmasuk(Request $request, Komponen_gaji $komponen_gaji){
-         $this->validate($request, [
-            'nominal' => 'required',
-        ]);
+    // public function liburmasuk(Request $request, Komponen_gaji $komponen_gaji)
+    // {
+    //      $this->validate($request, [
+    //         'nominal' => 'required',
+    //     ]);
 
-        $komponen_gaji = Komponen_gaji::find(3);
-        $komponen_gaji->nominal = $request->nominal;
-        $komponen_gaji->update();
+    //     $komponen_gaji = Komponen_gaji::find(3);
+    //     $komponen_gaji->nominal = $request->nominal;
+    //     $komponen_gaji->update();
 
-        if($komponen_gaji){
-            return redirect()->route('komponen-gaji')->with(['success' => 'Data Komponen Gaji berhasil disimpan']);
-        }else{
-            return redirect()->route('komponen-gaji')->with(['danger' => 'Data Tidak Terekam!']);
-        }
-    }
+    //     if($komponen_gaji){
+    //         return redirect()->route('komponen-gaji')->with(['success' => 'Data Komponen Gaji berhasil disimpan']);
+    //     }else{
+    //         return redirect()->route('komponen-gaji')->with(['danger' => 'Data Tidak Terekam!']);
+    //     }
+    // }
 
-    public function masuklibur(Request $request, Komponen_gaji $komponen_gaji){
-         $this->validate($request, [
-            'nominal' => 'required',
-        ]);
+    // public function masuklibur(Request $request, Komponen_gaji $komponen_gaji)
+    // {
+    //      $this->validate($request, [
+    //         'nominal' => 'required',
+    //     ]);
 
-        $komponen_gaji = Komponen_gaji::find(4);
-        $komponen_gaji->nominal = $request->nominal;
-        $komponen_gaji->update();
+    //     $komponen_gaji = Komponen_gaji::find(4);
+    //     $komponen_gaji->nominal = $request->nominal;
+    //     $komponen_gaji->update();
 
-        if($komponen_gaji){
-            return redirect()->route('komponen-gaji')->with(['success' => 'Data Komponen Gaji berhasil disimpan']);
-        }else{
-            return redirect()->route('komponen-gaji')->with(['danger' => 'Data Tidak Terekam!']);
-        }
-    }
+    //     if($komponen_gaji){
+    //         return redirect()->route('komponen-gaji')->with(['success' => 'Data Komponen Gaji berhasil disimpan']);
+    //     }else{
+    //         return redirect()->route('komponen-gaji')->with(['danger' => 'Data Tidak Terekam!']);
+    //     }
+    // }
 
 
     public function lembur(Request $request, Lembur $lembur)

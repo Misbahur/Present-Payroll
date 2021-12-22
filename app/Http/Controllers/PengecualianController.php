@@ -181,7 +181,7 @@ class PengecualianController extends Controller
         // $pengecualians->delete();
         $pengecualians = Pengecualian::where('id', $id)
               ->delete();
-        return redirect()->route('pengecualian')
+        return redirect()->back()
                         ->with('success','Post deleted successfully');
     }
 }

@@ -9,7 +9,7 @@ class Komponen_gaji extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama', 'jabatan_id', 'nominal'];
+    protected $fillable = ['nama', 'jabatan_id', 'nominal', 'masuklibur', 'tidakmasuk'];
 
     public function jabatan()
     {

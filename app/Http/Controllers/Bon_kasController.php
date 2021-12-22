@@ -140,7 +140,7 @@ class Bon_kasController extends Controller
     {
         $bon_kas = Bon_kas::where('id', $id)
               ->delete();
-        return redirect()->route('bon-kas')
+        return redirect()->back()
                         ->with('success','Post deleted successfully');
     }
 }
