@@ -49,10 +49,6 @@ class getLogKehadiran extends Command
         $zk->disableDevice();
         $users = $zk->getUser();
         $att = $zk->getAttendance();
-        $zk2 = new ZKTeco('192.168.22.73', 4370);
-        $zk2->connect();
-        $zk2->disableDevice();
-        $att2 = $zk2->getAttendance();
         $hariini = date('Y-m-d');
             
         foreach ($users as $u):
@@ -131,48 +127,6 @@ class getLogKehadiran extends Command
                         $data->update();
                     endif;
                 endforeach; //attedance 1
-                foreach ($att2 as $a2):
-                  
-                    if(date('Y-m-d', strtotime($a2['timestamp'])) == $hariini):
-                        if($a2['id'] != $u['userid']):
-                            continue;
-                        else:
-                            $time = date('H:i', strtotime($a2['timestamp']));
-                            $data->tanggal = date('Y-m-d', strtotime($a2['timestamp']));
-                            $data->pegawai_id = $u['userid'];
-  
-                            if ($polas->nama == 'PS' || $polas->nama == 'ps'):
-                                if ($data->jam_masuk == null && $time <= date('H:i', strtotime($polas->jam_masuk.'+60 minute'))):
-                                    $data->jam_masuk = $time;
-                                
-                                elseif ($data->jam_istirahat == null  && $time >= date('H:i', strtotime($polas->jam_istirahat.'-30 minute')) && $time < date('H:i', strtotime('15:00')) ):
-                                    $data->jam_istirahat = $time;
-                                
-                                elseif ($data->jam_masuk_istirahat == null && $time >= date('H:i', strtotime('15:00')) && $time <= date('H:i', strtotime($polas->jam_istirahat_masuk.'+30 minute')) ):
-                                    $data->jam_masuk_istirahat = $time;
-                                
-                                elseif ($data->jam_pulang == null  && $time >= date('H:i', strtotime($polas->jam_pulang.'-30 minute')) && $time <= date('H:i', strtotime($polas->jam_pulang.'+60 minute')) ):
-                                    $data->jam_pulang = $time;
-                                endif;
-                            else:
-                                if ($data->jam_masuk == null && $time <= date('H:i', strtotime($polas->jam_masuk.'+60 minute'))):
-                                    $data->jam_masuk = $time;
-                                
-                                elseif ($data->jam_istirahat == null  && $time >= date('H:i', strtotime($polas->jam_istirahat.'-30 minute')) && $time < date('H:i', strtotime($polas->jam_istirahat.'+30 minute')) ):
-                                    $data->jam_istirahat = $time;
-                                
-                                elseif ($data->jam_masuk_istirahat == null && $time >= date('H:i', strtotime($polas->jam_istirahat_masuk.'-35 minute')) && $time <= date('H:i', strtotime($polas->jam_istirahat_masuk.'+30 minute')) ):
-                                    $data->jam_masuk_istirahat = $time;
-                                
-                                elseif ($data->jam_pulang == null  && $time >= date('H:i', strtotime($polas->jam_pulang.'-30 minute')) && $time <= date('H:i', strtotime($polas->jam_pulang.'+60 minute')) ):
-                                    $data->jam_pulang = $time;
-                                endif;
-                            endif;
-  
-                        endif;
-                        $data->update();
-                    endif;
-                endforeach; //attedance 2
             endif;
         endforeach;
 
