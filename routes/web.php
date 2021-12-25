@@ -132,6 +132,7 @@ Route::middleware('auth')->group(function() {
         Route::POST('jadwalupdate', [JadwalController::class, 'update'])->name('jadwalupdate');
         Route::get('jadwaldelete/{id}', [JadwalController::class, 'destroy'])->name('jadwaldelete');
         Route::get('filterjadwal', [JadwalController::class, 'filterjadwal'])->name('filter-jadwal');
+        Route::get('checkJadwal', [JadwalController::class, 'checkJadwal'])->name('checkJadwal');
     
         // Route::get('lembur', [PageController::class, 'lembur'])->name('lembur');
         //libur Manage

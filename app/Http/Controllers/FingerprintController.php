@@ -18,13 +18,15 @@ class FingerprintController extends Controller
     public function index()
     {
         // $this->getDataFingerprint();
-        $datafingers = Fingerprint::where('tanggal', date('Y-m-d'))->get(); 
-        $jabatans = Jabatan::all(); 
+        // $datafingers = Fingerprint::where('tanggal', date('Y-m-d'))->get(); 
+        // $jabatans = Jabatan::all(); 
+        
 
 
         return view('gocay.fingerprint', [
-            'datafingers' => $datafingers,
-            'jabatans' => $jabatans,
+            // 'datafingers' => $datafingers,
+            // 'jabatans' => $jabatans,
+            // 'pegawais' => $pegawais,
         ]);
     }
     public function getDataFingerprint()
@@ -191,60 +193,60 @@ class FingerprintController extends Controller
 
         $att = array(
             [
-                'timestamp' => '20-12-2021 07:54:07',
+                'timestamp' => '26-12-2021 07:54:07',
                 'id' => '1'
             ],
             [
-                'timestamp' => '20-12-2021 08:00:40',
+                'timestamp' => '26-12-2021 08:00:40',
                 'id' => '3'
             ],
             
             [
-                'timestamp' => '20-12-2021 11:20:40',
+                'timestamp' => '26-12-2021 11:20:40',
                 'id' => '2'
             ],
             [
-                'timestamp' => '20-12-2021 13:27:37',
+                'timestamp' => '26-12-2021 13:27:37',
                 'id' => '1'
             ],
             [
-                'timestamp' => '20-12-2021 13:59:37',
+                'timestamp' => '26-12-2021 13:59:37',
                 'id' => '1'
             ],
             [
-                'timestamp' => '20-12-2021 13:59:40',
+                'timestamp' => '26-12-2021 13:59:40',
                 'id' => '1'
             ],
             [
-                'timestamp' => '20-12-2021 14:01:55',
+                'timestamp' => '26-12-2021 14:01:55',
                 'id' => '3'
             ],
             [
-                'timestamp' => '20-12-2021 14:02:00',
+                'timestamp' => '26-12-2021 14:02:00',
                 'id' => '3'
             ],
             [
-                'timestamp' => '20-12-2021 16:58:00',
+                'timestamp' => '26-12-2021 16:58:00',
                 'id' => '3'
             ],
             [
-                'timestamp' => '20-12-2021 17:08:00',
+                'timestamp' => '26-12-2021 17:08:00',
                 'id' => '1'
             ],
             [
-                'timestamp' => '20-12-2021 17:03:00',
+                'timestamp' => '26-12-2021 17:03:00',
                 'id' => '2'
             ],
             [
-                'timestamp' => '20-12-2021 17:53:00',
+                'timestamp' => '26-12-2021 17:53:00',
                 'id' => '2'
             ],
             [
-                'timestamp' => '20-12-2021 21:03:00',
+                'timestamp' => '26-12-2021 21:03:00',
                 'id' => '2'
             ],
             [
-                'timestamp' => '20-12-2021 21:05:00',
+                'timestamp' => '26-12-2021 21:05:00',
                 'id' => '3'
             ],
         );
@@ -321,9 +323,9 @@ class FingerprintController extends Controller
                 endif;
             endforeach;
             
-            // dd($att);
+            // dd($data);
 
-            return redirect()->route('kehadiran');
+            // return redirect()->route('kehadiran');
     }
 
     // public function updateFingerData()
@@ -396,15 +398,19 @@ class FingerprintController extends Controller
 
     public function addPegawaiToFingerprint()
     {
+        $zk = new ZKTeco('192.168.22.71', 4370);
+        $zk->connect();
+        $zk->disableDevice();
         $zk2 = new ZKTeco('192.168.22.73', 4370);
         $zk2->connect();
         $zk2->disableDevice();
 
-        $pegawais = Pegawai::all();
-        foreach ($pegawais as $item):
+        $pegawais = Pegawai::latest()->first();
+        $zk->setUser($pegawais->id, $pegawais->id, $pegawais->nama, '');
+        $zk2->setUser($pegawais->id, $pegawais->id, $pegawais->nama, '');
+        // foreach ($pegawais as $item):
             // $zk2->setUser($item->id, $item->id, $item->nama, strtolower($item->nama));
-            $zk2->setUser($item->id, $item->id, $item->nama, '');
-        endforeach;
+        // endforeach;
 
         return redirect()->back();
         

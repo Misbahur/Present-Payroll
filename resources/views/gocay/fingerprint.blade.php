@@ -11,9 +11,9 @@
                 <!-- BEGIN: General Report -->
                 <div class="col-span-12 mt-8">
                     <div class="intro-y flex items-center h-10">
-                        <h2 class="text-lg font-medium truncate mr-5">Data Kehadiran</h2>
-                        <a href="javascript:;" data-toggle="modal" data-target="#header-footer-modal-preview"
-                        class="btn btn-primary shadow-md mr-5">Tambah Pegawai</a>
+                        <h2 class="text-lg font-medium truncate mr-5">Modul Fingerprint</h2>
+                        <!-- <a href="javascript:;" data-toggle="modal" data-target="#header-footer-modal-preview"
+                        class="btn btn-primary shadow-md mr-5">Tambah Pegawai</a> -->
                         <!-- <a href="{{ route('cekUserFingerprint') }}" class="btn btn-success ml-auto flex items-center">
                             <i data-feather="refresh-cw" class="hidden sm:block  mr-2"></i> Get Data User
                         </a>
@@ -41,74 +41,22 @@
                             <a href="{{ route('addPegawaiToFingerprint') }}" class="btn btn-sm btn-primary ml-3 flex items-center" onclick="return confirm('Apakah Anda Yakin Menambahkan Data?');">
                                 <i data-feather="user-plus" class="hidden sm:block  mr-2"></i> Add Pegawai to Fingerprint
                             </a>
-                            <a href="javascript:;" data-toggle="modal" data-target="#header-footer-modal-preview" class="btn btn-sm btn-primary ml-3 flex items-center" onclick="return confirm('Apakah Anda Yakin Menambahkan Data?');">
-                                <i data-feather="plus" class="hidden sm:block  mr-2"></i> Update Time </a>
+                            <!-- <a href="javascript:;" data-toggle="modal" data-target="#header-footer-modal-preview" class="btn btn-sm btn-primary ml-3 flex items-center" onclick="return confirm('Apakah Anda Yakin Menambahkan Data?');">
+                                <i data-feather="plus" class="hidden sm:block  mr-2"></i> Update Time </a> -->
                             <a href="{{ route('cekDataFingerprint') }}" class="btn btn-sm btn-primary ml-3 flex items-center">
                                 <i data-feather="bar-chart-2" class="hidden sm:block  mr-2"></i> Get Data Fingerprint
                             </a>
                             <a href="{{ route('cekUserFingerprint') }}" class="btn btn-sm btn-success ml-3 flex items-center">
                                 <i data-feather="users" class="hidden sm:block  mr-2"></i> Get Data User
                             </a>
-                            <a href="{{ route('deleteAllUserFingerptint') }}" class="btn btn-sm btn-warning ml-3 flex items-center" onclick="return confirm('Apakah Anda Yakin Menghapus Data?');" >
+                            <!-- <a href="{{ route('deleteAllUserFingerptint') }}" class="btn btn-sm btn-warning ml-3 flex items-center" onclick="return confirm('Apakah Anda Yakin Menghapus Data?');" >
                                 <i data-feather="alert-octagon" class="hidden sm:block  mr-2"></i> Delete All Data User
                             </a>
                             <a href="{{ route('deleteAllLogFingerptint') }}" class="btn btn-sm btn-danger ml-3 flex items-center" onclick="return confirm('Apakah Anda Yakin Menghapus Data?');" >
                                 <i data-feather="alert-triangle" class="hidden sm:block  mr-2"></i> Delete All Data Kehadiran
-                            </a>
+                            </a> -->
                         </div>
                     </div>
-                    <div class="intro-y overflow-auto lg:overflow-visible mt-8 sm:mt-0">
-                        <table class="table table-report sm:mt-2">
-                            <thead>
-                                <tr>
-                                <th class="whitespace-nowrap">No</th>
-                                    <!-- <th class="whitespace-nowrap">NIP</th> -->
-                                    <th class="whitespace-nowrap">Tanggal</th>
-                                    <th class="text-center whitespace-nowrap">Nama Pegawai</th>
-                                    <th class="text-center whitespace-nowrap">Jabatan</th>
-                                    <th class="text-center whitespace-nowrap">Jam Masuk</th>
-                                    <th class="text-center whitespace-nowrap">Jam Istirahat</th>
-                                    <th class="text-center whitespace-nowrap">Jam Istirahat Masuk</th>
-                                    <th class="text-center whitespace-nowrap">Jam Pulang</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <?php $no = 1; ?>
-                            @foreach ($datafingers as $item)
-                                <tr class="intro-x">
-                                    <td class="w-20">
-                                    {{ $no++ }}
-                                    </td>
-                                    <td class="w-20 text-center">
-                                        <a href="" class="font-small whitespace-nowrap">{{ $item->tanggal ? $item->tanggal : '-' }}</a>
-                                    </td>
-                                    <!-- <td class="w-20 text-center">
-                                        <a href="" class="font-small whitespace-nowrap"></a>
-                                    </td> -->
-                                    <td class="w-20 text-center">
-                                        {{ $item->pegawai_id ? $item->pegawai_id : '-' }}
-                                    </td> 
-                                    <td class="w-20 text-center">
-                                        {{ $item->jabatan_id ? $item->jabatan_id : '-'}}
-                                    </td>         
-                                    <td class="w-20 text-center jam_masuk{{ $item->pegawai_id }}">
-                                        {{ $item->jam_masuk ? $item->jam_masuk : '-'}}
-                                    </td>
-                                    <td class="w-20 text-center jam_istirahat{{ $item->pegawai_id }}">
-                                        {{ $item->jam_istirahat ? $item->jam_istirahat : '-' }}
-                                    </td>
-                                    <td class="w-20 text-center jam_masuk_istirahat{{ $item->pegawai_id }}">
-                                        {{ $item->jam_masuk_istirahat ? $item->jam_masuk_istirahat : '-'}}
-                                    </td>
-                                    <td class="w-40 text-center jam_pulang{{ $item->pegawai_id }}">
-                                        {{ $item->jam_pulang ? $item->jam_pulang : '-'}}
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    
                 </div>
                 <!-- END: Weekly Top Products -->
                 

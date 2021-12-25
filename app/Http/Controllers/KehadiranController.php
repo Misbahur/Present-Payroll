@@ -174,12 +174,8 @@ class KehadiranController extends Controller
 
     public function getpolakerja(Request $request)
     {
-        // $jadwals = Jadwal::where('tanggal', $request->tanggal)
-        // ->where('pegawai_id', $request->id)
-        // ->orderBy('tanggal', 'desc')
-        // ->orderBy('pegawai_id', 'asc')->get();
-        $tanggal = date('Y') .'-' . date('m') .'-' . $request->tanggal;
-        $jadwals = Jadwal::where('tanggal', $tanggal)
+        
+        $jadwals = Jadwal::where('tanggal', date('Y-m-d', strtotime($request->tanggal)))
         ->where('pegawai_id', $request->id)
         ->get();
 

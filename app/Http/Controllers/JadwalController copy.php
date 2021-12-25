@@ -28,14 +28,8 @@ class JadwalController extends Controller
         $bulan=array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
 
         $pola = Pola::all();
-        // $pegawais = Pegawai::all();
-
+        $pegawais = Pegawai::all();
         
-        $cekIdOnJadwals = Jadwal::where('tanggal', '=', date('Y-m-d'))->pluck('pegawai_id');
-        $pegawais = Pegawai::whereNotIn('pegawais.id', $cekIdOnJadwals)
-                    ->select('pegawais.id', 'pegawais.nama')
-                    ->get();
-
         return view('gocay.jadwal', [
             'jadwals' => $jadwals,
             'pola' => $pola,
@@ -98,15 +92,6 @@ class JadwalController extends Controller
         //
     }
 
-    public function checkJadwal(Request $request)
-    {
-        $cekIdOnJadwals = Jadwal::where('tanggal', '=', $request->tanggal)->pluck('pegawai_id');
-        $pegawais = Pegawai::whereNotIn('pegawais.id', $cekIdOnJadwals)
-                    ->select('pegawais.id', 'pegawais.nama')
-                    ->get();
-        return response()->json($pegawais);
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -122,16 +107,29 @@ class JadwalController extends Controller
          
         ]);
         
+        $tanggal = preg_replace("/[^A-Za-z0-9\ ]/", "", explode('-', $request->tanggal));
+        // $pegawai_ids = implode('|', $request->pegawai_id);
        
-        $x = sizeof($request->pegawai_id);
-
+        $x = sizeof(explode('-', $request->tanggal));
 
         for ($i=0; $i < $x; $i++):
+            $tanggal[$i] = date('Y-m-d', strtotime(trim($tanggal[$i], ' ')));
+        endfor;
+
+
+        $tanggal_awal = date_create($tanggal[0]);
+        $tanggal_akhir = date_create($tanggal[$x-1]);
+        $jarak_tanggal = date_diff($tanggal_awal, $tanggal_akhir)->format('%a');
+       
+
+        for ($i=0; $i <= $jarak_tanggal; $i++):
+            $tanggal[$i] = date('Y-m-d', strtotime($tanggal[0].'+'.$i.' days'));
             $jadwals = new Jadwal;
-            $jadwals->tanggal = $request->tanggal;
+            $jadwals->tanggal = $tanggal[$i];
             $jadwals->pola_id = $request->pola_id;
-            $jadwals->pegawai_id = $request->pegawai_id[$i];
+            $jadwals->pegawai_id = $request->pegawai_id;
             $jadwals->save();
+            // echo $jadwals . '<br>';
         endfor;
         // $pegawai_ids = implode('|', $request->pegawai_id);
         // $jadwals = new Jadwal;

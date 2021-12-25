@@ -74,7 +74,7 @@
                                 
                                 @for ($x=1; $x <= date('t'); $x++)
                                 <input type="hidden" name="hidden-id" id="id-{{ $p->id }}" value="{{ $p->id }}">
-                                <input type="hidden" name="hidden-tanggal" id="tanggal-{{ $x }}" value="{{ $x }}">
+                                <input type="hidden" name="hidden-tanggal" id="tanggal-{{ $x }}" value="{{ date('Y') . '-' . date('m') . '-' . $x }}">
                                 <td class="text-center">
                                     <span class="jam_masuk-{{ $p->id }}-{{ $x }}"> - </span> <br>
                                     <span class="jam_istirahat-{{ $p->id }}-{{ $x }}"> - </span> <br>

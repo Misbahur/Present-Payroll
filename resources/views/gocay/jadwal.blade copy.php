@@ -118,7 +118,7 @@
             <div class="modal-content">
                 <!-- BEGIN: Modal Header -->
                 <div class="modal-header">
-                    <h2 class="font-medium text-base mr-auto">Tambah Jadwal Kerja</h2>
+                    <h2 class="font-medium text-base mr-auto">Tambah Kelompok Kerja</h2>
                     <div class="dropdown sm:hidden">
                         <a class="dropdown-toggle w-5 h-5 block" href="javascript:;" aria-expanded="false">
                             <i data-feather="more-horizontal" class="w-5 h-5 text-gray-600 dark:text-gray-600"></i>
@@ -135,14 +135,13 @@
                 </div>
                 <!-- END: Modal Header -->
                 <!-- BEGIN: Modal Body -->
-                <form method="POST" id= "form-add" action="{{ route('jadwaladd') }}">
+                <form method="POST" action="{{ route('jadwaladd') }}">
                         @csrf
                 <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
                     <div class="col-span-12 sm:col-span-12">
                         <label for="modal-form-1" class="form-label">Tanggal</label>
-                        <input id="tanggal" name="tanggal" type="hidden" value="{{ date('Y-m-d') }}" class="form-control">
-                        <input id="modal-form-1" type="date" value="{{ date('Y-m-d') }}" class="form-control" disabled>
-                        <!-- <input id="modal-form-1" name="tanggal" data-daterange="true" class="datepicker form-control w-56 block mx-auto"> -->
+                        <!-- <input id="modal-form-1" name="tanggal" type="date" class="form-control" placeholder="Kelompok Hore.,..."> -->
+                        <input id="modal-form-1" name="tanggal" data-daterange="true" class="datepicker form-control w-56 block mx-auto">
 
                     </div>
                     <div class="col-span-12 sm:col-span-12">
@@ -156,7 +155,7 @@
                     
                     <div class="col-span-12 sm:col-span-12">
                         <label for="modal-form-3" class="form-label">Pegawai</label>
-                        <select name="pegawai_id[]" id="modal-form-3" data-placeholder="Pilih Pegawai" data-search="true" class="tail-select w-full" multiple>
+                        <select name="pegawai_id"  class="form-select" id="modal-form-3">
                             @foreach ($pegawais as $item)
                                 <option value="{{ $item->id }}">{{ $item->nama }}</option>
                             @endforeach
@@ -273,31 +272,6 @@
                         }
                     });
                 });
-
-                // jQuery($('#modal-form-1')).on('change',function(){
-                //     var tanggal = jQuery(this).val();
-                //     $('#modal-form-3 option').remove();
-                //     $('.tail-select .select-dropdown ul.dropdown-optgroup li').remove();
-                   
-                //     jQuery.ajax({
-                //         url : "{{route('checkJadwal')}}?tanggal="+tanggal,
-                //         type : "GET",
-                //         dataType : "json",
-                //         success:function(data)
-                //         {
-                //             $.each(data, function(key,value){
-                //                 $('#modal-form-3').append('<option value="'+ value.id +'">'+ value.nama +'</option>');
-                //             });
-                //             $.each(data, function(key,value){
-                //                 $('.tail-select .select-dropdown ul.dropdown-optgroup').append('<li class="dropdown-option" data-key="'+ value.id +'" data-group="#">'+ value.nama +'</li>');
-                //             });
-                            
-                //         }
-                //     });
-                   
-                // });
-
-
             });
         </script>
 
