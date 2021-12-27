@@ -99,7 +99,7 @@
                 <div class="intro-y flex flex-wrap sm:flex-row sm:flex-nowrap items-center mt-3">
                         <div class="pagination">
                         @if ($liburs != null)
-                            {{ $liburs->links() }}
+                            {{ $liburs->appends($data_request)->links() }}
                         @else
 
                         @endif
@@ -139,6 +139,7 @@
                         <label for="modal-form-1" class="form-label">Tanggal</label>
                         <!-- <input id="modal-form-1" name="tanggal" type="date" class="form-control" placeholder="Kelompok Hore.,..."> -->
                         <!-- <input id="modal-form-1" name="tanggal" data-daterange="true" class="datepicker form-control w-56 block mx-auto"> -->
+                        <!-- <input id="tanggal" name="tanggal" type="hidden" value="{{ date('Y-m-d') }}" class="form-control"> -->
                         <input id="modal-form-1" name="tanggal" type="date" class="form-control">
 
                     </div>
@@ -153,7 +154,12 @@
                     
                     <div class="col-span-12 sm:col-span-12">
                         <label for="modal-form-3" class="form-label">Pegawai</label>
-                        <select name="pegawai_id"  class="form-select" id="modal-form-3">
+                        <!-- <select name="pegawai_id"  class="form-select" id="modal-form-3">
+                            @foreach ($pegawais as $item)
+                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                            @endforeach
+                        </select> -->
+                        <select name="pegawai_id[]" id="modal-form-3" data-placeholder="Pilih Pegawai" data-search="true" class="tail-select w-full" multiple>
                             @foreach ($pegawais as $item)
                                 <option value="{{ $item->id }}">{{ $item->nama }}</option>
                             @endforeach
@@ -205,7 +211,6 @@
                 <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
                     <div class="col-span-12 sm:col-span-12">
                         <label for="modal-form-1" class="form-label">Tanggal</label>
-                        <!-- <input id="tanggal-edit" name="tanggal" type="hidden" class="form-control"> -->
                         <input id="modal-form-1-edit" name="tanggal"  type="date" class="form-control">
                         <!-- <input id="modal-form-1-edit" name="tanggal" data-daterange="true" class="datepicker form-control w-56 block mx-auto"> -->
 
@@ -243,11 +248,10 @@
     </div>
     <!-- END: Modal Content -->
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    
         <script type="text/javascript">
             $(document).ready(function() {
 
-                // $('#modal-form-1').val(new Date().toDateInputValue());
                 
                 $('.liburedit').on('click',function() {
                     var id = $(this).attr('data-id');
@@ -262,9 +266,10 @@
                             $('#modal-update-id').val(data.id);
                             $('#modal-form-1-edit').val(data.tanggal);
                             $('#tanggal-edit').val(data.tanggal);
-                            // $('#modal-form-3-edit option[value="' + data.pegawai_id +'"]').prop("selected", true);
+                            $('#modal-form-3-edit option[value="' + data.pegawai_id +'"]').prop("selected", true);
                             // $('#modal-form-3-edit').val(data.pegawai_id);
                             $('#pegawai-id-edit').val(data.pegawai_id);
+                            
 
 
                         }

@@ -16,9 +16,9 @@ class LiburController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $data_request = $request->all();
         $liburs = Libur::orderBy('tanggal', 'desc')
         ->orderBy('pegawai_id', 'asc')
         ->paginate(10);
@@ -27,18 +27,24 @@ class LiburController extends Controller
 
         $pola = Pola::all();
         $pegawais = Pegawai::all();
+        // $cekIdOnLiburs = Libur::where('tanggal', '=', date('Y-m-d'))->pluck('pegawai_id');
+        // $pegawais = Pegawai::whereNotIn('pegawais.id', $cekIdOnLiburs)
+        //             ->select('pegawais.id', 'pegawais.nama')
+        //             ->get();
         
         return view('gocay.libur', [
             'liburs' => $liburs,
             'pola' => $pola,
             'pegawais' => $pegawais,
             'bulan' => $bulan,
-        ]);
+            'data_request' => $data_request,
+        ])->with('i', ($request->input('page', 1) - 1) * 10);
         
     }
 
     public function filterlibur(Request $request)
     {
+        $data_request = $request->all();
         $pegawai_id = Pegawai::where('nama','like',"%".$request->filter_nama."%")->pluck('id');
         $bulan_id = date('Y') .'-' . $request->filter_bulan .'-' . $request->filter_tanggal;
         if ($request->filter_nama == ''):
@@ -65,8 +71,9 @@ class LiburController extends Controller
             'liburs' => $liburs,
             'pola' => $pola,
             'pegawais' => $pegawais,
+            'data_request' => $data_request,
             'bulan' => $bulan,
-        ]);
+        ])->with('i', ($request->input('page', 1) - 1) * 10);
     }
 
     public static function pegawai_name($id)
@@ -85,6 +92,15 @@ class LiburController extends Controller
         //
     }
 
+    // public function checkLibur(Request $request)
+    // {
+    //     $cekIdOnLiburs = Jadwal::where('tanggal', '=', $request->tanggal)->pluck('pegawai_id');
+    //     $pegawais = Pegawai::whereNotIn('pegawais.id', $cekIdOnLiburs)
+    //                 ->select('pegawais.id', 'pegawais.nama')
+    //                 ->get();
+    //     return response()->json($pegawais);
+    // }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -99,11 +115,19 @@ class LiburController extends Controller
          
         ]);
         
-        
-        $liburs = new libur;
-        $liburs->tanggal = $request->tanggal;
-        $liburs->pegawai_id = $request->pegawai_id;
-        $liburs->save();
+        $x = sizeof($request->pegawai_id);
+
+
+        for ($i=0; $i < $x; $i++):
+            $liburs = new libur;
+            $liburs->tanggal = $request->tanggal;
+            $liburs->pegawai_id = $request->pegawai_id[$i];
+            $liburs->save();
+        endfor;
+        // $liburs = new libur;
+        // $liburs->tanggal = $request->tanggal;
+        // $liburs->pegawai_id = $request->pegawai_id;
+        // $liburs->save();
 
         if($liburs){
             return redirect()->route('libur')->with(['success' => 'Data libur'.$request->input('nama').'berhasil disimpan']);

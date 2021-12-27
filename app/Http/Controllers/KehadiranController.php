@@ -72,14 +72,21 @@ class KehadiranController extends Controller
     {
         $pegawais = Pegawai::all();
         // $batas_tanggal = date('t');
-        $kehadiran_bulanan = Kehadiran::whereBetween('tanggal', [date('Y-m-d', strtotime('first day of this month')),date('Y-m-d', strtotime('last day of this month'))])
-        ->orderBy('pegawai_id', 'asc')
-        ->orderBy('tanggal', 'asc')->get();
+        // $kehadiran_bulanan = Kehadiran::whereBetween('tanggal', [date('Y-m-d', strtotime('first day of this month')),date('Y-m-d', strtotime('last day of this month'))])
+        // ->orderBy('pegawai_id', 'asc')
+        // ->orderBy('tanggal', 'asc')->get();
         $tanggal = date('Y') .'-' . date('m') .'-' . $request->tanggal;
         $kehadiran_data = Kehadiran::where('tanggal', $tanggal)
         ->where('pegawai_id', $request->pegawai_id)
         ->get();
-
+        foreach ($pegawais as $p):
+            for ($x=1; $x <= date('t'); $x++):
+                $tanggal = date('Y') .'-' . date('m') .'-' . $x;
+                $kehadiran_bulanan[$p->id][$x] = Kehadiran::where('tanggal', date('Y-m-d', strtotime($tanggal)))
+                ->where('pegawai_id', $p->id)
+                ->get();
+            endfor;
+        endforeach;
         // $tanggal_terakhir = Kehadiran::latest()->first();
 
         // $kehadirans = Kehadiran::where('tanggal', Carbon::now()->toDateString())
@@ -103,9 +110,10 @@ class KehadiranController extends Controller
         $tanggal = date('Y') .'-' . date('m') .'-' . $request->tanggal;
         $data_bulanan = Kehadiran::where('tanggal', $tanggal)
         ->where('pegawai_id', $request->id)
-        ->get();
-
-        return response()->json($data_bulanan[0]);
+        ->first();
+        if ($data_bulanan):
+            return response()->json($data_bulanan);
+        endif;
     }
 
 
@@ -115,6 +123,7 @@ class KehadiranController extends Controller
         $data_request = $request->all();
         $pegawai_id = Pegawai::where('nama','like',"%".$request->filter_nama."%")->pluck('id');
         $bulan_id = date('Y') .'-' . $request->filter_bulan .'-' . $request->filter_tanggal;
+
 
         $tanggal = $bulan_id;
 
@@ -174,17 +183,15 @@ class KehadiranController extends Controller
 
     public function getpolakerja(Request $request)
     {
-        // $jadwals = Jadwal::where('tanggal', $request->tanggal)
-        // ->where('pegawai_id', $request->id)
-        // ->orderBy('tanggal', 'desc')
-        // ->orderBy('pegawai_id', 'asc')->get();
-        $tanggal = date('Y') .'-' . date('m') .'-' . $request->tanggal;
-        $jadwals = Jadwal::where('tanggal', $tanggal)
+        
+        $jadwals = Jadwal::where('tanggal', date('Y-m-d', strtotime($request->tanggal)))
         ->where('pegawai_id', $request->id)
-        ->get();
-
-        $polas = Pola::findOrFail($jadwals[0]->pola_id);
-        return response()->json($polas);
+        ->first();
+        if ($jadwals):
+            $polas = Pola::findOrFail($jadwals->pola_id);
+            return response()->json($polas);
+        endif;
+        // return response()->json($polas);
     }
 
     public function cekAbsenPegawai()
@@ -294,17 +301,21 @@ class KehadiranController extends Controller
                 ->where('status', 'in-bonus-mingguan')
                 ->first();
 
-                if($jadwals->isNotEmpty()):
-                    $polas = Pola::findOrFail($jadwals[0]->pola_id);
-                else:
-                    continue;
-                endif;
+                // if($jadwals->isNotEmpty()):
+                //     $polas = Pola::findOrFail($jadwals[0]->pola_id);
+                // else:
+                //     continue;
+                // endif;
                 $countDate = Kehadiran::whereBetween('tanggal', [$tanggal_awal ,$tanggal_akhir])
-                    ->where('jam_masuk', '<=' ,$polas['jam_masuk'])
-                    ->where('jam_istirahat', '>=' ,$polas['jam_istirahat'])
-                    ->where('jam_masuk_istirahat', '<=' ,$polas['jam_istirahat_masuk'])
-                    ->where('jam_pulang', '>=' ,$polas['jam_pulang'])
-                    ->where('pegawai_id', $p->id)
+                    // ->where('jam_masuk', '<=' ,$polas['jam_masuk'])
+                    // ->where('jam_istirahat', '>=' ,$polas['jam_istirahat'])
+                    // ->where('jam_masuk_istirahat', '<=' ,$polas['jam_istirahat_masuk'])
+                    // ->where('jam_pulang', '>=' ,$polas['jam_pulang'])
+                    ->where('jam_masuk', '!=' , null)
+                    ->orWhere('jam_istirahat', '!=' , null)
+                    ->orWhere('jam_masuk_istirahat', '!=' , null)
+                    ->orWhere('jam_pulang', '!=' , null)
+                    ->orWhere('pegawai_id', $p->id)
                     ->get()->count('pegawai_id');
                 
                 if ($countDate == 6 and $temp == null):
@@ -359,16 +370,21 @@ class KehadiranController extends Controller
             ->where('pegawai_id', $p->id)
             ->get();
             foreach ($range as $item):
-                $jadwals = Jadwal::where('tanggal', $item->tanggal)
-                ->where('pegawai_id', $p->id)
-                ->orderBy('tanggal', 'desc')
-                ->orderBy('pegawai_id', 'asc')->get();
-                $polas = Pola::findOrFail($jadwals[0]->pola_id);
+                // $jadwals = Jadwal::where('tanggal', $item->tanggal)
+                // ->where('pegawai_id', $p->id)
+                // ->orderBy('tanggal', 'desc')
+                // ->orderBy('pegawai_id', 'asc')->get();
+                // $polas = Pola::findOrFail($jadwals[0]->pola_id);
                 $countDate = Kehadiran::whereBetween('tanggal', [$tanggal_awal ,$tanggal_akhir])
-                    ->where('jam_masuk', '<=' ,$polas['jam_masuk'])
-                    ->where('jam_istirahat', '>=' ,$polas['jam_istirahat'])
-                    ->where('jam_masuk_istirahat', '<=' ,$polas['jam_istirahat_masuk'])
-                    ->where('jam_pulang', '>=' ,$polas['jam_pulang'])
+                    // ->where('jam_masuk', '<=' ,$polas['jam_masuk'])
+                    // ->where('jam_istirahat', '>=' ,$polas['jam_istirahat'])
+                    // ->where('jam_masuk_istirahat', '<=' ,$polas['jam_istirahat_masuk'])
+                    // ->where('jam_pulang', '>=' ,$polas['jam_pulang'])
+                    ->where('jam_masuk', '!=' , null)
+                    ->orWhere('jam_istirahat', '!=' , null)
+                    ->orWhere('jam_masuk_istirahat', '!=' , null)
+                    ->orWhere('jam_pulang', '!=' , null)
+                    ->orWhere('pegawai_id', $p->id)
                     ->where('pegawai_id', $p->id)
                     ->get()->count('pegawai_id');
             endforeach;
@@ -565,14 +581,15 @@ class KehadiranController extends Controller
      * @param  \App\Models\Kehadiran  $kehadirans
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $Request)
+    public function edit(Request $request)
     {
-        $kehadirans = Kehadiran::findOrFail($Request->get('id'));
+        $kehadirans = Kehadiran::findOrFail($request->get('id'));
         $kehadirans['jam_masuk'] = date('H:i', strtotime($kehadirans['jam_masuk']));
         $kehadirans['jam_istirahat'] = date('H:i', strtotime($kehadirans['jam_istirahat']));
         $kehadirans['jam_masuk_istirahat'] = date('H:i', strtotime($kehadirans['jam_masuk_istirahat']));
         $kehadirans['jam_pulang'] = date('H:i', strtotime($kehadirans['jam_pulang']));
-        echo json_encode($kehadirans);
+        return response()->json($kehadirans);
+
     }
 
     /**

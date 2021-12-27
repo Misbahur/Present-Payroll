@@ -132,6 +132,7 @@ Route::middleware('auth')->group(function() {
         Route::POST('jadwalupdate', [JadwalController::class, 'update'])->name('jadwalupdate');
         Route::get('jadwaldelete/{id}', [JadwalController::class, 'destroy'])->name('jadwaldelete');
         Route::get('filterjadwal', [JadwalController::class, 'filterjadwal'])->name('filter-jadwal');
+        // Route::get('checkJadwal', [JadwalController::class, 'checkJadwal'])->name('checkJadwal');
     
         // Route::get('lembur', [PageController::class, 'lembur'])->name('lembur');
         //libur Manage
@@ -141,6 +142,8 @@ Route::middleware('auth')->group(function() {
         Route::POST('liburupdate', [LiburController::class, 'update'])->name('liburupdate');
         Route::get('liburdelete/{id}', [LiburController::class, 'destroy'])->name('liburdelete');
         Route::get('filterlibur', [LiburController::class, 'filterlibur'])->name('filter-libur');
+        // Route::get('checkLibur', [JadwalController::class, 'checkLibur'])->name('checkLibur');
+
 
     // Pola Kerja Manage
         Route::get('pola-kerja', [PolaController::class, 'index'])->name('pola-kerja');
