@@ -22,6 +22,7 @@ class CreatePegawaisTable extends Migration
             $table->string('nohp')->nullable();
             $table->date('tanggal_masuk')->nullable();
             $table->unsignedBigInteger('jabatan_id');
+            // $table->softDeletes();
             $table->timestamps();
         });
     }

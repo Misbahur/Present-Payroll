@@ -28,19 +28,20 @@ class JadwalController extends Controller
         $bulan=array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
 
         $pola = Pola::all();
-        // $pegawais = Pegawai::all();
+        $pegawais = Pegawai::all();
 
         
-        $cekIdOnJadwals = Jadwal::where('tanggal', '=', date('Y-m-d'))->pluck('pegawai_id');
-        $pegawais = Pegawai::whereNotIn('pegawais.id', $cekIdOnJadwals)
-                    ->select('pegawais.id', 'pegawais.nama')
-                    ->get();
+        // $cekIdOnJadwals = Jadwal::where('tanggal', '=', date('Y-m-d'))->pluck('pegawai_id');
+        // $pegawais = Pegawai::whereNotIn('pegawais.id', $cekIdOnJadwals)
+        //             ->select('pegawais.id', 'pegawais.nama')
+        //             ->get();
 
         return view('gocay.jadwal', [
             'jadwals' => $jadwals,
             'pola' => $pola,
             'data_request' => $data_request,
             'pegawais' => $pegawais,
+            // 'pegawais_edit' => $pegawais_edit,
             'bulan' => $bulan,
         ])->with('i', ($request->input('page', 1) - 1) * 10);
         
@@ -98,14 +99,14 @@ class JadwalController extends Controller
         //
     }
 
-    public function checkJadwal(Request $request)
-    {
-        $cekIdOnJadwals = Jadwal::where('tanggal', '=', $request->tanggal)->pluck('pegawai_id');
-        $pegawais = Pegawai::whereNotIn('pegawais.id', $cekIdOnJadwals)
-                    ->select('pegawais.id', 'pegawais.nama')
-                    ->get();
-        return response()->json($pegawais);
-    }
+    // public function checkJadwal(Request $request)
+    // {
+    //     $cekIdOnJadwals = Jadwal::where('tanggal', '=', $request->tanggal)->pluck('pegawai_id');
+    //     $pegawais = Pegawai::whereNotIn('pegawais.id', $cekIdOnJadwals)
+    //                 ->select('pegawais.id', 'pegawais.nama')
+    //                 ->get();
+    //     return response()->json($pegawais);
+    // }
 
     /**
      * Store a newly created resource in storage.

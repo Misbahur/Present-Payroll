@@ -242,10 +242,21 @@
                 </div>
                 <!-- END: Modal Content -->
 
-                <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+                
                 <script type="text/javascript">
 
                     $(document).ready(function() {
+
+                        function total_PS(a,b){
+                           var jam_masuk_istirahat = new Date("01/01/2007 " + a).getHours();
+                           var jam_istirahat = new Date("01/01/2007 " + b).getHours();
+                           var menit_masuk_istirahat = new Date("01/01/2007 " + a).getMinutes();
+                           var menit_istirahat = new Date("01/01/2007 " + b).getMinutes();
+
+                           var durasi = ((jam_masuk_istirahat - jam_istirahat)*60) + (menit_masuk_istirahat - menit_istirahat);
+                        //    console.log(durasi);
+                           return durasi;
+                        }
 
                         function telat(a,b,c,d){
                             
@@ -261,9 +272,9 @@
                            var status = 'out-telat-harian';
                         
                            var durasi = ((jam_pegawai - jam_jadwal)*60) + (menit_pegawai - menit_jadwal);
-                           console.log('Pegawai ID : ' + pegawai_id);
-                           console.log(durasi + ' ' + 'menit');
-                           console.log(status);
+                        //    console.log('Pegawai ID : ' + pegawai_id);
+                        //    console.log(durasi + ' ' + 'menit');
+                        //    console.log(status);
                            $.ajax({
                                 url : "{{route('telatlembur')}}?pegawai_id="+pegawai_id+"&tanggal="+tanggal+"&durasi="+durasi+"&status="+status,
                                 type: "GET",
@@ -289,9 +300,9 @@
                                var status = 'out-istirahat';
                             
                                var durasi = ((jam_pegawai - jam_jadwal)*60) + (menit_pegawai - menit_jadwal);
-                               console.log('Pegawai ID : ' + pegawai_id);
-                               console.log(durasi + ' ' + 'menit');
-                               console.log(status);
+                            //    console.log('Pegawai ID : ' + pegawai_id);
+                            //    console.log(durasi + ' ' + 'menit');
+                            //    console.log(status);
                                $.ajax({
                                     url : "{{route('telatlembur')}}?pegawai_id="+pegawai_id+"&tanggal="+tanggal+"&durasi="+durasi+"&status="+status,
                                     type: "GET",
@@ -339,7 +350,6 @@
                             // var jadwal = getSeconds(b);
                             var pegawai_id = c;
                             var tanggal = d;
-                            var pegawai_id = c;
                             var status = 'in-lembur-harian';
 
                             var jam_pegawai = new Date("01/01/2007 " + a).getHours();
@@ -347,10 +357,10 @@
                             var menit_pegawai = new Date("01/01/2007 " + a).getMinutes();
                             var menit_jadwal = new Date("01/01/2007 " + b).getMinutes();
                             var durasi = ((jam_pegawai - jam_jadwal)*60) + (menit_pegawai - menit_jadwal);
-                            console.log('Pegawai ID : ' + pegawai_id);
-                            console.log(tanggal);
-                            console.log(durasi + ' ' + 'menit');
-                            console.log(status);
+                            // console.log('Pegawai ID : ' + pegawai_id);
+                            // console.log(tanggal);
+                            // console.log(durasi + ' ' + 'menit');
+                            // console.log(status);
                             $.ajax({
                                 url : "{{route('telatlembur')}}?pegawai_id="+pegawai_id+"&tanggal="+tanggal+"&durasi="+durasi+"&status="+status,
                                 type: "GET",
@@ -373,30 +383,50 @@
                                     dataType: "JSON",
                                     success: function(data)
                                     {
-                                        if ($('#jam_masuk{{ $item->pegawai_id }}').val() > data.jam_masuk){
-                                            $('.jam_masuk{{ $item->pegawai_id }}').addClass('text-theme-11');
-
-                                            telat($('#jam_masuk{{ $item->pegawai_id }}').val(), data.jam_masuk, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
+                                        if (data.nama == 'PS' || data.nama == 'ps'){
+                                            if ($('#jam_masuk{{ $item->pegawai_id }}').val() > data.jam_masuk){
+                                                $('.jam_masuk{{ $item->pegawai_id }}').addClass('text-theme-11');
+                                                telat($('#jam_masuk{{ $item->pegawai_id }}').val(), data.jam_masuk, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
+                                            }
+                                            if ($('#jam_istirahat{{ $item->pegawai_id }}').val() < data.jam_istirahat){
+                                                $('.jam_istirahat{{ $item->pegawai_id }}').addClass('text-theme-11');
+                                                telat_istirahat($('#jam_istirahat{{ $item->pegawai_id }}').val(), data.jam_istirahat, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
+                                            }
+                                            if ( total_PS($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val(), $('#jam_istirahat{{ $item->pegawai_id }}').val()) >= 120 ){
+                                                $('.jam_masuk_istirahat{{ $item->pegawai_id }}').addClass('text-theme-11');
+                                                telat_istirahat_masuk($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val(), data.jam_istirahat_masuk, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
+                                            }
+                                            if ($('#jam_pulang{{ $item->pegawai_id }}').val() < data.jam_pulang){
+                                                $('.jam_pulang{{ $item->pegawai_id }}').addClass('text-theme-11');
+                                                
+                                            }
+                                            if ( total_PS($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val(), $('#jam_istirahat{{ $item->pegawai_id }}').val()) <= 120 ){
+                                                lembur($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val(), $('#jam_istirahat{{ $item->pegawai_id }}').val(), pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
+                                            }
+                                            if ($('#jam_pulang{{ $item->pegawai_id }}').val() > data.jam_pulang ){
+                                                lembur($('#jam_pulang{{ $item->pegawai_id }}').val(), data.jam_pulang, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
+                                            }
                                         }
-                                        if ($('#jam_istirahat{{ $item->pegawai_id }}').val() < data.jam_istirahat){
-                                            $('.jam_istirahat{{ $item->pegawai_id }}').addClass('text-theme-11');
-
-                                            telat_istirahat($('#jam_istirahat{{ $item->pegawai_id }}').val(), data.jam_istirahat, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
-                                            
-                                        }
-                                        if ($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val() > data.jam_istirahat_masuk){
-                                            $('.jam_masuk_istirahat{{ $item->pegawai_id }}').addClass('text-theme-11');
-                                            
-                                            telat_istirahat_masuk($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val(), data.jam_istirahat_masuk, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
-                                            
-                                        }
-                                        if ($('#jam_pulang{{ $item->pegawai_id }}').val() < data.jam_pulang){
-                                            $('.jam_pulang{{ $item->pegawai_id }}').addClass('text-theme-11');
-                                            
-                                        }
-
-                                        if ($('#jam_pulang{{ $item->pegawai_id }}').val() > data.jam_pulang){
-                                            lembur($('#jam_pulang{{ $item->pegawai_id }}').val(), data.jam_pulang, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
+                                        else{
+                                            if ($('#jam_masuk{{ $item->pegawai_id }}').val() > data.jam_masuk){
+                                                $('.jam_masuk{{ $item->pegawai_id }}').addClass('text-theme-11');
+                                                telat($('#jam_masuk{{ $item->pegawai_id }}').val(), data.jam_masuk, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
+                                            }
+                                            if ($('#jam_istirahat{{ $item->pegawai_id }}').val() < data.jam_istirahat){
+                                                $('.jam_istirahat{{ $item->pegawai_id }}').addClass('text-theme-11');
+                                                telat_istirahat($('#jam_istirahat{{ $item->pegawai_id }}').val(), data.jam_istirahat, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
+                                            }
+                                            if ($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val() > data.jam_istirahat_masuk){
+                                                $('.jam_masuk_istirahat{{ $item->pegawai_id }}').addClass('text-theme-11');
+                                                telat_istirahat_masuk($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val(), data.jam_istirahat_masuk, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
+                                            }
+                                            if ($('#jam_pulang{{ $item->pegawai_id }}').val() < data.jam_pulang){
+                                                $('.jam_pulang{{ $item->pegawai_id }}').addClass('text-theme-11');
+                                                
+                                            }
+                                            if ($('#jam_pulang{{ $item->pegawai_id }}').val() > data.jam_pulang && $('#jam_pulang{{ $item->pegawai_id }}').val() < new Date().setHours(21) ){
+                                                lembur($('#jam_pulang{{ $item->pegawai_id }}').val(), data.jam_pulang, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
+                                            }
                                         }
 
                                     }

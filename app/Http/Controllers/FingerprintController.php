@@ -217,12 +217,9 @@ class FingerprintController extends Controller
                 'timestamp' => '26-12-2021 13:59:40',
                 'id' => '1'
             ],
+            
             [
-                'timestamp' => '26-12-2021 14:01:55',
-                'id' => '3'
-            ],
-            [
-                'timestamp' => '26-12-2021 14:02:00',
+                'timestamp' => '26-12-2021 15:32:00',
                 'id' => '3'
             ],
             [
@@ -281,10 +278,10 @@ class FingerprintController extends Controller
                                     if ($data->jam_masuk == null && $time <= date('H:i', strtotime($polas->jam_masuk.'+60 minute'))):
                                         $data->jam_masuk = $time;
                                     
-                                    elseif ($data->jam_istirahat == null  && $time >= date('H:i', strtotime($polas->jam_istirahat.'-30 minute')) && $time < date('H:i', strtotime('15:00')) ):
+                                    elseif ($data->jam_istirahat == null  && $time >= date('H:i', strtotime('13:00')) && $time <= date('H:i', strtotime('17:00')) ):
                                         $data->jam_istirahat = $time;
                                     
-                                    elseif ($data->jam_masuk_istirahat == null && $time >= date('H:i', strtotime('15:00')) && $time <= date('H:i', strtotime($polas->jam_istirahat_masuk.'+30 minute')) ):
+                                    elseif ($data->jam_istirahat != null && $data->jam_masuk_istirahat == null && $time >= date('H:i', strtotime('13:00')) && $time <= date('H:i', strtotime('17:00')) ):
                                         $data->jam_masuk_istirahat = $time;
                                     
                                     elseif ($data->jam_pulang == null  && $time >= date('H:i', strtotime($polas->jam_pulang.'-30 minute')) && $time <= date('H:i', strtotime($polas->jam_pulang.'+60 minute')) ):
@@ -304,6 +301,34 @@ class FingerprintController extends Controller
                                         $data->jam_pulang = $time;
                                     endif;
                                 endif;
+
+                                // if ($polas->nama == 'PS' || $polas->nama == 'ps'):
+                                //     if ($data->jam_masuk == null && $time <= date('H:i', strtotime($polas->jam_masuk.'+60 minute'))):
+                                //         $data->jam_masuk = $time;
+                                    
+                                //     elseif ($data->jam_istirahat == null  && $time >= date('H:i', strtotime($polas->jam_istirahat.'-30 minute')) && $time < date('H:i', strtotime('15:00')) ):
+                                //         $data->jam_istirahat = $time;
+                                    
+                                //     elseif ($data->jam_masuk_istirahat == null && $time >= date('H:i', strtotime('15:00')) && $time <= date('H:i', strtotime($polas->jam_istirahat_masuk.'+30 minute')) ):
+                                //         $data->jam_masuk_istirahat = $time;
+                                    
+                                //     elseif ($data->jam_pulang == null  && $time >= date('H:i', strtotime($polas->jam_pulang.'-30 minute')) && $time <= date('H:i', strtotime($polas->jam_pulang.'+60 minute')) ):
+                                //         $data->jam_pulang = $time;
+                                //     endif;
+                                // else:
+                                //     if ($data->jam_masuk == null && $time <= date('H:i', strtotime($polas->jam_masuk.'+60 minute'))):
+                                //         $data->jam_masuk = $time;
+                                    
+                                //     elseif ($data->jam_istirahat == null  && $time >= date('H:i', strtotime($polas->jam_istirahat.'-30 minute')) && $time < date('H:i', strtotime($polas->jam_istirahat.'+30 minute')) ):
+                                //         $data->jam_istirahat = $time;
+                                    
+                                //     elseif ($data->jam_masuk_istirahat == null && $time >= date('H:i', strtotime($polas->jam_istirahat_masuk.'-35 minute')) && $time <= date('H:i', strtotime($polas->jam_istirahat_masuk.'+30 minute')) ):
+                                //         $data->jam_masuk_istirahat = $time;
+                                    
+                                //     elseif ($data->jam_pulang == null  && $time >= date('H:i', strtotime($polas->jam_pulang.'-30 minute')) && $time <= date('H:i', strtotime($polas->jam_pulang.'+60 minute')) ):
+                                //         $data->jam_pulang = $time;
+                                //     endif;
+                                // endif;
                                 
                             
                                 // if ($data->jam_masuk == null && date('H:i', strtotime( $time)) <= date('H:i', strtotime($polas->jam_masuk.'+60 minute')) ):
@@ -405,7 +430,7 @@ class FingerprintController extends Controller
         $zk2->connect();
         $zk2->disableDevice();
 
-        $pegawais = Pegawai::latest()->first();
+        $pegawais = Pegawai::latest('id')->first();
         $zk->setUser($pegawais->id, $pegawais->id, $pegawais->nama, '');
         $zk2->setUser($pegawais->id, $pegawais->id, $pegawais->nama, '');
         // foreach ($pegawais as $item):

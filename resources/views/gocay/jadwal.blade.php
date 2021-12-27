@@ -140,8 +140,8 @@
                 <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
                     <div class="col-span-12 sm:col-span-12">
                         <label for="modal-form-1" class="form-label">Tanggal</label>
-                        <input id="tanggal" name="tanggal" type="hidden" value="{{ date('Y-m-d') }}" class="form-control">
-                        <input id="modal-form-1" type="date" value="{{ date('Y-m-d') }}" class="form-control" disabled>
+                        <!-- <input id="tanggal" name="tanggal" type="hidden" value="{{ date('Y-m-d') }}" class="form-control"> -->
+                        <input id="modal-form-1" name="tanggal" type="date"  class="form-control" >
                         <!-- <input id="modal-form-1" name="tanggal" data-daterange="true" class="datepicker form-control w-56 block mx-auto"> -->
 
                     </div>
@@ -208,8 +208,8 @@
                 <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
                     <div class="col-span-12 sm:col-span-12">
                         <label for="modal-form-1" class="form-label">Tanggal</label>
-                        <input id="tanggal-edit" name="tanggal" type="hidden" class="form-control">
-                        <input id="modal-form-1-edit"  type="date" class="form-control" disabled>
+                        <!-- <input id="tanggal-edit" name="tanggal" type="hidden" class="form-control"> -->
+                        <input id="modal-form-1-edit" name="tanggal"  type="date" class="form-control">
                         <!-- <input id="modal-form-1-edit" name="tanggal" data-daterange="true" class="datepicker form-control w-56 block mx-auto"> -->
 
                     </div>
@@ -246,7 +246,7 @@
     </div>
     <!-- END: Modal Content -->
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    
         <script type="text/javascript">
             $(document).ready(function() {
 
@@ -266,7 +266,8 @@
                             $('#modal-form-1-edit').val(data.tanggal);
                             $('#tanggal-edit').val(data.tanggal);
                             $('#modal-form-2-edit option[value="' + data.pola_id +'"]').prop("selected", true);
-                            $('#modal-form-3-edit').val(data.pegawai_id);
+                            $('#modal-form-3-edit option[value="' + data.pegawai_id +'"]').prop("selected", true);
+                            // $('#modal-form-3-edit').val(data.pegawai_id);
                             $('#pegawai-id-edit').val(data.pegawai_id);
 
 
@@ -274,28 +275,6 @@
                     });
                 });
 
-                // jQuery($('#modal-form-1')).on('change',function(){
-                //     var tanggal = jQuery(this).val();
-                //     $('#modal-form-3 option').remove();
-                //     $('.tail-select .select-dropdown ul.dropdown-optgroup li').remove();
-                   
-                //     jQuery.ajax({
-                //         url : "{{route('checkJadwal')}}?tanggal="+tanggal,
-                //         type : "GET",
-                //         dataType : "json",
-                //         success:function(data)
-                //         {
-                //             $.each(data, function(key,value){
-                //                 $('#modal-form-3').append('<option value="'+ value.id +'">'+ value.nama +'</option>');
-                //             });
-                //             $.each(data, function(key,value){
-                //                 $('.tail-select .select-dropdown ul.dropdown-optgroup').append('<li class="dropdown-option" data-key="'+ value.id +'" data-group="#">'+ value.nama +'</li>');
-                //             });
-                            
-                //         }
-                //     });
-                   
-                // });
 
 
             });

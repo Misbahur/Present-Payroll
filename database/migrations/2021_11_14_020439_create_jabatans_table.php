@@ -17,6 +17,7 @@ class CreateJabatansTable extends Migration
             $table->id();
             $table->string('nama');
             $table->text('deskripsi');
+            // $table->softDeletes();
             $table->timestamps();
         });
     }

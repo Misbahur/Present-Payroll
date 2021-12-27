@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pegawai;
+use App\Models\Kehadiran;
 use App\Models\Jabatan;
 use Illuminate\Http\Request;
 
@@ -54,8 +55,6 @@ class PegawaiController extends Controller
             'alamat' => 'required',
          
         ]);
-
-        // dd($request);
         $pegawai = new Pegawai;
         $pegawai->nama = $request->nama;
         $pegawai->jabatan_id = $request->jabatan_id;
@@ -65,11 +64,27 @@ class PegawaiController extends Controller
         $pegawai->alamat = $request->alamat;
         $pegawai->nohp = $request->nohp;
         $pegawai->save();
+        
+        $pegawai_last = Pegawai::latest('id')->first();
+        $batas_tanggal = date('t');
+        for ($i = 0; $i < $batas_tanggal; $i++):
+            $kehadirans = new Kehadiran;
+            $kehadirans->tanggal = date('Y-m-d', strtotime('+'.$i.' day', strtotime('first day of this month')));
+            $kehadirans->pegawai_id = $pegawai_last->id;
+            $kehadirans->jam_masuk = null;
+            $kehadirans->jam_istirahat = null;
+            $kehadirans->jam_masuk_istirahat = null;
+            $kehadirans->jam_pulang = null;
+            // dd($kehadirans->pegawai_id);
+            $kehadirans->save();
+        endfor;
+        // dd($request);
 
-         if($pegawai){
-            return redirect()->route('pegawai')->with(['success' => 'Data Pegawai'.$request->input('nama').'berhasil disimpan']);
+
+        if($kehadirans){
+            return redirect()->back()->with(['success' => 'Data Pegawai'.$request->input('nama').'berhasil disimpan']);
         }else{
-            return redirect()->route('pegawai')->with(['danger' => 'Data Tidak Terekam!']);
+            return redirect()->back()->with(['danger' => 'Data Tidak Terekam!']);
         }
     }
 
