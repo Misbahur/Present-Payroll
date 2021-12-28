@@ -80,10 +80,10 @@ class getLogKehadiran extends Command
                                 if ($data->jam_masuk == null && $time <= date('H:i', strtotime($polas->jam_masuk.'+60 minute'))):
                                     $data->jam_masuk = $time;
                                 
-                                elseif ($data->jam_istirahat == null  && $time >= date('H:i', strtotime('13:00')) && $time <= date('H:i', strtotime('17:00')) ):
+                                elseif ($data->jam_istirahat == null  && $time >= date('H:i', strtotime('13:00')) && $time <= date('H:i', strtotime('15:00')) ):
                                     $data->jam_istirahat = $time;
                                 
-                                elseif ($data->jam_istirahat != null && $data->jam_masuk_istirahat == null && $time >= date('H:i', strtotime('13:00')) && $time <= date('H:i', strtotime('17:00')) ):
+                                elseif ($data->jam_istirahat != null && $data->jam_masuk_istirahat == null && $time >= date('H:i', strtotime('15:00')) && $time <= date('H:i', strtotime('17:00')) && $time > date('H:i', strtotime('+30 minute', $data->jam_istirahat)) ):
                                     $data->jam_masuk_istirahat = $time;
                                 
                                 elseif ($data->jam_pulang == null  && $time >= date('H:i', strtotime($polas->jam_pulang.'-30 minute')) && $time <= date('H:i', strtotime($polas->jam_pulang.'+60 minute')) ):
