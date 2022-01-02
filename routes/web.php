@@ -19,6 +19,7 @@ use App\Http\Controllers\{
     PenggajianController,
     JadwalController,
     LiburController,
+    BankController,
 
 };
 
@@ -234,6 +235,14 @@ Route::middleware('auth')->group(function() {
         Route::POST('keterlambatan', [Komponen_gajiController::class, 'keterlambatan'])->name('keterlambatan');
         Route::POST('liburmasuk', [Komponen_gajiController::class, 'liburmasuk'])->name('liburmasuk');
         Route::POST('masuklibur', [Komponen_gajiController::class, 'masuklibur'])->name('masuklibur');
+
+        //Manage pembayaran bank
+        Route::get('bank', [BankController::class, 'index'])->name('bank');
+        Route::POST('bankadd', [BankController::class, 'store'])->name('bankadd');
+        Route::get('bankedit', [BankController::class, 'edit'])->name('bankedit');
+        Route::POST('bankupdate', [BankController::class, 'update'])->name('bankupdate');
+        Route::get('bankdelete/{id}', [BankController::class, 'destroy'])->name('bankdelete');
+        Route::get('bayar_bank', [BankController::class, 'bayar_bank'])->name('bayar_bank');
 
 
 

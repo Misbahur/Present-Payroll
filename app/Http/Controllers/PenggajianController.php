@@ -20,14 +20,16 @@ class PenggajianController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $data_request = $request->all();
         $penggajians = Penggajian::paginate(10);
         $periodes = Periode::orderBy('created_at', 'DESC')->get();
         return view('gocay/gaji', [
             'penggajians' => $penggajians,
             'periodes' => $periodes,
-        ]);
+            'data_request' => $data_request,
+        ])->with('i', ($request->input('page', 1) - 1) * 10);
     }
 
     public function filterperiode(Request $request)

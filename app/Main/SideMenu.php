@@ -148,6 +148,31 @@ class SideMenu
                         ],
                         'title' => 'Penggajian'
                     ],
+                   
+                ],
+            ],
+
+            'Bank' => [
+                'icon' => 'dollar-sign',
+                'title' => 'Bank',
+                'sub_menu' => [
+                    
+                    'List Bank' => [
+                        'icon' => 'dollar-sign',
+                        'route_name' => 'bank',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'List Bank'
+                    ],
+                    'Pembayaran ke Bank' => [
+                        'icon' => 'dollar-sign',
+                        'route_name' => 'bayar_bank',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'Pembayaran ke Bank'
+                    ],
                 ],
             ],
 

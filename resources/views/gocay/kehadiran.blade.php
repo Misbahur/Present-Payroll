@@ -118,7 +118,7 @@
                                     {{ ++ $i }}
                                     </td>
                                     <td class="w-20 text-center">
-                                        <a href="" class="font-small whitespace-nowrap">{{ $item->tanggal }}</a>
+                                        <a href="" class="font-small whitespace-nowrap">{{ date('d-m-Y', strtotime($item->tanggal)) }}</a>
                                     </td>
                                     <!-- <td class="w-20 text-center">
                                         <a href="" class="font-small whitespace-nowrap"></a>

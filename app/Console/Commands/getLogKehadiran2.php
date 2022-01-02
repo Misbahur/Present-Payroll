@@ -77,29 +77,28 @@ class getLogKehadiran2 extends Command
                             $data->pegawai_id = $u['userid'];
 
                             if ($polas->nama == 'PS' || $polas->nama == 'ps'):
-                                if ($data->jam_masuk == null && $time <= date('H:i', strtotime($polas->jam_masuk.'+60 minute'))):
+                                if ($data->jam_masuk == null && $time <=  date('H:i', strtotime('+60 minutes', strtotime($polas->jam_masuk))) ):
                                     $data->jam_masuk = $time;
                                 
-                                elseif ($data->jam_istirahat == null  && $time >= date('H:i', strtotime('13:00')) && $time <= date('H:i', strtotime('15:00')) ):
+                                elseif ($data->jam_istirahat == null  && $time >=  date('H:i', strtotime('-30 minutes', strtotime($polas->jam_istirahat))) && $time >=  date('H:i', strtotime('+30 minutes', strtotime($polas->jam_istirahat))) && $time >= date('H:i', strtotime('13:00')) && $time <= date('H:i', strtotime('17:00')) ):
                                     $data->jam_istirahat = $time;
                                 
-                                elseif ($data->jam_istirahat != null && $data->jam_masuk_istirahat == null && $time >= date('H:i', strtotime('15:00')) && $time <= date('H:i', strtotime('17:00')) && $time > date('H:i', strtotime('+30 minute', $data->jam_istirahat)) ):
+                                elseif ($data->jam_istirahat != null && $data->jam_masuk_istirahat == null && $time >= date('H:i', strtotime('13:00')) && $time <= date('H:i', strtotime('17:00')) && $time > date('H:i', strtotime('+30 minutes', strtotime($data->jam_istirahat))) ):
                                     $data->jam_masuk_istirahat = $time;
                                 
-                                elseif ($data->jam_pulang == null  && $time >= date('H:i', strtotime($polas->jam_pulang.'-30 minute')) && $time <= date('H:i', strtotime($polas->jam_pulang.'+60 minute')) ):
+                                elseif ($data->jam_pulang == null  && $time >= date('H:i', strtotime('-30 minutes', strtotime($polas->jam_pulang))) && $time <= date('H:i', strtotime('22:00')) ):
                                     $data->jam_pulang = $time;
                                 endif;
                             else:
-                                if ($data->jam_masuk == null && $time <= date('H:i', strtotime($polas->jam_masuk.'+60 minute'))):
+                                if ($data->jam_masuk == null && $time <= date('H:i', strtotime('+60 minutes', strtotime($polas->jam_masuk))) ):
                                     $data->jam_masuk = $time;
                                 
-                                elseif ($data->jam_istirahat == null  && $time >= date('H:i', strtotime($polas->jam_istirahat.'-30 minute')) && $time < date('H:i', strtotime($polas->jam_istirahat.'+30 minute')) ):
+                                elseif ($data->jam_istirahat == null  && $time >=  date('H:i', strtotime('-30 minutes', strtotime($polas->jam_istirahat))) && $time >=  date('H:i', strtotime('+30 minutes', strtotime($polas->jam_istirahat))) ):
                                     $data->jam_istirahat = $time;
                                 
-                                elseif ($data->jam_masuk_istirahat == null && $time >= date('H:i', strtotime($polas->jam_istirahat_masuk.'-35 minute')) && $time <= date('H:i', strtotime($polas->jam_istirahat_masuk.'+30 minute')) ):
+                                elseif ($data->jam_masuk_istirahat == null && $time >= date('H:i', strtotime('-35 minutes', strtotime($polas->jam_istirahat_masuk))) && $time <= date('H:i', strtotime('+30 minutes', strtotime($polas->jam_istirahat_masuk))) ):
                                     $data->jam_masuk_istirahat = $time;
-                                
-                                elseif ($data->jam_pulang == null  && $time >= date('H:i', strtotime($polas->jam_pulang.'-30 minute')) && $time <= date('H:i', strtotime($polas->jam_pulang.'+60 minute')) ):
+                                elseif ($data->jam_pulang == null  && $time >= date('H:i', strtotime('-30 minutes', strtotime($polas->jam_pulang))) && $time <= date('H:i', strtotime('22:00')) ):
                                     $data->jam_pulang = $time;
                                 endif;
                             endif;

@@ -18,13 +18,14 @@ class Bon_kasController extends Controller
     public function index(Request $request)
     {
         //
+        $data_request = $request->all();
         $bon_kas = Bon_kas::whereMonth('tanggal', date('m'))->paginate(10);
         $pegawais = Pegawai::all();
         // $jabatans = Jabatan::all();
         return view('gocay.bon-kas', [
             'bon_kas' => $bon_kas,
             'pegawais' => $pegawais,
-            // 'jabatans' => $jabatans
+            'data_request' => $data_request
         ])->with('i', ($request->input('page', 1) - 1) * 10);
         
     }

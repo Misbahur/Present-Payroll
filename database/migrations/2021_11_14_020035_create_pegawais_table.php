@@ -20,6 +20,9 @@ class CreatePegawaisTable extends Migration
             $table->date('tanggal_lahir')->nullable();
             $table->string('alamat')->nullable();
             $table->string('nohp')->nullable();
+            $table->unsignedBigInteger('bank_id')->nullable();
+            $table->string('no_rek')->nullable();
+            $table->string('atas_nama')->nullable();
             $table->date('tanggal_masuk')->nullable();
             $table->unsignedBigInteger('jabatan_id');
             // $table->softDeletes();

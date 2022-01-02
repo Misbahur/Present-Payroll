@@ -44,7 +44,7 @@
                                         {{ ++ $i}}
                                         </td>
                                         <td class="text-center">
-                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->tanggal }}</a>
+                                            <a href="" class="font-medium whitespace-nowrap">{{ date('d-m-Y', strtotime($item->tanggal)) }}</a>
                                         </td>
                                         <td class="text-center">
                                             <a href="" class="font-medium whitespace-nowrap">{{ $item->nama }}</a>
@@ -79,7 +79,7 @@
                     </div>
                     <div class="intro-y flex flex-wrap sm:flex-row sm:flex-nowrap items-center mt-3">
                         <div class="pagination">
-                                {{ $bon_kas->links() }}
+                                {{ $bon_kas->appends($data_request)->links() }}
                         </div>
                     </div>
                 </div>

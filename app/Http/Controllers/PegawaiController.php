@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pegawai;
 use App\Models\Kehadiran;
 use App\Models\Jabatan;
+use App\Models\Bank;
 use Illuminate\Http\Request;
 
 class PegawaiController extends Controller
@@ -19,11 +20,15 @@ class PegawaiController extends Controller
     public function index(Request $request)
     {
         //
+        $data_request = $request->all();
         $pegawais = Pegawai::paginate(10);
         $jabatans = Jabatan::all();
+        $bank = Bank::all();
         return view('gocay.pegawai', [
             'pegawais' => $pegawais,
-            'jabatans' => $jabatans
+            'bank' => $bank,
+            'jabatans' => $jabatans,
+            'data_request' => $data_request
         ])->with('i', ($request->input('page', 1) - 1) * 10);
         
     }
@@ -63,6 +68,9 @@ class PegawaiController extends Controller
         $pegawai->tanggal_masuk = $request->tanggal_masuk;
         $pegawai->alamat = $request->alamat;
         $pegawai->nohp = $request->nohp;
+        $pegawai->bank_id = $request->bank_id;
+        $pegawai->no_rek = $request->no_rek;
+        $pegawai->atas_nama = $request->atas_nama;
         $pegawai->save();
         
         $pegawai_last = Pegawai::latest('id')->first();
@@ -137,6 +145,9 @@ class PegawaiController extends Controller
         $pegawai->tanggal_masuk = $request->tanggal_masuk;
         $pegawai->alamat = $request->alamat;
         $pegawai->nohp = $request->nohp;
+        $pegawai->bank_id = $request->bank_id;
+        $pegawai->no_rek = $request->no_rek;
+        $pegawai->atas_nama = $request->atas_nama;
         $pegawai->update();
         // $pegawais->update($request->all());
 

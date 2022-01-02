@@ -35,6 +35,9 @@
                                     <th class="text-center whitespace-nowrap">Alamat</th>
                                     <th class="text-center whitespace-nowrap">No HP</th>
                                     <th class="text-center whitespace-nowrap">Tanggal Masuk</th>
+                                    <th class="text-center whitespace-nowrap">Bank</th>
+                                    <th class="text-center whitespace-nowrap">No. Rekening</th>
+                                    <th class="text-center whitespace-nowrap">Atas Nama</th>
                                     <th class="text-center whitespace-nowrap">Aksi</th>
                                 </tr>
                             </thead>
@@ -54,7 +57,7 @@
                                             <a href="" class="font-medium whitespace-nowrap">{{ $item->jabatan->nama }}</a>
                                         </td>
                                         <td class="text-center">
-                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->tanggal_lahir }}</a>
+                                            <a href="" class="font-medium whitespace-nowrap">{{ date('d-m-Y', strtotime($item->tanggal_lahir)) }}</a>
                                         </td>
                                         <td class="text-center">
                                             <a href="" class="font-medium whitespace-nowrap">{{ $item->alamat }}</a>
@@ -63,7 +66,16 @@
                                             <a href="" class="font-medium whitespace-nowrap">{{ $item->nohp }}</a>
                                         </td>
                                         <td class="text-center">
-                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->tanggal_masuk }}</a>
+                                            <a href="" class="font-medium whitespace-nowrap">{{ date('d-m-Y', strtotime($item->tanggal_masuk)) }}</a>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->bank_id != null ? $item->bank->nama : '' }}</a>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->no_rek }}</a>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->atas_nama }}</a>
                                         </td>
                                         <td class="table-report__action w-56">
                                             <div class="flex justify-center items-center">
@@ -83,7 +95,7 @@
                     </div>
                     <div class="intro-y flex flex-wrap sm:flex-row sm:flex-nowrap items-center mt-3">
                         <div class="pagination">
-                                {{ $pegawais->links() }}
+                                {{ $pegawais->appends($data_request)->links() }}
                         </div>
                     </div>
                 </div>
@@ -149,6 +161,22 @@
                         <div class="col-span-12 sm:col-span-12">
                             <label for="modal-form-7" class="form-label">Nomor HP Pegawai</label>
                             <input id="modal-form-7" name="nohp" type="text" class="form-control" placeholder="No HP Pegawai">
+                        </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-8" class="form-label">Bank</label>
+                            <select id="modal-form-8" class="form-select" name="bank_id">
+                                @foreach ($bank as $item)
+                                <option value="{{ $item->id }}">{{ strtoupper($item->nama) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-9" class="form-label">Nomor Rekening Pegawai</label>
+                            <input id="modal-form-9" name="no_rek" type="number" class="form-control" placeholder="No Rekening Pegawai">
+                        </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-10" class="form-label">Atas Nama</label>
+                            <input id="modal-form-10" name="atas_nama" type="text" class="form-control" placeholder="Atas Nama No Rekening">
                         </div>
                     </div>
                     <!-- END: Modal Body -->
@@ -224,6 +252,22 @@
                             <label for="modal-form-7" class="form-label">Nomor HP Pegawai</label>
                             <input id="modal-form-7-edit" name="nohp" type="text" class="form-control" placeholder="No HP Pegawai">
                         </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-2" class="form-label">Bank</label>
+                            <select id="modal-form-2-edit" class="form-select" name="bank_id">
+                                @foreach ($bank as $item)
+                                <option value="{{ $item->id }}">{{ strtoupper($item->nama) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-9" class="form-label">Nomor Rekening Pegawai</label>
+                            <input id="modal-form-9-edit" name="no_rek" type="number" class="form-control" placeholder="No Rekening Pegawai">
+                        </div>
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-10" class="form-label">Atas Nama</label>
+                            <input id="modal-form-10-edit" name="atas_nama" type="text" class="form-control" placeholder="Atas Nama No Rekening">
+                        </div>
                     </div>
                     <!-- END: Modal Body -->
                     <!-- BEGIN: Modal Footer -->
@@ -260,6 +304,10 @@
                             $('#modal-form-5-edit').val(data.tanggal_masuk);
                             $('#modal-form-6-edit').val(data.alamat);
                             $('#modal-form-7-edit').val(data.nohp);
+                            $('#modal-form-8-edit option[value="' + data.bank_id +'"]').prop("selected", true);
+                            // $('#modal-form-8-edit').val(data.bank_id);
+                            $('#modal-form-9-edit').val(data.no_rek);
+                            $('#modal-form-10-edit').val(data.atas_nama);
 
                             // $('#header-footer-modal-preview-edit').modal('show');
 

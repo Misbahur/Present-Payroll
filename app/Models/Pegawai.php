@@ -21,6 +21,11 @@ class Pegawai extends Model
         'nama', 'jabatan_id', 'nik', 'alamat', 'tanggal_masuk', 'tanggal_lahir',
     ];
 
+    public function bank()
+    {
+        return $this->belongsTo('App\Models\Bank', 'bank_id');
+    }
+
     public function jabatan()
     {
         return $this->belongsTo('App\Models\Jabatan', 'jabatan_id');

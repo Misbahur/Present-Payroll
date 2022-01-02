@@ -66,7 +66,7 @@
                                     {{ ++ $i}}
                                     </td>
                                     <td class="text-center">
-                                        <a href="" class="font-medium whitespace-nowrap">{{ $item->tanggal }}</a>
+                                        <a href="" class="font-medium whitespace-nowrap">{{ date('d-m-Y', strtotime($item->tanggal)) }}</a>
                                     </td>
                                     <td class="text-center">
                                         <a href="" class="font-medium whitespace-nowrap">{{ $item->pola->nama }}</a>
