@@ -7,6 +7,8 @@ use App\Models\Pegawai;
 use App\Models\Jabatan;
 use App\Models\Lembur;
 use Illuminate\Http\Request;
+use App\Models\Metapenggajian;
+
 
 class Komponen_gajiController extends Controller
 {
@@ -17,10 +19,12 @@ class Komponen_gajiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $komponen_gaji = Komponen_gaji::paginate(10);
+        $data_request = $request->all();
+        $komponen_gaji = Komponen_gaji::where('id', '!=' , '1')
+                        ->where('id', '!=' , '2')
+                        ->paginate(10);
         $pegawais = Pegawai::all();
         $jabatans = Jabatan::all();
         $lembur = Lembur::where('id', 1)->first();
@@ -31,9 +35,12 @@ class Komponen_gajiController extends Controller
             'jabatans' => $jabatans,
             'lembur' => $lembur,
             'keterlambatan' => $keterlambatan,
-        ]);
+            'data_request' => $data_request,
+        ])->with('i', ($request->input('page', 1) - 1) * 10);
         
     }
+
+    
 
     /**
      * Show the form for creating a new resource.

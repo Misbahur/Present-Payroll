@@ -14,17 +14,18 @@ class PengecualianController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $pengecualians = Pengecualian::all();
+        $data_request = $request->all();
+        $pengecualians = Pengecualian::paginate(10);
         $pegawais = Pegawai::all();
         $jabatans = Jabatan::all();
         return view('gocay.pengecualian', [
             'pengecualians' => $pengecualians,
             'pegawais' => $pegawais,
-            'jabatans' => $jabatans
-        ]);
+            'jabatans' => $jabatans,
+            'data_request' => $data_request
+        ])->with('i', ($request->input('page', 1) - 1) * 10);
         
     }
 

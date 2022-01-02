@@ -63,10 +63,10 @@
                             @foreach ($liburs as $item)
                                 <tr class="intro-x">
                                     <td class="w-40">
-                                    {{ $no++ }}
+                                    {{ ++$i }}
                                     </td>
                                     <td class="text-center">
-                                        <a href="" class="font-medium whitespace-nowrap">{{ $item->tanggal }}</a>
+                                        <a href="" class="font-medium whitespace-nowrap">{{ date('d-m-Y', strtotime($item->tanggal)) }}</a>
                                     </td>
                                     <td class="text-center">
                                         <a href="" class="font-medium whitespace-nowrap">

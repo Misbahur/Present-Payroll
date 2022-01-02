@@ -48,10 +48,11 @@
                                 </thead>
                                 <tbody>
                                     <?php $no = 1; ?>
-                                    @foreach ($komponen_gaji->skip(2) as $item)
+                                    @foreach ($komponen_gaji as $item)
                                         <tr class="intro-x">
                                             <td class="w-40">
-                                            {{ $no++; }}
+                                            <!-- {{ $no++; }} -->
+                                            {{ ++ $i }}
                                             </td>
                                             <td class="text-center">
                                                 <a href="" class="font-medium whitespace-nowrap">{{ $item->nama }}</a>
@@ -204,7 +205,7 @@
 
                     <div class="intro-y flex flex-wrap sm:flex-row sm:flex-nowrap items-center mt-3">
                         <div class="pagination">
-                                {{ $komponen_gaji->links() }}
+                                {{ $komponen_gaji->appends($data_request)->links() }}
                         </div>
                     </div>
                 </div>
