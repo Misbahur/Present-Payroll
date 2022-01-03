@@ -193,61 +193,61 @@ class FingerprintController extends Controller
 
         $att = array(
             [
-                'timestamp' => '02-01-2022 07:54:07',
+                'timestamp' => '03-01-2022 07:54:07',
                 'id' => '1'
             ],
             [
-                'timestamp' => '02-01-2022 08:00:40',
+                'timestamp' => '03-01-2022 08:00:40',
                 'id' => '3'
             ],
             
             [
-                'timestamp' => '02-01-2022 11:20:40',
+                'timestamp' => '03-01-2022 11:20:40',
                 'id' => '2'
             ],
             [
-                'timestamp' => '02-01-2022 13:27:37',
+                'timestamp' => '03-01-2022 13:27:37',
                 'id' => '1'
             ],
             [
-                'timestamp' => '02-01-2022 13:59:37',
+                'timestamp' => '03-01-2022 13:59:37',
                 'id' => '1'
             ],
             // [
-            //     'timestamp' => '02-01-2022 13:59:40',
+            //     'timestamp' => '03-01-2022 13:59:40',
             //     'id' => '3'
             // ],
             
             [
-                'timestamp' => '02-01-2022 15:22:00',
+                'timestamp' => '03-01-2022 15:22:00',
                 'id' => '3'
             ],
             [
-                'timestamp' => '02-01-2022 15:23:00',
+                'timestamp' => '03-01-2022 15:23:00',
                 'id' => '3'
             ],
             [
-                'timestamp' => '02-01-2022 16:58:00',
+                'timestamp' => '03-01-2022 16:58:00',
                 'id' => '3'
             ],
             [
-                'timestamp' => '02-01-2022 21:08:00',
+                'timestamp' => '03-01-2022 21:08:00',
                 'id' => '1'
             ],
             [
-                'timestamp' => '02-01-2022 17:03:00',
+                'timestamp' => '03-01-2022 17:03:00',
                 'id' => '2'
             ],
             [
-                'timestamp' => '02-01-2022 17:53:00',
+                'timestamp' => '03-01-2022 17:53:00',
                 'id' => '2'
             ],
             [
-                'timestamp' => '02-01-2022 21:03:00',
+                'timestamp' => '03-01-2022 21:03:00',
                 'id' => '2'
             ],
             [
-                'timestamp' => '02-01-2022 21:05:00',
+                'timestamp' => '03-01-2022 21:05:00',
                 'id' => '3'
             ],
         );
@@ -295,7 +295,7 @@ class FingerprintController extends Controller
                                     if ($data->jam_masuk == null && $time <= date('H:i', strtotime('+60 minutes', strtotime($polas->jam_masuk))) ):
                                         $data->jam_masuk = $time;
                                     
-                                    elseif ($data->jam_istirahat == null  && $time >=  date('H:i', strtotime('-30 minutes', strtotime($polas->jam_istirahat))) && $time >=  date('H:i', strtotime('+30 minutes', strtotime($polas->jam_istirahat))) ):
+                                    elseif ($data->jam_istirahat == null  && $time >=  date('H:i', strtotime('-30 minutes', strtotime($polas->jam_istirahat))) && $time <=  date('H:i', strtotime('+30 minutes', strtotime($polas->jam_istirahat))) ):
                                         $data->jam_istirahat = $time;
                                     
                                     elseif ($data->jam_masuk_istirahat == null && $time >= date('H:i', strtotime('-35 minutes', strtotime($polas->jam_istirahat_masuk))) && $time <= date('H:i', strtotime('+30 minutes', strtotime($polas->jam_istirahat_masuk))) ):
