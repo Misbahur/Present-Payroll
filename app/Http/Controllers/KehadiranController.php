@@ -122,18 +122,18 @@ class KehadiranController extends Controller
         $jabatans = Jabatan::all();
         $data_request = $request->all();
         $pegawai_id = Pegawai::where('nama','like',"%".$request->filter_nama."%")->pluck('id');
-        $bulan_id = date('Y') .'-' . $request->filter_bulan .'-' . $request->filter_tanggal;
+        // $bulan_id = date('Y') .'-' . $request->filter_bulan .'-' . $request->filter_tanggal;
 
 
-        $tanggal = $bulan_id;
+        $tanggal = $request->filter_tanggal;
 
         if ($request->filter_nama == ''):
-            $kehadirans = Kehadiran::where('tanggal', $bulan_id)
+            $kehadirans = Kehadiran::where('tanggal', $tanggal)
                         ->orderBy('tanggal', 'desc')
                         ->orderBy('pegawai_id', 'asc')
                         ->paginate(10);
         elseif( !$pegawai_id->isEmpty()):
-            $kehadirans = Kehadiran::where('tanggal', $bulan_id)
+            $kehadirans = Kehadiran::where('tanggal', $tanggal)
                         ->where('pegawai_id', $pegawai_id)
                         ->orderBy('tanggal', 'desc')
                         ->orderBy('pegawai_id', 'asc')
@@ -142,12 +142,12 @@ class KehadiranController extends Controller
             $kehadirans = array();
         endif;
         $bulan=array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
-        $jumlahPegawai = Kehadiran::where('tanggal', $bulan_id)
+        $jumlahPegawai = Kehadiran::where('tanggal', $tanggal)
         ->where('jam_masuk', '!=', null)
         ->orderBy('tanggal', 'asc')
         ->orderBy('pegawai_id', 'asc');
         foreach ($jabatans as $item):
-            $jabatan_total[$item->id] = Kehadiran::where('tanggal', $bulan_id)
+            $jabatan_total[$item->id] = Kehadiran::where('tanggal', $tanggal)
                     ->join('pegawais', 'kehadirans.pegawai_id' ,'=','pegawais.id')
                     ->join('jabatans', 'pegawais.jabatan_id' ,'=','jabatans.id')
                     ->where('jam_masuk', '!=', null)

@@ -51,14 +51,14 @@ class JadwalController extends Controller
     {
         $data_request = $request->all();
         $pegawai_id = Pegawai::where('nama','like',"%".$request->filter_nama."%")->pluck('id');
-        $bulan_id = date('Y') .'-' . $request->filter_bulan .'-' . $request->filter_tanggal;
+        // $bulan_id = date('Y') .'-' . $request->filter_bulan .'-' . $request->filter_tanggal;
         if ($request->filter_nama == ''):
-            $jadwals = Jadwal::where('tanggal', $bulan_id)
+            $jadwals = Jadwal::where('tanggal', $request->filter_tanggal)
                         ->orderBy('pegawai_id', 'asc')
                         ->orderBy('tanggal', 'desc')
                         ->paginate(10);
         elseif( !$pegawai_id->isEmpty()):
-            $jadwals = Jadwal::where('tanggal', $bulan_id)
+            $jadwals = Jadwal::where('tanggal', $request->filter_tanggal)
                         ->where('pegawai_id', $pegawai_id)
                         ->orderBy('pegawai_id', 'asc')
                         ->orderBy('tanggal', 'desc')
