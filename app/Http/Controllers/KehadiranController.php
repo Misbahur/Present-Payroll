@@ -29,7 +29,9 @@ class KehadiranController extends Controller
 
         $data_request = $request->all();
         $jabatans = Jabatan::all();
-        $kehadirans = Kehadiran::where('tanggal', Carbon::now()->toDateString())
+        $kehadirans = Kehadiran::select('kehadirans.*', 'pegawais.id as pegawaiID', 'pegawais.nama as nama_pegawai')
+        ->join('pegawais', 'pegawais.id', '=', 'kehadirans.pegawai_id')
+        ->where('tanggal', Carbon::now()->toDateString())
         ->orderBy('tanggal', 'asc')
         ->orderBy('pegawai_id', 'asc')
         ->paginate(10);
@@ -73,8 +75,11 @@ class KehadiranController extends Controller
         $pegawais = Pegawai::all();
         // $batas_tanggal = date('t');
         // $kehadiran_bulanan = Kehadiran::whereBetween('tanggal', [date('Y-m-d', strtotime('first day of this month')),date('Y-m-d', strtotime('last day of this month'))])
+        // ->whereYear('tanggal', date('Y'))
+        // ->whereMonth('tanggal', date('m'))
         // ->orderBy('pegawai_id', 'asc')
-        // ->orderBy('tanggal', 'asc')->get();
+        // ->orderBy('tanggal', 'asc')
+        // ->get();
         $tanggal = date('Y') .'-' . date('m') .'-' . $request->tanggal;
         $kehadiran_data = Kehadiran::where('tanggal', $tanggal)
         ->where('pegawai_id', $request->pegawai_id)
@@ -87,7 +92,7 @@ class KehadiranController extends Controller
                 ->get();
             endfor;
         endforeach;
-        // $tanggal_terakhir = Kehadiran::latest()->first();
+        $tanggal_terakhir = Kehadiran::latest()->first();
 
         // $kehadirans = Kehadiran::where('tanggal', Carbon::now()->toDateString())
         // ->orderBy('tanggal', 'asc')
@@ -128,12 +133,16 @@ class KehadiranController extends Controller
         $tanggal = $request->filter_tanggal;
 
         if ($request->filter_nama == ''):
-            $kehadirans = Kehadiran::where('tanggal', $tanggal)
+            $kehadirans = Kehadiran::select('kehadirans.*', 'pegawais.id as pegawaiID', 'pegawais.nama as nama_pegawai')
+                        ->join('pegawais', 'pegawais.id', '=', 'kehadirans.pegawai_id')
+                        ->where('tanggal', $tanggal)
                         ->orderBy('tanggal', 'desc')
                         ->orderBy('pegawai_id', 'asc')
                         ->paginate(10);
         elseif( !$pegawai_id->isEmpty()):
-            $kehadirans = Kehadiran::where('tanggal', $tanggal)
+            $kehadirans = Kehadiran::select('kehadirans.*', 'pegawais.id as pegawaiID', 'pegawais.nama as nama_pegawai')
+                        ->join('pegawais', 'pegawais.id', '=', 'kehadirans.pegawai_id')
+                        ->where('tanggal', $tanggal)
                         ->where('pegawai_id', $pegawai_id)
                         ->orderBy('tanggal', 'desc')
                         ->orderBy('pegawai_id', 'asc')
@@ -183,13 +192,16 @@ class KehadiranController extends Controller
 
     public function getpolakerja(Request $request)
     {
-        
+
         $jadwals = Jadwal::where('tanggal', date('Y-m-d', strtotime($request->tanggal)))
         ->where('pegawai_id', $request->id)
         ->first();
-        if ($jadwals):
+
+        if($jadwals != null):
             $polas = Pola::findOrFail($jadwals->pola_id);
             return response()->json($polas);
+            // echo json_encode($polas);
+            // return $polas;
         endif;
         // return response()->json($polas);
     }

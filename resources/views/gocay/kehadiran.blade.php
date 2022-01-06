@@ -125,7 +125,7 @@
                                         <a href="" class="font-small whitespace-nowrap"></a>
                                     </td> -->
                                     <td class="w-20 text-center">
-                                        {{ $item->pegawai->nama }}
+                                        {{ $item->nama_pegawai }}
                                     </td> 
                                            
                                     <td class="w-20 text-center jam_masuk{{ $item->pegawai_id }}">
@@ -393,8 +393,11 @@
                                                 $('.jam_istirahat{{ $item->pegawai_id }}').addClass('text-theme-11');
                                                 telat_istirahat($('#jam_istirahat{{ $item->pegawai_id }}').val(), data.jam_istirahat, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
                                             }
-                                            if ( total_PS($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val(), $('#jam_istirahat{{ $item->pegawai_id }}').val()) >= 120 ){
+                                            if ($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val() > data.jam_istirahat_masuk){
                                                 $('.jam_masuk_istirahat{{ $item->pegawai_id }}').addClass('text-theme-11');
+                                                telat_istirahat_masuk($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val(), data.jam_istirahat_masuk, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
+                                            }
+                                            if ( total_PS($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val(), $('#jam_istirahat{{ $item->pegawai_id }}').val()) >= 120 ){
                                                 telat_istirahat_masuk($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val(), data.jam_istirahat_masuk, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
                                             }
                                             if ($('#jam_pulang{{ $item->pegawai_id }}').val() < data.jam_pulang){
