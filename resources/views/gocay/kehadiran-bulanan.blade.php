@@ -73,14 +73,18 @@
                                 </td> 
                                 
                                 @for ($x=1; $x <= date('t'); $x++)
-                                <input type="hidden" name="hidden-id" id="id-{{ $p->id }}" value="{{ $p->id }}">
-                                <input type="hidden" name="hidden-tanggal" id="tanggal-{{ $x }}" value="{{ date('Y') . '-' . date('m') . '-' . $x }}">
                                 <td class="text-center">
                                     @foreach ($kehadiran_bulanan[$p->id][$x] as $item)
-                                    <span id="jam_masuk-{{ $p->id }}-{{ $x }}"> {{ $item->jam_masuk != null ? $item->jam_masuk : '-' }} </span> <br>
-                                    <span id="jam_istirahat-{{ $p->id }}-{{ $x }}">{{ $item->jam_istirahat != null ? $item->jam_istirahat : '-' }}</span> <br>
-                                    <span id="jam_masuk_istirahat-{{ $p->id }}-{{ $x }}">{{ $item->jam_masuk_istirahat != null ? $item->jam_masuk_istirahat : '-' }} </span> <br>
-                                    <span id="jam_pulang-{{ $p->id }}-{{ $x }}">{{ $item->jam_pulang != null ? $item->jam_pulang : '-' }} </span>
+                                    <input type="hidden" name="hidden-id" id="id{{$item->id}}" value="{{ $item->pegawai_id }}">
+                                    <input type="hidden" name="hidden-tanggal" id="tanggal{{$item->id}}" value="{{ $item->tanggal}}">
+                                    <input type="hidden" id="jam_masuk{{ $item->id }}" value="{{ $item->jam_masuk }}">
+                                    <input type="hidden" id="jam_istirahat{{ $item->id }}" value="{{ $item->jam_istirahat }}">
+                                    <input type="hidden" id="jam_masuk_istirahat{{ $item->id }}" value="{{ $item->jam_masuk_istirahat }}">
+                                    <input type="hidden" id="jam_pulang{{ $item->id }}" value="{{ $item->jam_pulang }}">
+                                    <span class="jam_masuk{{$item->id}}" value="{{$item->jam_masuk}}"> {{ $item->jam_masuk != null ? $item->jam_masuk : '-' }} </span> <br>
+                                    <span class="jam_istirahat{{$item->id}}" value="{{$item->jam_istirahat}}">{{ $item->jam_istirahat != null ? $item->jam_istirahat : '-' }}</span> <br>
+                                    <span class="jam_masuk_istirahat{{$item->id}}" value="{{$item->jam_masuk_istirahat}}">{{ $item->jam_masuk_istirahat != null ? $item->jam_masuk_istirahat : '-' }} </span> <br>
+                                    <span class="jam_pulang{{$item->id}}" value="{{$item->jam_pulang}}">{{ $item->jam_pulang != null ? $item->jam_pulang : '-' }} </span>
                                     @endforeach
                                 </td>
                                 @endfor
@@ -109,81 +113,48 @@
                 <script type="text/javascript">
                     $(document).ready(function() {
 
-                        function total_PS(a,b){
-                            var jam_masuk_istirahat = new Date("01/01/2007 " + a).getHours();
-                            var jam_istirahat = new Date("01/01/2007 " + b).getHours();
-                            var menit_masuk_istirahat = new Date("01/01/2007 " + a).getMinutes();
-                            var menit_istirahat = new Date("01/01/2007 " + b).getMinutes();
-
-                            var durasi = ((jam_masuk_istirahat - jam_istirahat)*60) + (menit_masuk_istirahat - menit_istirahat);
-                            return durasi;
-                        }
 
                         <?php  foreach ($pegawais as $p):  ?>
-                            <?php  for ($x = 1; $x <= date('t'); $x++):  ?>
-                            
-                            var id{{ $p->id }} = $('#id-{{ $p->id }}').val();
-                            var tanggal{{ $x }} = $('#tanggal-{{ $x }}').val();
-                            // $.ajax({
-                            //         url : "{{route('getpolakerja')}}?id="+id{{ $p->id }}+"&tanggal="+tanggal{{ $x }},
-                            //         type: "GET",
-                            //         dataType: "JSON",
-                            //         success: function(data)
-                            //         {
-                            //                 if ( $('#jam_masuk-{{ $p->id }}-{{ $x }}').val() > data.jam_masuk){
-                            //                     $('#jam_masuk-{{ $p->id }}-{{ $x }}').addClass('text-theme-11');
-                            //                 }
-                            //                 if ( $('#jam_istirahat-{{ $p->id }}-{{ $x }}').val() < data.jam_istirahat){
-                            //                     $('#jam_istirahat-{{ $p->id }}-{{ $x }}').addClass('text-theme-11');
-                            //                 }
-                            //                 if ( $('#jam_masuk_istirahat-{{ $p->id }}-{{ $x }}').val() > data.jam_istirahat_masuk){
-                            //                     $('#jam_masuk_istirahat-{{ $p->id }}-{{ $x }}').addClass('text-theme-11');
-                            //                 }
-                            //                 if (  $('#jam_pulang-{{ $p->id }}-{{ $x }}').val() < data.jam_pulang){
-                            //                     $('#jam_pulang-{{ $p->id }}-{{ $x }}').addClass('text-theme-11');
-                            //                 }
-                                       
-                                        
-                            //         }
-                            //     });
+                            <?php  for ($x = 1; $x <= date('d'); $x++):  ?>
 
+                            <?php  foreach ($kehadiran_bulanan[$p->id][$x] as $item): ?>
+                            
+                            var id = $('#id{{$item->id}}').val();
+                            var tanggal  = $('#tanggal{{$item->id}}').val();
+
+                            // var id = {{ $item->pegawai_id }};
+                            // var tanggal = {{ $item->tanggal }};
+
+                            $.ajax({
+                                    url : "{{route('getpolakerja')}}?id="+id +"&tanggal="+tanggal,
+                                    type: "GET",
+                                    dataType: "JSON",
+                                    // contentType: 'text/plain',
+                                    success: function(data)
+                                    {
+                                            if ( $('#jam_masuk{{$item->id}}').val() > data.jam_masuk ){
+                                                $('.jam_masuk{{$item->id}}').addClass('text-theme-11');
+                                            }
+                                            else if ( $('#jam_istirahat{{$item->id}}').val() < data.jam_istirahat ){
+                                                $('.jam_istirahat{{$item->id}}').addClass('text-theme-11');
+                                            }
+                                            else if ( $('#jam_masuk_istirahat{{$item->id}}').val() > data.jam_istirahat_masuk ){
+                                                $('.jam_masuk_istirahat{{$item->id}}').addClass('text-theme-11');
+                                            }
+                                            else if (  $('#jam_pulang{{$item->id}}').val() < data.jam_pulang ){
+                                                $('.jam_pulang{{$item->id}}').addClass('text-theme-11');
+                                            }
+
+                                    }
+                                });
+
+                                    <?php endforeach; ?>
                                 <?php endfor; ?>
                             <?php endforeach; ?>
 
                         
 
-                        // <?php  foreach ($pegawais as $p):  ?>
-                        //     var id{{ $p->id }} = {{ $p->id }};
-                        //     <?php  for ($x = 1; $x <= date('t'); $x++):  ?>
-                            
-                        //     var tanggal{{ $x }} = {{ $x }};
-                        //     var pola{{ $x }} = $('#tanggal-{{ $x }}').val();
-
-
-                        //     $.ajax({
-                        //             url : "{{route('data_bulanan')}}?id="+id{{ $p->id }}+"&tanggal="+tanggal{{ $x }},
-                        //             type: "GET",
-                        //             dataType: "JSON",
-                        //             success: function(data)
-                        //             {
-                        //                 if (data.jam_masuk != null) {
-                        //                     $('#jam_masuk-{{ $p->id }}-{{ $x }}').text(data.jam_masuk);
-                        //                 }
-                        //                 if (data.jam_istirahat != null) {
-                        //                     $('#jam_istirahat-{{ $p->id }}-{{ $x }}').text(data.jam_istirahat);
-                        //                 }
-                        //                 if (data.jam_masuk_istirahat != null) {
-                        //                     $('#jam_masuk_istirahat-{{ $p->id }}-{{ $x }}').text(data.jam_masuk_istirahat);
-                        //                 }
-                        //                 if (data.jam_pulang != null) {
-                        //                     $('#jam_pulang-{{ $p->id }}-{{ $x }}').text(data.jam_pulang);
-                        //                 }
-                        //             }
-                        //         });
-
-                        //         <?php endfor; ?>
-                        //     <?php endforeach; ?>
-
+                      
                         
                                                 
                         
