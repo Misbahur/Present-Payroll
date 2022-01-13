@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\DarkModeController;
+use App\Http\Controllers\Cetak\PDFController;
 use App\Http\Controllers\{
     PolaController,
     JabatanController,
@@ -133,8 +134,9 @@ Route::middleware('auth')->group(function() {
         Route::POST('jadwalupdate', [JadwalController::class, 'update'])->name('jadwalupdate');
         Route::get('jadwaldelete/{id}', [JadwalController::class, 'destroy'])->name('jadwaldelete');
         Route::get('filterjadwal', [JadwalController::class, 'filterjadwal'])->name('filter-jadwal');
+        Route::any('cetak-jadwal-pdf', [JadwalController::class, 'ExportPDFBulanan'])->name('cetak-jadwal-pdf');
+         Route::get('cetak-jadwal-pegawai-pdf/{id}', [JadwalController::class, 'ExportPDFPerPegawai'])->name('cetak-jadwal-pegawai-pdf');
         // Route::get('checkJadwal', [JadwalController::class, 'checkJadwal'])->name('checkJadwal');
-    
         // Route::get('lembur', [PageController::class, 'lembur'])->name('lembur');
         //libur Manage
         Route::get('libur', [LiburController::class, 'index'])->name('libur');
@@ -161,6 +163,13 @@ Route::middleware('auth')->group(function() {
         Route::POST('pengecualianupdate', [PengecualianController::class, 'update'])->name('pengecualianupdate');
         Route::get('pengecualiandelete/{id}', [PengecualianController::class, 'destroy'])->name('pengecualiandelete');
         Route::get('dropdown_jabatan', [PengecualianController::class, 'dropdown_jabatan'])->name('dropdown_jabatan');
+
+        //Cetak PDF
+        // Route::any('cetak-jadwal-pdf', [PDFController::class, 'JadwalPerBulan'])->name('cetak-jadwal-pdf');
+        // Route::get('cetak-jadwal-pegawai-pdf/{id}', [PDFController::class, 'JadwalPerPegawai'])->name('cetak-jadwal-pegawai-pdf');
+        // Route::get('cetak-bonkas-pegawai-pdf/{id}', [PDFController::class, 'BonKasPegawai'])->name('cetak-bonkas-pegawai-pdf');
+        // Route::get('cetak-bayar-bank-pdf/{id}', [PDFController::class, 'BayarBank'])->name('cetak-bayar-bank-pdf');
+        // Route::get('cetak-penggajian-pdf', [PDFController::class, 'Penggajian'])->name('cetak-penggajian-pdf');
 
     });
 
@@ -206,6 +215,7 @@ Route::middleware('auth')->group(function() {
         Route::get('bon-kasedit', [Bon_kasController::class, 'edit'])->name('bon-kasedit');
         Route::POST('bon-kasupdate', [Bon_kasController::class, 'update'])->name('bon-kasupdate');
         Route::get('bon-kasdelete/{id}', [Bon_kasController::class, 'destroy'])->name('bon-kasdelete');
+        Route::get('cetak-bonkas-pegawai-pdf/{id}', [Bon_kasController::class, 'ExportPDFBonKasPegawai'])->name('cetak-bonkas-pegawai-pdf');
         Route::get('dropdown_jabatan', [Bon_kasController::class, 'dropdown_jabatan'])->name('dropdown_jabatan');
         
     
@@ -243,6 +253,7 @@ Route::middleware('auth')->group(function() {
         Route::POST('bankupdate', [BankController::class, 'update'])->name('bankupdate');
         Route::get('bankdelete/{id}', [BankController::class, 'destroy'])->name('bankdelete');
         Route::get('bayar_bank', [BankController::class, 'bayar_bank'])->name('bayar_bank');
+         Route::get('cetak-bayar-bank-pdf/{id}', [BankController::class, 'ExportPDFBayarBank'])->name('cetak-bayar-bank-pdf');
 
 
 
@@ -258,6 +269,7 @@ Route::middleware('auth')->group(function() {
         
 
         Route::get('slipgaji/{id}', [PenggajianController::class, 'yesgajian'])->name('slipgaji');
+        Route::get('cetak-penggajian-pdf', [PenggajianController::class, 'ExportPDFPenggajian'])->name('cetak-penggajian-pdf');
 
     
     });

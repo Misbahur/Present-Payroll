@@ -21,6 +21,6 @@ class Bank extends Model
 
     public function penggajian()
     {
-        return $this->hasMany(Penggajia::class);
+        return $this->hasMany(Penggajian::class);
     }
 }

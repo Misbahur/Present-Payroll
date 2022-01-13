@@ -167,6 +167,8 @@ class FingerprintController extends Controller
 
     public function updateFingerData(Request $request)
     {
+
+        // dd('uhuuu');
         // $time = date('H:i:s', strtotime($a['timestamp']));
         // $data->tanggal = date('Y-m-d', strtotime($a['timestamp']));
         $hariini = date('Y-m-d');
@@ -426,12 +428,12 @@ class FingerprintController extends Controller
 
     public function addPegawaiToFingerprint()
     {
-        $zk = new ZKTeco('192.168.22.71', 4370);
-        $zk->connect();
-        $zk->disableDevice();
-        $zk2 = new ZKTeco('192.168.22.73', 4370);
-        $zk2->connect();
-        $zk2->disableDevice();
+        // $zk = new ZKTeco('192.168.22.71', 4370);
+        // $zk->connect();
+        // $zk->disableDevice();
+        // $zk2 = new ZKTeco('192.168.22.73', 4370);
+        // $zk2->connect();
+        // $zk2->disableDevice();
 
         $pegawais = Pegawai::latest('id')->first();
         $zk->setUser($pegawais->id, $pegawais->id, $pegawais->nama, '');

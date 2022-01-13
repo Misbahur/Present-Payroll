@@ -7,7 +7,8 @@ use App\Models\Jadwal;
 use App\Models\Pegawai;
 use App\Models\Pola;
 use App\Models\User;
-
+use DB;
+use PDF;
 class JadwalController extends Controller
 {
     //
@@ -30,7 +31,12 @@ class JadwalController extends Controller
         $pola = Pola::all();
         $pegawais = Pegawai::all();
 
-        
+        // dd($bulan);
+        $bulan_jadwal = Jadwal::orderBy('tanggal', 'desc')
+        ->select('tanggal',DB::raw('YEAR(tanggal) year, MONTH(tanggal) month'))
+        ->groupBy('year','month')
+        ->get();
+
         // $cekIdOnJadwals = Jadwal::where('tanggal', '=', date('Y-m-d'))->pluck('pegawai_id');
         // $pegawais = Pegawai::whereNotIn('pegawais.id', $cekIdOnJadwals)
         //             ->select('pegawais.id', 'pegawais.nama')
@@ -43,6 +49,7 @@ class JadwalController extends Controller
             'pegawais' => $pegawais,
             // 'pegawais_edit' => $pegawais_edit,
             'bulan' => $bulan,
+            'bulan_jadwal' => $bulan_jadwal,
         ])->with('i', ($request->input('page', 1) - 1) * 10);
         
     }
@@ -212,4 +219,43 @@ class JadwalController extends Controller
         return redirect()->back()
                         ->with('success','Post deleted successfully');
     }
+
+
+ public function ExportPDFBulanan(Request $request)
+    {
+         // dd($request->tanggal);
+        $month = date('m', strtotime($request->tanggal));
+
+        $jadwal = Jadwal::with(['pegawai','pola'])
+        ->whereRaw('MONTH(tanggal) = '. $month)
+        ->orderBy('tanggal')  
+        ->get();
+        $month_title = Jadwal::with(['pegawai','pola'])
+        ->whereRaw('MONTH(tanggal) = '. $month)->first();
+        $month_title = date('M-Y', strtotime($month_title->tanggal));
+
+      $pdf = PDF::loadView('gocay.cetak.jadwal', ['jadwal' => $jadwal, 'bulan' => $month_title])->setPaper('landscape');
+      // download PDF file with download method
+      return $pdf->stream('Jadwal Bulan '.$month_title.'.pdf');
+    }
+
+     public function ExportPDFPerPegawai($id)
+    {
+        // dd($id);
+
+        $jadwal = Jadwal::with(['pegawai','pola'])
+        ->whereRaw('pegawai_id = '. $id)
+        ->orderBy('tanggal')  
+        ->get();
+        $pegawai_title = Jadwal::with(['pegawai','pola'])
+        ->whereRaw('pegawai_id = '. $id)
+        ->orderBy('tanggal')  
+        ->first();
+
+
+      $pdf = PDF::loadView('gocay.cetak.jadwal', ['jadwal' => $jadwal,'bulan' => $pegawai_title->pegawai->nama])->setPaper('landscape');
+      // download PDF file with download method
+      return $pdf->stream('Jadwal Pegawai '.$pegawai_title->pegawai->nama.'.pdf');
+    }
+
 }

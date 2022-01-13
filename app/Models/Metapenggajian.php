@@ -9,4 +9,10 @@ class Metapenggajian extends Model
 {
     use HasFactory;
     protected $guarded;
+
+         public function penggajian()
+     {
+         return $this->belongsTo(Penggajian::class);
+
+     }
 }

@@ -61,9 +61,10 @@
                                         <td class="text-center">
                                             <a href="" class="font-medium whitespace-nowrap">{{ $item->keterangan }}</a>
                                         </td>
-                                        <td class="table-report__action w-56">
+                                        <td class="table-report__action w-50">
                                             <div class="flex justify-center items-center">
-                                                <a class="flex items-center mr-3 bon-kas-edit" href="javascript:void(0)" data-toggle="modal" 
+                                            
+                                                <a class="flex items-center mr-2 bon-kas-edit" href="javascript:void(0)" data-toggle="modal" 
                                                 id="{{ $item->id }}" data-target="#header-footer-modal-preview-edit" data-id="{{ $item->id }}">
                                                     <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit 
                                                 </a>
@@ -71,6 +72,9 @@
                                                     <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
                                                 </a>
                                             </div>
+                                            <a class="flex items-center mr-3" href="{{ url('cetak-bonkas-pegawai-pdf',$item->pegawai_id) }}">
+                                                    <i data-feather="save" class="w-4 h-4 mr-1"></i> Download
+                                                </a>
                                         </td>
                                     </tr>
                                 @endforeach

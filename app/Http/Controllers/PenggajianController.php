@@ -12,7 +12,6 @@ use App\Models\Setting;
 use App\Models\Bon_kas;
 use Illuminate\Support\Facades\DB;
 use PDF;
-
 class PenggajianController extends Controller
 {
     /**
@@ -337,5 +336,45 @@ class PenggajianController extends Controller
         $meta->delete();
 
         return redirect()->back()->with('success','deleted successfully');
+    }
+
+    public function ExportPDFPenggajian(Request $request)
+    {
+
+     
+
+
+        $data_id = $request->pegawai_id;
+        // dd($data_id);
+
+        // $updateprint = Penggajian::find($id);
+        // $updateprint->status_print = 'Sudah Print';
+        // $updateprint->update();
+
+        $pegawai = Penggajian::where('id',$data_id)->first();
+
+        $gaji =  Metapenggajian::whereIn('penggajian_id', $data_id)->where('status', 'in')->get();
+        $potongan =  Metapenggajian::whereIn('penggajian_id', $data_id)->where('status', 'out')->get();
+
+
+
+
+        $in = Metapenggajian::where('penggajian_id', array($data_id))->where('status', 'in')->get()->sum('nominal');
+        $out = Metapenggajian::where('penggajian_id', array($data_id))->where('status', 'out')->get()->sum('nominal');
+       
+
+        $setting = Setting::all();
+
+      $pdf = PDF::loadView('gocay.cetak.slipgaji', [
+            'data_id' => $data_id,
+            'setting' => $setting,
+            'pegawai' => $pegawai,
+            'gaji' => $gaji,
+            'potongan' => $potongan,
+            'in' => $in,
+            'out' => $out,
+    ])->setPaper('a4');
+      // download PDF file with download method
+      return $pdf->stream('Jadwal Bulan '.'.pdf');
     }
 }
