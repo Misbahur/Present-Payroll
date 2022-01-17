@@ -20,7 +20,12 @@
                             <div class="col-span-12 sm:col-span-6 xl:col-span-6 intro-y">
                                 <div class="report-box zoom-in">
                                     <div class="box p-5">
-                                        <div class="flex">
+                                        <div>
+                                            <a class="flex items-center mr-3" href="{{ url('cetak-bayar-bank-pdf',$item->id) }}">
+                                                    <i data-feather="save"  class=" text-theme-10"></i> Download
+                                                </a>
+                                        </div>
+                                        <div class="flex mt-3" >
                                             <i data-feather="dollar-sign" class="report-box__icon text-theme-10"></i>
                                         </div>
                                         <div class="text-3xl font-bold leading-8 mt-6">

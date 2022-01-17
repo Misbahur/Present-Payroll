@@ -167,6 +167,8 @@ class FingerprintController extends Controller
 
     public function updateFingerData(Request $request)
     {
+
+        // dd('uhuuu');
         // $time = date('H:i:s', strtotime($a['timestamp']));
         // $data->tanggal = date('Y-m-d', strtotime($a['timestamp']));
         $hariini = date('Y-m-d');
@@ -193,61 +195,54 @@ class FingerprintController extends Controller
 
         $att = array(
             [
-                'timestamp' => '03-01-2022 07:54:07',
+                'timestamp' => '15-01-2022 07:54:07',
                 'id' => '1'
             ],
             [
-                'timestamp' => '03-01-2022 08:00:40',
+                'timestamp' => '15-01-2022 07:54:40',
                 'id' => '3'
             ],
             
             [
-                'timestamp' => '03-01-2022 11:20:40',
+                'timestamp' => '15-01-2022 11:20:40',
                 'id' => '2'
             ],
             [
-                'timestamp' => '03-01-2022 13:27:37',
+                'timestamp' => '15-01-2022 13:27:37',
                 'id' => '1'
             ],
             [
-                'timestamp' => '03-01-2022 13:59:37',
+                'timestamp' => '15-01-2022 13:59:37',
                 'id' => '1'
             ],
-            // [
-            //     'timestamp' => '03-01-2022 13:59:40',
-            //     'id' => '3'
-            // ],
             
             [
-                'timestamp' => '03-01-2022 15:22:00',
+                'timestamp' => '15-01-2022 13:04:00',
                 'id' => '3'
             ],
             [
-                'timestamp' => '03-01-2022 15:23:00',
+                'timestamp' => '15-01-2022 14:50:00',
                 'id' => '3'
             ],
+         
             [
-                'timestamp' => '03-01-2022 16:58:00',
-                'id' => '3'
-            ],
-            [
-                'timestamp' => '03-01-2022 21:08:00',
+                'timestamp' => '15-01-2022 21:08:00',
                 'id' => '1'
             ],
             [
-                'timestamp' => '03-01-2022 17:03:00',
+                'timestamp' => '15-01-2022 17:03:00',
                 'id' => '2'
             ],
             [
-                'timestamp' => '03-01-2022 17:53:00',
+                'timestamp' => '15-01-2022 17:53:00',
                 'id' => '2'
             ],
             [
-                'timestamp' => '03-01-2022 21:03:00',
+                'timestamp' => '15-01-2022 21:03:00',
                 'id' => '2'
             ],
             [
-                'timestamp' => '03-01-2022 21:05:00',
+                'timestamp' => '15-01-2022 21:05:00',
                 'id' => '3'
             ],
         );
@@ -426,12 +421,12 @@ class FingerprintController extends Controller
 
     public function addPegawaiToFingerprint()
     {
-        $zk = new ZKTeco('192.168.22.71', 4370);
-        $zk->connect();
-        $zk->disableDevice();
-        $zk2 = new ZKTeco('192.168.22.73', 4370);
-        $zk2->connect();
-        $zk2->disableDevice();
+        // $zk = new ZKTeco('192.168.22.71', 4370);
+        // $zk->connect();
+        // $zk->disableDevice();
+        // $zk2 = new ZKTeco('192.168.22.73', 4370);
+        // $zk2->connect();
+        // $zk2->disableDevice();
 
         $pegawais = Pegawai::latest('id')->first();
         $zk->setUser($pegawais->id, $pegawais->id, $pegawais->nama, '');

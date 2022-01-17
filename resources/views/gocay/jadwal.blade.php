@@ -14,6 +14,8 @@
                     <h2 class="text-lg font-medium truncate mr-5">Daftar Jadwal Karyawan</h2>
                     <a href="javascript:;" data-toggle="modal" data-target="#header-footer-modal-preview"
                         class="btn btn-primary shadow-md mr-2">Tambah Jadwal</a>
+                    <a href="javascript:;" data-toggle="modal" data-target="#cetak-jadwal-bulan"
+                        class="btn btn-primary shadow-md mr-2">Cetak Jadwal Bulanan</a>
                     <div class="flex items-center sm:ml-auto mt-3 sm:mt-0">
                             <form method="get" action="{{ route('filter-jadwal') }}">
                                 @csrf
@@ -78,7 +80,9 @@
                                         </a>
                                     </td>
                                     <td class="table-report__action w-56">
-                                            <div class="flex justify-center items-center">
+                                            <div class="flex justify-center items-center">                                            <a class="flex items-center mr-3" href="{{ url('cetak-jadwal-pegawai-pdf',$item->pegawai_id) }}">
+                                                    <i data-feather="save" class="w-4 h-4 mr-1"></i> Download
+                                                </a>
                                                 <a class="flex items-center mr-3 jadwaledit" href="javascript:void(0)" data-toggle="modal" 
                                                 id="{{ $item->id }}" data-target="#header-footer-modal-preview-edit" data-id="{{ $item->id }}">
                                                     <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit 
@@ -163,6 +167,60 @@
                             @endforeach
                         </select>
                     </div>
+                </div>
+                <!-- END: Modal Body -->
+                <!-- BEGIN: Modal Footer -->
+                <div class="modal-footer text-right">
+                    <button type="button" data-dismiss="modal"
+                        class="btn btn-outline-secondary w-20 mr-1">Cancel</button>
+                    <button type="submit" class="btn btn-primary w-20">Send</button>
+                </div>
+                </form>
+                <!-- END: Modal Footer -->
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- END: Modal Content -->
+
+    <!-- BEGIN: Modal Content -->
+    <div id="cetak-jadwal-bulan" class="modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- BEGIN: Modal Header -->
+                <div class="modal-header">
+                    <h2 class="font-medium text-base mr-auto">Cetak Jadwal Kerja</h2>
+                    <div class="dropdown sm:hidden">
+                        <a class="dropdown-toggle w-5 h-5 block" href="javascript:;" aria-expanded="false">
+                            <i data-feather="more-horizontal" class="w-5 h-5 text-gray-600 dark:text-gray-600"></i>
+                        </a>
+                        <div class="dropdown-menu w-40">
+                            <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
+                                <a href="javascript:;"
+                                    class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                                    <i data-feather="file" class="w-4 h-4 mr-2"></i> Download Docs
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END: Modal Header -->
+                <!-- BEGIN: Modal Body -->
+                <form method="POST" id= "form-jadwal" action="{{ route('cetak-jadwal-pdf') }}">
+                        @csrf
+                <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
+                    <div id="form-cetak-bulan" class="col-span-12 sm:col-span-12">
+                        <label for="modal-form-2" class="form-label">Jadwal Kerja</label>
+                        <select id="modal-form-2-edit" class="form-select" name="tanggal">
+                        @foreach ($bulan_jadwal as $item)
+                            <option value="{{ $item->tanggal }}">
+                                {{ \Carbon\Carbon::parse($item->tanggal)->format('M - Y')}}
+                                </option>
+                        @endforeach
+                        </select>
+                    </div>
+
                 </div>
                 <!-- END: Modal Body -->
                 <!-- BEGIN: Modal Footer -->
@@ -281,6 +339,18 @@
             });
         </script>
 
-
+    <script type="text/javascript">
+        $(function() {
+            $('#modal-form-cetak').datepicker( {
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            dateFormat: 'MM yy',
+            onClose: function(dateText, inst) { 
+                $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+            }
+            });
+        });
+    </script>
 </div>
 @endsection

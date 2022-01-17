@@ -7,7 +7,7 @@ use App\Models\Jadwal;
 use App\Models\Pegawai;
 use App\Models\Pola;
 use App\Models\User;
-
+use PDF;
 class JadwalController extends Controller
 {
     //
@@ -29,7 +29,7 @@ class JadwalController extends Controller
 
         $pola = Pola::all();
         $pegawais = Pegawai::all();
-        
+        // dd($bulan);
         return view('gocay.jadwal', [
             'jadwals' => $jadwals,
             'pola' => $pola,

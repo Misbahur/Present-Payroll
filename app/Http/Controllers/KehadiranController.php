@@ -549,6 +549,17 @@ class KehadiranController extends Controller
                     $temporary_in->save();
 
                 endif;
+            if ($request->status == 'in-lembur-harian-PS'):
+                    $temporary_in = new Temporary;
+                    $temporary_in->status = 'in-lembur-harian';
+                    $temporary_in->tanggal = $request->tanggal;
+                    $temporary_in->pegawai_id = $request->pegawai_id;
+                    for($i=1; $i <= intval($request->durasi/$lembur[0]->durasi); $i++ ):
+                        $temporary_in->nominal +=  $lembur[0]->nominal;
+                    endfor;
+                    $temporary_in->save();
+
+                endif;
         endif;
         
 

@@ -6,7 +6,8 @@ use App\Models\Bon_kas;
 use App\Models\Jabatan;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
-
+use DB;
+use PDF;
 class Bon_kasController extends Controller
 {
 
@@ -143,5 +144,26 @@ class Bon_kasController extends Controller
               ->delete();
         return redirect()->back()
                         ->with('success','Post deleted successfully');
+    }
+      public function ExportPDFBonKasPegawai($id)
+    {
+
+        $bonkas = Bon_kas::with(['pegawai'])
+        ->whereRaw('pegawai_id = '. $id)
+        ->orderBy('tanggal')  
+        ->get();
+        $pegawai_title = Bon_kas::with(['pegawai'])
+        ->whereRaw('pegawai_id = '. $id)
+        ->orderBy('tanggal')  
+        ->first();
+        $total_bon = Bon_kas::with(['pegawai'])
+        ->whereRaw('pegawai_id = '. $id)
+        ->sum('nominal');
+
+        $pegawai = Pegawai::where('id', $id)->first();
+
+      $pdf = PDF::loadView('gocay.cetak.bonkas', ['adm_pegawai' => $pegawai,'total_bon' => $total_bon,'bonkas' => $bonkas,'pegawai' => $pegawai_title->pegawai->nama])->setPaper('landscape');
+      // download PDF file with download method
+      return $pdf->stream('Bon Kas '.$pegawai_title->pegawai->nama.'.pdf');
     }
 }
