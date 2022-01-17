@@ -225,28 +225,35 @@
 					<td>Nominal #</td>
 				</tr>
 
-                <tr class="item">
+              
+
+				@for ($i=0; $i < count($in); $i++)
+				@if(($i+1) == $dt[0])
+				<tr class="item">
                     <td>Total Pemasukan</td>
-
-				@if($item->penggajian->pegawai->id == $dt[0])
-
-					<td>Rp. {{ number_format($in) }}</td>
-
-				@endif
+					<td>Rp. {{ number_format($in[$i]) }}</td>
                 </tr>
+                @endif
+				@endfor
 
-				<tr class="item last">
-					<td>Total Potongan</td>
+				@for ($i=0; $i < count($out); $i++)
+				@if(($i+1) == $dt[0])
+				<tr class="item">
+                    <td>Total Potongan</td>
+					<td>Rp. {{ number_format($out[$i]) }}</td>
+                </tr>
+                @endif
+				@endfor
 
-					<td>Rp. {{ number_format($out) }}</td>
-				</tr>
-
+				@for ($i=0; $i < count($in); $i++)
+				@if(($i+1) == $dt[0])
 				<tr class="total">
 					<td></td>
-
-					<td>Total: Rp. {{ number_format($in-$out) }}</td>
+					<td>Rp. {{ number_format($in[$i] - $out[$i]) }}</td>
+					<td>  </td>
 				</tr>
-
+				@endif
+				@endfor
                 <tr class="titlettd">
                     <td>Diserahkan Oleh</td>
 

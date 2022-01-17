@@ -228,7 +228,6 @@ class JadwalController extends Controller
 
         $jadwal = Jadwal::with(['pegawai','pola'])
         ->whereRaw('MONTH(tanggal) = '. $month)
-        ->orderBy('tanggal')  
         ->get();
         $month_title = Jadwal::with(['pegawai','pola'])
         ->whereRaw('MONTH(tanggal) = '. $month)->first();
