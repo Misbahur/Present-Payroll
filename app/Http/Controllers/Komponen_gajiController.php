@@ -22,9 +22,8 @@ class Komponen_gajiController extends Controller
     public function index(Request $request)
     {
         $data_request = $request->all();
-        $komponen_gaji = Komponen_gaji::where('id', '!=' , '1')
-                        ->where('id', '!=' , '2')
-                        ->paginate(10);
+        $komponen_gaji = Komponen_gaji::paginate(10);
+        // select('komponen_gajis.*','jabatans.id', 'jabatans.nama')->join('jabatans', 'jabatans.id', '=', 'komponen_gajis.jabatan_id')
         $pegawais = Pegawai::all();
         $jabatans = Jabatan::all();
         $lembur = Lembur::where('id', 1)->first();
@@ -147,7 +146,7 @@ class Komponen_gajiController extends Controller
         $komponen_gaji->update();
 
         if($komponen_gaji){
-            return redirect()->route('komponen-gaji')->with(['success' => 'Data Komponen Gaji berhasil disimpan']);
+            return redirect()->back()->with(['success' => 'Data Komponen Gaji berhasil disimpan']);
         }else{
             return redirect()->route('komponen-gaji')->with(['danger' => 'Data Tidak Terekam!']);
         }
@@ -164,7 +163,7 @@ class Komponen_gajiController extends Controller
         $komponen_gaji->update();
 
         if($komponen_gaji){
-            return redirect()->route('komponen-gaji')->with(['success' => 'Data Komponen Gaji berhasil disimpan']);
+            return redirect()->back()->with(['success' => 'Data Komponen Gaji berhasil disimpan']);
         }else{
             return redirect()->route('komponen-gaji')->with(['danger' => 'Data Tidak Terekam!']);
         }
