@@ -48,7 +48,7 @@
                                 </thead>
                                 <tbody>
                                     <?php $no = 1; ?>
-                                    @foreach ($komponen_gaji as $item)
+                                    @foreach ($komponen_gaji->skip(2) as $item)
                                         <tr class="intro-x">
                                             <td class="w-40">
                                             <!-- {{ $no++; }} -->
