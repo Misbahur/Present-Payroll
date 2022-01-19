@@ -286,7 +286,6 @@
     <?php $count++;?>
   @endif
 @endforeach
-
 		</table>
 		
 	</body>
