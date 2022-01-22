@@ -70,7 +70,7 @@ class PegawaiController extends Controller
         $pegawai->nohp = $request->nohp;
         $pegawai->bank_id = $request->bank_id;
         $pegawai->no_rek = $request->no_rek;
-        $pegawai->atas_nama = $request->atas_nama;
+        $pegawai->atas_nama = $request->nama;
         $pegawai->save();
         
         $pegawai_last = Pegawai::latest('id')->first();
@@ -147,7 +147,7 @@ class PegawaiController extends Controller
         $pegawai->nohp = $request->nohp;
         $pegawai->bank_id = $request->bank_id;
         $pegawai->no_rek = $request->no_rek;
-        $pegawai->atas_nama = $request->atas_nama;
+        $pegawai->atas_nama = $request->nama;
         $pegawai->update();
         // $pegawais->update($request->all());
 
