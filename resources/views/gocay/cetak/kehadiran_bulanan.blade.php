@@ -8,27 +8,9 @@
     </head>
     <body>
 
-      <table width="100%">
-        <tr>
-            <td valign="top">
-                <img src="{{ ('dist/images/logo.png') }}" alt="" width="30%"/ style="padding-bottom: 5em; padding-top: 1em">
-            </td>
-
-            <td align="right">
-                <h3>Gocay Cafe Resto & Supermarket</h3>
-                <pre>
-                   Jl. Gelora No.17, Kecamatan Besuki,
-                   Kabupaten Situbondo, Jawa Timur 68356
-               </pre>
-
-           </td>
-       </tr>
-
-   </table>
-
    <table width="100%">
     <tr class="text-center">
-        <td><strong>Jadwal:  </strong>{{ \Carbon\Carbon::parse($bulan)->format('M - Y')}}</td>
+        <td><h1><strong>Jadwal:  </strong>{{ \Carbon\Carbon::parse($bulan)->format('M - Y')}}</h1></td>
     </tr>
 
 </table>
@@ -66,6 +48,8 @@
                                 @for ($x=1; $x <= date('t'); $x++)
                                 <td class="text-center">
                                     @foreach ($kehadiran_bulanan[$p->id][$x] as $item)
+                                    @foreach ($jadwals as $jd)
+                                    @if($item->jam_masuk > $jd->jam_masuk)
                                     <input type="hidden" name="hidden-id" id="id{{$item->id}}" value="{{ $item->pegawai_id }}">
                                     <input type="hidden" name="hidden-tanggal" id="tanggal{{$item->id}}" value="{{ $item->tanggal}}">
                                     <input type="hidden" id="jam_masuk{{ $item->id }}" value="{{ $item->jam_masuk }}">
@@ -76,6 +60,19 @@
                                     <span class="jam_istirahat{{$item->id}}" value="{{$item->jam_istirahat}}">{{ $item->jam_istirahat != null ? $item->jam_istirahat : '-' }}</span> <br>
                                     <span class="jam_masuk_istirahat{{$item->id}}" value="{{$item->jam_masuk_istirahat}}">{{ $item->jam_masuk_istirahat != null ? $item->jam_masuk_istirahat : '-' }} </span> <br>
                                     <span class="jam_pulang{{$item->id}}" value="{{$item->jam_pulang}}">{{ $item->jam_pulang != null ? $item->jam_pulang : '-' }} </span>
+                                    @else
+                                    <input type="hidden" name="hidden-id" id="id{{$item->id}}" value="{{ $item->pegawai_id }}">
+                                    <input type="hidden" name="hidden-tanggal" id="tanggal{{$item->id}}" value="{{ $item->tanggal}}">
+                                    <input type="hidden" id="jam_masuk{{ $item->id }}" value="{{ $item->jam_masuk }}">
+                                    <input type="hidden" id="jam_istirahat{{ $item->id }}" value="{{ $item->jam_istirahat }}">
+                                    <input type="hidden" id="jam_masuk_istirahat{{ $item->id }}" value="{{ $item->jam_masuk_istirahat }}">
+                                    <input type="hidden" id="jam_pulang{{ $item->id }}" value="{{ $item->jam_pulang }}">
+                                    <span style="color: lime;" class="jam_masuk{{$item->id}}" value="{{$item->jam_masuk}}">{{ $item->jam_masuk != null ? $item->jam_masuk : '-' }}</span> <br>
+                                    <span style="color: lime;" class="jam_istirahat{{$item->id}}" value="{{$item->jam_istirahat}}">{{ $item->jam_istirahat != null ? $item->jam_istirahat : '-' }}</span> <br>
+                                    <span style="color: lime;" class="jam_masuk_istirahat{{$item->id}}" value="{{$item->jam_masuk_istirahat}}">{{ $item->jam_masuk_istirahat != null ? $item->jam_masuk_istirahat : '-' }} </span> <br>
+                                    <span style="color: lime;" class="jam_pulang{{$item->id}}" value="{{$item->jam_pulang}}">{{ $item->jam_pulang != null ? $item->jam_pulang : '-' }} </span>
+                                    @endif
+                                    @endforeach
                                     @endforeach
                                 </td>
                                 @endfor

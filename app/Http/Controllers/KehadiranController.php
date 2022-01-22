@@ -670,8 +670,9 @@ class KehadiranController extends Controller
      $month = date('m', strtotime($request->tanggal)); 
      $pegawais_count = Pegawai::get()->count('id');
      // dd($pegawais_count);
-     $pegawais = Pegawai::limit($pegawais_count)
+     $pegawais = Pegawai::limit(5)
                 ->get();
+                $jadwals = Jadwal::all();
                 // dd($pegawais);
         // $batas_tanggal = date('t');
         // $kehadiran_bulanan = Kehadiran::whereBetween('tanggal', [date('Y-m-d', strtotime('first day of this month')),date('Y-m-d', strtotime('last day of this month'))])
@@ -713,10 +714,11 @@ class KehadiranController extends Controller
        'kehadiran_bulanan' => $kehadiran_bulanan,
             // 'kehadirans' => $kehadirans,
             'bulan_jadwal' => $bulan_jadwal,
+            'jadwals' => $jadwals,
             'bulan' => $request->tanggal,
             'pegawais' => $pegawais,
     ])->setPaper('a1','landscape');
       // download PDF file with download method
-      return $pdf->download('Jadwal Bulan '.'.pdf');
+      return $pdf->stream('Jadwal Bulan '.'.pdf');
     }
 }
