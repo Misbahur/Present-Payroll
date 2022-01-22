@@ -49,7 +49,7 @@
                                     <th class="text-center whitespace-nowrap">Nama Pegawai</th>
                                     <th class="text-center whitespace-nowrap">Bank</th>
                                     <th class="text-center whitespace-nowrap">Nomor Rekekning</th>
-                                    <th class="text-center whitespace-nowrap">Atas Nama</th>
+                                    <!-- <th class="text-center whitespace-nowrap">Atas Nama</th> -->
                                     <th class="text-center whitespace-nowrap">Total</th>
                                     <!-- <th class="text-center whitespace-nowrap">Aksi</th> -->
                                 </tr>
@@ -69,9 +69,9 @@
                                         <td class="text-center">
                                             <a href="" class="font-medium whitespace-nowrap">{{ $item->no_rek }}</a>
                                         </td>
-                                        <td class="text-center">
+                                        <!-- <td class="text-center">
                                             <a href="" class="font-medium whitespace-nowrap">{{ $item->atas_nama }}</a>
-                                        </td>
+                                        </td> -->
 
                                         <td class="text-center">
                                             <a href="" class="font-medium whitespace-nowrap">{{ "Rp. " . number_format($gaji_total[$item->pegawai_id],0,',','.') }}</a>

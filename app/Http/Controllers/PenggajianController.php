@@ -356,13 +356,16 @@ class PenggajianController extends Controller
         $gaji =  Metapenggajian::whereIn('penggajian_id', $data_id)->where('status', 'in')->get();
         $potongan =  Metapenggajian::whereIn('penggajian_id', $data_id)->where('status', 'out')->get();
 
+        $in = array();
+        $out = array();
 
-
-
-        $in = Metapenggajian::where('penggajian_id', array($data_id))->where('status', 'in')->get()->sum('nominal');
-        $out = Metapenggajian::where('penggajian_id', array($data_id))->where('status', 'out')->get()->sum('nominal');
+        for ($i=0; $i < count($data_id); $i++) { 
+        $in[$i] = Metapenggajian::where('penggajian_id', array($data_id[$i]))->where('status', 'in')->get()->sum('nominal');
+        $out[$i] = Metapenggajian::where('penggajian_id', array($data_id[$i]))->where('status', 'out')->get()->sum('nominal');
+        }
+     
        
-
+// dd($in);
         $setting = Setting::all();
 
       $pdf = PDF::loadView('gocay.cetak.slipgaji', [

@@ -59,6 +59,11 @@ class JadwalController extends Controller
         $data_request = $request->all();
         $pegawai_id = Pegawai::where('nama','like',"%".$request->filter_nama."%")->pluck('id');
         // $bulan_id = date('Y') .'-' . $request->filter_bulan .'-' . $request->filter_tanggal;
+        if ($request->filter_tanggal != null):
+            $request->filter_tanggal = $request->filter_tanggal;
+        else:
+            $request->filter_tanggal = date('Y-m-d');
+        endif;
         if ($request->filter_nama == ''):
             $jadwals = Jadwal::where('tanggal', $request->filter_tanggal)
                         ->orderBy('pegawai_id', 'asc')
@@ -76,6 +81,12 @@ class JadwalController extends Controller
 
         $pola = Pola::all();
         $pegawais = Pegawai::all();
+        $bulan_jadwal = Jadwal::orderBy('tanggal', 'desc')
+        ->select('tanggal',DB::raw('YEAR(tanggal) year, MONTH(tanggal) month'))
+        ->groupBy('year','month')
+        ->get();
+
+        // dd($request->filter_tanggal);
 
         $bulan=array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
 
@@ -87,6 +98,7 @@ class JadwalController extends Controller
             'pegawais' => $pegawais,
             'bulan' => $bulan,
             'data_request' => $data_request,
+            'bulan_jadwal' => $bulan_jadwal,
         ])->with('i', ($request->input('page', 1) - 1) * 10);
     }
 
@@ -228,13 +240,35 @@ class JadwalController extends Controller
 
         $jadwal = Jadwal::with(['pegawai','pola'])
         ->whereRaw('MONTH(tanggal) = '. $month)
-        ->orderBy('tanggal')  
         ->get();
+        $countDate3=Jadwal::with(['pegawai','pola'])
+        ->whereRaw('MONTH(tanggal) = '. $month)
+        ->groupBy('tanggal')
+        ->get()
+        ->count('tanggal');
+        $countPola3=Jadwal::with(['pegawai','pola'])
+        ->whereRaw('MONTH(tanggal) = '. $month)
+        ->get()
+        ->groupBy('pola.nama')
+        ->count('pola.nama');
+        $countDate2=Jadwal::with(['pegawai','pola'])
+        ->whereRaw('MONTH(tanggal) = '. $month)
+        ->get()
+        ->count('tanggal');
+        $countPola2=Jadwal::with(['pegawai','pola'])
+        ->whereRaw('MONTH(tanggal) = '. $month)
+        ->get()
+        ->count('pola.nama');
+$countDate = $countDate2 / $countDate3;
+$countPola = $countPola3;
+$countPolaRow = $countPola2 / ($countPola3 * $countDate3);
+
+// dd($jadwal);
         $month_title = Jadwal::with(['pegawai','pola'])
         ->whereRaw('MONTH(tanggal) = '. $month)->first();
         $month_title = date('M-Y', strtotime($month_title->tanggal));
 
-      $pdf = PDF::loadView('gocay.cetak.jadwal', ['jadwal' => $jadwal, 'bulan' => $month_title])->setPaper('landscape');
+      $pdf = PDF::loadView('gocay.cetak.jadwal', ['jadwal' => $jadwal, 'bulan' => $month_title,'countDate' => $countDate, 'countPola' => $countPola, 'countPolaRow' => $countPolaRow])->setPaper('landscape');
       // download PDF file with download method
       return $pdf->stream('Jadwal Bulan '.$month_title.'.pdf');
     }

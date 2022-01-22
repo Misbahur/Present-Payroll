@@ -14,7 +14,8 @@ use App\Models\Pengecualian;
 use App\Models\Komponen_gaji;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
+use DB;
+use PDF;
 class KehadiranController extends Controller
 {
 
@@ -84,6 +85,10 @@ class KehadiranController extends Controller
         $kehadiran_data = Kehadiran::where('tanggal', $tanggal)
         ->where('pegawai_id', $request->pegawai_id)
         ->get();
+        $bulan_jadwal = Kehadiran::orderBy('tanggal', 'desc')
+        ->select('tanggal',DB::raw('YEAR(tanggal) year, MONTH(tanggal) month'))
+        ->groupBy('year','month')
+        ->get();
         foreach ($pegawais as $p):
             for ($x=1; $x <= date('t'); $x++):
                 $tanggal = date('Y') .'-' . date('m') .'-' . $x;
@@ -103,6 +108,7 @@ class KehadiranController extends Controller
         return view('gocay.kehadiran-bulanan', [
             'kehadiran_bulanan' => $kehadiran_bulanan,
             // 'kehadirans' => $kehadirans,
+            'bulan_jadwal' => $bulan_jadwal,
             'pegawais' => $pegawais,
             'bulan' => $bulan,
             // 'tanggal_terakhir' => $tanggal_terakhir,
@@ -656,5 +662,61 @@ class KehadiranController extends Controller
               ->delete();
         return redirect()->back()
                         ->with('success','Post deleted successfully');
+    }
+
+     public function ExportPDFKehadiraBulanan(Request $request)
+    {
+     set_time_limit(10000);
+     $month = date('m', strtotime($request->tanggal)); 
+     $pegawais_count = Pegawai::get()->count('id');
+     // dd($pegawais_count);
+     $pegawais = Pegawai::limit($pegawais_count)
+                ->get();
+                // dd($pegawais);
+        // $batas_tanggal = date('t');
+        // $kehadiran_bulanan = Kehadiran::whereBetween('tanggal', [date('Y-m-d', strtotime('first day of this month')),date('Y-m-d', strtotime('last day of this month'))])
+        // ->whereYear('tanggal', date('Y'))
+        // ->whereMonth('tanggal', date('m'))
+        // ->orderBy('pegawai_id', 'asc')
+        // ->orderBy('tanggal', 'asc')
+        // ->get();
+        $tanggal = date('Y') .'-' . date('m') .'-' . $request->tanggal;
+        $kehadiran_data = Kehadiran::where('tanggal', $tanggal)
+        ->where('pegawai_id', $request->pegawai_id)
+        ->get();
+        $bulan_jadwal = Kehadiran::orderBy('tanggal', 'desc')
+        ->select('tanggal',DB::raw('YEAR(tanggal) year, MONTH(tanggal) month'))
+        ->groupBy('year','month')
+        ->whereRaw('MONTH(tanggal) = '. $month)->first()
+        ->get();
+        // dd($bulan_jadwal);
+        foreach ($pegawais as $p):
+            for ($x=1; $x <= date('t'); $x++):
+                $tanggal = date('Y') .'-' . date('m') .'-' . $x;
+                $kehadiran_bulanan[$p->id][$x] = Kehadiran::where('tanggal', date('Y-m-d', strtotime($tanggal)))
+                ->where('pegawai_id', $p->id)
+                ->limit(5)
+                ->get();
+            endfor;
+        endforeach;
+        $tanggal_terakhir = Kehadiran::latest()->first();
+
+        // $kehadirans = Kehadiran::where('tanggal', Carbon::now()->toDateString())
+        // ->orderBy('tanggal', 'asc')
+        // ->orderBy('pegawai_id', 'asc')
+        // ->paginate(10);
+
+        
+        // $setting = Setting::all();
+        // dd($kehadiran_bulanan);
+      $pdf = PDF::loadView('gocay.cetak.kehadiran_bulanan', [
+       'kehadiran_bulanan' => $kehadiran_bulanan,
+            // 'kehadirans' => $kehadirans,
+            'bulan_jadwal' => $bulan_jadwal,
+            'bulan' => $request->tanggal,
+            'pegawais' => $pegawais,
+    ])->setPaper('a1','landscape');
+      // download PDF file with download method
+      return $pdf->download('Jadwal Bulan '.'.pdf');
     }
 }

@@ -165,5 +165,5 @@ class Bon_kasController extends Controller
       $pdf = PDF::loadView('gocay.cetak.bonkas', ['adm_pegawai' => $pegawai,'total_bon' => $total_bon,'bonkas' => $bonkas,'pegawai' => $pegawai_title->pegawai->nama])->setPaper('landscape');
       // download PDF file with download method
       return $pdf->stream('Bon Kas '.$pegawai_title->pegawai->nama.'.pdf');
-    }
+     }
 }

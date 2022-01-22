@@ -13,6 +13,8 @@
             }
             tr.border_bottom td {
   border-bottom: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+  border-left: 1px solid lightgray;
 }
             tfoot tr td{
                 font-weight: bold;
@@ -63,58 +65,36 @@
     </tr>
 </thead>
 <tbody>
-
-<?php
-
-    $already_echoed_tgl = array();
-    $already_echoed_pola = array();
-    $no=0;
-
-?>
-   @forelse($jadwal as $index => $item)
-   @php
+       @php
+   $no = 1;
+$asize =  array_count_values(array_column($arr, 'tgl'));
+   
+   @endphp
+    @foreach($jadwal as $key => $data)
+     @php
    $arr[] = array(
    'no' => $item->id,
    'tgl' => $item->tanggal,
    'pola' => $item->pola->nama,
-  
+   'pegawai' => $item->pegawai->nama,
    );
    @endphp
+  <tr class="border_bottom">
+    @if ($key == 0 || $key % $countDate == 0)
 
-   <tr class="border_bottom">
-    @if(!in_array($item->tanggal, $already_echoed_tgl)) 
-     <td class="text-center whitespace-nowrap">   {{ $no +1 }}   </td>
-     <td class="text-center whitespace-nowrap" >  {{ \Carbon\Carbon::parse($item->tanggal)->format('d-M-Y')}}   </td>
-     <?php
-     $no++;
-     ?>
-     @else
-     <td></td>
-     <td></td>
+         <td rowspan="{{ $countDate }}">{{ $no }}</td>
+         <td rowspan="{{ $countDate }}"> {{ \Carbon\Carbon::parse($data->tanggal)->format('d-M-Y')}} </td>
+    @php
+   $no+=1 ;
+   @endphp
      @endif
-     <?php
-     $already_echoed_tgl[] = $item->tanggal;
-     ?>
-
-     @if(in_array($item->tanggal, $already_echoed_pola) && in_array($item->pola->nama, $already_echoed_pola)) 
-     <td> </td>
-       
-     @else
-      <td class="text-center whitespace-nowrap">   {{ $item->pola->nama }}   </td>
-
+    @if ($key == 0 || $key % $countPolaRow == 0)
+           <td rowspan="{{ $countPolaRow }}">{{$data->pola->nama}}</td>
      @endif
+     <td>{{$data->pegawai->nama}}</td>
+  </tr>
 
-         <?php
-     $already_echoed_pola = array(
-        $item->tanggal, $item->pola->nama,
-    );
-     ?>
-    
-
-     <td class="text-center whitespace-nowrap">   {{ $item->pegawai->nama }}   </td>
- </tr>
- @empty
- @endforelse
+@endforeach
 </tbody>
 </table>
 

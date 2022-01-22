@@ -197,10 +197,10 @@
                         </a>
                         <div class="dropdown-menu w-40">
                             <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                                <a href="javascript:;"
+           <!--                      <a href="javascript:;"
                                     class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                                     <i data-feather="file" class="w-4 h-4 mr-2"></i> Download Docs
-                                </a>
+                                </a> -->
                             </div>
                         </div>
                     </div>
