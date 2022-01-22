@@ -59,6 +59,11 @@ class JadwalController extends Controller
         $data_request = $request->all();
         $pegawai_id = Pegawai::where('nama','like',"%".$request->filter_nama."%")->pluck('id');
         // $bulan_id = date('Y') .'-' . $request->filter_bulan .'-' . $request->filter_tanggal;
+        if ($request->filter_tanggal != null):
+            $request->filter_tanggal = $request->filter_tanggal;
+        else:
+            $request->filter_tanggal = date('Y-m-d');
+        endif;
         if ($request->filter_nama == ''):
             $jadwals = Jadwal::where('tanggal', $request->filter_tanggal)
                         ->orderBy('pegawai_id', 'asc')
@@ -76,6 +81,12 @@ class JadwalController extends Controller
 
         $pola = Pola::all();
         $pegawais = Pegawai::all();
+        $bulan_jadwal = Jadwal::orderBy('tanggal', 'desc')
+        ->select('tanggal',DB::raw('YEAR(tanggal) year, MONTH(tanggal) month'))
+        ->groupBy('year','month')
+        ->get();
+
+        // dd($request->filter_tanggal);
 
         $bulan=array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
 
@@ -87,6 +98,7 @@ class JadwalController extends Controller
             'pegawais' => $pegawais,
             'bulan' => $bulan,
             'data_request' => $data_request,
+            'bulan_jadwal' => $bulan_jadwal,
         ])->with('i', ($request->input('page', 1) - 1) * 10);
     }
 
