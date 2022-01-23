@@ -73,7 +73,6 @@ class KehadiranController extends Controller
 
     public function kehadiran_bulanan(Request $request)
     {
-        $pegawais = Pegawai::all();
         // $batas_tanggal = date('t');
         // $kehadiran_bulanan = Kehadiran::whereBetween('tanggal', [date('Y-m-d', strtotime('first day of this month')),date('Y-m-d', strtotime('last day of this month'))])
         // ->whereYear('tanggal', date('Y'))
@@ -89,6 +88,7 @@ class KehadiranController extends Controller
         ->select('tanggal',DB::raw('YEAR(tanggal) year, MONTH(tanggal) month'))
         ->groupBy('year','month')
         ->get();
+        $pegawais = Pegawai::all();
         foreach ($pegawais as $p):
             for ($x=1; $x <= date('t'); $x++):
                 $tanggal = date('Y') .'-' . date('m') .'-' . $x;
@@ -668,7 +668,7 @@ class KehadiranController extends Controller
     {
      set_time_limit(10000);
      $month = date('m', strtotime($request->tanggal)); 
-     $pegawais_count = Pegawai::get()->count('id');
+    //  $pegawais_count = Pegawai::get()->count('id');
      // dd($pegawais_count);
      $pegawais = Pegawai::limit(5)
                 ->get();
@@ -677,7 +677,7 @@ class KehadiranController extends Controller
         // $batas_tanggal = date('t');
         // $kehadiran_bulanan = Kehadiran::whereBetween('tanggal', [date('Y-m-d', strtotime('first day of this month')),date('Y-m-d', strtotime('last day of this month'))])
         // ->whereYear('tanggal', date('Y'))
-        // ->whereMonth('tanggal', date('m'))
+        // ->whereMonth('tanggal', date('m')) 
         // ->orderBy('pegawai_id', 'asc')
         // ->orderBy('tanggal', 'asc')
         // ->get();
@@ -691,16 +691,16 @@ class KehadiranController extends Controller
         ->whereRaw('MONTH(tanggal) = '. $month)->first()
         ->get();
         // dd($bulan_jadwal);
-        foreach ($pegawais as $p):
-            for ($x=1; $x <= date('t'); $x++):
-                $tanggal = date('Y') .'-' . date('m') .'-' . $x;
-                $kehadiran_bulanan[$p->id][$x] = Kehadiran::where('tanggal', date('Y-m-d', strtotime($tanggal)))
-                ->where('pegawai_id', $p->id)
-                ->limit(5)
-                ->get();
-            endfor;
-        endforeach;
-        $tanggal_terakhir = Kehadiran::latest()->first();
+        // foreach ($pegawais as $p):
+        //     for ($x=1; $x <= date('t'); $x++):
+        //         $tanggal = date('Y') .'-' . date('m') .'-' . $x;
+        //         $kehadiran_bulanan[$p->id][$x] = Kehadiran::where('tanggal', date('Y-m-d', strtotime($tanggal)))
+        //         ->where('pegawai_id', $p->id)
+        //         ->limit(5)
+        //         ->get();
+        //     endfor;
+        // endforeach;
+        // $tanggal_terakhir = Kehadiran::latest()->first();
 
         // $kehadirans = Kehadiran::where('tanggal', Carbon::now()->toDateString())
         // ->orderBy('tanggal', 'asc')
@@ -710,8 +710,18 @@ class KehadiranController extends Controller
         
         // $setting = Setting::all();
         // dd($kehadiran_bulanan);
+
+        $pegawais = Pegawai::all();
+        foreach ($pegawais as $p):
+            for ($x=1; $x <= date('t'); $x++):
+                $tanggal = date('Y') .'-' . $month .'-' . $x;
+                $kehadiran_bulanan[$p->id][$x] = Kehadiran::where('tanggal', date('Y-m-d', strtotime($tanggal)))
+                ->where('pegawai_id', $p->id)
+                ->get();
+            endfor;
+        endforeach;
       $pdf = PDF::loadView('gocay.cetak.kehadiran_bulanan', [
-       'kehadiran_bulanan' => $kehadiran_bulanan,
+            'kehadiran_bulanan' => $kehadiran_bulanan,
             // 'kehadirans' => $kehadirans,
             'bulan_jadwal' => $bulan_jadwal,
             'jadwals' => $jadwals,
