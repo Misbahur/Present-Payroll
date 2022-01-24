@@ -34,6 +34,7 @@
 
 			.invoice-box {
 				max-width: 400px;
+				max-height: 400px;
 				margin: auto;
 				padding: 15px;
 				border: 1px solid #eee;
@@ -61,7 +62,7 @@
 			}
 
 			.invoice-box table tr.top table td {
-				padding-bottom: 10px;
+				padding-bottom:5px;
 			}
 
 			.invoice-box table tr.top table td.title {
@@ -71,7 +72,7 @@
 			}
 
 			.invoice-box table tr.information table td {
-				padding-bottom: 20px;
+				padding-bottom: 10px;
 			}
 
 			.invoice-box table tr.heading td {
@@ -100,7 +101,7 @@
 			.invoice-box table tr.titlettd td {
 				font-weight: bold;
 				text-align: center;
-				padding-top: 30px;
+				padding-top: 20px;
 			}
 
 			.invoice-box table tr.ttd td {
@@ -150,7 +151,7 @@
 						<table>
 							<tr>
 								<td class="title">
-									<img src="dist/images/logo.png" alt="Company logo" style="width: 100%; max-width: 300px" />
+									<img  src="dist/images/logo.png" alt="Company logo" style="width: 80px;" />
 								</td>
 
 								<td>
