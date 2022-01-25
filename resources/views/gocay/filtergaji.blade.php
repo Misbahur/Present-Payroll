@@ -97,6 +97,10 @@
                         <a href="javascript:;" data-toggle="modal" data-target="#header-footer-modal-preview" class="btn btn-outline-primary hidden sm:flex">
                             <i data-feather="plus" class="w-4 h-4 mr-2"></i> Bunus All
                         </a>
+                        <a href="javascript:;" data-toggle="modal" data-target="#cetak-jadwal-bulan"
+                        class="btn btn-primary shadow-md ml-2 mr-2">
+                        <i data-feather="printer" class="w-4 h-4 mr-2"></i>Print
+                        </a>
                     </div>
                     <div class="overflow-x-auto px-4 py-2">
                         <table class="table">
@@ -237,5 +241,53 @@
         </div>
         <!-- END: Modal Content -->
 
+    </div>
+     <!-- BEGIN: Modal Content -->
+    <div id="cetak-jadwal-bulan" class="modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- BEGIN: Modal Header -->
+                <div class="modal-header">
+                    <h2 class="font-medium text-base mr-auto">Cetak Gaji Bulanan</h2>
+                    <div class="dropdown sm:hidden">
+                        <a class="dropdown-toggle w-5 h-5 block" href="javascript:;" aria-expanded="false">
+                            <i data-feather="more-horizontal" class="w-5 h-5 text-gray-600 dark:text-gray-600"></i>
+                        </a>
+                        <div class="dropdown-menu w-40">
+                            <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
+                         <!--        <a href="javascript:;"
+                                    class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                                    <i data-feather="file" class="w-4 h-4 mr-2"></i> Download Docs
+                                </a> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END: Modal Header -->
+                <!-- BEGIN: Modal Body -->
+                <form method="GET" id= "form-jadwal" action="{{ route('cetak-penggajian-pdf') }}">
+                        @csrf
+                <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
+                    <div class="col-span-12 sm:col-span-12">
+                        <label for="modal-form-3" class="form-label">Pegawai</label>
+                        <select name="pegawai_id[]" id="modal-form-3" data-placeholder="Pilih Pegawai" data-search="true" class="tail-select w-full" multiple>
+                            @foreach ($penggajians as $item)
+                                <option value="{{ $item->pegawai->id }}">{{ $item->pegawai->nama }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                </div>
+                <!-- END: Modal Body -->
+                <!-- BEGIN: Modal Footer -->
+                <div class="modal-footer text-right">
+                    <button type="button" data-dismiss="modal"
+                        class="btn btn-outline-secondary w-20 mr-1">Cancel</button>
+                    <button type="submit" class="btn btn-primary w-20">Send</button>
+                </div>
+                </form>
+                <!-- END: Modal Footer -->
+            </div>
+        </div>
     </div>
 @endsection

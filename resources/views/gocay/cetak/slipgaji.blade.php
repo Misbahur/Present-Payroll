@@ -34,7 +34,7 @@
 
 			.invoice-box {
 				max-width: 400px;
-				max-height: 400px;
+				height: 450px;
 				margin: auto;
 				padding: 15px;
 				border: 1px solid #eee;
@@ -78,11 +78,12 @@
 			.invoice-box table tr.heading td {
 				background: #eee;
 				border-bottom: 1px solid #ddd;
+			
 				font-weight: bold;
 			}
 
 			.invoice-box table tr.details td {
-				padding-bottom: 10px;
+				padding-bottom: 2px;
 			}
 
 			.invoice-box table tr.item td {
@@ -94,14 +95,14 @@
 			}
 
 			.invoice-box table tr.total td:nth-child(2) {
-				border-top: 2px solid #eee;
+				border-top: 0px solid #eee;
 				font-weight: bold;
 			}
 
 			.invoice-box table tr.titlettd td {
 				font-weight: bold;
 				text-align: center;
-				padding-top: 20px;
+				padding-top: 5px;
 			}
 
 			.invoice-box table tr.ttd td {
@@ -128,6 +129,7 @@
 
 	<body>
 		
+
 
 		<table width="100%">
 
@@ -156,7 +158,9 @@
 
 								<td>
 									Cetak #<br />
-									Periode: {{ $pegawai->periode->tanggal_awal }} - {{ $pegawai->periode->tanggal_akhir }} 
+									Periode: {{ $pegawai->periode->tanggal_awal }} - {{ $pegawai->periode->tanggal_akhir }}
+									
+
 								</td>
 							</tr>
 						</table>
@@ -196,12 +200,17 @@
 				</tr>
 
 				@foreach ($gaji as $key => $item)
-				@if($item->penggajian->pegawai->id == $dt[0])
 				<tr class="details">
+				@if($item->penggajian->pegawai->id == $dt[0])
+
 					<td>{{ $item->keterangan }} - {{$item->penggajian->pegawai->nama}}</td>
 					<td>Rp. {{ number_format($item->nominal) }}</td>
-				</tr>
+				@else
+				<td></td>
+				<td></td>
 				@endif
+
+				</tr>
 				@endforeach
 
 				<tr class="heading">
@@ -211,13 +220,18 @@
 				</tr>
 
 				@foreach ($potongan as $key => $item)
-				@if($item->penggajian->pegawai->id == $dt[0])
 				<tr class="details">
+				@if($item->penggajian->pegawai->id == $dt[0])
+
 					<td>{{ $item->keterangan }}</td>
 
 					<td>Rp. {{ number_format($item->nominal) }}</td>
-				</tr>
+									@else
+				<td>Potongan</td>
+				<td>Rp. 0</td>
 				@endif
+				</tr>
+
 				@endforeach
 
 				<tr class="heading">
@@ -231,10 +245,10 @@
 				@for ($i=0; $i < count($in); $i++)
 				@if(($i+1) == $dt[0])
 				<tr class="item">
-                    <td>Total Pemasukan</td>
+          <td>Total Pemasukan</td>
 					<td>Rp. {{ number_format($in[$i]) }}</td>
-                </tr>
-                @endif
+        </tr>
+        @endif
 				@endfor
 
 				@for ($i=0; $i < count($out); $i++)
@@ -243,7 +257,7 @@
                     <td>Total Potongan</td>
 					<td>Rp. {{ number_format($out[$i]) }}</td>
                 </tr>
-                @endif
+        @endif
 				@endfor
 
 				@for ($i=0; $i < count($in); $i++)
@@ -269,7 +283,7 @@
 								@endforeach
                 </tr>
 				<tr>
-                    <td colspan="2" style="text-align: center; color:#A9A9A9">Tgl Cetak : {{ now() }}</td>
+                    <td colspan="2" style="padding-bottom: 2px; text-align: center; color:#A9A9A9">Tgl Cetak : {{ now() }}</td>
                 </tr>
 			</table>
 		</div>
@@ -288,6 +302,5 @@
   @endif
 @endforeach
 		</table>
-		
 	</body>
 </html>

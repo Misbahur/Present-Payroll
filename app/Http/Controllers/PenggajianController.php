@@ -350,6 +350,8 @@ class PenggajianController extends Controller
         // $updateprint = Penggajian::find($id);
         // $updateprint->status_print = 'Sudah Print';
         // $updateprint->update();
+        
+        $periodes = Periode::orderBy('created_at', 'DESC')->get();
 
         $pegawai = Penggajian::where('id',$data_id)->first();
 
@@ -365,7 +367,7 @@ class PenggajianController extends Controller
         }
      
        
-// dd($in);
+// dd($pegawai);
         $setting = Setting::all();
 
       $pdf = PDF::loadView('gocay.cetak.slipgaji', [
@@ -374,6 +376,7 @@ class PenggajianController extends Controller
             'pegawai' => $pegawai,
             'gaji' => $gaji,
             'potongan' => $potongan,
+            'periodes' => $periodes,
             'in' => $in,
             'out' => $out,
     ])->setPaper('a4');
