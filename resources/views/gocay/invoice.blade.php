@@ -10,7 +10,9 @@
 			body {
 				/* font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; */
 				text-align: center;
-				color: #777;
+				color: #000;
+				/*color: #777;*/
+				font-weight: 900;
 			}
 
 			body h1 {
