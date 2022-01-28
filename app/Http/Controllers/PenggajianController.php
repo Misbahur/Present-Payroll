@@ -268,6 +268,8 @@ class PenggajianController extends Controller
         $meta->status = $request->input('status');
         $meta->penggajian_id = $request->input('penggajian_id');
         $meta->save();
+
+        return redirect()->back()->with('success','deleted successfully');
     }
 
     /**
