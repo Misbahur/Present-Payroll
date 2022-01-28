@@ -111,7 +111,7 @@
                     <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
                         <div class="col-span-12 sm:col-span-12">
                             <label for="modal-form-1" class="form-label">Keterangan</label>
-                            <input id="modal-form-1" name="keterangan" type="text" class="form-control" placeholder="Nama Pegawai">
+                            <input id="modal-form-1" name="keterangan" type="text" class="form-control" placeholder="Keterangan tambahan">
                         </div>
                         <div class="col-span-12 sm:col-span-12">
                             <label for="modal-form-2" class="form-label">Jabatan</label>
