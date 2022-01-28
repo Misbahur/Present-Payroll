@@ -208,9 +208,7 @@
 
 					<td>{{ $item->keterangan }} - {{$item->penggajian->pegawai->nama}}</td>
 					<td>Rp. {{ number_format($item->nominal) }}</td>
-				@else
-				<td></td>
-				<td></td>
+
 				@endif
 
 				</tr>
@@ -229,9 +227,7 @@
 					<td>{{ $item->keterangan }}</td>
 
 					<td>Rp. {{ number_format($item->nominal) }}</td>
-									@else
-				<td>Potongan</td>
-				<td>Rp. 0</td>
+
 				@endif
 				</tr>
 
