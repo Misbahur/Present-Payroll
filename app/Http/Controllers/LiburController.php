@@ -46,14 +46,17 @@ class LiburController extends Controller
     {
         $data_request = $request->all();
         $pegawai_id = Pegawai::where('nama','like',"%".$request->filter_nama."%")->pluck('id');
-        $bulan_id = date('Y') .'-' . $request->filter_bulan .'-' . $request->filter_tanggal;
+        // $bulan_id = date('Y') .'-' . $request->filter_bulan .'-' . $request->filter_tanggal;
+        $bulan_id = $request->filter_bulan;
         if ($request->filter_nama == ''):
-            $liburs = Libur::where('tanggal', $bulan_id)
+            $liburs = Libur::whereYear('tanggal', date('Y'))
+                        ->whereMonth('tanggal', $bulan_id)
                         ->orderBy('pegawai_id', 'asc')
                         ->orderBy('tanggal', 'desc')
                         ->paginate(10);
         elseif( !$pegawai_id->isEmpty()):
-            $liburs = Libur::where('tanggal', $bulan_id)
+            $liburs = Libur::whereYear('tanggal', date('Y'))
+                        ->whereMonth('tanggal', $bulan_id)
                         ->where('pegawai_id', $pegawai_id)
                         ->orderBy('pegawai_id', 'asc')
                         ->orderBy('tanggal', 'desc')

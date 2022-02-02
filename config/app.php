@@ -177,6 +177,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ViewServiceProvider::class,
 
+        Barryvdh\Snappy\ServiceProvider::class,
+
     ],
 
     /*
@@ -229,7 +231,11 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Hp' => App\Helper::class,
-        'PDF' => Barryvdh\DomPDF\Facade::class,
+        'DomPDF' => Barryvdh\DomPDF\Facade::class,
+
+        'SnappyPDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        // 'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+	    'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
         
     ],
 
