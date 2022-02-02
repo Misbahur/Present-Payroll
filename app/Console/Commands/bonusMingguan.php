@@ -49,23 +49,23 @@ class bonusMingguan extends Command
        
         $komponen_gaji = Komponen_gaji::all();
         $pegawais = Pegawai::all();
-        // $hari_ini = date('d');
-        $tanggal_awal = date('Y-m-d', strtotime('+21 day', strtotime('2022-01-01')));
-        $tanggal_akhir = date('Y-m-d', strtotime('+6 day', strtotime($tanggal_awal)));
+        $hari_ini = date('d');
+        // $tanggal_awal = date('Y-m-d', strtotime('+21 day', strtotime('2022-01-01')));
+        // $tanggal_akhir = date('Y-m-d', strtotime('+6 day', strtotime($tanggal_awal)));
         
-        // if ($hari_ini <= 7):
-        //     $tanggal_awal = date('Y-m-d', strtotime('first day of this month'));
-        //     $tanggal_akhir = date('Y-m-d', strtotime('+6 day', strtotime($tanggal_awal)));
-        // elseif ($hari_ini <= 14):
-        //     $tanggal_awal = date('Y-m-d', strtotime('+7 day', strtotime('first day of this month')));
-        //     $tanggal_akhir = date('Y-m-d', strtotime('+6 day', strtotime($tanggal_awal)));
-        // elseif ($hari_ini <= 21):
-        //     $tanggal_awal = date('Y-m-d', strtotime('+14 day', strtotime('first day of this month')));
-        //     $tanggal_akhir = date('Y-m-d', strtotime('+6 day', strtotime($tanggal_awal)));
-        // elseif ($hari_ini <= date('t')):
-        //     $tanggal_awal = date('Y-m-d', strtotime('+21 day', strtotime('first day of this month')));
-        //     $tanggal_akhir = date('Y-m-d', strtotime('+6 day', strtotime($tanggal_awal)));
-        // endif;
+        if ($hari_ini <= 7):
+            $tanggal_awal = date('Y-m-d', strtotime('first day of this month'));
+            $tanggal_akhir = date('Y-m-d', strtotime('+6 day', strtotime($tanggal_awal)));
+        elseif ($hari_ini <= 14):
+            $tanggal_awal = date('Y-m-d', strtotime('+7 day', strtotime('first day of this month')));
+            $tanggal_akhir = date('Y-m-d', strtotime('+6 day', strtotime($tanggal_awal)));
+        elseif ($hari_ini <= 21):
+            $tanggal_awal = date('Y-m-d', strtotime('+14 day', strtotime('first day of this month')));
+            $tanggal_akhir = date('Y-m-d', strtotime('+6 day', strtotime($tanggal_awal)));
+        elseif ($hari_ini <= date('t')):
+            $tanggal_awal = date('Y-m-d', strtotime('+21 day', strtotime('first day of this month')));
+            $tanggal_akhir = date('Y-m-d', strtotime('+6 day', strtotime($tanggal_awal)));
+        endif;
         
 
 

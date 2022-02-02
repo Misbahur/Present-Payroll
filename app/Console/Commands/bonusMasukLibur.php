@@ -47,7 +47,7 @@ class bonusMasukLibur extends Command
     public function handle()
     {
        
-            $komponen_gaji = Komponen_gaji::all();
+            
             $pegawais = Pegawai::all();
             
             if (date('d') <= 7):
@@ -67,29 +67,21 @@ class bonusMasukLibur extends Command
     
     
             foreach ($pegawais as $p):
-                $range = Kehadiran::whereBetween('tanggal', [$tanggal_awal ,$tanggal_akhir])
-                ->where('pegawai_id', $p->id)
-                ->get();
-                foreach ($range as $item):
-                    $jadwals = Jadwal::where('tanggal', $item->tanggal)
-                    ->where('pegawai_id', $p->id)
-                    ->orderBy('tanggal', 'desc')
-                    ->orderBy('pegawai_id', 'asc')->get();
-                    $polas = Pola::findOrFail($jadwals[0]->pola_id);
+                $komponen_gaji = Komponen_gaji::where('jabatan_id', $p->jabatan_id)->first();
                     $countDate = Kehadiran::whereBetween('tanggal', [$tanggal_awal ,$tanggal_akhir])
-                        ->where('jam_masuk', '<=' ,$polas['jam_masuk'])
-                        ->where('jam_istirahat', '>=' ,$polas['jam_istirahat'])
-                        ->where('jam_masuk_istirahat', '<=' ,$polas['jam_istirahat_masuk'])
-                        ->where('jam_pulang', '>=' ,$polas['jam_pulang'])
+                        // ->where('jam_masuk', '<=' ,$polas['jam_masuk'])
+                        // ->where('jam_istirahat', '>=' ,$polas['jam_istirahat'])
+                        // ->where('jam_masuk_istirahat', '<=' ,$polas['jam_istirahat_masuk'])
+                        // ->where('jam_pulang', '>=' ,$polas['jam_pulang'])
+                        ->where('jam_masuk', '!=' , null)
                         ->where('pegawai_id', $p->id)
                         ->get()->count('pegawai_id');
-                endforeach;
                 if ($countDate == 7):
                     $temporary_in = new Temporary;
                     $temporary_in->tanggal = Carbon::now();
                     $temporary_in->status = 'in-bonus-masuk-libur';
                     $temporary_in->pegawai_id = $p->id;
-                    $temporary_in->nominal = $komponen_gaji[0]->nominal;
+                    $temporary_in->nominal = $komponen_gaji->masuklibur;
                     $temporary_in->save();
                 else:
                     continue;
