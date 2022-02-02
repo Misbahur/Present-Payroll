@@ -8,7 +8,7 @@ use App\Models\Metapenggajian;
 use App\Models\Periode;
 use App\Models\Pegawai;
 use DB;
-use PDF;
+use DomPDF;
 
 
 
@@ -213,7 +213,7 @@ class BankController extends Controller
 
         $bank_id = Bank::where('id', $id)->first();
 
-      $pdf = PDF::loadView('gocay.cetak.bayar-bank', [
+      $pdf = DomPDF::loadView('gocay.cetak.bayar-bank', [
             'adm_pegawai' => $pegawai,
             'bank_total' => $bank_total,
             'bank' => $bank,

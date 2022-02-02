@@ -4,6 +4,14 @@
         <meta charset="UTF-8">
         <title>Sistem Present & Payrol Gocay</title>
 
+        <style>
+            .text-yellow{
+                color: red;
+            }
+            thead { display: table-header-group }
+            tfoot { display: table-row-group }
+            tr { page-break-inside: avoid }
+        </style>
 
     </head>
     <body>
@@ -34,8 +42,6 @@
                             <?php $no = 1; $t=0; ?>
                             @foreach ($pegawais as $p) 
 
-                            <!-- <input type="hidden" name="hidden-id" id="id-{{ $p->pegawai_id }}" value="{{ $p->pegawai_id }}"> -->
-
                             <tr class="text-center whitespace-nowrap" style="text-align: center;">
                                 <td class="text-center">
                                     {{ $no++ }}
@@ -48,10 +54,10 @@
                                 @for ($x=1; $x <= date('t'); $x++)
                                 <td class="text-center">
                                     @foreach ($kehadiran_bulanan[$p->id][$x] as $item)
-                                    <span> {{ $item->jam_masuk != null ? $item->jam_masuk : '-' }} </span> <br>
-                                    <span>{{ $item->jam_istirahat != null ? $item->jam_istirahat : '-' }}</span> <br>
-                                    <span>{{ $item->jam_masuk_istirahat != null ? $item->jam_masuk_istirahat : '-' }} </span> <br>
-                                    <span>{{ $item->jam_pulang != null ? $item->jam_pulang : '-' }} </span>
+                                    <span class="{{ $item->jam_masuk > $polas[$p->id][$x]->jam_masuk ? 'text-yellow' : '' }}"> {{ $item->jam_masuk != null ? $item->jam_masuk : '-' }} </span> <br>
+                                    <span class="{{ $item->jam_istirahat < $polas[$p->id][$x]->jam_istirahat ? 'text-yellow' : '' }}">{{ $item->jam_istirahat != null ? $item->jam_istirahat : '-' }}</span> <br>
+                                    <span class="{{ $item->jam_masuk_istirahat > $polas[$p->id][$x]->jam_istirahat_masuk ? 'text-yellow' : '' }}">{{ $item->jam_masuk_istirahat != null ? $item->jam_masuk_istirahat : '-' }} </span> <br>
+                                    <span class="{{ $item->jam_pulang < $polas[$p->id][$x]->jam_pulang ? 'text-yellow' : '' }}">{{ $item->jam_pulang != null ? $item->jam_pulang : '-' }} </span>
                                     @endforeach
                                 </td>
                                 @endfor
@@ -67,6 +73,7 @@
                             </button>
                         </div>
                         @endif
+                        
 
 </body>
 </html>

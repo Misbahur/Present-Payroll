@@ -11,7 +11,7 @@ use App\Models\Temporaries;
 use App\Models\Setting;
 use App\Models\Bon_kas;
 use Illuminate\Support\Facades\DB;
-use PDF;
+use DomPDF;
 class PenggajianController extends Controller
 {
     /**
@@ -321,7 +321,7 @@ class PenggajianController extends Controller
             'out' => $out,
         ];
         view()->share('gocay.invoice', $data);
-        $pdf = PDF::loadView('gocay.invoice', $data);
+        $pdf = DomPDF::loadView('gocay.invoice', $data);
         return $pdf->stream();
         // return view('gocay.invoice');
     }
@@ -372,7 +372,7 @@ class PenggajianController extends Controller
 // dd($pegawai);
         $setting = Setting::all();
 
-      $pdf = PDF::loadView('gocay.cetak.slipgaji', [
+      $pdf = DomPDF::loadView('gocay.cetak.slipgaji', [
             'data_id' => $data_id,
             'setting' => $setting,
             'pegawai' => $pegawai,

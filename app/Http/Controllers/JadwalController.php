@@ -8,7 +8,7 @@ use App\Models\Pegawai;
 use App\Models\Pola;
 use App\Models\User;
 use DB;
-use PDF;
+use DomPDF;
 class JadwalController extends Controller
 {
     //
@@ -268,7 +268,7 @@ $countPolaRow = $countPola2 / ($countPola3 * $countDate3);
         ->whereRaw('MONTH(tanggal) = '. $month)->first();
         $month_title = date('M-Y', strtotime($month_title->tanggal));
 
-      $pdf = PDF::loadView('gocay.cetak.jadwal', ['jadwal' => $jadwal, 'bulan' => $month_title,'countDate' => $countDate, 'countPola' => $countPola, 'countPolaRow' => $countPolaRow])->setPaper('landscape');
+      $pdf = DomPDF::loadView('gocay.cetak.jadwal', ['jadwal' => $jadwal, 'bulan' => $month_title,'countDate' => $countDate, 'countPola' => $countPola, 'countPolaRow' => $countPolaRow])->setPaper('landscape');
       // download PDF file with download method
       return $pdf->stream('Jadwal Bulan '.$month_title.'.pdf');
     }
@@ -287,7 +287,7 @@ $countPolaRow = $countPola2 / ($countPola3 * $countDate3);
         ->first();
 
 
-      $pdf = PDF::loadView('gocay.cetak.jadwal', ['jadwal' => $jadwal,'bulan' => $pegawai_title->pegawai->nama])->setPaper('landscape');
+      $pdf = DomPDF::loadView('gocay.cetak.jadwal', ['jadwal' => $jadwal,'bulan' => $pegawai_title->pegawai->nama])->setPaper('landscape');
       // download PDF file with download method
       return $pdf->stream('Jadwal Pegawai '.$pegawai_title->pegawai->nama.'.pdf');
     }
