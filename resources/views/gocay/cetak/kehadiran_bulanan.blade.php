@@ -30,7 +30,7 @@
                                 <tr>
                                     <th class="whitespace-nowrap">No</th>
                                     <th class="text-center whitespace-nowrap">Nama Pegawai</th>
-                                    @for ($x=0; $x < date('t'); $x++)
+                                    @for ($x=0; $x < date('t', strtotime($bulan)); $x++)
                                     <th class="text-center whitespace-nowrap">
                                         {{ $x+1 }}
                                     </th>
@@ -51,7 +51,7 @@
                                     {{ $p->nama}} 
                                 </td> 
 
-                                @for ($x=1; $x <= date('t'); $x++)
+                                @for ($x=1; $x <= date('t', strtotime($bulan)); $x++)
                                 <td class="text-center">
                                     @foreach ($kehadiran_bulanan[$p->id][$x] as $item)
                                     <span class="{{ $item->jam_masuk > $polas[$p->id][$x]->jam_masuk ? 'text-yellow' : '' }}"> {{ $item->jam_masuk != null ? $item->jam_masuk : '-' }} </span> <br>

@@ -714,7 +714,7 @@ class KehadiranController extends Controller
 
         $pegawais = Pegawai::all();
         foreach ($pegawais as $p):
-            for ($x=1; $x <= date('t'); $x++):
+            for ($x=1; $x <= date('t', strtotime($month)); $x++):
                 $tanggal = date('Y') .'-' . $month .'-' . $x;
                 $kehadiran_bulanan[$p->id][$x] = Kehadiran::where('tanggal', date('Y-m-d', strtotime($tanggal)))
                 ->where('pegawai_id', $p->id)
