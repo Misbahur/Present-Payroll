@@ -18,7 +18,7 @@ class Pegawai extends Model
      * @var array
      */
     protected $fillable = [
-        'nama', 'jabatan_id', 'nik', 'alamat', 'tanggal_masuk', 'tanggal_lahir',
+        'nama', 'jabatan_id', 'nik', 'alamat', 'tanggal_masuk', 'tanggal_lahir', 'no_rek', 'bank_id', 'atas_nama'
     ];
 
     public function bank()

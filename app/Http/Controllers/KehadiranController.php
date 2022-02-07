@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DB;
 use PDF;
+use SnappyPDF;
 class KehadiranController extends Controller
 {
 
@@ -713,18 +714,27 @@ class KehadiranController extends Controller
 
         $pegawais = Pegawai::all();
         foreach ($pegawais as $p):
-            for ($x=1; $x <= date('t'); $x++):
+            for ($x=1; $x <= date('t', strtotime($month)); $x++):
                 $tanggal = date('Y') .'-' . $month .'-' . $x;
                 $kehadiran_bulanan[$p->id][$x] = Kehadiran::where('tanggal', date('Y-m-d', strtotime($tanggal)))
                 ->where('pegawai_id', $p->id)
                 ->get();
+                $jadwal[$p->id][$x] = Jadwal::where('tanggal', date('Y-m-d', strtotime($tanggal)))
+                ->where('pegawai_id', $p->id)
+                ->first();
+                if($jadwal[$p->id][$x] != null):
+                    $polas[$p->id][$x] = Pola::where('id', $jadwal[$p->id][$x]->pola_id)->first();
+                else:
+                    $polas[$p->id][$x] = Pola::where('id', 1)->first();
+                endif;
             endfor;
         endforeach;
-      $pdf = PDF::loadView('gocay.cetak.kehadiran_bulanan', [
+      $pdf = SnappyPDF::loadView('gocay.cetak.kehadiran_bulanan', [
             'kehadiran_bulanan' => $kehadiran_bulanan,
             // 'kehadirans' => $kehadirans,
             'bulan_jadwal' => $bulan_jadwal,
             'jadwals' => $jadwals,
+            'polas' => $polas,
             'bulan' => $request->tanggal,
             'pegawais' => $pegawais,
     ])->setPaper('a1','landscape');

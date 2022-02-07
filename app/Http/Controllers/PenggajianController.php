@@ -11,7 +11,10 @@ use App\Models\Temporaries;
 use App\Models\Setting;
 use App\Models\Bon_kas;
 use Illuminate\Support\Facades\DB;
-use PDF;
+use DomPDF;
+use App\Mail\MyTestMail;
+use Illuminate\Support\Facades\Mail;
+
 class PenggajianController extends Controller
 {
     /**
@@ -321,7 +324,7 @@ class PenggajianController extends Controller
             'out' => $out,
         ];
         view()->share('gocay.invoice', $data);
-        $pdf = PDF::loadView('gocay.invoice', $data);
+        $pdf = DomPDF::loadView('gocay.invoice', $data);
         return $pdf->stream();
         // return view('gocay.invoice');
     }
@@ -372,7 +375,7 @@ class PenggajianController extends Controller
 // dd($pegawai->periode->tanggal_awal);
         $setting = Setting::all();
 
-      $pdf = PDF::loadView('gocay.cetak.slipgaji', [
+      $pdf = DomPDF::loadView('gocay.cetak.slipgaji', [
             'data_id' => $data_id,
             'setting' => $setting,
             'pegawai' => $pegawai,
@@ -384,5 +387,37 @@ class PenggajianController extends Controller
     ])->setPaper('a4');
       // download PDF file with download method
       return $pdf->stream('slipgaji '.$pegawai->periode->tanggal_awal.' - '.$pegawai->periode->tanggal_akhir.'.pdf');
+    }
+
+    public function KirimEmailPenggajian($id)
+    {
+        $datagaji = Penggajian::find($id);
+        $datapegawai = Pegawai::where('id', $datagaji['pegawai_id'])->first();
+        // dd($datapegawai);
+
+        $pegawai = Penggajian::where('id', $id)->first();
+
+        $gaji =  Metapenggajian::where('penggajian_id', $id)->where('status', 'in')->get();
+        $potongan =  Metapenggajian::where('penggajian_id', $id)->where('status', 'out')->get();
+
+        $in = Metapenggajian::where('penggajian_id', $id)->where('status', 'in')->get()->sum('nominal');
+        $out = Metapenggajian::where('penggajian_id', $id)->where('status', 'out')->get()->sum('nominal');
+
+        $setting = Setting::all();
+
+        // share data to view
+        // $details = [
+        //     'setting' => $setting,
+        //     'pegawai' => $pegawai,
+        //     'gaji' => $gaji,
+        //     'potongan' => $potongan,
+        //     'in' => $in,
+        //     'out' => $out,
+        //     'email' => $datapegawai['atas_nama'],
+        // ];
+
+        Mail::to($datapegawai['atas_nama'])->send(new MyTestmail($pegawai, $gaji, $potongan, $in, $out, $setting));
+
+        return redirect()->back()->with('success', 'Slip Gaji Berhasil Dikirimkan ke Email Pegawai');
     }
 }

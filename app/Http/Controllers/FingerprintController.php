@@ -373,7 +373,7 @@ class FingerprintController extends Controller
 
     // public function updateFingerData()
     // {
-    //     $zk = new ZKTeco('192.168.1.201', 4370);
+    //     $zk = new ZKTeco('192.168.22.71', 4370);
     //     $zk->connect();
     //     $zk->disableDevice();
         
@@ -421,12 +421,12 @@ class FingerprintController extends Controller
 
     public function addPegawaiToFingerprint()
     {
-        // $zk = new ZKTeco('192.168.22.71', 4370);
-        // $zk->connect();
-        // $zk->disableDevice();
-        // $zk2 = new ZKTeco('192.168.22.73', 4370);
-        // $zk2->connect();
-        // $zk2->disableDevice();
+        $zk = new ZKTeco('192.168.22.71', 4370);
+        $zk->connect();
+        $zk->disableDevice();
+        $zk2 = new ZKTeco('192.168.22.73', 4370);
+        $zk2->connect();
+        $zk2->disableDevice();
 
         $pegawais = Pegawai::latest('id')->first();
         $zk->setUser($pegawais->id, $pegawais->id, $pegawais->nama, '');

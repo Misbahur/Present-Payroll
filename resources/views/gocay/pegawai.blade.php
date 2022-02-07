@@ -37,7 +37,7 @@
                                     <th class="text-center whitespace-nowrap">Tanggal Masuk</th>
                                     <th class="text-center whitespace-nowrap">Bank</th>
                                     <th class="text-center whitespace-nowrap">No. Rekening</th>
-                                    <!-- <th class="text-center whitespace-nowrap">Atas Nama</th> -->
+                                    <th class="text-center whitespace-nowrap">Email</th>
                                     <th class="text-center whitespace-nowrap">Aksi</th>
                                 </tr>
                             </thead>
@@ -74,9 +74,9 @@
                                         <td class="text-center">
                                             <a href="" class="font-medium whitespace-nowrap">{{ $item->no_rek }}</a>
                                         </td>
-                                        <!-- <td class="text-center">
+                                        <td class="text-center">
                                             <a href="" class="font-medium whitespace-nowrap">{{ $item->atas_nama }}</a>
-                                        </td> -->
+                                        </td> 
                                         <td class="table-report__action w-56">
                                             <div class="flex justify-center items-center">
                                                 <a class="flex items-center mr-3 pegawai-edit" href="javascript:void(0)" data-toggle="modal" 
@@ -174,10 +174,10 @@
                             <label for="modal-form-9" class="form-label">Nomor Rekening Pegawai</label>
                             <input id="modal-form-9" name="no_rek" type="number" class="form-control" placeholder="No Rekening Pegawai">
                         </div>
-                        <!-- <div class="col-span-12 sm:col-span-12">
-                            <label for="modal-form-10" class="form-label">Atas Nama</label>
-                            <input id="modal-form-10" name="atas_nama" type="text" class="form-control" placeholder="Atas Nama No Rekening">
-                        </div> -->
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-10" class="form-label">Email</label>
+                            <input id="modal-form-10" name="atas_nama" type="Email" class="form-control" placeholder="Email ya Guys ya">
+                        </div>
                     </div>
                     <!-- END: Modal Body -->
                     <!-- BEGIN: Modal Footer -->
@@ -264,10 +264,10 @@
                             <label for="modal-form-9" class="form-label">Nomor Rekening Pegawai</label>
                             <input id="modal-form-9-edit" name="no_rek" type="number" class="form-control" placeholder="No Rekening Pegawai">
                         </div>
-                        <!-- <div class="col-span-12 sm:col-span-12">
-                            <label for="modal-form-10" class="form-label">Atas Nama</label>
-                            <input id="modal-form-10-edit" name="atas_nama" type="text" class="form-control" placeholder="Atas Nama No Rekening">
-                        </div> -->
+                        <div class="col-span-12 sm:col-span-12">
+                            <label for="modal-form-10" class="form-label">Email</label>
+                            <input id="modal-form-10-edit" name="atas_nama" type="email" class="form-control" placeholder="Email ya Boss ya">
+                        </div>
                     </div>
                     <!-- END: Modal Body -->
                     <!-- BEGIN: Modal Footer -->
@@ -307,7 +307,7 @@
                             $('#modal-form-8-edit option[value="' + data.bank_id +'"]').prop("selected", true);
                             // $('#modal-form-8-edit').val(data.bank_id);
                             $('#modal-form-9-edit').val(data.no_rek);
-                            // $('#modal-form-10-edit').val(data.nama);
+                            $('#modal-form-10-edit').val(data.atas_nama);
 
                             // $('#header-footer-modal-preview-edit').modal('show');
 

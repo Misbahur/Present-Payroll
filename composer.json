@@ -10,12 +10,18 @@
     "require": {
         "php": "^7.3|^8.0",
         "barryvdh/laravel-dompdf": "^0.9.0",
+        "barryvdh/laravel-snappy": "^1.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "h4cc/wkhtmltoimage-amd64": "0.12.x",
+        "h4cc/wkhtmltoimage-i386": "0.12.x",
+        "h4cc/wkhtmltopdf-amd64": "0.12.x",
+        "h4cc/wkhtmltopdf-i386": "0.12.x",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
-        "rats/zkteco": "^001.0"
+        "rats/zkteco": "^001.0",
+        "wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -32,7 +38,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "barryvdh/laravel-snappy"
+             ]
         }
     },
     "autoload": {

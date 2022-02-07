@@ -19,13 +19,13 @@
                                 @csrf
                                 <div class="flex items-center text-gray-700 dark:text-gray-300 mr-2 w-1\/2">
                                     <input type="text" name="filter_nama" class="form-control w-44 mr-2" placeholder="Nama Pegawai" autofocus value="{{Request::old('filter_nama')}}">
-                                    <select class="form-select w-15 mr-2" name="filter_tanggal">
+                                    <!-- <select class="form-select w-15 mr-2" name="filter_tanggal">
                                         @for ($x=0; $x < date('t'); $x++)
                                             <option value="{{ $x+1 }}" {{ $x+1 == date('j') ? 'selected' : '' }}>
                                                 {{ $x+1 == date('j') ? date('j') : $x+1 }}
                                             </option>
                                         @endfor
-                                    </select>
+                                    </select> -->
                                 
                                     <select class="form-select w-32 mr-2" name="filter_bulan">
                                         @for ($x=0; $x < count($bulan); $x++)
