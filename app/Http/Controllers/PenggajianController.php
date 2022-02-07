@@ -12,6 +12,9 @@ use App\Models\Setting;
 use App\Models\Bon_kas;
 use Illuminate\Support\Facades\DB;
 use DomPDF;
+use App\Mail\MyTestMail;
+use Illuminate\Support\Facades\Mail;
+
 class PenggajianController extends Controller
 {
     /**
@@ -384,5 +387,37 @@ class PenggajianController extends Controller
     ])->setPaper('a4');
       // download PDF file with download method
       return $pdf->stream('Jadwal Bulan '.'.pdf');
+    }
+
+    public function KirimEmailPenggajian($id)
+    {
+        $datagaji = Penggajian::find($id);
+        $datapegawai = Pegawai::where('id', $datagaji['pegawai_id'])->first();
+        // dd($datapegawai);
+
+        $pegawai = Penggajian::where('id', $id)->first();
+
+        $gaji =  Metapenggajian::where('penggajian_id', $id)->where('status', 'in')->get();
+        $potongan =  Metapenggajian::where('penggajian_id', $id)->where('status', 'out')->get();
+
+        $in = Metapenggajian::where('penggajian_id', $id)->where('status', 'in')->get()->sum('nominal');
+        $out = Metapenggajian::where('penggajian_id', $id)->where('status', 'out')->get()->sum('nominal');
+
+        $setting = Setting::all();
+
+        // share data to view
+        // $details = [
+        //     'setting' => $setting,
+        //     'pegawai' => $pegawai,
+        //     'gaji' => $gaji,
+        //     'potongan' => $potongan,
+        //     'in' => $in,
+        //     'out' => $out,
+        //     'email' => $datapegawai['atas_nama'],
+        // ];
+
+        Mail::to($datapegawai['atas_nama'])->send(new MyTestmail($pegawai, $gaji, $potongan, $in, $out, $setting));
+
+        return redirect()->back()->with('success', 'Slip Gaji Berhasil Dikirimkan ke Email Pegawai');
     }
 }

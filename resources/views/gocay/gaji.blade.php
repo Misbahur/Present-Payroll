@@ -106,7 +106,8 @@
                                             <i data-feather="alert-circle" class="w-4 h-4 mr-2"></i>Detail</a>
                                         <a href="{{ route('slipgaji', $item->id) }}" class="btn btn-primary w-24 inline-block mr-1 mb-2" target="_BLANK">
                                             <i data-feather="printer" class="w-4 h-4 mr-2"></i>Print</a>
-
+                                        <a href="{{ route('kirim-email', $item->id) }}" class="btn btn-primary w-24 inline-block mr-1 mb-2">
+                                            <i data-feather="send" class="w-4 h-4 mr-2"></i>Email</a>
                                     </td>
                                 </tr>
                                 @endforeach

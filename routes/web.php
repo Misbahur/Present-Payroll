@@ -270,6 +270,10 @@ Route::middleware('auth')->group(function() {
         
 
         Route::get('slipgaji/{id}', [PenggajianController::class, 'yesgajian'])->name('slipgaji');
+        Route::get('send-email/{id}', [PenggajianController::class, 'KirimEmailPenggajian'])->name('kirim-email');
+        // Route::get('viewemail', function () {
+        //     return view('gocay.emails.MyTestMail');
+        // });
         Route::get('cetak-penggajian-pdf', [PenggajianController::class, 'ExportPDFPenggajian'])->name('cetak-penggajian-pdf');
 
     
