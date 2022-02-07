@@ -10,9 +10,7 @@
 			body {
 				/* font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; */
 				text-align: center;
-				color: #000;
-				/*color: #777;*/
-				font-weight: 900;
+				color: #777;
 			}
 
 			body h1 {
@@ -160,7 +158,6 @@
 
 								<td>
 									Cetak #<br />
-
 									Periode: {{ $pegawai->periode->tanggal_awal }} - {{ $pegawai->periode->tanggal_akhir }}
 									
 
@@ -208,7 +205,9 @@
 
 					<td>{{ $item->keterangan }} - {{$item->penggajian->pegawai->nama}}</td>
 					<td>Rp. {{ number_format($item->nominal) }}</td>
-
+				@else
+				<td></td>
+				<td></td>
 				@endif
 
 				</tr>
@@ -227,7 +226,9 @@
 					<td>{{ $item->keterangan }}</td>
 
 					<td>Rp. {{ number_format($item->nominal) }}</td>
-
+									@else
+				<td>Potongan</td>
+				<td>Rp. 0</td>
 				@endif
 				</tr>
 

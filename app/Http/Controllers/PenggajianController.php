@@ -369,7 +369,7 @@ class PenggajianController extends Controller
         }
      
        
-// dd($pegawai);
+// dd($pegawai->periode->tanggal_awal);
         $setting = Setting::all();
 
       $pdf = PDF::loadView('gocay.cetak.slipgaji', [
@@ -383,6 +383,6 @@ class PenggajianController extends Controller
             'out' => $out,
     ])->setPaper('a4');
       // download PDF file with download method
-      return $pdf->stream('Jadwal Bulan '.'.pdf');
+      return $pdf->stream('slipgaji '.$pegawai->periode->tanggal_awal.' - '.$pegawai->periode->tanggal_akhir.'.pdf');
     }
 }
