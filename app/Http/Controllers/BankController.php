@@ -56,11 +56,12 @@ class BankController extends Controller
         // $request->periode_id == null ? '1' : $request->periode_id;
 
         // if ($request->periode_id == null):
-        //     $periode_id = 1;
+            $periode_id = Periode::latest()->first();
         
 
 
         // dd($request->periode_id);
+        
 
         foreach ($rekening as $item):
             $gaji_in[$item->id] = Metapenggajian::select('metapenggajians.*' ,'penggajians.pegawai_id','penggajians.id', 'pegawais.id', 'pegawais.bank_id', 'pegawais.no_rek', 'pegawais.atas_nama', 'pegawais.nama as nama_pegawai')
@@ -68,7 +69,7 @@ class BankController extends Controller
                                     ->join('pegawais', 'pegawais.id', 'penggajians.pegawai_id')
                                     ->where('metapenggajians.status' ,'=', 'in')
                                     ->where('pegawais.id' ,'=', $item->pegawai_id)
-                                    ->where('penggajians.periode_id' ,'=', $request->periode_id == null ? '1' : $request->periode_id)
+                                    ->where('penggajians.periode_id' ,'=', $request->periode_id == null ? $periode_id->id : $request->periode_id)
                                     ->get()->sum('nominal');   
 
             $gaji_out[$item->id] = Metapenggajian::select('metapenggajians.*' ,'penggajians.pegawai_id','penggajians.id', 'pegawais.id', 'pegawais.bank_id', 'pegawais.no_rek', 'pegawais.atas_nama', 'pegawais.nama as nama_pegawai')
@@ -76,7 +77,7 @@ class BankController extends Controller
                                     ->join('pegawais', 'pegawais.id', 'penggajians.pegawai_id')
                                     ->where('metapenggajians.status' ,'=', 'out')
                                     ->where('pegawais.id' ,'=', $item->pegawai_id)
-                                    ->where('penggajians.periode_id' ,'=', $request->periode_id == null ? '1' : $request->periode_id)
+                                    ->where('penggajians.periode_id' ,'=', $request->periode_id == null ? $periode_id->id : $request->periode_id)
                                     ->get()->sum('nominal');      
 
             $gaji_total[$item->id] = intval($gaji_in[$item->id] - $gaji_out[$item->id]);
@@ -187,7 +188,8 @@ class BankController extends Controller
         
 
 
-        // dd($request->periode_id);
+         $periode_id = Periode::latest()->first();
+         // dd($request->periode_id);
 
         foreach ($rekening as $item):
             $gaji_in[$item->id] = Metapenggajian::select('metapenggajians.*' ,'penggajians.pegawai_id','penggajians.id', 'pegawais.id', 'pegawais.bank_id', 'pegawais.no_rek', 'pegawais.atas_nama', 'pegawais.nama as nama_pegawai')
@@ -196,7 +198,7 @@ class BankController extends Controller
                                     ->where('metapenggajians.status' ,'=', 'in')
                                     ->where('pegawais.id' ,'=', $item->pegawai_id)
                                     ->where('pegawais.bank_id' ,'=', $id)
-                                    ->where('penggajians.periode_id' ,'=', $request->periode_id == null ? '1' : $request->periode_id)
+                                    ->where('penggajians.periode_id' ,'=', $request->periode_id == null ? $periode_id->id : $request->periode_id)
                                     ->get()->sum('nominal');   
 
             $gaji_out[$item->id] = Metapenggajian::select('metapenggajians.*' ,'penggajians.pegawai_id','penggajians.id', 'pegawais.id', 'pegawais.bank_id', 'pegawais.no_rek', 'pegawais.atas_nama', 'pegawais.nama as nama_pegawai')
@@ -205,7 +207,7 @@ class BankController extends Controller
                                     ->where('metapenggajians.status' ,'=', 'out')
                                     ->where('pegawais.id' ,'=', $item->pegawai_id)
                                     ->where('pegawais.bank_id' ,'=', $id)
-                                    ->where('penggajians.periode_id' ,'=', $request->periode_id == null ? '1' : $request->periode_id)
+                                    ->where('penggajians.periode_id' ,'=', $request->periode_id == null ? $periode_id->id : $request->periode_id)
                                     ->get()->sum('nominal');      
 
             $gaji_total[$item->id] = intval($gaji_in[$item->id] - $gaji_out[$item->id]);
