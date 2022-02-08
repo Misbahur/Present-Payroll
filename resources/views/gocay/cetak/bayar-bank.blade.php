@@ -62,14 +62,14 @@
       </tr>
     </thead>
     <tbody>
-         @forelse($rekening as $index => $item)
+         @forelse($pegawai as $index => $item)
       <tr>
        <td class="text-center whitespace-nowrap">   {{ $index +1 }}   </td>
-      <td class="text-center whitespace-nowrap">   {{ $item->nama_pegawai }}   </td>
+      <td class="text-center whitespace-nowrap">   {{ $item->nama }}   </td>
       <td class="text-center whitespace-nowrap">   {{ $item->bank_id != null ? preg_replace('/[^A-Za-z0-9\-]/', '', $nama_bank[$item->bank_id]) : ''  }}   </td>
       <td class="text-center whitespace-nowrap">   {{  $item->no_rek }}   </td>
       <td class="text-center whitespace-nowrap">   {{ $item->atas_nama }}   </td>
-      <td class="text-center whitespace-nowrap">      {{ "Rp. " . number_format($gaji_total[$item->pegawai_id],0,',','.') }}</td>
+      <td class="text-center whitespace-nowrap">      {{ "Rp. " . number_format($gaji_total[$item->id],0,',','.') }}</td>
       </tr>
     @empty
       @endforelse
@@ -80,22 +80,6 @@
 
     </tbody>
   </table>
-<!--   <table style="margin-top: 5em;" width="100%">
 
-                   <tr   align="center" class="titlettd">
-
-                    <td style="padding-bottom: 5em;">Diserahkan Oleh</td>
-
-                    <td style="padding-bottom: 5em;">Diterima Oleh</td>
-                </tr>
-
-                <tr align="center"  class="ttd">
-
-                    <td>Admin</td>
-
-                    <td>{{ $adm_pegawai->nama }}</td>
-                </tr>
-
-  </table> -->
 </body>
 </html>

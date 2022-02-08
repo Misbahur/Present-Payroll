@@ -737,8 +737,12 @@ class KehadiranController extends Controller
             'polas' => $polas,
             'bulan' => $request->tanggal,
             'pegawais' => $pegawais,
-    ])->setPaper('a1','landscape');
+    ])->setPaper('a4','landscape')
+    ->setOption('margin-top', 4)
+    ->setOption('margin-bottom', 4)
+    ->setOption('margin-left', 4)
+    ->setOption('margin-right', 4);
       // download PDF file with download method
-      return $pdf->stream('Jadwal Bulan '.'.pdf');
+      return $pdf->stream('Kehadiran Bulanan Bulan '.'.pdf');
     }
 }

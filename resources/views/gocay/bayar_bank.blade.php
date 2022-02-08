@@ -55,13 +55,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($rekening as $item)
+                                @foreach ($pegawai as $item)
                                     <tr class="intro-x">
                                         <td class="w-40">
                                         {{ ++ $i}}
                                         </td>
                                         <td class="text-center">
-                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->nama_pegawai }}</a>
+                                            <a href="" class="font-medium whitespace-nowrap">{{ $item->nama }}</a>
                                         </td>
                                         <td class="text-center">
                                             <a href="" class="font-medium whitespace-nowrap">{{ $item->bank_id != null ? preg_replace('/[^A-Za-z0-9\-]/', '', $nama_bank[$item->bank_id]) : '' }}</a>
@@ -74,7 +74,7 @@
                                         </td> -->
 
                                         <td class="text-center">
-                                            <a href="" class="font-medium whitespace-nowrap">{{ "Rp. " . number_format($gaji_total[$item->pegawai_id],0,',','.') }}</a>
+                                            <a href="" class="font-medium whitespace-nowrap">{{ "Rp. " . number_format($gaji_total[$item->id],0,',','.') }}</a>
                                             <!-- <a href="" class="font-medium whitespace-nowrap">{{ $item->pegawai_id }}</a> -->
                                         </td>
           
@@ -96,7 +96,7 @@
                     </div>
                     <div class="intro-y flex flex-wrap sm:flex-row sm:flex-nowrap items-center mt-3">
                         <div class="pagination">
-                            {{ $rekening->appends($data_request)->links() }}
+                            {{ $pegawai->appends($data_request)->links() }}
                         </div>
                     </div>
                 </div>
