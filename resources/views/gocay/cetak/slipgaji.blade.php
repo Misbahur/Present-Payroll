@@ -276,11 +276,11 @@
 				@foreach ($potongan as $key => $item)
 				@if($item->penggajian->pegawai->id == $dt[0])
 					<td></td>
-					<td>Rp. {{ number_format($in[$key] - $out[$key]) }} </td>
+					<td>Total: Rp. {{ number_format($in[$key] - $out[$key]) }} </td>
 					<td>  </td>
 				@else
 					<td></td>
-					<td>Rp. 0 </td>
+					<td>Total: Rp. 0 </td>
 					<td>  </td>
 				@endif
 				@endforeach
