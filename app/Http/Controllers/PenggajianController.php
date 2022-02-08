@@ -39,13 +39,14 @@ class PenggajianController extends Controller
         $request->validate([
             'periode_id' => 'required' 
         ]);
-
+        $data_request = $request->all();
         $penggajians = Penggajian::where('periode_id', $request->periode_id)->paginate(10);
         $periodes = Periode::orderBy('created_at', 'DESC')->get();
         return view('gocay/filtergaji', [
             'penggajians' => $penggajians,
             'periodes' => $periodes,
-        ]); 
+            'data_request' => $data_request,
+        ])->with('i', ($request->input('page', 1) - 1) * 10); 
     }
 
     /**
