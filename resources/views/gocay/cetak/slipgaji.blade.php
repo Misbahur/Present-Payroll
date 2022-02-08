@@ -241,34 +241,51 @@
 				</tr>
 
               
+		
 
-				@for ($i=0; $i < count($in); $i++)
-				@if(($i+1) == $dt[0])
 				<tr class="item">
+
+				@foreach ($potongan as $key => $item)
+				@if($item->penggajian->pegawai->id == $dt[0])
           <td>Total Pemasukan</td>
-					<td>Rp. {{ number_format($in[$i]) }}</td>
-        </tr>
-        @endif
-				@endfor
-
-				@for ($i=0; $i < count($out); $i++)
-				@if(($i+1) == $dt[0])
-				<tr class="item">
-                    <td>Total Potongan</td>
-					<td>Rp. {{ number_format($out[$i]) }}</td>
-                </tr>
-        @endif
-				@endfor
-
-				@for ($i=0; $i < count($in); $i++)
-				@if(($i+1) == $dt[0])
-				<tr class="total">
-					<td></td>
-					<td>Rp. {{ number_format($in[$i] - $out[$i]) }}</td>
-					<td>  </td>
-				</tr>
+					<td>Rp. {{ number_format($in[$key]) }}</td>
+				@else
+          <td>Total Pemasukan</td>
+					<td>Rp. 0</td>
 				@endif
-				@endfor
+				@endforeach
+        </tr>
+  
+
+			
+				<tr class="item">
+				@foreach ($potongan as $key => $item)
+				@if($item->penggajian->pegawai->id == $dt[0])
+          <td>Total Potongan</td>
+					<td>Rp. {{ number_format($out[$key]) }}</td>
+				@else
+	        <td>Total Potongan</td>
+					<td>Rp. 0</td>
+        @endif
+				@endforeach
+          </tr>
+
+
+
+				<tr class="total">
+				@foreach ($potongan as $key => $item)
+				@if($item->penggajian->pegawai->id == $dt[0])
+					<td></td>
+					<td>Rp. {{ number_format($in[$key] - $out[$key]) }} </td>
+					<td>  </td>
+				@else
+					<td></td>
+					<td>Rp. 0 </td>
+					<td>  </td>
+				@endif
+				@endforeach
+				</tr>
+
                 <tr class="titlettd">
                     <td>Diserahkan Oleh</td>
 
