@@ -245,13 +245,10 @@
 
 				<tr class="item">
 
-				@foreach ($potongan as $key => $item)
+				@foreach ($gaji as $key => $item)
 				@if($item->penggajian->pegawai->id == $dt[0])
           <td>Total Pemasukan</td>
-					<td>Rp. {{ number_format($in[$key]) }}</td>
-				@else
-          <td>Total Pemasukan</td>
-					<td>Rp. 0</td>
+					<td>Rp. {{ number_format($item->nominal) }}</td>
 				@endif
 				@endforeach
         </tr>
@@ -262,27 +259,23 @@
 				@foreach ($potongan as $key => $item)
 				@if($item->penggajian->pegawai->id == $dt[0])
           <td>Total Potongan</td>
-					<td>Rp. {{ number_format($out[$key]) }}</td>
-				@else
-	        <td>Total Potongan</td>
-					<td>Rp. 0</td>
-        @endif
+					<td>Rp. {{ number_format($item->nominal) }}</td>
+					@else
+          <td>Total Potongan</td>
+					<td>Rp. 0</td>					
+					@endif
 				@endforeach
           </tr>
 
 
 
 				<tr class="total">
-				@foreach ($potongan as $key => $item)
+				@foreach ($gaji as $key => $item)
 				@if($item->penggajian->pegawai->id == $dt[0])
 					<td></td>
 					<td>Total: Rp. {{ number_format($in[$key] - $out[$key]) }} </td>
 					<td>  </td>
-				@else
-					<td></td>
-					<td>Total: Rp. 0 </td>
-					<td>  </td>
-				@endif
+					@endif
 				@endforeach
 				</tr>
 
