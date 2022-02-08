@@ -26,6 +26,7 @@ class BankController extends Controller
 
     public function bayar_bank(Request $request)
     {
+        $periode_id = Periode::latest()->first();
         $data_request = $request->all();
         $bank = Bank::all();
         foreach ($bank as $item):
@@ -34,41 +35,35 @@ class BankController extends Controller
                             ->join('pegawais', 'pegawais.id', 'penggajians.pegawai_id')
                             ->where('metapenggajians.status' ,'=', 'in')
                             ->where('pegawais.bank_id' ,'=', $item->id)
+                            ->where('penggajians.periode_id' ,'=', $request->periode_id == null ? $periode_id->id : $request->periode_id)
                             ->get()->sum('nominal');
             $out[$item->id] = Metapenggajian::select('metapenggajians.*' ,'penggajians.pegawai_id','penggajians.id', 'pegawais.id', 'pegawais.bank_id', 'pegawais.no_rek', 'pegawais.atas_nama', 'pegawais.nama as nama_pegawai')
                             ->join('penggajians', 'penggajians.id', 'metapenggajians.penggajian_id')
                             ->join('pegawais', 'pegawais.id', 'penggajians.pegawai_id')
                             ->where('metapenggajians.status' ,'=', 'out')
                             ->where('pegawais.bank_id' ,'=', $item->id)
+                            ->where('penggajians.periode_id' ,'=', $request->periode_id == null ? $periode_id->id : $request->periode_id)
                             ->get()->sum('nominal');
             $total[$item->id] = intval($in[$item->id] - $out[$item->id]);
             $nama_bank[$item->id] = Bank::where('id', '=' , $item->id)->get()->pluck('nama');
         endforeach;
 
-        $rekening = Metapenggajian::select('metapenggajians.*' ,'penggajians.pegawai_id','penggajians.id', 'pegawais.id', 'pegawais.bank_id', 'pegawais.no_rek', 'pegawais.atas_nama', 'pegawais.nama as nama_pegawai')
-                    ->join('penggajians', 'penggajians.id', 'metapenggajians.penggajian_id')
-                    ->join('pegawais', 'pegawais.id', 'penggajians.pegawai_id')
-                    // ->where('metapenggajians.status' ,'=', 'in')
-                    ->where('metapenggajians.keterangan' ,'=', 'Gaji Pokok')
-                    ->paginate(10);
+        // $rekening = Metapenggajian::select('metapenggajians.*' ,'penggajians.pegawai_id','penggajians.id', 'pegawais.id', 'pegawais.bank_id', 'pegawais.no_rek', 'pegawais.atas_nama', 'pegawais.nama as nama_pegawai')
+        //             ->join('penggajians', 'penggajians.id', 'metapenggajians.penggajian_id')
+        //             ->join('pegawais', 'pegawais.id', 'penggajians.pegawai_id')
+        //             // ->where('metapenggajians.status' ,'=', 'in')
+        //             ->where('metapenggajians.keterangan' ,'=', 'Gaji Pokok')
+        //             ->paginate(10);
+        $pegawai = Pegawai::paginate(10);
 
-
-        // $request->periode_id == null ? '1' : $request->periode_id;
-
-        // if ($request->periode_id == null):
-            $periode_id = Periode::latest()->first();
         
 
-
-        // dd($request->periode_id);
-        
-
-        foreach ($rekening as $item):
+        foreach ($pegawai as $item):
             $gaji_in[$item->id] = Metapenggajian::select('metapenggajians.*' ,'penggajians.pegawai_id','penggajians.id', 'pegawais.id', 'pegawais.bank_id', 'pegawais.no_rek', 'pegawais.atas_nama', 'pegawais.nama as nama_pegawai')
                                     ->join('penggajians', 'penggajians.id', 'metapenggajians.penggajian_id')
                                     ->join('pegawais', 'pegawais.id', 'penggajians.pegawai_id')
                                     ->where('metapenggajians.status' ,'=', 'in')
-                                    ->where('pegawais.id' ,'=', $item->pegawai_id)
+                                    ->where('pegawais.id' ,'=', $item->id)
                                     ->where('penggajians.periode_id' ,'=', $request->periode_id == null ? $periode_id->id : $request->periode_id)
                                     ->get()->sum('nominal');   
 
@@ -76,7 +71,7 @@ class BankController extends Controller
                                     ->join('penggajians', 'penggajians.id', 'metapenggajians.penggajian_id')
                                     ->join('pegawais', 'pegawais.id', 'penggajians.pegawai_id')
                                     ->where('metapenggajians.status' ,'=', 'out')
-                                    ->where('pegawais.id' ,'=', $item->pegawai_id)
+                                    ->where('pegawais.id' ,'=', $item->id)
                                     ->where('penggajians.periode_id' ,'=', $request->periode_id == null ? $periode_id->id : $request->periode_id)
                                     ->get()->sum('nominal');      
 
@@ -85,7 +80,7 @@ class BankController extends Controller
 
         return view('gocay.bayar_bank', [
             'bank' => $bank,
-            'rekening' => $rekening,
+            'pegawai' => $pegawai,
             'total' => $total,
             'nama_bank' => $nama_bank,
             'gaji_total' => $gaji_total,
@@ -147,12 +142,24 @@ class BankController extends Controller
         $bank_title = Bank::whereRaw('id = '. $id) 
         ->first();
         $bank = Bank::all();
-        $bank_total = Metapenggajian::select('metapenggajians.*' ,'penggajians.pegawai_id','penggajians.id', 'pegawais.id', 'pegawais.bank_id', 'pegawais.no_rek', 'pegawais.atas_nama', 'pegawais.nama as nama_pegawai')
+        $periode_id = Periode::latest()->first();
+        $bank_total_in = Metapenggajian::select('metapenggajians.*' ,'penggajians.pegawai_id','penggajians.id', 'pegawais.id', 'pegawais.bank_id', 'pegawais.no_rek', 'pegawais.atas_nama', 'pegawais.nama as nama_pegawai')
                             ->join('penggajians', 'penggajians.id', 'metapenggajians.penggajian_id')
                             ->join('pegawais', 'pegawais.id', 'penggajians.pegawai_id')
                             ->where('metapenggajians.status' ,'=', 'in')
                             ->where('pegawais.bank_id' ,'=', $id)
+                            ->where('penggajians.periode_id' ,'=', $request->periode_id == null ? $periode_id->id : $request->periode_id)
                             ->get()->sum('nominal');
+        $bank_total_out = Metapenggajian::select('metapenggajians.*' ,'penggajians.pegawai_id','penggajians.id', 'pegawais.id', 'pegawais.bank_id', 'pegawais.no_rek', 'pegawais.atas_nama', 'pegawais.nama as nama_pegawai')
+                            ->join('penggajians', 'penggajians.id', 'metapenggajians.penggajian_id')
+                            ->join('pegawais', 'pegawais.id', 'penggajians.pegawai_id')
+                            ->where('metapenggajians.status' ,'=', 'out')
+                            ->where('pegawais.bank_id' ,'=', $id)
+                            ->where('penggajians.periode_id' ,'=', $request->periode_id == null ? $periode_id->id : $request->periode_id)
+                            ->get()->sum('nominal');
+        $bank_total = $bank_total_in - $bank_total_out;
+
+
         foreach ($bank as $item):
             $in[$item->id] = Metapenggajian::select('metapenggajians.*' ,'penggajians.pegawai_id','penggajians.id', 'pegawais.id', 'pegawais.bank_id', 'pegawais.no_rek', 'pegawais.atas_nama', 'pegawais.nama as nama_pegawai')
                             ->join('penggajians', 'penggajians.id', 'metapenggajians.penggajian_id')
@@ -188,15 +195,17 @@ class BankController extends Controller
         
 
 
-         $periode_id = Periode::latest()->first();
-         // dd($request->periode_id);
+        // dd($request->periode_id);
+        $pegawai = Pegawai::where('bank_id', $request->id)->get();
 
-        foreach ($rekening as $item):
+        
+
+        foreach ($pegawai as $item):
             $gaji_in[$item->id] = Metapenggajian::select('metapenggajians.*' ,'penggajians.pegawai_id','penggajians.id', 'pegawais.id', 'pegawais.bank_id', 'pegawais.no_rek', 'pegawais.atas_nama', 'pegawais.nama as nama_pegawai')
                                     ->join('penggajians', 'penggajians.id', 'metapenggajians.penggajian_id')
                                     ->join('pegawais', 'pegawais.id', 'penggajians.pegawai_id')
                                     ->where('metapenggajians.status' ,'=', 'in')
-                                    ->where('pegawais.id' ,'=', $item->pegawai_id)
+                                    ->where('pegawais.id' ,'=', $item->id)
                                     ->where('pegawais.bank_id' ,'=', $id)
                                     ->where('penggajians.periode_id' ,'=', $request->periode_id == null ? $periode_id->id : $request->periode_id)
                                     ->get()->sum('nominal');   
@@ -205,7 +214,7 @@ class BankController extends Controller
                                     ->join('penggajians', 'penggajians.id', 'metapenggajians.penggajian_id')
                                     ->join('pegawais', 'pegawais.id', 'penggajians.pegawai_id')
                                     ->where('metapenggajians.status' ,'=', 'out')
-                                    ->where('pegawais.id' ,'=', $item->pegawai_id)
+                                    ->where('pegawais.id' ,'=', $item->id)
                                     ->where('pegawais.bank_id' ,'=', $id)
                                     ->where('penggajians.periode_id' ,'=', $request->periode_id == null ? $periode_id->id : $request->periode_id)
                                     ->get()->sum('nominal');      
@@ -220,7 +229,7 @@ class BankController extends Controller
             'bank_total' => $bank_total,
             'bank' => $bank,
             'bank_id' => $bank_id,
-            'rekening' => $rekening,
+            'pegawai' => $pegawai,
             'total' => $total,
             'nama_bank' => $nama_bank,
             'gaji_total' => $gaji_total,
