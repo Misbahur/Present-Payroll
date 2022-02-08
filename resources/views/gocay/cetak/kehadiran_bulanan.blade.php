@@ -5,6 +5,12 @@
         <title>Sistem Present & Payrol Gocay</title>
 
         <style>
+            table{
+                border-collapse: collapse;
+            }
+            .text-14{
+                font-size: 14px;
+            }
             .text-yellow{
                 color: red;
             }
@@ -17,8 +23,14 @@
     <body>
 
    <table width="100%">
+
+   <tr>
+       <td class="text-center">
+            <img  src="{{'data:image/png;base64,'.base64_encode(file_get_contents(public_path('dist/images/logo.png')))}}" alt="Company logo" style="width: 150px;" />
+       </td>
+   </tr>
     <tr class="text-center">
-        <td><h1><strong>Jadwal:  </strong>{{ \Carbon\Carbon::parse($bulan)->format('M - Y')}}</h1></td>
+        <td><h1><strong>Kehadiran Pegawai Bulan:  </strong>{{ \Carbon\Carbon::parse($bulan)->format('M - Y')}}</h1></td>
     </tr>
 
 </table>
@@ -48,16 +60,16 @@
                                 </td>
                                 
                                 <td class="text-center">
-                                    {{ $p->nama}} 
+                                    {{ $p->nama}}
                                 </td> 
 
                                 @for ($x=1; $x <= date('t', strtotime($bulan)); $x++)
                                 <td class="text-center">
                                     @foreach ($kehadiran_bulanan[$p->id][$x] as $item)
-                                    <span class="{{ $item->jam_masuk > $polas[$p->id][$x]->jam_masuk ? 'text-yellow' : '' }}"> {{ $item->jam_masuk != null ? $item->jam_masuk : '-' }} </span> <br>
-                                    <span class="{{ $item->jam_istirahat < $polas[$p->id][$x]->jam_istirahat ? 'text-yellow' : '' }}">{{ $item->jam_istirahat != null ? $item->jam_istirahat : '-' }}</span> <br>
-                                    <span class="{{ $item->jam_masuk_istirahat > $polas[$p->id][$x]->jam_istirahat_masuk ? 'text-yellow' : '' }}">{{ $item->jam_masuk_istirahat != null ? $item->jam_masuk_istirahat : '-' }} </span> <br>
-                                    <span class="{{ $item->jam_pulang < $polas[$p->id][$x]->jam_pulang ? 'text-yellow' : '' }}">{{ $item->jam_pulang != null ? $item->jam_pulang : '-' }} </span>
+                                    <span class="text-14 {{ $item->jam_masuk > $polas[$p->id][$x]->jam_masuk ? 'text-yellow' : '' }}"> {{ $item->jam_masuk != null ? date('h:i', strtotime($item->jam_masuk)) : '-' }} </span> <br>
+                                    <span class="text-14 {{ $item->jam_istirahat < $polas[$p->id][$x]->jam_istirahat ? 'text-yellow' : '' }}">{{ $item->jam_istirahat != null ? date('h:i', strtotime($item->jam_istirahat)) : '-' }}</span> <br>
+                                    <span class="text-14 {{ $item->jam_masuk_istirahat > $polas[$p->id][$x]->jam_istirahat_masuk ? 'text-yellow' : '' }}">{{ $item->jam_masuk_istirahat != null ? date('h:i', strtotime($item->jam_masuk_istirahat)) : '-' }} </span> <br>
+                                    <span class="text-14 {{ $item->jam_pulang < $polas[$p->id][$x]->jam_pulang ? 'text-yellow' : '' }}">{{ $item->jam_pulang != null ? date('h:i', strtotime($item->jam_pulang)) : '-' }} </span>
                                     @endforeach
                                 </td>
                                 @endfor
