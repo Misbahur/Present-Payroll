@@ -39,13 +39,14 @@ class PenggajianController extends Controller
         $request->validate([
             'periode_id' => 'required' 
         ]);
-
+        $data_request = $request->all();
         $penggajians = Penggajian::where('periode_id', $request->periode_id)->paginate(10);
         $periodes = Periode::orderBy('created_at', 'DESC')->get();
         return view('gocay/filtergaji', [
             'penggajians' => $penggajians,
             'periodes' => $periodes,
-        ]); 
+            'data_request' => $data_request,
+        ])->with('i', ($request->input('page', 1) - 1) * 10); 
     }
 
     /**
@@ -372,7 +373,7 @@ class PenggajianController extends Controller
         }
      
        
-// dd($pegawai);
+// dd($pegawai->periode->tanggal_awal);
         $setting = Setting::all();
 
       $pdf = DomPDF::loadView('gocay.cetak.slipgaji', [
@@ -386,7 +387,7 @@ class PenggajianController extends Controller
             'out' => $out,
     ])->setPaper('a3');
       // download PDF file with download method
-      return $pdf->stream('Jadwal Bulan '.'.pdf');
+      return $pdf->stream('slipgaji '.$pegawai->periode->tanggal_awal.' - '.$pegawai->periode->tanggal_akhir.'.pdf');
     }
 
     public function KirimEmailPenggajian($id)

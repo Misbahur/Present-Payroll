@@ -116,7 +116,7 @@
                             <tbody>
                                 @foreach ($penggajians as $key=>$item)
                                 <tr>
-                                    <td class="border-b dark:border-dark-5">{{ ++   $key }}</td>
+                                    <td class="border-b dark:border-dark-5">{{ ++   $i }}</td>
                                     <td class="border-b dark:border-dark-5">{{ $item->pegawai->nama }}</td>
                                     <td class="border-b dark:border-dark-5">{{ $item->jabatan->nama }}</td>
                                     <td class="border-b dark:border-dark-5">{{ $item->periode->nama }}</td>
@@ -132,7 +132,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{ $penggajians->links() }}
+                        {{ $penggajians->appends($data_request)->links() }}
                     </div>
                 </div>
                 <!-- END: Daily Sales -->
