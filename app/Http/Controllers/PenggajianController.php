@@ -384,7 +384,7 @@ class PenggajianController extends Controller
             'periodes' => $periodes,
             'in' => $in,
             'out' => $out,
-    ])->setPaper('a4');
+    ])->setPaper('a3');
       // download PDF file with download method
       return $pdf->stream('Jadwal Bulan '.'.pdf');
     }
