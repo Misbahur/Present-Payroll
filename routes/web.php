@@ -113,6 +113,32 @@ Route::middleware('auth')->group(function() {
     
         Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
+        //Fingerprint Manage
+        Route::get('fingerprint', [FingerprintController::class, 'index'])->name('fingerprint');
+        Route::get('getDataFingerprint', [FingerprintController::class, 'getDataFingerprint'])->name('getDataFingerprint');
+        Route::get('cekDataFingerprint', [FingerprintController::class, 'cekDataFingerprint'])->name('cekDataFingerprint');
+        Route::get('addPegawaiToFingerprint', [FingerprintController::class, 'addPegawaiToFingerprint'])->name('addPegawaiToFingerprint');
+        Route::get('updateFingerData', [FingerprintController::class, 'updateFingerData'])->name('updateFingerData');
+        Route::get('cekUserFingerprint', [FingerprintController::class, 'cekUserFingerprint'])->name('cekUserFingerprint');
+        Route::post('setUserFingerprint', [FingerprintController::class, 'setUserFingerprint'])->name('setUserFingerprint');
+        Route::get('deleteAllUserFingerptint', [FingerprintController::class, 'deleteAllUserFingerptint'])->name('deleteAllUserFingerptint');
+        Route::get('deleteAllLogFingerptint', [FingerprintController::class, 'deleteAllLogFingerptint'])->name('deleteAllLogFingerptint');
+
+        //kehadiran Manage
+        // Route::post('kehadiranadd', [KehadiranController::class, 'store'])->name('kehadiranadd');
+        Route::get('kehadiran', [KehadiranController::class, 'index'])->name('kehadiran');
+        Route::get('kehadiran_bulanan', [KehadiranController::class, 'kehadiran_bulanan'])->name('kehadiran_bulanan');
+        Route::any('kehadiran_bulanan-pdf', [KehadiranController::class, 'ExportPDFKehadiraBulanan'])->name('kehadiran_bulanan-pdf');
+        Route::get('kehadiran_jabatan/{id}/{tanggal}', [KehadiranController::class, 'kehadiran_jabatan'])->name('kehadiran_jabatan');
+        Route::get('filterkehadiran', [KehadiranController::class, 'filterkehadiran'])->name('filter-kehadiran');
+        Route::get('getpolakerja', [KehadiranController::class, 'getpolakerja'])->name('getpolakerja');
+        Route::get('telatlembur', [KehadiranController::class, 'telatlembur'])->name('telatlembur');
+        Route::get('bonusMingguan', [KehadiranController::class, 'bonusMingguan'])->name('bonusMingguan');
+        Route::get('bonusMasukLibur', [KehadiranController::class, 'bonusMasukLibur'])->name('bonusMasukLibur');
+        Route::get('bonusBulanan', [KehadiranController::class, 'bonusBulanan'])->name('bonusBulanan');
+        Route::get('cekAbsenPegawai', [KehadiranController::class, 'cekAbsenPegawai'])->name('cekAbsenPegawai');
+        Route::get('data_bulanan', [KehadiranController::class, 'data_bulanan'])->name('data_bulanan');
+
         //Pegawai Manage
         Route::get('pegawai', [PegawaiController::class, 'index'])->name('pegawai');
         Route::post('pegawaiadd', [PegawaiController::class, 'store'])->name('pegawaiadd');
@@ -221,12 +247,7 @@ Route::middleware('auth')->group(function() {
         
     
         
-        //Management User 
-        Route::get('user', [UserController::class, 'index'])->name('user');
-        Route::post('useradd', [UserController::class, 'store'])->name('useradd');
-        Route::get('useredit', [UserController::class, 'edit'])->name('useredit');
-        Route::post('userupdate', [UserController::class, 'update'])->name('userupdate');
-        Route::get('userdelete/{id}', [UserController::class, 'destroy'])->name('userdelete');
+        
 
 
 
@@ -280,6 +301,13 @@ Route::middleware('auth')->group(function() {
     });
 
     Route::group(['middleware'=>['auth','role:su']],function(){
+
+        //Management User 
+        Route::get('user', [UserController::class, 'index'])->name('user');
+        Route::post('useradd', [UserController::class, 'store'])->name('useradd');
+        Route::get('useredit', [UserController::class, 'edit'])->name('useredit');
+        Route::post('userupdate', [UserController::class, 'update'])->name('userupdate');
+        Route::get('userdelete/{id}', [UserController::class, 'destroy'])->name('userdelete');
 
         Route::POST('bonusall', [PenggajianController::class, 'bonusall'])->name('bonusall');
 

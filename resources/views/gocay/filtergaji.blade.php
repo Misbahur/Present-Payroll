@@ -271,6 +271,7 @@
                 <!-- BEGIN: Modal Body -->
                 <form method="GET" id= "form-jadwal" action="{{ route('cetak-penggajian-pdf') }}">
                         @csrf
+                <input type="hidden" name="periode_id" value={{ request()->get('periode_id') }}>
                 <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
                     <div class="col-span-12 sm:col-span-12">
                         <label for="modal-form-3" class="form-label">Pegawai</label>
