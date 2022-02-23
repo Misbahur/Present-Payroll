@@ -150,6 +150,7 @@ class Bon_kasController extends Controller
 
         $bonkas = Bon_kas::with(['pegawai'])
         ->whereRaw('pegawai_id = '. $id)
+        ->whereMonth('tanggal', date('m'))
         ->orderBy('tanggal')  
         ->get();
         $pegawai_title = Bon_kas::with(['pegawai'])

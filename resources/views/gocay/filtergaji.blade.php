@@ -270,6 +270,7 @@
                 <!-- END: Modal Header -->
                 <!-- BEGIN: Modal Body -->
                 <form method="GET" id= "form-jadwal" action="{{ route('cetak-penggajian-pdf') }}">
+
                         @csrf
                 <input type="hidden" name="periode_id" value={{ request()->get('periode_id') }}>
                 <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
@@ -283,15 +284,14 @@
                     </div>
 
                 </div>
-                <!-- END: Modal Body -->
-                <!-- BEGIN: Modal Footer -->
+              
                 <div class="modal-footer text-right">
                     <button type="button" data-dismiss="modal"
                         class="btn btn-outline-secondary w-20 mr-1">Cancel</button>
                     <button type="submit" class="btn btn-primary w-20">Send</button>
                 </div>
                 </form>
-                <!-- END: Modal Footer -->
+              
             </div>
         </div>
     </div>
