@@ -359,7 +359,15 @@ class PenggajianController extends Controller
         
         $periodes = Periode::orderBy('created_at', 'DESC')->get();
 
-        $pegawai = Penggajian::where('id',$data_id)->first();
+        $pegawai = Penggajian::where('pegawai_id',$data_id)->first();
+ 
+
+        // $gaji =  Metapenggajian::whereHas('penggajian', function ($query)use($data_id) {
+        //     return $query->where('pegawai_id', '=', $data_id);
+        // })->where('status', 'in')->get();
+        // $potongan =  Metapenggajian::whereHas('penggajian', function ($query)use($data_id) {
+        //     return $query->where('pegawai_id', '=', $data_id);
+        // })->where('status', 'out')->get();
 
         $gaji =  Metapenggajian::whereIn('penggajian_id', $data_id)->where('status', 'in')->get();
         $potongan =  Metapenggajian::whereIn('penggajian_id', $data_id)->where('status', 'out')->get();
@@ -368,11 +376,19 @@ class PenggajianController extends Controller
         $out = array();
 
         for ($i=0; $i < count($data_id); $i++) { 
+
+        // $in[$i] =   Metapenggajian::whereHas('penggajian', function ($query) use($data_id,$i) {
+        //     return $query->where('pegawai_id', '=', array($data_id[$i]));
+        // })->where('status', 'in')->get();
+        // $out[$i] =   Metapenggajian::whereHas('penggajian', function ($query) use($data_id,$i) {
+        //     return $query->where('pegawai_id', '=', array($data_id[$i]));
+        // })->where('status', 'out')->get();
+
         $in[$i] = Metapenggajian::where('penggajian_id', array($data_id[$i]))->where('status', 'in')->get()->sum('nominal');
         $out[$i] = Metapenggajian::where('penggajian_id', array($data_id[$i]))->where('status', 'out')->get()->sum('nominal');
         }
      
-       
+       // dd($in);
 // dd($pegawai->periode->tanggal_awal);
         $setting = Setting::all();
 

@@ -159,6 +159,7 @@ class Bon_kasController extends Controller
         ->first();
         $total_bon = Bon_kas::with(['pegawai'])
         ->whereRaw('pegawai_id = '. $id)
+        ->whereMonth('tanggal', date('m'))
         ->sum('nominal');
 
         $pegawai = Pegawai::where('id', $id)->first();
