@@ -158,7 +158,7 @@
 
 								<td>
 									Cetak #<br />
-									Periode: {{ $pegawai->periode->tanggal_awal }} - {{ $pegawai->periode->tanggal_akhir }}
+									Periode: {{ date('d-M-y', strtotime($periodes->tanggal_awal)) }} ~ {{ date('d-M-y', strtotime($periodes->tanggal_akhir)) }}
 									
 
 								</td>
@@ -199,17 +199,10 @@
 					<td>Nominal #</td>
 				</tr>
 
-				@foreach ($gaji as $key => $item)
+				@foreach ($pemasukan[$count] as $key => $item)
 				<tr class="details">
-				@if($item->penggajian->pegawai->id == $dt[0])
-
-					<td>{{ $item->keterangan }} - {{$item->penggajian->pegawai->nama}}</td>
+					<td>{{ $item->keterangan }} </td>
 					<td>Rp. {{ number_format($item->nominal) }}</td>
-				@else
-				<td></td>
-				<td></td>
-				@endif
-
 				</tr>
 				@endforeach
 
@@ -219,9 +212,9 @@
 					<td>Nominal</td>
 				</tr>
 
-				@foreach ($potongan as $key => $item)
+				@foreach ($pengeluaran[$count] as $key => $item)
 				<tr class="details">
-				@if($item->penggajian->pegawai->id == $dt[0])
+				@if($item->id != null)
 
 					<td>{{ $item->keterangan }}</td>
 
@@ -245,26 +238,17 @@
 
 				<tr class="item">
 
-				@foreach ($gaji as $key => $item)
-				@if($item->penggajian->pegawai->id == $dt[0])
           <td>Total Pemasukan</td>
-					<td>Rp. {{ number_format($item->nominal) }}</td>
-				@endif
-				@endforeach
+					<td>Rp. {{ number_format($in[$count]) }}</td>
+	
         </tr>
   
 
 			
 				<tr class="item">
-				@foreach ($potongan as $key => $item)
-				@if($item->penggajian->pegawai->id == $dt[0])
+
           <td>Total Potongan</td>
-					<td>Rp. {{ number_format($item->nominal) }}</td>
-					@else
-          <td>Total Potongan</td>
-					<td>Rp. 0</td>					
-					@endif
-				@endforeach
+					<td>Rp. {{ number_format($out[$count]) }}</td>
           </tr>
 
 

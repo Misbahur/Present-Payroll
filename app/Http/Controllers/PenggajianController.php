@@ -357,7 +357,7 @@ class PenggajianController extends Controller
         // $updateprint->status_print = 'Sudah Print';
         // $updateprint->update();
         
-        $periodes = Periode::orderBy('created_at', 'DESC')->get();
+        $periodes = Periode::where('id', $request->periode_id)->first();
 
         $pegawai = Penggajian::where('pegawai_id',$data_id)->first();
  
@@ -370,12 +370,14 @@ class PenggajianController extends Controller
         // })->where('status', 'out')->get();
 
         $gaji =  Metapenggajian::whereIn('penggajian_id', $data_id)->where('status', 'in')->get();
-        $potongan =  Metapenggajian::whereIn('penggajian_id', $data_id)->where('status', 'out')->get();
+        // $potongan =  Metapenggajian::whereIn('penggajian_id', $data_id)->where('status', 'out')->get();
+
 
         $in = array();
         $out = array();
 
         for ($i=0; $i < count($data_id); $i++) { 
+<<<<<<< HEAD
 
         // $in[$i] =   Metapenggajian::whereHas('penggajian', function ($query) use($data_id,$i) {
         //     return $query->where('pegawai_id', '=', array($data_id[$i]));
@@ -386,6 +388,37 @@ class PenggajianController extends Controller
 
         $in[$i] = Metapenggajian::where('penggajian_id', array($data_id[$i]))->where('status', 'in')->get()->sum('nominal');
         $out[$i] = Metapenggajian::where('penggajian_id', array($data_id[$i]))->where('status', 'out')->get()->sum('nominal');
+=======
+            // $in[$i] = Metapenggajian::where('penggajian_id', array($data_id[$i]))->where('status', 'in')->get()->sum('nominal');
+            // $out[$i] = Metapenggajian::where('penggajian_id', array($data_id[$i]))->where('status', 'out')->get()->sum('nominal');
+
+            $pemasukan[$i] = Metapenggajian::select('metapenggajians.*' ,'penggajians.pegawai_id','penggajians.id', 'penggajians.periode_id')
+                    ->join('penggajians', 'penggajians.id', 'metapenggajians.penggajian_id')
+                    ->where('penggajians.periode_id', $request->periode_id)
+                    ->where('penggajians.pegawai_id', array($data_id[$i]))
+                    ->where('status', 'in')
+                    ->get();
+            $pengeluaran[$i] = Metapenggajian::select('metapenggajians.*' ,'penggajians.pegawai_id','penggajians.id', 'penggajians.periode_id')
+                    ->join('penggajians', 'penggajians.id', 'metapenggajians.penggajian_id')
+                    ->where('penggajians.periode_id', $request->periode_id)
+                    ->where('penggajians.pegawai_id', array($data_id[$i]))
+                    ->where('status', 'out')
+                    ->get();
+
+            $in[$i] = Metapenggajian::select('metapenggajians.*' ,'penggajians.pegawai_id','penggajians.id', 'penggajians.periode_id')
+                    ->join('penggajians', 'penggajians.id', 'metapenggajians.penggajian_id')
+                    ->where('penggajians.periode_id', $request->periode_id)
+                    ->where('penggajians.pegawai_id', array($data_id[$i]))
+                    ->where('status', 'in')
+                    ->get()->sum('nominal');
+        
+            $out[$i] = Metapenggajian::select('metapenggajians.*' ,'penggajians.pegawai_id','penggajians.id', 'penggajians.periode_id')
+                    ->join('penggajians', 'penggajians.id', 'metapenggajians.penggajian_id')
+                    ->where('penggajians.periode_id', $request->periode_id)
+                    ->where('penggajians.pegawai_id', array($data_id[$i]))
+                    ->where('status', 'out')
+                    ->get()->sum('nominal');
+>>>>>>> 9a90a920a10fe3032350ee6b04dfa3988427a756
         }
      
        // dd($in);
@@ -397,7 +430,9 @@ class PenggajianController extends Controller
             'setting' => $setting,
             'pegawai' => $pegawai,
             'gaji' => $gaji,
-            'potongan' => $potongan,
+            'pemasukan' => $pemasukan,
+            'pengeluaran' => $pengeluaran,
+            // 'potongan' => $potongan,
             'periodes' => $periodes,
             'in' => $in,
             'out' => $out,

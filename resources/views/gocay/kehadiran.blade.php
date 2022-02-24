@@ -101,7 +101,9 @@
                                     <th class="text-center whitespace-nowrap">Jam Istirahat</th>
                                     <th class="text-center whitespace-nowrap">Jam Istirahat Masuk</th>
                                     <th class="text-center whitespace-nowrap">Jam Pulang</th>
+                                    @if (Auth::user()->role != 'admin')
                                     <th class="text-center whitespace-nowrap">Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -140,6 +142,7 @@
                                     <td class="w-40 text-center jam_pulang{{ $item->pegawai_id }}">
                                         {{ $item->jam_pulang ? $item->jam_pulang : '-'}}
                                     </td>
+                                    @if (Auth::user()->role != 'admin')
                                     <td class="table-report__action w-56">
                                             <div class="flex justify-center items-center">
                                                 <a class="flex items-center mr-3 kehadiran-edit" href="javascript:void(0)" data-toggle="modal" 
@@ -151,6 +154,7 @@
                                                 </a>
                                             </div>
                                         </td>
+                                        @endif
                                 </tr>
                                
                             @endforeach
