@@ -158,7 +158,7 @@
 
 								<td>
 									Cetak #<br />
-									Periode: {{ date('d-M-y', strtotime($periodes->tanggal_awal)) }} ~ {{ date('d-M-y', strtotime($periodes->tanggal_akhir)) }}
+									Periode: {{ date('d-M-y', strtotime($pegawai->periode->tanggal_awal)) }} ~ {{ date('d-M-y', strtotime($pegawai->periode->tanggal_akhir)) }}
 									
 
 								</td>
