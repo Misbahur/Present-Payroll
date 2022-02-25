@@ -125,11 +125,13 @@ Route::middleware('auth')->group(function() {
         Route::get('deleteAllLogFingerptint', [FingerprintController::class, 'deleteAllLogFingerptint'])->name('deleteAllLogFingerptint');
 
         //kehadiran Manage
-        // Route::post('kehadiranadd', [KehadiranController::class, 'store'])->name('kehadiranadd');
         Route::get('kehadiran', [KehadiranController::class, 'index'])->name('kehadiran');
         Route::get('kehadiran_bulanan', [KehadiranController::class, 'kehadiran_bulanan'])->name('kehadiran_bulanan');
         Route::any('kehadiran_bulanan-pdf', [KehadiranController::class, 'ExportPDFKehadiraBulanan'])->name('kehadiran_bulanan-pdf');
         Route::get('kehadiran_jabatan/{id}/{tanggal}', [KehadiranController::class, 'kehadiran_jabatan'])->name('kehadiran_jabatan');
+        Route::get('kehadiranedit', [KehadiranController::class, 'edit'])->name('kehadiranedit');
+        Route::POST('kehadiranupdate', [KehadiranController::class, 'update'])->name('kehadiranupdate');
+        Route::get('kehadirandelete/{id}', [KehadiranController::class, 'destroy'])->name('kehadirandelete');
         Route::get('filterkehadiran', [KehadiranController::class, 'filterkehadiran'])->name('filter-kehadiran');
         Route::get('getpolakerja', [KehadiranController::class, 'getpolakerja'])->name('getpolakerja');
         Route::get('telatlembur', [KehadiranController::class, 'telatlembur'])->name('telatlembur');
@@ -138,6 +140,13 @@ Route::middleware('auth')->group(function() {
         Route::get('bonusBulanan', [KehadiranController::class, 'bonusBulanan'])->name('bonusBulanan');
         Route::get('cekAbsenPegawai', [KehadiranController::class, 'cekAbsenPegawai'])->name('cekAbsenPegawai');
         Route::get('data_bulanan', [KehadiranController::class, 'data_bulanan'])->name('data_bulanan');
+
+        //Jabatan Manage
+        Route::get('jabatan', [JabatanController::class, 'index'])->name('jabatan');
+        Route::post('jabatanadd', [JabatanController::class, 'store'])->name('jabatanadd');
+        Route::get('jabatanedit', [JabatanController::class, 'edit'])->name('jabatanedit');
+        Route::POST('jabatanupdate', [JabatanController::class, 'update'])->name('jabatanupdate');
+        Route::get('jabatandelete/{id}', [JabatanController::class, 'destroy'])->name('jabatandelete');
 
         //Pegawai Manage
         Route::get('pegawai', [PegawaiController::class, 'index'])->name('pegawai');
@@ -201,40 +210,40 @@ Route::middleware('auth')->group(function() {
 
     Route::group(['middleware'=>['auth','role:koordinator,su']],function(){
         //Fingerprint Manage
-        Route::get('fingerprint', [FingerprintController::class, 'index'])->name('fingerprint');
-        Route::get('getDataFingerprint', [FingerprintController::class, 'getDataFingerprint'])->name('getDataFingerprint');
-        Route::get('cekDataFingerprint', [FingerprintController::class, 'cekDataFingerprint'])->name('cekDataFingerprint');
-        Route::get('addPegawaiToFingerprint', [FingerprintController::class, 'addPegawaiToFingerprint'])->name('addPegawaiToFingerprint');
-        Route::get('updateFingerData', [FingerprintController::class, 'updateFingerData'])->name('updateFingerData');
-        Route::get('cekUserFingerprint', [FingerprintController::class, 'cekUserFingerprint'])->name('cekUserFingerprint');
-        Route::post('setUserFingerprint', [FingerprintController::class, 'setUserFingerprint'])->name('setUserFingerprint');
-        Route::get('deleteAllUserFingerptint', [FingerprintController::class, 'deleteAllUserFingerptint'])->name('deleteAllUserFingerptint');
-        Route::get('deleteAllLogFingerptint', [FingerprintController::class, 'deleteAllLogFingerptint'])->name('deleteAllLogFingerptint');
+        // Route::get('fingerprint', [FingerprintController::class, 'index'])->name('fingerprint');
+        // Route::get('getDataFingerprint', [FingerprintController::class, 'getDataFingerprint'])->name('getDataFingerprint');
+        // Route::get('cekDataFingerprint', [FingerprintController::class, 'cekDataFingerprint'])->name('cekDataFingerprint');
+        // Route::get('addPegawaiToFingerprint', [FingerprintController::class, 'addPegawaiToFingerprint'])->name('addPegawaiToFingerprint');
+        // Route::get('updateFingerData', [FingerprintController::class, 'updateFingerData'])->name('updateFingerData');
+        // Route::get('cekUserFingerprint', [FingerprintController::class, 'cekUserFingerprint'])->name('cekUserFingerprint');
+        // Route::post('setUserFingerprint', [FingerprintController::class, 'setUserFingerprint'])->name('setUserFingerprint');
+        // Route::get('deleteAllUserFingerptint', [FingerprintController::class, 'deleteAllUserFingerptint'])->name('deleteAllUserFingerptint');
+        // Route::get('deleteAllLogFingerptint', [FingerprintController::class, 'deleteAllLogFingerptint'])->name('deleteAllLogFingerptint');
 
         //kehadiran Manage
         // Route::post('kehadiranadd', [KehadiranController::class, 'store'])->name('kehadiranadd');
-        Route::get('kehadiran', [KehadiranController::class, 'index'])->name('kehadiran');
-        Route::get('kehadiran_bulanan', [KehadiranController::class, 'kehadiran_bulanan'])->name('kehadiran_bulanan');
-        Route::any('kehadiran_bulanan-pdf', [KehadiranController::class, 'ExportPDFKehadiraBulanan'])->name('kehadiran_bulanan-pdf');
-        Route::get('kehadiran_jabatan/{id}/{tanggal}', [KehadiranController::class, 'kehadiran_jabatan'])->name('kehadiran_jabatan');
-        Route::get('kehadiranedit', [KehadiranController::class, 'edit'])->name('kehadiranedit');
-        Route::POST('kehadiranupdate', [KehadiranController::class, 'update'])->name('kehadiranupdate');
-        Route::get('kehadirandelete/{id}', [KehadiranController::class, 'destroy'])->name('kehadirandelete');
-        Route::get('filterkehadiran', [KehadiranController::class, 'filterkehadiran'])->name('filter-kehadiran');
-        Route::get('getpolakerja', [KehadiranController::class, 'getpolakerja'])->name('getpolakerja');
-        Route::get('telatlembur', [KehadiranController::class, 'telatlembur'])->name('telatlembur');
-        Route::get('bonusMingguan', [KehadiranController::class, 'bonusMingguan'])->name('bonusMingguan');
-        Route::get('bonusMasukLibur', [KehadiranController::class, 'bonusMasukLibur'])->name('bonusMasukLibur');
-        Route::get('bonusBulanan', [KehadiranController::class, 'bonusBulanan'])->name('bonusBulanan');
-        Route::get('cekAbsenPegawai', [KehadiranController::class, 'cekAbsenPegawai'])->name('cekAbsenPegawai');
-        Route::get('data_bulanan', [KehadiranController::class, 'data_bulanan'])->name('data_bulanan');
+        // Route::get('kehadiran', [KehadiranController::class, 'index'])->name('kehadiran');
+        // Route::get('kehadiran_bulanan', [KehadiranController::class, 'kehadiran_bulanan'])->name('kehadiran_bulanan');
+        // Route::any('kehadiran_bulanan-pdf', [KehadiranController::class, 'ExportPDFKehadiraBulanan'])->name('kehadiran_bulanan-pdf');
+        // Route::get('kehadiran_jabatan/{id}/{tanggal}', [KehadiranController::class, 'kehadiran_jabatan'])->name('kehadiran_jabatan');
+        // Route::get('kehadiranedit', [KehadiranController::class, 'edit'])->name('kehadiranedit');
+        // Route::POST('kehadiranupdate', [KehadiranController::class, 'update'])->name('kehadiranupdate');
+        // Route::get('kehadirandelete/{id}', [KehadiranController::class, 'destroy'])->name('kehadirandelete');
+        // Route::get('filterkehadiran', [KehadiranController::class, 'filterkehadiran'])->name('filter-kehadiran');
+        // Route::get('getpolakerja', [KehadiranController::class, 'getpolakerja'])->name('getpolakerja');
+        // Route::get('telatlembur', [KehadiranController::class, 'telatlembur'])->name('telatlembur');
+        // Route::get('bonusMingguan', [KehadiranController::class, 'bonusMingguan'])->name('bonusMingguan');
+        // Route::get('bonusMasukLibur', [KehadiranController::class, 'bonusMasukLibur'])->name('bonusMasukLibur');
+        // Route::get('bonusBulanan', [KehadiranController::class, 'bonusBulanan'])->name('bonusBulanan');
+        // Route::get('cekAbsenPegawai', [KehadiranController::class, 'cekAbsenPegawai'])->name('cekAbsenPegawai');
+        // Route::get('data_bulanan', [KehadiranController::class, 'data_bulanan'])->name('data_bulanan');
 
         //Jabatan Manage
-        Route::get('jabatan', [JabatanController::class, 'index'])->name('jabatan');
-        Route::post('jabatanadd', [JabatanController::class, 'store'])->name('jabatanadd');
-        Route::get('jabatanedit', [JabatanController::class, 'edit'])->name('jabatanedit');
-        Route::POST('jabatanupdate', [JabatanController::class, 'update'])->name('jabatanupdate');
-        Route::get('jabatandelete/{id}', [JabatanController::class, 'destroy'])->name('jabatandelete');
+        // Route::get('jabatan', [JabatanController::class, 'index'])->name('jabatan');
+        // Route::post('jabatanadd', [JabatanController::class, 'store'])->name('jabatanadd');
+        // Route::get('jabatanedit', [JabatanController::class, 'edit'])->name('jabatanedit');
+        // Route::POST('jabatanupdate', [JabatanController::class, 'update'])->name('jabatanupdate');
+        // Route::get('jabatandelete/{id}', [JabatanController::class, 'destroy'])->name('jabatandelete');
         
         //Bon-Kas Manage
         Route::get('bon-kas', [Bon_kasController::class, 'index'])->name('bon-kas');
