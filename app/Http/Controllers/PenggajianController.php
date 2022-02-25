@@ -344,7 +344,7 @@ class PenggajianController extends Controller
         return redirect()->back()->with('success','deleted successfully');
     }
 
-    public function ExportPDFPenggajian(Request $request)
+     public function ExportPDFPenggajian(Request $request)
     {
 
      
