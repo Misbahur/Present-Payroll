@@ -276,9 +276,9 @@
                 <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
                     <div class="col-span-12 sm:col-span-12">
                         <label for="modal-form-3" class="form-label">Pegawai</label>
-                        <select name="pegawai_id[]" id="modal-form-3" data-placeholder="Pilih Pegawai" data-search="true" class="tail-select w-full" multiple>
+                        <select name="penggajian_id[]" id="modal-form-3" data-placeholder="Pilih Pegawai" data-search="true" class="tail-select w-full" multiple>
                             @foreach ($penggajians as $item)
-                                <option value="{{ $item->pegawai->id }}">{{ $item->pegawai->nama }}</option>
+                                <option value="{{ $item->id }}">{{ $item->pegawai->nama }}</option>
                             @endforeach
                         </select>
                     </div>

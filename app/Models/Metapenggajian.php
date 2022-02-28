@@ -15,4 +15,5 @@ class Metapenggajian extends Model
          return $this->belongsTo(Penggajian::class);
 
      }
+ 
 }

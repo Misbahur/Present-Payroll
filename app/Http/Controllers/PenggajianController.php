@@ -350,7 +350,7 @@ class PenggajianController extends Controller
      
 
 
-        $data_id = $request->pegawai_id;
+        $data_id = $request->penggajian_id;
         // dd($data_id);
 
         // $updateprint = Penggajian::find($id);
@@ -359,36 +359,26 @@ class PenggajianController extends Controller
         
         $periodes = Periode::orderBy('created_at', 'DESC')->get();
 
-        $pegawai = Penggajian::where('pegawai_id',$data_id)->first();
- 
 
-        // $gaji =  Metapenggajian::whereHas('penggajian', function ($query)use($data_id) {
-        //     return $query->where('pegawai_id', '=', $data_id);
-        // })->where('status', 'in')->get();
-        // $potongan =  Metapenggajian::whereHas('penggajian', function ($query)use($data_id) {
-        //     return $query->where('pegawai_id', '=', $data_id);
-        // })->where('status', 'out')->get();
 
         $gaji =  Metapenggajian::whereIn('penggajian_id', $data_id)->where('status', 'in')->get();
         $potongan =  Metapenggajian::whereIn('penggajian_id', $data_id)->where('status', 'out')->get();
+
 
         $in = array();
         $out = array();
 
         for ($i=0; $i < count($data_id); $i++) { 
 
-        // $in[$i] =   Metapenggajian::whereHas('penggajian', function ($query) use($data_id,$i) {
-        //     return $query->where('pegawai_id', '=', array($data_id[$i]));
-        // })->where('status', 'in')->get();
-        // $out[$i] =   Metapenggajian::whereHas('penggajian', function ($query) use($data_id,$i) {
-        //     return $query->where('pegawai_id', '=', array($data_id[$i]));
-        // })->where('status', 'out')->get();
 
         $in[$i] = Metapenggajian::where('penggajian_id', array($data_id[$i]))->where('status', 'in')->get()->sum('nominal');
         $out[$i] = Metapenggajian::where('penggajian_id', array($data_id[$i]))->where('status', 'out')->get()->sum('nominal');
+        $pegawai[$i] = Penggajian::whereIn('id',array($data_id[$i]))->first();
+
         }
+        // dd($pegawai);
      
-       // dd($in);
+       // dd($gaji);
 // dd($pegawai->periode->tanggal_awal);
         $setting = Setting::all();
 
@@ -403,7 +393,7 @@ class PenggajianController extends Controller
             'out' => $out,
     ])->setPaper('a3');
       // download PDF file with download method
-      return $pdf->stream('slipgaji '.$pegawai->periode->tanggal_awal.' - '.$pegawai->periode->tanggal_akhir.'.pdf');
+      return $pdf->stream('slipgaji '.$pegawai[0]->periode->tanggal_awal.' - '.$pegawai[0]->periode->tanggal_akhir.'.pdf');
     }
 
     public function KirimEmailPenggajian($id)

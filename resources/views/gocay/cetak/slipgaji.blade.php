@@ -46,7 +46,7 @@
 			}
 
 			.invoice-box table {
-				width: relative;
+				width: 100%;
 				line-height: inherit;
 				text-align: left;
 				border-collapse: collapse;
@@ -135,7 +135,7 @@
 
 <?php $count = 0;?>
 
-@foreach($data_id as $dt)
+@foreach($data_id as $n => $dt)
 
   //write for 1st counter
   @if($count == 0)
@@ -158,7 +158,8 @@
 
 								<td>
 									Cetak #<br />
-									Periode: {{ $pegawai->periode->tanggal_awal }} - {{ $pegawai->periode->tanggal_akhir }}
+									
+									Periode: {{ $pegawai[$n]->periode->tanggal_awal }} - {{ $pegawai[$n]->periode->tanggal_akhir }}
 									
 
 								</td>
@@ -171,8 +172,6 @@
 					<td colspan="2">
 						<table>
 							<tr>
-								@foreach ($gaji as $key => $item)
-								@if($item->penggajian->pegawai->id == $dt[0])
 								<td>
                                     <b>Perusahaan</b><br/>
 									{{ $setting[2]->value }}<br />
@@ -180,14 +179,10 @@
 								</td>
 
 								<td>
-
 									<b>Pegawai</b><br/>
-									{{$item->penggajian->pegawai->nama}}<br />
-									{{$item->penggajian->jabatan->nama}}
-
+									{{ $pegawai[$n]->pegawai->nama }}<br />
+									{{ $pegawai[$n]->jabatan->nama }}
 								</td>
-								@endif
-								@endforeach
 							</tr>
 						</table>
 					</td>
@@ -201,13 +196,10 @@
 
 				@foreach ($gaji as $key => $item)
 				<tr class="details">
-				@if($item->penggajian->pegawai->id == $dt[0])
+				@if($item->penggajian_id == $dt)
 
-					<td>{{ $item->keterangan }} - {{$item->penggajian->pegawai->nama}}</td>
+					<td>{{ $item->keterangan }} </td>
 					<td>Rp. {{ number_format($item->nominal) }}</td>
-				@else
-				<td></td>
-				<td></td>
 				@endif
 
 				</tr>
@@ -221,14 +213,11 @@
 
 				@foreach ($potongan as $key => $item)
 				<tr class="details">
-				@if($item->penggajian->pegawai->id == $dt[0])
+				@if($item->penggajian_id == $dt)
 
 					<td>{{ $item->keterangan }}</td>
 
 					<td>Rp. {{ number_format($item->nominal) }}</td>
-									@else
-				<td>Potongan</td>
-				<td>Rp. 0</td>
 				@endif
 				</tr>
 
@@ -245,38 +234,29 @@
 
 				<tr class="item">
 
-				@foreach ($gaji as $key => $item)
-				@if($item->penggajian->pegawai->id == $dt[0])
+				
           <td>Total Pemasukan</td>
-					<td>Rp. {{ number_format($item->nominal) }}</td>
-				@endif
-				@endforeach
+					<td>Rp. {{ number_format($in[$n]) }}</td>
+
         </tr>
   
 
 			
 				<tr class="item">
-				@foreach ($potongan as $key => $item)
-				@if($item->penggajian->pegawai->id == $dt[0])
+		
           <td>Total Potongan</td>
-					<td>Rp. {{ number_format($item->nominal) }}</td>
-					@else
-          <td>Total Potongan</td>
-					<td>Rp. 0</td>					
-					@endif
-				@endforeach
+					<td>Rp. {{ number_format($out[$n]) }}</td>			
+
           </tr>
 
 
 
 				<tr class="total">
-				@foreach ($gaji as $key => $item)
-				@if($item->penggajian->pegawai->id == $dt[0])
+			
 					<td></td>
-					<td>Total: Rp. {{ number_format($in[$key] - $out[$key]) }} </td>
+					<td>Total: Rp.  {{ number_format($in[$n] - $out[$n]) }} </td>
 					<td>  </td>
-					@endif
-				@endforeach
+
 				</tr>
 
                 <tr class="titlettd">
@@ -286,11 +266,7 @@
                 </tr>
 				<tr class="ttd">
                     <td>Admin</td>
-								@foreach ($gaji as $key => $item)
-								@if($item->penggajian->pegawai->id == $dt[0])
-                    <td>{{$item->penggajian->pegawai->nama}}</td>
-                    			@endif
-								@endforeach
+                    <td>{{ $pegawai[$n]->pegawai->nama }}</td>
                 </tr>
 				<tr>
                     <td colspan="2" style="padding-bottom: 2px; text-align: center; color:#A9A9A9">Tgl Cetak : {{ now() }}</td>
