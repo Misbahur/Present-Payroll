@@ -252,147 +252,147 @@
 
                     $(document).ready(function() {
 
-                        function total_PS(a,b){
-                           var jam_masuk_istirahat = new Date("01/01/2007 " + a).getHours();
-                           var jam_istirahat = new Date("01/01/2007 " + b).getHours();
-                           var menit_masuk_istirahat = new Date("01/01/2007 " + a).getMinutes();
-                           var menit_istirahat = new Date("01/01/2007 " + b).getMinutes();
+                        // function total_PS(a,b){
+                        //    var jam_masuk_istirahat = new Date("01/01/2007 " + a).getHours();
+                        //    var jam_istirahat = new Date("01/01/2007 " + b).getHours();
+                        //    var menit_masuk_istirahat = new Date("01/01/2007 " + a).getMinutes();
+                        //    var menit_istirahat = new Date("01/01/2007 " + b).getMinutes();
 
-                           var durasi = ((jam_masuk_istirahat - jam_istirahat)*60) + (menit_masuk_istirahat - menit_istirahat);
-                        //    console.log(durasi);
-                           return durasi;
-                        }
+                        //    var durasi = ((jam_masuk_istirahat - jam_istirahat)*60) + (menit_masuk_istirahat - menit_istirahat);
+                        // //    console.log(durasi);
+                        //    return durasi;
+                        // }
 
-                        function telat(a,b,c,d){
+                        // function telat(a,b,c,d){
                             
-                        //    const getSeconds = s => s.split(":").reduce((acc, curr) => acc * 60 + +curr, 0);
-                        //    var jam_pegawai = getSeconds(a);
-                        //    var jadwal = getSeconds(b);
-                           var jam_pegawai = new Date("01/01/2007 " + a).getHours();
-                           var jam_jadwal = new Date("01/01/2007 " + b).getHours();
-                           var menit_pegawai = new Date("01/01/2007 " + a).getMinutes();
-                           var menit_jadwal = new Date("01/01/2007 " + b).getMinutes();
-                           var pegawai_id = c;
-                           var tanggal = d;
-                           var status = 'out-telat-harian';
+                        // //    const getSeconds = s => s.split(":").reduce((acc, curr) => acc * 60 + +curr, 0);
+                        // //    var jam_pegawai = getSeconds(a);
+                        // //    var jadwal = getSeconds(b);
+                        //    var jam_pegawai = new Date("01/01/2007 " + a).getHours();
+                        //    var jam_jadwal = new Date("01/01/2007 " + b).getHours();
+                        //    var menit_pegawai = new Date("01/01/2007 " + a).getMinutes();
+                        //    var menit_jadwal = new Date("01/01/2007 " + b).getMinutes();
+                        //    var pegawai_id = c;
+                        //    var tanggal = d;
+                        //    var status = 'out-telat-harian';
                         
-                           var durasi = ((jam_pegawai - jam_jadwal)*60) + (menit_pegawai - menit_jadwal);
-                        //    console.log('Pegawai ID : ' + pegawai_id);
-                        //    console.log(durasi + ' ' + 'menit');
-                        //    console.log(status);
-                           $.ajax({
-                                url : "{{route('telatlembur')}}?pegawai_id="+pegawai_id+"&tanggal="+tanggal+"&durasi="+durasi+"&status="+status,
-                                type: "GET",
-                                dataType: "JSON",
-                                success: function(data)
-                                {
+                        //    var durasi = ((jam_pegawai - jam_jadwal)*60) + (menit_pegawai - menit_jadwal);
+                        // //    console.log('Pegawai ID : ' + pegawai_id);
+                        // //    console.log(durasi + ' ' + 'menit');
+                        // //    console.log(status);
+                        //    $.ajax({
+                        //         url : "{{route('telatlembur')}}?pegawai_id="+pegawai_id+"&tanggal="+tanggal+"&durasi="+durasi+"&status="+status,
+                        //         type: "GET",
+                        //         dataType: "JSON",
+                        //         success: function(data)
+                        //         {
 
-                                }
-                            });
-                        }
+                        //         }
+                        //     });
+                        // }
 
-                        function telat_istirahat(a,b,c,d){
+                        // function telat_istirahat(a,b,c,d){
                             
-                            //    const getSeconds = s => s.split(":").reduce((acc, curr) => acc * 60 + +curr, 0);
-                            //    var jam_pegawai = getSeconds(a);
-                            //    var jadwal = getSeconds(b);
-                               var jam_pegawai = new Date("01/01/2007 " + a).getHours();
-                               var jam_jadwal = new Date("01/01/2007 " + b).getHours();
-                               var menit_pegawai = new Date("01/01/2007 " + a).getMinutes();
-                               var menit_jadwal = new Date("01/01/2007 " + b).getMinutes();
-                               var pegawai_id = c;
-                               var tanggal = d;
-                               var status = 'out-istirahat';
+                        //     //    const getSeconds = s => s.split(":").reduce((acc, curr) => acc * 60 + +curr, 0);
+                        //     //    var jam_pegawai = getSeconds(a);
+                        //     //    var jadwal = getSeconds(b);
+                        //        var jam_pegawai = new Date("01/01/2007 " + a).getHours();
+                        //        var jam_jadwal = new Date("01/01/2007 " + b).getHours();
+                        //        var menit_pegawai = new Date("01/01/2007 " + a).getMinutes();
+                        //        var menit_jadwal = new Date("01/01/2007 " + b).getMinutes();
+                        //        var pegawai_id = c;
+                        //        var tanggal = d;
+                        //        var status = 'out-istirahat';
                             
-                               var durasi = ((jam_pegawai - jam_jadwal)*60) + (menit_pegawai - menit_jadwal);
-                            //    console.log('Pegawai ID : ' + pegawai_id);
-                            //    console.log(durasi + ' ' + 'menit');
-                            //    console.log(status);
-                               $.ajax({
-                                    url : "{{route('telatlembur')}}?pegawai_id="+pegawai_id+"&tanggal="+tanggal+"&durasi="+durasi+"&status="+status,
-                                    type: "GET",
-                                    dataType: "JSON",
-                                    success: function(data)
-                                    {
+                        //        var durasi = ((jam_pegawai - jam_jadwal)*60) + (menit_pegawai - menit_jadwal);
+                        //     //    console.log('Pegawai ID : ' + pegawai_id);
+                        //     //    console.log(durasi + ' ' + 'menit');
+                        //     //    console.log(status);
+                        //        $.ajax({
+                        //             url : "{{route('telatlembur')}}?pegawai_id="+pegawai_id+"&tanggal="+tanggal+"&durasi="+durasi+"&status="+status,
+                        //             type: "GET",
+                        //             dataType: "JSON",
+                        //             success: function(data)
+                        //             {
     
-                                    }
-                                });
-                            }
+                        //             }
+                        //         });
+                        //     }
 
-                            function telat_istirahat_masuk(a,b,c,d){
+                        //     function telat_istirahat_masuk(a,b,c,d){
                             
-                            //    const getSeconds = s => s.split(":").reduce((acc, curr) => acc * 60 + +curr, 0);
-                            //    var jam_pegawai = getSeconds(a);
-                            //    var jadwal = getSeconds(b);
-                               var jam_pegawai = new Date("01/01/2007 " + a).getHours();
-                               var jam_jadwal = new Date("01/01/2007 " + b).getHours();
-                               var menit_pegawai = new Date("01/01/2007 " + a).getMinutes();
-                               var menit_jadwal = new Date("01/01/2007 " + b).getMinutes();
-                               var pegawai_id = c;
-                               var tanggal = d;
-                               var status = 'out-istirahat-masuk';
+                        //     //    const getSeconds = s => s.split(":").reduce((acc, curr) => acc * 60 + +curr, 0);
+                        //     //    var jam_pegawai = getSeconds(a);
+                        //     //    var jadwal = getSeconds(b);
+                        //        var jam_pegawai = new Date("01/01/2007 " + a).getHours();
+                        //        var jam_jadwal = new Date("01/01/2007 " + b).getHours();
+                        //        var menit_pegawai = new Date("01/01/2007 " + a).getMinutes();
+                        //        var menit_jadwal = new Date("01/01/2007 " + b).getMinutes();
+                        //        var pegawai_id = c;
+                        //        var tanggal = d;
+                        //        var status = 'out-istirahat-masuk';
                             
-                               var durasi = ((jam_pegawai - jam_jadwal)*60) + (menit_pegawai - menit_jadwal);
-                               console.log('Pegawai ID : ' + pegawai_id);
-                               console.log(durasi + ' ' + 'menit');
-                               console.log(status);
-                               $.ajax({
-                                    url : "{{route('telatlembur')}}?pegawai_id="+pegawai_id+"&tanggal="+tanggal+"&durasi="+durasi+"&status="+status,
-                                    type: "GET",
-                                    dataType: "JSON",
-                                    success: function(data)
-                                    {
+                        //        var durasi = ((jam_pegawai - jam_jadwal)*60) + (menit_pegawai - menit_jadwal);
+                        //        console.log('Pegawai ID : ' + pegawai_id);
+                        //        console.log(durasi + ' ' + 'menit');
+                        //        console.log(status);
+                        //        $.ajax({
+                        //             url : "{{route('telatlembur')}}?pegawai_id="+pegawai_id+"&tanggal="+tanggal+"&durasi="+durasi+"&status="+status,
+                        //             type: "GET",
+                        //             dataType: "JSON",
+                        //             success: function(data)
+                        //             {
     
-                                    }
-                                });
-                            }
+                        //             }
+                        //         });
+                        //     }
 
-                        function lembur(a,b,c,d){
+                        // function lembur(a,b,c,d){
                             
-                            var pegawai_id = c;
-                            var tanggal = d;
-                            var status = 'in-lembur-harian';
+                        //     var pegawai_id = c;
+                        //     var tanggal = d;
+                        //     var status = 'in-lembur-harian';
 
-                            var jam_pegawai = new Date("01/01/2007 " + a).getHours();
-                            var jam_jadwal = new Date("01/01/2007 " + b).getHours();
-                            var menit_pegawai = new Date("01/01/2007 " + a).getMinutes();
-                            var menit_jadwal = new Date("01/01/2007 " + b).getMinutes();
-                            var durasi = ((jam_pegawai - jam_jadwal)*60) + (menit_pegawai - menit_jadwal);
-                            $.ajax({
-                                url : "{{route('telatlembur')}}?pegawai_id="+pegawai_id+"&tanggal="+tanggal+"&durasi="+durasi+"&status="+status,
-                                type: "GET",
-                                dataType: "JSON",
-                                success: function(data)
-                                {
+                        //     var jam_pegawai = new Date("01/01/2007 " + a).getHours();
+                        //     var jam_jadwal = new Date("01/01/2007 " + b).getHours();
+                        //     var menit_pegawai = new Date("01/01/2007 " + a).getMinutes();
+                        //     var menit_jadwal = new Date("01/01/2007 " + b).getMinutes();
+                        //     var durasi = ((jam_pegawai - jam_jadwal)*60) + (menit_pegawai - menit_jadwal);
+                        //     $.ajax({
+                        //         url : "{{route('telatlembur')}}?pegawai_id="+pegawai_id+"&tanggal="+tanggal+"&durasi="+durasi+"&status="+status,
+                        //         type: "GET",
+                        //         dataType: "JSON",
+                        //         success: function(data)
+                        //         {
 
-                                }
-                            });
+                        //         }
+                        //     });
                            
-                         }
+                        //  }
 
-                         function lemburPS(a,b,c,d){
+                        //  function lemburPS(a,b,c,d){
                             
-                            var pegawai_id = c;
-                            var tanggal = d;
-                            var status = 'in-lembur-harian-PS';
+                        //     var pegawai_id = c;
+                        //     var tanggal = d;
+                        //     var status = 'in-lembur-harian-PS';
 
-                            // var jam_pegawai = new Date("01/01/2007 " + a).getHours();
-                            // var jam_jadwal = new Date("01/01/2007 " + b).getHours();
-                            // var menit_pegawai = new Date("01/01/2007 " + a).getMinutes();
-                            // var menit_jadwal = new Date("01/01/2007 " + b).getMinutes();
-                            // var durasi = ((jam_pegawai - jam_jadwal)*60) + (menit_pegawai - menit_jadwal);
-                            var durasi = 120;
-                            $.ajax({
-                                url : "{{route('telatlembur')}}?pegawai_id="+pegawai_id+"&tanggal="+tanggal+"&durasi="+durasi+"&status="+status,
-                                type: "GET",
-                                dataType: "JSON",
-                                success: function(data)
-                                {
+                        //     // var jam_pegawai = new Date("01/01/2007 " + a).getHours();
+                        //     // var jam_jadwal = new Date("01/01/2007 " + b).getHours();
+                        //     // var menit_pegawai = new Date("01/01/2007 " + a).getMinutes();
+                        //     // var menit_jadwal = new Date("01/01/2007 " + b).getMinutes();
+                        //     // var durasi = ((jam_pegawai - jam_jadwal)*60) + (menit_pegawai - menit_jadwal);
+                        //     var durasi = 120;
+                        //     $.ajax({
+                        //         url : "{{route('telatlembur')}}?pegawai_id="+pegawai_id+"&tanggal="+tanggal+"&durasi="+durasi+"&status="+status,
+                        //         type: "GET",
+                        //         dataType: "JSON",
+                        //         success: function(data)
+                        //         {
 
-                                }
-                            });
+                        //         }
+                        //     });
                            
-                         }
+                        //  }
 
                         <?php $i = 0; foreach ($kehadirans as $item): ?>
                             var pegawai_id{{ $item->pegawai_id }} = $('#id-{{ $item->pegawai_id }}').val();
@@ -406,25 +406,25 @@
                                         if (data.nama == 'Full Day 1' || data.nama == 'Full Day 2' || data.nama == 'Full Day 3'){
                                             if ($('#jam_masuk{{ $item->pegawai_id }}').val() > data.jam_masuk){
                                                 $('.jam_masuk{{ $item->pegawai_id }}').addClass('text-theme-11');
-                                                telat($('#jam_masuk{{ $item->pegawai_id }}').val(), data.jam_masuk, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
+                                                // telat($('#jam_masuk{{ $item->pegawai_id }}').val(), data.jam_masuk, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
                                             }
                                             if ($('#jam_istirahat{{ $item->pegawai_id }}').val() < data.jam_istirahat){
                                                 $('.jam_istirahat{{ $item->pegawai_id }}').addClass('text-theme-11');
-                                                telat_istirahat($('#jam_istirahat{{ $item->pegawai_id }}').val(), data.jam_istirahat, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
+                                                // telat_istirahat($('#jam_istirahat{{ $item->pegawai_id }}').val(), data.jam_istirahat, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
                                             }
                                             if ($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val() > data.jam_istirahat_masuk){
                                                 $('.jam_masuk_istirahat{{ $item->pegawai_id }}').addClass('text-theme-11');
-                                                telat_istirahat_masuk($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val(), data.jam_istirahat_masuk, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
+                                                // telat_istirahat_masuk($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val(), data.jam_istirahat_masuk, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
                                             }
                                             if ( total_PS($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val(), $('#jam_istirahat{{ $item->pegawai_id }}').val()) >= 120 ){
-                                                telat_istirahat_masuk($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val(), data.jam_istirahat_masuk, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
+                                                // telat_istirahat_masuk($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val(), data.jam_istirahat_masuk, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
                                             }
                                             if ($('#jam_pulang{{ $item->pegawai_id }}').val() < data.jam_pulang){
                                                 $('.jam_pulang{{ $item->pegawai_id }}').addClass('text-theme-11');
                                                 
                                             }
                                             if ( total_PS($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val(), $('#jam_istirahat{{ $item->pegawai_id }}').val()) <= 120 ){
-                                                lemburPS($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val(), $('#jam_istirahat{{ $item->pegawai_id }}').val(), pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
+                                                // lemburPS($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val(), $('#jam_istirahat{{ $item->pegawai_id }}').val(), pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
                                             }
                                             // if ($('#jam_pulang{{ $item->pegawai_id }}').val() > data.jam_pulang ){
                                             //     lembur($('#jam_pulang{{ $item->pegawai_id }}').val(), data.jam_pulang, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
@@ -433,22 +433,22 @@
                                         else{
                                             if ($('#jam_masuk{{ $item->pegawai_id }}').val() > data.jam_masuk){
                                                 $('.jam_masuk{{ $item->pegawai_id }}').addClass('text-theme-11');
-                                                telat($('#jam_masuk{{ $item->pegawai_id }}').val(), data.jam_masuk, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
+                                                // telat($('#jam_masuk{{ $item->pegawai_id }}').val(), data.jam_masuk, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
                                             }
                                             if ($('#jam_istirahat{{ $item->pegawai_id }}').val() < data.jam_istirahat){
                                                 $('.jam_istirahat{{ $item->pegawai_id }}').addClass('text-theme-11');
-                                                telat_istirahat($('#jam_istirahat{{ $item->pegawai_id }}').val(), data.jam_istirahat, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
+                                                // telat_istirahat($('#jam_istirahat{{ $item->pegawai_id }}').val(), data.jam_istirahat, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
                                             }
                                             if ($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val() > data.jam_istirahat_masuk){
                                                 $('.jam_masuk_istirahat{{ $item->pegawai_id }}').addClass('text-theme-11');
-                                                telat_istirahat_masuk($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val(), data.jam_istirahat_masuk, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
+                                                // telat_istirahat_masuk($('#jam_masuk_istirahat{{ $item->pegawai_id }}').val(), data.jam_istirahat_masuk, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
                                             }
                                             if ($('#jam_pulang{{ $item->pegawai_id }}').val() < data.jam_pulang){
                                                 $('.jam_pulang{{ $item->pegawai_id }}').addClass('text-theme-11');
                                                 
                                             }
                                             if ($('#jam_pulang{{ $item->pegawai_id }}').val() > data.jam_pulang && $('#jam_pulang{{ $item->pegawai_id }}').val() < new Date().setHours(21) ){
-                                                lembur($('#jam_pulang{{ $item->pegawai_id }}').val(), data.jam_pulang, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
+                                                // lembur($('#jam_pulang{{ $item->pegawai_id }}').val(), data.jam_pulang, pegawai_id{{ $item->pegawai_id }}, tanggal{{ $i }});
                                             }
                                         }
 
