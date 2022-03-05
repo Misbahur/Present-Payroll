@@ -71,6 +71,8 @@ class PenggajianController extends Controller
 
     public function tambahperiode(Request $request)
     {
+        ini_set('max_execution_time', 300);
+        
         $tanggal_awal = date("Y-m-d",strtotime($request->input('tanggal_awal')));
         $tanggal_akhir = date("Y-m-d",strtotime($request->input('tanggal_akhir')));
         // dd($tanggal_awal);
@@ -129,7 +131,7 @@ class PenggajianController extends Controller
                     $temporary_out->status = 'out-istirahat-masuk';
                     $temporary_out->tanggal = $k->tanggal;
                     $temporary_out->pegawai_id = $p->id;
-                    for($i=1; $i <= intval($k->durasi_masuk/$lembur[1]->durasi); $i++ ):
+                    for($i=1; $i <= intval($k->durasi_masuk_istirahat/$lembur[1]->durasi); $i++ ):
                         $temporary_out->nominal +=  $lembur[1]->nominal;
                     endfor;
                     $temporary_out->save();
@@ -365,8 +367,7 @@ class PenggajianController extends Controller
                 Metapenggajian::create($meta_in_insert);
             endif;
             
-            $deletetemporary = Temporary::whereBetween('tanggal', [$tanggal_awal, $tanggal_akhir])->delete();
-
+            
             $bon_kas = Bon_kas::whereDate('tanggal', '>=', $tanggal_awal)->whereDate('tanggal', '<=', $tanggal_akhir)->where('pegawai_id', $pegawai[$i]->id)->get()->sum('nominal');
             // dd($bon_kas);
             if ($bon_kas):
@@ -379,7 +380,8 @@ class PenggajianController extends Controller
                 Metapenggajian::create($meta_out_insert);
             endif;
         } 
-
+        
+        $deletetemporary = Temporary::whereBetween('tanggal', [$tanggal_awal, $tanggal_akhir])->delete();
 
         if($periode){
             return redirect()->route('penggajian')->with(['success' => 'Data Periode'.$request->input('nama').'berhasil disimpan']);
