@@ -494,80 +494,289 @@ class KehadiranController extends Controller
         
     }
 
-    public function telatlembur(Request $request)
-    {
-        $request->validate([
-            'tanggal' => 'required',
-            'durasi' => 'required',
-            'status' => 'required',
-            'pegawai_id' => 'required',
+    // public function telatlembur(Request $request)
+    // {
+    //     $request->validate([
+    //         'tanggal' => 'required',
+    //         'durasi' => 'required',
+    //         'status' => 'required',
+    //         'pegawai_id' => 'required',
          
-        ]);
+    //     ]);
 
-        $temp = Temporary::where('tanggal', $request->tanggal)
-        ->where('pegawai_id', $request->pegawai_id)
-        ->where('status', $request->status)
-        ->get();
+    //     $temp = Temporary::where('tanggal', $request->tanggal)
+    //     ->where('pegawai_id', $request->pegawai_id)
+    //     ->where('status', $request->status)
+    //     ->get();
+
+    //     $lembur = Lembur::all();
+    //     $pengecualian = Pengecualian::where('tanggal', date('Y-m-d', strtotime('-1 day', strtotime($request->tanggal))))
+    //                     ->where('pegawai_id', $request->pegawai_id)
+    //                     ->get();
+       
+    //     if ($temp->isEmpty()):
+    //         if ($request->status == 'out-telat-harian' && $request->durasi >  $lembur[1]->durasi && $pengecualian->isEmpty()):
+    //             $temporary_out = new Temporary;
+    //             $temporary_out->status = 'out-telat-harian';
+    //             $temporary_out->tanggal = $request->tanggal;
+    //             $temporary_out->pegawai_id = $request->pegawai_id;
+    //             for($i=1; $i <= intval($request->durasi/$lembur[1]->durasi); $i++ ):
+    //                 $temporary_out->nominal +=  $lembur[1]->nominal;
+    //             endfor;
+    //             $temporary_out->save();
+    //         endif;
+    //         if ($request->status == 'out-istirahat' && $request->durasi >  $lembur[1]->durasi && $pengecualian->isEmpty()):
+    //             $temporary_out = new Temporary;
+    //             $temporary_out->status = 'out-istirahat';
+    //             $temporary_out->tanggal = $request->tanggal;
+    //             $temporary_out->pegawai_id = $request->pegawai_id;
+    //             for($i=1; $i <= intval($request->durasi/$lembur[1]->durasi); $i++ ):
+    //                 $temporary_out->nominal +=  $lembur[1]->nominal;
+    //             endfor;
+    //             $temporary_out->save();
+    //         endif;
+    //         if ($request->status == 'out-istirahat-masuk' && $request->durasi >  $lembur[1]->durasi && $pengecualian->isEmpty()):
+    //             $temporary_out = new Temporary;
+    //             $temporary_out->status = 'out-istirahat-masuk';
+    //             $temporary_out->tanggal = $request->tanggal;
+    //             $temporary_out->pegawai_id = $request->pegawai_id;
+    //             for($i=1; $i <= intval($request->durasi/$lembur[1]->durasi); $i++ ):
+    //                 $temporary_out->nominal +=  $lembur[1]->nominal;
+    //             endfor;
+    //             $temporary_out->save();
+    //         endif;
+    //         if ($request->status == 'in-lembur-harian' && $request->durasi >  $lembur[0]->durasi):
+    //                 $temporary_in = new Temporary;
+    //                 $temporary_in->status = 'in-lembur-harian';
+    //                 $temporary_in->tanggal = $request->tanggal;
+    //                 $temporary_in->pegawai_id = $request->pegawai_id;
+    //                 for($i=1; $i <= intval($request->durasi/$lembur[0]->durasi); $i++ ):
+    //                     $temporary_in->nominal +=  $lembur[0]->nominal;
+    //                 endfor;
+    //                 $temporary_in->save();
+
+    //             endif;
+    //         if ($request->status == 'in-lembur-harian-PS'):
+    //                 $temporary_in = new Temporary;
+    //                 $temporary_in->status = 'in-lembur-harian';
+    //                 $temporary_in->tanggal = $request->tanggal;
+    //                 $temporary_in->pegawai_id = $request->pegawai_id;
+    //                 for($i=1; $i <= intval($request->durasi/$lembur[0]->durasi); $i++ ):
+    //                     $temporary_in->nominal +=  $lembur[0]->nominal;
+    //                 endfor;
+    //                 $temporary_in->save();
+
+    //             endif;
+    //     endif;
+        
+
+        
+    // }
+
+    public function telatlembur()
+    {
+
+        $pegawais = Pegawai::all();
+
+        
 
         $lembur = Lembur::all();
-        $pengecualian = Pengecualian::where('tanggal', date('Y-m-d', strtotime('-1 day', strtotime($request->tanggal))))
-                        ->where('pegawai_id', $request->pegawai_id)
-                        ->get();
+        
        
-        if ($temp->isEmpty()):
-            if ($request->status == 'out-telat-harian' && $request->durasi >  $lembur[1]->durasi && $pengecualian->isEmpty()):
-                $temporary_out = new Temporary;
-                $temporary_out->status = 'out-telat-harian';
-                $temporary_out->tanggal = $request->tanggal;
-                $temporary_out->pegawai_id = $request->pegawai_id;
-                for($i=1; $i <= intval($request->durasi/$lembur[1]->durasi); $i++ ):
-                    $temporary_out->nominal +=  $lembur[1]->nominal;
-                endfor;
-                $temporary_out->save();
+        foreach ($pegawais as $p):
+            $kehadiran = Kehadiran::whereMonth('tanggal', '02')
+            ->whereYear('tanggal', '2022')
+            ->where('pegawai_id', $p->id)
+            ->get();
+
+            foreach ($kehadiran as $k):
+
+            
+            $jadwals = Jadwal::where('tanggal', $k->tanggal)
+            ->where('pegawai_id', $p->id)
+            ->first();
+
+            $pengecualian = Pengecualian::where('tanggal', date('Y-m-d', strtotime('-1 day', strtotime($k->tanggal))))
+            ->where('pegawai_id', $p->id)
+            ->get();
+
+            $temp = Temporary::where('tanggal', $k->tanggal)
+            ->where('pegawai_id', $p->id)
+            ->first();
+
+            if ($jadwals != null):
+                $polas = Pola::findOrFail($jadwals->pola_id);
+                $k->pola_masuk = $polas->jam_masuk;
+                $k->pola_istirahat = $polas->jam_istirahat;
+                $k->pola_istirahat_masuk = $polas->jam_istirahat_masuk;
+                $k->pola_pulang = $polas->jam_pulang;
+                $k->pola_nama = $polas->nama;
+
+                $jam_masuk = strtotime($k->jam_masuk);
+                $pola_masuk = strtotime($k->pola_masuk);
+                $k->durasi_masuk = abs($jam_masuk - $pola_masuk)/60;
+
+                $jam_masuk_istirahat = strtotime($k->jam_masuk_istirahat);
+                $pola_istirahat_masuk = strtotime($k->pola_istirahat_masuk);
+                $k->durasi_masuk_istirahat = abs($jam_masuk_istirahat - $pola_istirahat_masuk)/60;
+
+                if($k->jam_masuk > $k->pola_masuk && $k->durasi_masuk >  $lembur[1]->durasi && $pengecualian->isEmpty() && $temp == null):
+                    $temporary_out = new Temporary;
+                    $temporary_out->status = 'out-telat-harian';
+                    $temporary_out->tanggal = $k->tanggal;
+                    $temporary_out->pegawai_id = $p->id;
+                    for($i=1; $i <= intval($k->durasi_masuk/$lembur[1]->durasi); $i++ ):
+                        $temporary_out->nominal +=  $lembur[1]->nominal;
+                    endfor;
+                    $temporary_out->save();
+                
+                elseif($k->jam_masuk_istirahat > $k->pola_istirahat_masuk && $k->durasi_masuk_istirahat >  $lembur[1]->durasi && $pengecualian->isEmpty() && $temp == null):
+                    $temporary_out = new Temporary;
+                    $temporary_out->status = 'out-istirahat-masuk';
+                    $temporary_out->tanggal = $k->tanggal;
+                    $temporary_out->pegawai_id = $p->id;
+                    for($i=1; $i <= intval($k->durasi_masuk/$lembur[1]->durasi); $i++ ):
+                        $temporary_out->nominal +=  $lembur[1]->nominal;
+                    endfor;
+                    $temporary_out->save();
+                
+
+                elseif($k->jam_pulang > $k->pola_pulang && $k->pola_nama == 'Pagi' ):
+                    $k->status = 'in-lembur-harian';
+                    $jam_pulang = strtotime($k->jam_pulang);
+                    $pola_pulang = strtotime($k->pola_pulang);
+                    $k->durasi = abs($jam_pulang - $pola_pulang)/60;
+                elseif($k->pola_nama == 'Full Day 1' ):
+                    $k->status = 'in-lembur-FD-1';
+                    $jam_masuk_istirahat = strtotime($k->jam_masuk_istirahat);
+                    $jam_istirahat = strtotime($k->jam_istirahat);
+                    $k->durasi = abs($jam_masuk_istirahat - $jam_istirahat)/60;
+                elseif($k->pola_nama == 'Full Day 2' ):
+                    $k->status = 'in-lembur-FD-2';
+                    $jam_masuk_istirahat = strtotime($k->jam_masuk_istirahat);
+                    $jam_istirahat = strtotime($k->jam_istirahat);
+                    $k->durasi = abs($jam_masuk_istirahat - $jam_istirahat)/60;
+                elseif($k->pola_nama == 'Full Day 3' ):
+                    $k->status = 'in-lembur-FD-3';
+                    $jam_masuk_istirahat = strtotime($k->jam_masuk_istirahat);
+                    $jam_istirahat = strtotime($k->jam_istirahat);
+                    $k->durasi = abs($jam_masuk_istirahat - $jam_istirahat)/60;
+                endif;
+            else:
+                continue;
             endif;
-            if ($request->status == 'out-istirahat' && $request->durasi >  $lembur[1]->durasi && $pengecualian->isEmpty()):
-                $temporary_out = new Temporary;
-                $temporary_out->status = 'out-istirahat';
-                $temporary_out->tanggal = $request->tanggal;
-                $temporary_out->pegawai_id = $request->pegawai_id;
-                for($i=1; $i <= intval($request->durasi/$lembur[1]->durasi); $i++ ):
-                    $temporary_out->nominal +=  $lembur[1]->nominal;
-                endfor;
-                $temporary_out->save();
-            endif;
-            if ($request->status == 'out-istirahat-masuk' && $request->durasi >  $lembur[1]->durasi && $pengecualian->isEmpty()):
-                $temporary_out = new Temporary;
-                $temporary_out->status = 'out-istirahat-masuk';
-                $temporary_out->tanggal = $request->tanggal;
-                $temporary_out->pegawai_id = $request->pegawai_id;
-                for($i=1; $i <= intval($request->durasi/$lembur[1]->durasi); $i++ ):
-                    $temporary_out->nominal +=  $lembur[1]->nominal;
-                endfor;
-                $temporary_out->save();
-            endif;
-            if ($request->status == 'in-lembur-harian' && $request->durasi >  $lembur[0]->durasi):
+
+
+            if ($temp == null):
+                if ( $k->pola_nama == 'Pagi' && $k->durasi >  $lembur[0]->durasi ):
                     $temporary_in = new Temporary;
                     $temporary_in->status = 'in-lembur-harian';
-                    $temporary_in->tanggal = $request->tanggal;
-                    $temporary_in->pegawai_id = $request->pegawai_id;
-                    for($i=1; $i <= intval($request->durasi/$lembur[0]->durasi); $i++ ):
+                    $temporary_in->tanggal = $k->tanggal;
+                    $temporary_in->pegawai_id = $p->id;
+                    for($i=1; $i <= intval($k->durasi/$lembur[0]->durasi); $i++ ):
                         $temporary_in->nominal +=  $lembur[0]->nominal;
                     endfor;
                     $temporary_in->save();
-
                 endif;
-            if ($request->status == 'in-lembur-harian-PS'):
+           
+                if ($k->pola_nama == 'Full Day 1' && $k->durasi < 120):
                     $temporary_in = new Temporary;
-                    $temporary_in->status = 'in-lembur-harian';
-                    $temporary_in->tanggal = $request->tanggal;
-                    $temporary_in->pegawai_id = $request->pegawai_id;
-                    for($i=1; $i <= intval($request->durasi/$lembur[0]->durasi); $i++ ):
+                    $temporary_in->status = 'in-lembur-FD-1';
+                    $temporary_in->tanggal = $k->tanggal;
+                    $temporary_in->pegawai_id = $p->id;
+                    for($i=1; $i <= 2; $i++ ):
                         $temporary_in->nominal +=  $lembur[0]->nominal;
                     endfor;
                     $temporary_in->save();
-
                 endif;
-        endif;
+           
+                if ($k->pola_nama == 'Full Day 2' && $k->durasi < 120):
+                    $temporary_in = new Temporary;
+                    $temporary_in->status = 'in-lembur-FD-2';
+                    $temporary_in->tanggal = $k->tanggal;
+                    $temporary_in->pegawai_id = $p->id;
+                    for($i=1; $i <= 2; $i++ ):
+                        $temporary_in->nominal +=  $lembur[0]->nominal;
+                    endfor;
+                    $temporary_in->save();
+                endif;
+          
+                if ($k->pola_nama == 'Full Day 3' && $k->durasi < 120):
+                    $temporary_in = new Temporary;
+                    $temporary_in->status = 'in-lembur-FD-3';
+                    $temporary_in->tanggal = $k->tanggal;
+                    $temporary_in->pegawai_id = $p->id;
+                    for($i=1; $i <= 2; $i++ ):
+                        $temporary_in->nominal +=  $lembur[0]->nominal;
+                    endfor;
+                    $temporary_in->save();
+                endif;
+
+
+
+            endif;
+
+        endforeach;
+    endforeach;
+           
+
+
+            // if ($temp->isEmpty()):
+            //     if ($status == 'out-telat-harian' && $durasi >  $lembur[1]->durasi && $pengecualian->isEmpty()):
+            //         $temporary_out = new Temporary;
+            //         $temporary_out->status = 'out-telat-harian';
+            //         $temporary_out->tanggal = $tanggal;
+            //         $temporary_out->pegawai_id = $pegawai_id;
+            //         for($i=1; $i <= intval($durasi/$lembur[1]->durasi); $i++ ):
+            //             $temporary_out->nominal +=  $lembur[1]->nominal;
+            //         endfor;
+            //         $temporary_out->save();
+            //     endif;
+            //     if ($status == 'out-istirahat' && $durasi >  $lembur[1]->durasi && $pengecualian->isEmpty()):
+            //         $temporary_out = new Temporary;
+            //         $temporary_out->status = 'out-istirahat';
+            //         $temporary_out->tanggal = $tanggal;
+            //         $temporary_out->pegawai_id = $pegawai_id;
+            //         for($i=1; $i <= intval($durasi/$lembur[1]->durasi); $i++ ):
+            //             $temporary_out->nominal +=  $lembur[1]->nominal;
+            //         endfor;
+            //         $temporary_out->save();
+            //     endif;
+            //     if ($status == 'out-istirahat-masuk' && $durasi >  $lembur[1]->durasi && $pengecualian->isEmpty()):
+            //         $temporary_out = new Temporary;
+            //         $temporary_out->status = 'out-istirahat-masuk';
+            //         $temporary_out->tanggal = $tanggal;
+            //         $temporary_out->pegawai_id = $pegawai_id;
+            //         for($i=1; $i <= intval($durasi/$lembur[1]->durasi); $i++ ):
+            //             $temporary_out->nominal +=  $lembur[1]->nominal;
+            //         endfor;
+            //         $temporary_out->save();
+            //     endif;
+            //     if ($status == 'in-lembur-harian' && $durasi >  $lembur[0]->durasi):
+            //             $temporary_in = new Temporary;
+            //             $temporary_in->status = 'in-lembur-harian';
+            //             $temporary_in->tanggal = $tanggal;
+            //             $temporary_in->pegawai_id = $pegawai_id;
+            //             for($i=1; $i <= intval($durasi/$lembur[0]->durasi); $i++ ):
+            //                 $temporary_in->nominal +=  $lembur[0]->nominal;
+            //             endfor;
+            //             $temporary_in->save();
+
+            //         endif;
+            //     if ($status == 'in-lembur-harian-PS'):
+            //             $temporary_in = new Temporary;
+            //             $temporary_in->status = 'in-lembur-harian';
+            //             $temporary_in->tanggal = $tanggal;
+            //             $temporary_in->pegawai_id = $pegawai_id;
+            //             for($i=1; $i <= intval($durasi/$lembur[0]->durasi); $i++ ):
+            //                 $temporary_in->nominal +=  $lembur[0]->nominal;
+            //             endfor;
+            //             $temporary_in->save();
+
+            //         endif;
+            // endif;
+
+
         
 
         

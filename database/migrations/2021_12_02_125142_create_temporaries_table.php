@@ -16,7 +16,7 @@ class CreateTemporariesTable extends Migration
         Schema::create('temporaries', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal');
-            $table->enum('status', ['in-lembur-harian', 'out-telat-harian', 'out-istirahat', 'out-istirahat-masuk', 'out-absen-harian', 'in-bonus-mingguan', 'in-bonus-bulanan', 'in-bonus-libur-masuk' ]);
+            $table->enum('status', ['in-lembur-harian', 'out-telat-harian', 'out-istirahat', 'out-istirahat-masuk', 'out-absen-harian', 'in-bonus-mingguan', 'in-bonus-bulanan', 'in-bonus-libur-masuk', 'in-lembur-FD-1', 'in-lembur-FD-2', 'in-lembur-FD-3' ]);
             // $table->string('status');
             $table->integer('nominal');
             // $table->string('keterangan');
