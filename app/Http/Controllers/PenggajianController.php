@@ -172,7 +172,7 @@ class PenggajianController extends Controller
 
 
             if ($temp == null):
-                if ( $k->pola_nama == 'Pagi' && $k->durasi >  $lembur[0]->durasi ):
+                if ( $k->pola_nama == 'Pagi' && $k->durasi >=  $lembur[0]->durasi ):
                     $temporary_in = new Temporary;
                     $temporary_in->status = 'in-lembur-harian';
                     $temporary_in->tanggal = $k->tanggal;
