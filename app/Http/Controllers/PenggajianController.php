@@ -122,7 +122,7 @@ class PenggajianController extends Controller
                 $k->durasi_masuk_istirahat = abs($jam_masuk_istirahat - $pola_istirahat_masuk)/60;
 
                 
-                if($k->jam_masuk > $k->pola_masuk && $k->durasi_masuk >  $lembur[1]->durasi && $pengecualian->isEmpty() ):
+                if($k->jam_masuk > $k->pola_masuk && $k->durasi_masuk >=  $lembur[1]->durasi && $pengecualian->isEmpty() ):
                     $temporary_out = new Temporary;
                     $temporary_out->status = 'out-telat-harian';
                     $temporary_out->tanggal = $k->tanggal;
@@ -133,7 +133,7 @@ class PenggajianController extends Controller
                     $temporary_out->save();
                 endif;
                 
-                if($jam_masuk_istirahat > $pola_istirahat_masuk && $k->durasi_masuk_istirahat >  $lembur[1]->durasi && $pengecualian->isEmpty()):
+                if($jam_masuk_istirahat > $pola_istirahat_masuk && $k->durasi_masuk_istirahat >=  $lembur[1]->durasi && $pengecualian->isEmpty()):
                     $temporary_out_istirahat = new Temporary;
                     $temporary_out_istirahat->status = 'out-istirahat-masuk';
                     $temporary_out_istirahat->tanggal = $k->tanggal;
