@@ -30,7 +30,7 @@
        </td>
    </tr>
     <tr class="text-center">
-        <td><h1><strong>Kehadiran Pegawai Bulan:  </strong>{{ \Carbon\Carbon::parse($bulan)->format('M - Y')}}</h1></td>
+        <td><h1><strong>Kehadiran Pegawai Bulanss:  </strong>{{ \Carbon\Carbon::parse($bulan)->format('M - Y')}}</h1></td>
     </tr>
 
 </table>
@@ -66,10 +66,10 @@
                                 @for ($x=1; $x <= date('t', strtotime($bulan)); $x++)
                                 <td class="text-center">
                                     @foreach ($kehadiran_bulanan[$p->id][$x] as $item)
-                                    <span class="text-14 {{ $item->jam_masuk > $polas[$p->id][$x]->jam_masuk ? 'text-yellow' : '' }}"> {{ $item->jam_masuk != null ? date('h:i', strtotime($item->jam_masuk)) : '-' }} </span> <br>
-                                    <span class="text-14 {{ $item->jam_istirahat < $polas[$p->id][$x]->jam_istirahat ? 'text-yellow' : '' }}">{{ $item->jam_istirahat != null ? date('h:i', strtotime($item->jam_istirahat)) : '-' }}</span> <br>
-                                    <span class="text-14 {{ $item->jam_masuk_istirahat > $polas[$p->id][$x]->jam_istirahat_masuk ? 'text-yellow' : '' }}">{{ $item->jam_masuk_istirahat != null ? date('h:i', strtotime($item->jam_masuk_istirahat)) : '-' }} </span> <br>
-                                    <span class="text-14 {{ $item->jam_pulang < $polas[$p->id][$x]->jam_pulang ? 'text-yellow' : '' }}">{{ $item->jam_pulang != null ? date('h:i', strtotime($item->jam_pulang)) : '-' }} </span>
+                                    <span class="text-14 {{ $item->jam_masuk > $polas[$p->id][$x]->jam_masuk ? 'text-yellow' : '' }}"> {{ $item->jam_masuk != null ? date('H:i', strtotime($item->jam_masuk)) : '-' }} </span> <br>
+                                    <span class="text-14 {{ $item->jam_istirahat < $polas[$p->id][$x]->jam_istirahat ? 'text-yellow' : '' }}">{{ $item->jam_istirahat != null ? date('H:i', strtotime($item->jam_istirahat)) : '-' }}</span> <br>
+                                    <span class="text-14 {{ $item->jam_masuk_istirahat > $polas[$p->id][$x]->jam_istirahat_masuk ? 'text-yellow' : '' }}">{{ $item->jam_masuk_istirahat != null ? date('H:i', strtotime($item->jam_masuk_istirahat)) : '-' }} </span> <br>
+                                    <span class="text-14 {{ $item->jam_pulang < $polas[$p->id][$x]->jam_pulang ? 'text-yellow' : '' }}">{{ $item->jam_pulang != null ? date('H:i', strtotime($item->jam_pulang)) : '-' }} </span>
                                     @endforeach
                                 </td>
                                 @endfor
