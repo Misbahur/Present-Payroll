@@ -108,6 +108,53 @@ class PenggajianController extends Controller
 
             if ($jadwals != null):
                 $polas = Pola::findOrFail($jadwals->pola_id);
+
+                if ($polas):
+                //cek Absen Pegawai
+
+                $cekKehadiran = Kehadiran::where('tanggal', $k->tanggal)
+                    ->where('jam_masuk', null)
+                        ->where('jam_istirahat', null)
+                        ->where('jam_masuk_istirahat', null)
+                        ->where('jam_pulang', null)
+                        ->where('pegawai_id', $p->id)
+                        ->get();
+                   
+                    $cekLibur = Libur::where('tanggal', $k->tanggal)
+                        ->where('pegawai_id', $p->id)
+                        ->first();
+
+                    $cekPengecualian = Pengecualian::where('tanggal', date('Y-m-d', strtotime('-1 day', strtotime($k->tanggal))))
+                    ->where('pegawai_id', $p->id)
+                    ->first();
+
+                    $tempAbsen = Temporary::where('tanggal', $k->tanggal)
+                    ->where('pegawai_id', $p->id)
+                    ->where('status', 'out-absen-harian')
+                    ->first();
+
+                    $komponen_gaji = Komponen_gaji::where('jabatan_id', $p->jabatan_id)->first();
+
+                    if ($cekKehadiran->isNotEmpty()):
+                        if($cekLibur == null):
+                            if($cekPengecualian == null):
+                                if ($tempAbsen == null):
+                                    $temporary_out = new Temporary;
+                                    $temporary_out->tanggal = date('Y-m-d', strtotime( $k->tanggal));
+                                    $temporary_out->status = 'out-absen-harian';
+                                    $temporary_out->created_at = date('Y-m-d h:i:s', strtotime( $k->tanggal));
+                                    $temporary_out->updated_at = date('Y-m-d h:i:s', strtotime( $k->tanggal));
+                                    $temporary_out->pegawai_id = $p->id;
+                                    $temporary_out->nominal = $komponen_gaji->tidakmasuk;
+                                    $temporary_out->save();
+
+                                endif;
+                            endif;
+                        endif;
+                    endif;
+                    
+                endif;
+
                 if($polas != null && $k->jam_masuk != null):
                     $k->pola_masuk = $polas->jam_masuk;
                     $k->pola_istirahat = $polas->jam_istirahat;
@@ -153,24 +200,24 @@ class PenggajianController extends Controller
                         $pola_pulang = strtotime($k->pola_pulang);
                         $k->durasi_lembur = abs($jam_pulang - $pola_pulang)/60;
                     endif;
-                    if($k->pola_nama == 'Full Day 1' ):
-                        $k->status = 'in-lembur-FD-1';
-                        $jam_masuk_istirahat = strtotime($k->jam_masuk_istirahat);
-                        $jam_istirahat = strtotime($k->jam_istirahat);
-                        $k->durasi = abs($jam_masuk_istirahat - $jam_istirahat)/60;
-                    endif;
-                    if($k->pola_nama == 'Full Day 2' ):
-                        $k->status = 'in-lembur-FD-2';
-                        $jam_masuk_istirahat = strtotime($k->jam_masuk_istirahat);
-                        $jam_istirahat = strtotime($k->jam_istirahat);
-                        $k->durasi = abs($jam_masuk_istirahat - $jam_istirahat)/60;
-                    endif;
-                    if($k->pola_nama == 'Full Day 3' ):
-                        $k->status = 'in-lembur-FD-3';
-                        $jam_masuk_istirahat = strtotime($k->jam_masuk_istirahat);
-                        $jam_istirahat = strtotime($k->jam_istirahat);
-                        $k->durasi = abs($jam_masuk_istirahat - $jam_istirahat)/60;
-                    endif;
+                    // if($k->pola_nama == 'Full Day 1' ):
+                    //     $k->status = 'in-lembur-FD-1';
+                    //     $jam_masuk_istirahat = strtotime($k->jam_masuk_istirahat);
+                    //     $jam_istirahat = strtotime($k->jam_istirahat);
+                    //     $k->durasi = abs($jam_masuk_istirahat - $jam_istirahat)/60;
+                    // endif;
+                    // if($k->pola_nama == 'Full Day 2' ):
+                    //     $k->status = 'in-lembur-FD-2';
+                    //     $jam_masuk_istirahat = strtotime($k->jam_masuk_istirahat);
+                    //     $jam_istirahat = strtotime($k->jam_istirahat);
+                    //     $k->durasi = abs($jam_masuk_istirahat - $jam_istirahat)/60;
+                    // endif;
+                    // if($k->pola_nama == 'Full Day 3' ):
+                    //     $k->status = 'in-lembur-FD-3';
+                    //     $jam_masuk_istirahat = strtotime($k->jam_masuk_istirahat);
+                    //     $jam_istirahat = strtotime($k->jam_istirahat);
+                    //     $k->durasi = abs($jam_masuk_istirahat - $jam_istirahat)/60;
+                    // endif;
             
 
                     $FD = Temporary::where('tanggal', $k->tanggal)
@@ -191,9 +238,9 @@ class PenggajianController extends Controller
                         $temporary_in->save();
                     endif;
 
-                    if ($FD == null):
+                    // if ($FD == null):
                 
-                        if ($k->pola_nama == 'Full Day 1' && $k->jam_istirahat <= $k->pola_istirahat && $k->$jam_masuk_istirahat <= $k->pola_istirahat_masuk):
+                        if ($k->pola_nama == 'Full Day 1'):
                             if ($k->jam_masuk != null || $k->jam_masuk_istirahat != null || $k->jam_istirahat != null || $k->jam_pulang != null ):
                                 $temporary_in = new Temporary;
                                 $temporary_in->status = 'in-lembur-FD-1';
@@ -204,7 +251,7 @@ class PenggajianController extends Controller
                             endif;
                         endif;
                 
-                        if ($k->pola_nama == 'Full Day 2' && $k->jam_istirahat <= $k->pola_istirahat && $k->$jam_masuk_istirahat <= $k->pola_istirahat_masuk):
+                        if ($k->pola_nama == 'Full Day 2'):
                             if ($k->jam_masuk != null || $k->jam_masuk_istirahat != null || $k->jam_istirahat != null || $k->jam_pulang != null ):
                                 $temporary_in = new Temporary;
                                 $temporary_in->status = 'in-lembur-FD-2';
@@ -215,7 +262,7 @@ class PenggajianController extends Controller
                             endif;
                         endif;
                 
-                        if ($k->pola_nama == 'Full Day 3' && $k->jam_istirahat <= $k->pola_istirahat && $k->$jam_masuk_istirahat <= $k->pola_istirahat_masuk):
+                        if ($k->pola_nama == 'Full Day 3'):
                             if ($k->jam_masuk != null || $k->jam_masuk_istirahat != null || $k->jam_istirahat != null || $k->jam_pulang != null ):
                                 $temporary_in = new Temporary;
                                 $temporary_in->status = 'in-lembur-FD-3';
@@ -228,48 +275,50 @@ class PenggajianController extends Controller
 
 
 
-                    endif;
+                    // endif;
 
                     //Absen Kehadiran
 
-                    $libur = Libur::where('tanggal', $k->tanggal)
-                            ->where('pegawai_id', $p->id)
-                            ->get();
-                    $cekKehadiran = Kehadiran::where('tanggal', $k->tanggal)
-                        ->where('jam_masuk', null)
-                        ->where('jam_istirahat', null)
-                        ->where('jam_masuk_istirahat', null)
-                        ->where('jam_pulang', null)
-                        ->where('pegawai_id', $p->id)
-                        ->get();
+                    // $cekKehadiran = Kehadiran::where('tanggal', $k->tanggal)
+                    // ->where('jam_masuk', null)
+                    //     ->where('jam_istirahat', null)
+                    //     ->where('jam_masuk_istirahat', null)
+                    //     ->where('jam_pulang', null)
+                    //     ->where('pegawai_id', $p->id)
+                    //     ->get();
+                   
+                    // $cekLibur = Libur::where('tanggal', $k->tanggal)
+                    //     ->where('pegawai_id', $p->id)
+                    //     ->first();
 
-                    $tempAbsen = Temporary::where('tanggal', $k->tanggal)
-                    ->where('pegawai_id', $p->id)
-                    ->where('status', 'out-absen-harian')
-                    ->get();
+                    // $cekPengecualian = Pengecualian::where('tanggal', date('Y-m-d', strtotime('-1 day', strtotime($k->tanggal))))
+                    // ->where('pegawai_id', $p->id)
+                    // ->first();
 
-                    $komponen_gaji = Komponen_gaji::where('jabatan_id', $p->jabatan_id)->first();
+                    // $tempAbsen = Temporary::where('tanggal', $k->tanggal)
+                    // ->where('pegawai_id', $p->id)
+                    // ->where('status', 'out-absen-harian')
+                    // ->first();
 
-                    if ($tempAbsen->isEmpty()):
-                        if ($cekKehadiran->isEmpty()):
-                            // continue;
-                        else:
-                            if($libur->isEmpty()):
-                                if($pengecualian->isEmpty()):
-                                    $temporary_out = new Temporary;
-                                    $temporary_out->tanggal = $k->tanggal;
-                                    $temporary_out->status = 'out-absen-harian';
-                                    $temporary_out->pegawai_id = $p->id;
-                                    $temporary_out->nominal = $komponen_gaji->tidakmasuk;
-                                    $temporary_out->save();
-                                else:
-                                    // continue;
-                                endif;
-                            else:
-                                // continue;
-                            endif;
-                        endif;
-                    endif;
+                    // $komponen_gaji = Komponen_gaji::where('jabatan_id', $p->jabatan_id)->first();
+
+                    // if ($cekKehadiran->isNotEmpty()):
+                    //     if($cekLibur == null):
+                    //         if($cekPengecualian == null):
+                    //             if ($tempAbsen == null):
+                    //                 $temporary_out = new Temporary;
+                    //                 $temporary_out->tanggal = date('Y-m-d', strtotime( $k->tanggal));
+                    //                 $temporary_out->status = 'out-absen-harian';
+                    //                 $temporary_out->created_at = date('Y-m-d h:i:s', strtotime( $k->tanggal));
+                    //                 $temporary_out->updated_at = date('Y-m-d h:i:s', strtotime( $k->tanggal));
+                    //                 $temporary_out->pegawai_id = $p->id;
+                    //                 $temporary_out->nominal = $komponen_gaji->tidakmasuk;
+                    //                 $temporary_out->save();
+
+                    //             endif;
+                    //         endif;
+                    //     endif;
+                    // endif;
 
 
                     if (date('d', strtotime($k->tanggal)) <= 7):
@@ -507,7 +556,7 @@ class PenggajianController extends Controller
             endif;
         } 
         
-        // $deletetemporary = Temporary::whereBetween('tanggal', [$tanggal_awal, $tanggal_akhir])->delete();
+        $deletetemporary = Temporary::whereBetween('tanggal', [$tanggal_awal, $tanggal_akhir])->delete();
 
         if($periode){
             return redirect()->route('penggajian')->with(['success' => 'Data Periode'.$request->input('nama').'berhasil disimpan']);
