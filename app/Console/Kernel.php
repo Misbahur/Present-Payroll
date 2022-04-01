@@ -32,9 +32,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('kehadiran:dummy')->monthly()->withoutOverlapping(20);
         $schedule->command('kehadiran:log')->everyMinute()->withoutOverlapping(10);
         $schedule->command('kehadiran:log2')->everyMinute()->withoutOverlapping(10);
-        $schedule->command('kehadiran:dummy')->monthly()->withoutOverlapping(20);
         // $schedule->command('bonus:week')->weekly();
         // $schedule->command('bonus:liburmasuk')->weekly();
         // $schedule->command('bonus:month')->monthly();
