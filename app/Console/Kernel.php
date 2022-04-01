@@ -34,7 +34,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command('kehadiran:log')->everyMinute()->withoutOverlapping(10);
         $schedule->command('kehadiran:log2')->everyMinute()->withoutOverlapping(10);
-        $schedule->command('kehadiran:dummy')->monthly()->withoutOverlapping();
+        $schedule->command('kehadiran:dummy')->monthly()->withoutOverlapping(20);
         // $schedule->command('bonus:week')->weekly();
         // $schedule->command('bonus:liburmasuk')->weekly();
         // $schedule->command('bonus:month')->monthly();
