@@ -13,13 +13,13 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\bonusMingguan::class,
-        Commands\bonusBulanan::class,
-        Commands\bonusMasukLibur::class,
         Commands\getLogKehadiran::class,
         Commands\getLogKehadiran2::class,
         Commands\createKehadiranDummy::class,
-        Commands\absenKehadiran::class,
+        // Commands\bonusMingguan::class,
+        // Commands\bonusBulanan::class,
+        // Commands\bonusMasukLibur::class,
+        // Commands\absenKehadiran::class,
 
     ];
 
@@ -31,10 +31,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('kehadiran:log')->everyMinute()->withoutOverlapping(20);
+        $schedule->command('kehadiran:log2')->everyMinute()->withoutOverlapping(20);
         $schedule->command('kehadiran:dummy')->monthly()->withoutOverlapping(20);
-        $schedule->command('kehadiran:log')->everyMinute();
-        $schedule->command('kehadiran:log2')->everyMinute();
+        // $schedule->command('inspire')->hourly();
         // $schedule->command('bonus:week')->weekly();
         // $schedule->command('bonus:liburmasuk')->weekly();
         // $schedule->command('bonus:month')->monthly();
